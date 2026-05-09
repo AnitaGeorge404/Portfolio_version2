@@ -1,0 +1,137 @@
+{
+  "theme": {
+    "archetype": "3 (Pastel & Soft) & 1 (Organic & Earthy) Hybrid - The Editorial Notebook Variant",
+    "mode": "light",
+    "description": "A Google Search reimagined as a luxury Pinterest-inspired editorial scrapbook. It balances the structural familiarity of a search engine with the tactile, chaotic beauty of a physical moodboard. It uses soft pastels, organic textures, and cinematic typography."
+  },
+  "colors": {
+    "background": {
+      "primary": "#FAFAF7",
+      "description": "Ivory/Cream - The main canvas, resembles fresh high-quality paper."
+    },
+    "background_alt": {
+      "secondary": "#F2EFE9",
+      "description": "Warm Beige - Used for cards, search bar backgrounds, and subtle section dividers."
+    },
+    "surface": {
+      "search_bar": "#FFFFFF",
+      "cards": "#F9F7F3",
+      "tags": "#FDFBF7"
+    },
+    "accents": {
+      "dusty_pink": "#E0D4D6",
+      "muted_lavender": "#D6CEDA",
+      "muted_sage": "#A3B19B",
+      "faded_plum": "#8A7986",
+      "soft_brown": "#D1BFAe",
+      "highlight_glow": "rgba(224, 212, 214, 0.4)"
+    },
+    "text": {
+      "primary": "#2D2A26",
+      "description": "Deep Charcoal - High contrast for readability without the harshness of pure black."
+    },
+    "text_secondary": {
+      "secondary": "#6B6661",
+      "description": "Warm Gray - For metadata, timestamps, URLs, and subtitles."
+    },
+    "borders": {
+      "subtle": "#E8E4DB",
+      "medium": "#D1BFAe"
+    }
+  },
+  "typography": {
+    "primary_font": "Outfit",
+    "primary_font_role": "Body text, UI elements, search results, tabs, standard readability (Sans-Serif).",
+    "secondary_font": "Cormorant Garamond",
+    "secondary_font_role": "Cinematic headings, project titles, editorial pull quotes (Serif).",
+    "accent_font": "Caveat",
+    "accent_font_role": "Handwritten annotations, signature, arrows, doodles, 'People Also Ask' margin notes.",
+    "hierarchy": {
+      "h1": "text-4xl sm:text-5xl lg:text-6xl font-serif tracking-tight leading-none text-[#2D2A26]",
+      "h2": "text-2xl sm:text-3xl lg:text-4xl font-serif tracking-tight leading-tight text-[#2D2A26]",
+      "h3": "text-xl sm:text-2xl font-sans font-medium tracking-tight text-[#2D2A26]",
+      "body": "text-base font-sans leading-relaxed text-[#6B6661]",
+      "small_label": "text-xs font-sans uppercase tracking-[0.2em] text-[#8A7986]",
+      "handwritten": "text-xl sm:text-2xl font-['Caveat'] text-[#8A7986] rotate-[-2deg]"
+    }
+  },
+  "spacing_and_layout": {
+    "container": "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8",
+    "section_spacing": "py-20 md:py-32",
+    "grid_system": "CSS Grid, breaking conventional rows. Use overlaps and negative margins.",
+    "masonry": "Use CSS columns or an irregular grid layout (e.g., column-count-1 md:column-count-2 lg:column-count-3 gap-6) for the Projects Pinterest section.",
+    "card_padding": "p-6 md:p-8",
+    "border_radius": "rounded-none or rounded-sm (retaining a print/paper feel rather than bubbly app UI)"
+  },
+  "components": {
+    "search_hero": {
+      "layout": "Centered vertically and horizontally, heavy top padding (pt-32).",
+      "search_bar": "Max-width 3xl, pure white background, subtle border (border-[#E8E4DB]), large padding (py-4 px-6), rounded-full to mimic Google. Drop shadow glowing with dusty pink.",
+      "tabs_nav": "Flex wrap, centered, below search bar. Links styled as simple text with underline on active state, using Outfit font, text-sm.",
+      "ai_suggestion": "A small floating card below the search bar, styled with a soft lavender border and a sparkle icon, reading 'AI Overview: Anita is an elite engineer...'"
+    },
+    "pinterest_masonry_card": {
+      "layout": "Irregular heights. Relative positioning.",
+      "image": "w-full object-cover grayscale-0 transition-all duration-500 hover:scale-105",
+      "wrapper": "overflow-hidden border border-[#E8E4DB] bg-[#F9F7F3] p-3 shadow-sm group",
+      "decorations": "Absolute positioned 'tape' (a translucent div bg-white/60 w-12 h-4 -rotate-45 -top-2 -left-2 shadow-sm) or 'paperclip' SVG.",
+      "content": "Hover overlay or placed below image. Title in Cormorant Garamond, tags in uppercase tracking-widest text-[10px]."
+    },
+    "google_result_card": {
+      "layout": "Flex column, mimicking a search result. URL breadcrumb on top, clickable blue/charcoal Title, short snippet description below.",
+      "typography": "URL: text-sm text-[#A3B19B]. Title: text-xl font-medium text-[#2D2A26] hover:underline. Snippet: text-base text-[#6B6661]."
+    },
+    "internet_traces_table": {
+      "layout": "A minimalist, stripped-back HTML table mimicking browser history. border-b border-[#E8E4DB] for rows.",
+      "columns": "Timestamp (text-xs text-[#8A7986]), Page Title (text-sm font-medium), URL (text-sm text-[#A3B19B])"
+    },
+    "people_also_ask": {
+      "layout": "Accordion style (use Shadcn Accordion heavily customized).",
+      "styling": "No background, border-y border-[#E8E4DB]. Trigger is text-lg font-serif.",
+      "decorations": "Add absolute positioned handwritten notes (Caveat font) near the accordion arrows."
+    }
+  },
+  "textures_and_decorations": {
+    "background_texture": "A fixed overlay with pointer-events-none. Use a subtle noise SVG pattern (opacity-30) and a mix-blend-multiply crumpled paper texture image.",
+    "floating_elements": "Scatter small SVGs or images (botanicals, stars, scribbles) using absolute positioning and high z-index, fading in on scroll.",
+    "dividers": "Instead of solid lines, use SVG squiggly lines or dotted borders."
+  },
+  "motion_and_interactions": {
+    "scrolling": "Lenis smooth scroll is MANDATORY for the premium cinematic feel.",
+    "hover_states": "Images scale up slightly. Text links get a delicate underline offset-4. Buttons shift background color slightly.",
+    "page_load": "Staggered fade-up for search bar, tabs, and results.",
+    "accessibility": "Respect prefers-reduced-motion. Ensure focus states have a visible ring in #D1BFAe."
+  },
+  "media": {
+    "paper_texture": {
+      "url": "https://images.unsplash.com/photo-1752010020981-b8a0a63159f2?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDQ2Mzl8MHwxfHNlYXJjaHw0fHxjcnVtcGxlZCUyMHBhcGVyJTIwdGV4dHVyZSUyMGxpZ2h0fGVufDB8fHx8MTc3ODM1ODE0Mnww&ixlib=rb-4.1.0&q=85",
+      "description": "High-res crumpled white paper texture. Use as a fixed, low-opacity, mix-blend-multiply background overlay."
+    },
+    "botanical_accent_1": {
+      "url": "https://images.unsplash.com/photo-1759779459990-1bf065d11885?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjY2NzZ8MHwxfHNlYXJjaHwyfHx2aW50YWdlJTIwYm90YW5pY2FsJTIwaWxsdXN0cmF0aW9ufGVufDB8fHx8MTc3ODM1ODE0Mnww&ixlib=rb-4.1.0&q=85",
+      "description": "Delicate watercolor roses. Use absolutely positioned, scaled down, with mix-blend-multiply as decorative corner accents."
+    },
+    "botanical_accent_2": {
+      "url": "https://images.pexels.com/photos/6966593/pexels-photo-6966593.jpeg",
+      "description": "Vintage botanical illustrations overhead. Crop or mask specific areas to use as collage elements."
+    },
+    "project_placeholder_1": {
+      "url": "https://images.unsplash.com/photo-1725982674241-206291f55f35?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDQ2NDN8MHwxfHNlYXJjaHwxfHxhZXN0aGV0aWMlMjBuZXV0cmFsJTIwd29ya3NwYWNlfGVufDB8fHx8MTc3ODM1ODE0M3ww&ixlib=rb-4.1.0&q=85",
+      "description": "Aesthetic neutral architecture/workspace. Placeholder for project images until real ones are provided."
+    },
+    "profile_placeholder": {
+      "url": "https://images.pexels.com/photos/5040995/pexels-photo-5040995.jpeg",
+      "description": "Retro still life. Use as a moodboard/profile placeholder image in the 'About Me' section."
+    }
+  },
+  "instructions_to_main_agent": [
+    "Install `lenis` for smooth scrolling (crucial for editorial feel).",
+    "Install Google Fonts: 'Outfit' (sans), 'Cormorant Garamond' (serif), 'Caveat' (handwriting).",
+    "Set up Tailwind colors exactly as defined in this JSON.",
+    "Construct the Hero section to mimic a literal Google Search interface but themed with pastel luxury. Include the search bar, 'Search', 'I'm Feeling Lucky' (themed buttons), and a row of tabs (All, AI Mode, Images, etc.).",
+    "For the Projects page, use a Masonry layout. You can use CSS columns (`columns-1 sm:columns-2 lg:columns-3 gap-6`) or a library like `react-masonry-css`.",
+    "Implement the 'People Also Ask' section using Shadcn Accordion, styling it minimally to look like Google's version but with serif fonts.",
+    "Layer the background paper texture heavily. Create a global div with fixed positioning, full screen, z-index -1, containing the `paper_texture` URL with `opacity-20` and `mix-blend-multiply`.",
+    "Use raw HTML/Tailwind for artistic overlays (masking tape made of rotated white divs with opacity, scribbles as absolute text overlays)."
+  ]
+}
