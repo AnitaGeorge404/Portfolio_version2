@@ -9,7 +9,6 @@ import AIMode from "@/pages/AIMode";
 import Images from "@/pages/Images";
 import Videos from "@/pages/Videos";
 import Research from "@/pages/Research";
-import PeopleAlsoAsk from "@/pages/PeopleAlsoAsk";
 import Shopping from "@/pages/Shopping";
 import Contact from "@/pages/Contact";
 import Archive from "@/pages/Archive";
@@ -29,7 +28,6 @@ function App() {
             <Route path="/images" element={<Images />} />
             <Route path="/videos" element={<Videos />} />
             <Route path="/research" element={<Research />} />
-            <Route path="/people-also-ask" element={<PeopleAlsoAsk />} />
             <Route path="/shopping" element={<Shopping />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/archive" element={<Archive />} />

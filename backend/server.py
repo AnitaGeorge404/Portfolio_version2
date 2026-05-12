@@ -50,12 +50,19 @@ class Source(BaseModel):
     snippet: str
 
 
+class PaaItem(BaseModel):
+    q: str
+    a: str
+    related: List[str] = []
+
+
 class SearchResponse(BaseModel):
     query: str
     answer: str
     sources: List[Source] = []
     related_pages: List[str] = []
     related_searches: List[str] = []
+    people_also_ask: List[PaaItem] = []
     closest_archive: Optional[str] = None
     easter_egg: Optional[str] = None
     grounded: bool = True
@@ -198,6 +205,7 @@ async def ai_search(q: str = Query(..., min_length=1, max_length=400)):
             sources=[],
             related_pages=egg.get("related", []),
             related_searches=random.sample(related_pool, k=min(4, len(related_pool))),
+            people_also_ask=[PaaItem(**p) for p in kb.people_also_ask(q_clean, k=4)],
             closest_archive=(egg.get("related") or [None])[0],
             easter_egg=egg.get("key"),
             grounded=True,
@@ -241,6 +249,7 @@ async def ai_search(q: str = Query(..., min_length=1, max_length=400)):
         sources=sources,
         related_pages=related_pages[:5],
         related_searches=related_searches,
+        people_also_ask=[PaaItem(**p) for p in kb.people_also_ask(q_clean, k=4)],
         closest_archive=closest,
         easter_egg=None,
         grounded=grounded,

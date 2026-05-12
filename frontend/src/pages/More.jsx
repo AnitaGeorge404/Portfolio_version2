@@ -6,7 +6,7 @@ import { ArrowUpRight } from "lucide-react";
 const corners = [
   { to: "/archive", title: "Hidden Archive", note: "old html pages, embarrassing usernames", testid: "more-archive" },
   { to: "/research", title: "Research / Notes", note: "papers, manifestos, soft thinking", testid: "more-research" },
-  { to: "/people-also-ask", title: "People Also Ask", note: "the human questions", testid: "more-paa" },
+  { to: "/ai-mode", title: "AI Mode", note: "ask the archive a question", testid: "more-ai" },
   { to: "/images", title: "Image Archive", note: "her scanned moodboard", testid: "more-images" },
   { to: "/videos", title: "Videos", note: "soft demos of small things", testid: "more-videos" },
   { to: "/shopping", title: "Soft Wishlist", note: "tiny ironic shopping", testid: "more-shopping" },

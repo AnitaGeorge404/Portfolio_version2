@@ -1,14 +1,27 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
+import axios from "axios";
 import { projects, peopleAlsoAsk } from "@/data/portfolio";
 import ResultCard from "@/components/ResultCard";
+import PeopleAlsoAskInline from "@/components/PeopleAlsoAskInline";
 import { Sparkle, Squiggle, Tape, Marker, Sprig } from "@/components/Decorations";
 import { Sparkles, ArrowUpRight, Github, Globe } from "lucide-react";
+
+const API = `${process.env.REACT_APP_BACKEND_URL}/api`;
 
 export default function ProjectDetail() {
   const { slug } = useParams();
   const project = projects.find((p) => p.slug === slug);
   const others = projects.filter((p) => p.slug !== slug).slice(0, 3);
+  const [paa, setPaa] = useState([]);
+
+  useEffect(() => {
+    if (!project) return;
+    axios
+      .get(`${API}/ai/search`, { params: { q: project.name } })
+      .then((r) => setPaa(r.data?.people_also_ask || []))
+      .catch(() => {});
+  }, [project]);
 
   if (!project) {
     return (
@@ -116,7 +129,7 @@ export default function ProjectDetail() {
                 project.tagline,
               ].map((t) => (
                 <Link
-                  to="/people-also-ask"
+                  to={`/ai-mode?q=${encodeURIComponent(t)}`}
                   key={t}
                   className="px-3 py-1.5 text-sm bg-tag border border-[var(--border-soft)] rounded-full text-ink hover:bg-warm transition"
                 >
@@ -126,21 +139,12 @@ export default function ProjectDetail() {
             </div>
           </div>
 
-          {/* people also ask (slice) */}
-          <div data-testid="paa-on-detail">
-            <div className="text-[10px] uppercase tracking-[0.3em] text-plum">people also ask</div>
-            <ul className="mt-3 divide-y divide-[var(--border-soft)]">
-              {peopleAlsoAsk.slice(0, 3).map((q, i) => (
-                <li key={q.q} className="py-4 flex items-start gap-3">
-                  <Marker n={i + 1} className="mt-1" />
-                  <div>
-                    <div className="font-serif text-xl text-ink">{q.q}</div>
-                    <p className="mt-1 text-sm text-ink-soft leading-relaxed max-w-xl">{q.a}</p>
-                  </div>
-                </li>
-              ))}
-            </ul>
-          </div>
+          {/* people also ask — contextual, semantic */}
+          {paa.length > 0 && (
+            <div data-testid="paa-on-detail">
+              <PeopleAlsoAskInline items={paa} query={project.name} />
+            </div>
+          )}
         </div>
 
         {/* SIDEBAR */}

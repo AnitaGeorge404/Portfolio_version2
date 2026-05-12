@@ -62,7 +62,7 @@ export default function SearchBar({ defaultValue = "anita george", autoFocus = f
     else if (q.includes("contact") || q.includes("email")) navigate("/contact");
     else if (q.includes("research") || q.includes("paper")) navigate("/research");
     else if (q.includes("image") || q.includes("photo")) navigate("/images");
-    else if (q.includes("ask") || q.includes("why") || q.includes("what")) navigate("/people-also-ask");
+    else if (q.includes("ask") || q.includes("why") || q.includes("what")) navigate("/ai-mode");
     else navigate("/ai-mode");
   };
 

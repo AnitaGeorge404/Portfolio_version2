@@ -1,13 +1,34 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
 import SearchBar from "@/components/SearchBar";
 import SearchTabs from "@/components/SearchTabs";
 import ResultCard from "@/components/ResultCard";
+import PeopleAlsoAskInline from "@/components/PeopleAlsoAskInline";
 import { Sparkle, Squiggle, HandArrow, Sprig, Rose, Tape, Marker, HandAsterisk, Paperclip } from "@/components/Decorations";
 import { Sparkles, ArrowUpRight, Bookmark, Quote } from "lucide-react";
 import { profile, aiOverview, projects, peopleAlsoAsk, experience, skills, internetTraces, obsessions } from "@/data/portfolio";
 
+const API = `${process.env.REACT_APP_BACKEND_URL}/api`;
+
+const fallbackPAA = peopleAlsoAsk.slice(0, 4).map((p) => ({
+  q: p.q,
+  a: p.a,
+  related: ["/work", "/ai-mode"],
+}));
+
 export default function Home() {
+  const [paa, setPaa] = useState(fallbackPAA);
+
+  useEffect(() => {
+    axios
+      .get(`${API}/ai/search`, { params: { q: "anita george" } })
+      .then((r) => {
+        if (r.data?.people_also_ask?.length) setPaa(r.data.people_also_ask);
+      })
+      .catch(() => {});
+  }, []);
+
   return (
     <div data-testid="home-page">
       {/* HERO SEARCH */}
@@ -132,29 +153,9 @@ export default function Home() {
               </div>
             </div>
 
-            {/* People Also Ask preview */}
+            {/* People Also Ask — contextual, semantically generated */}
             <div className="border-y border-[var(--border-soft)] py-7" data-testid="paa-preview">
-              <div className="flex items-baseline gap-3">
-                <h2 className="font-serif text-3xl text-ink">people also ask</h2>
-                <span className="font-hand text-plum text-xl">— the human ones</span>
-              </div>
-              <ul className="mt-5 divide-y divide-[var(--border-soft)]">
-                {peopleAlsoAsk.slice(0, 4).map((q, i) => (
-                  <li key={q.q} className="py-4 flex items-start gap-4">
-                    <Marker n={i + 1} className="mt-1 shrink-0" />
-                    <div className="flex-1">
-                      <div className="font-serif text-xl text-ink">{q.q}</div>
-                      <p className="mt-1 text-sm text-ink-soft leading-relaxed">{q.a}</p>
-                      <span className="font-hand text-plum text-base mt-1 inline-block">— {q.note}</span>
-                    </div>
-                  </li>
-                ))}
-              </ul>
-              <div className="mt-4">
-                <Link to="/people-also-ask" className="text-sm text-link link-soft inline-flex items-center gap-1" data-testid="see-all-paa">
-                  read all questions <ArrowUpRight size={14} />
-                </Link>
-              </div>
+              <PeopleAlsoAskInline items={paa} query="anita george" />
             </div>
 
             {/* Experience timeline */}

@@ -36,7 +36,6 @@ export const tabs = [
   { key: "images", label: "Images", path: "/images" },
   { key: "videos", label: "Videos", path: "/videos" },
   { key: "research", label: "Research", path: "/research" },
-  { key: "paa", label: "People Also Ask", path: "/people-also-ask" },
   { key: "shopping", label: "Shopping", path: "/shopping" },
   { key: "contact", label: "Contact", path: "/contact" },
   { key: "more", label: "More", path: "/more" },

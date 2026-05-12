@@ -1,0 +1,31 @@
+{
+  "summary": "Iteration 3 testing for inline People-Also-Ask feature. Both backend (6/6 pytest) and frontend flows pass. PAA is now strictly inline (Home, AI Mode, ProjectDetail) and the obsolete /people-also-ask tab + route are removed. Tabs nav verified as: All, AI Mode, Work, Images, Videos, Research, Shopping, Contact, More. PAA payload is contextual to query (graph-theory queries return graph-related FAQs; 'burnout' easter-egg also returns burnout-themed PAA; broad 'anita george' falls back to default 4-item diverse set). /api/ai/stats returns faq_entries=20. Hallucination guard still works for unknown topics.",
+  "backend_issues": {
+    "critical": [],
+    "minor": []
+  },
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": []
+  },
+  "test_report_links": [
+    "/app/backend/tests/test_paa_iteration3.py",
+    "/app/backend/tests/test_ai_search.py",
+    "/app/test_reports/pytest/iteration_3.xml"
+  ],
+  "action_items": [],
+  "critical_code_review_comments": [
+    "App.js has no catch-all <Route path='*'> — visiting /people-also-ask renders the Layout shell (header+tabs+footer) with an empty <main>. This is acceptable (no crash, no PAA tab) but consider adding a 404/NotFound route for nicer UX on any unknown path.",
+    "knowledge_base.people_also_ask uses Jaccard-style token overlap divided by len(q_tokens). This naturally favors short queries (e.g. 'graph theory' tokens={graph, theory} matches well), but very long queries dilute the score. The default-fallback safety net (threshold 0.05) covers this well.",
+    "PeopleAlsoAskInline opens item index 0 by default (useState(0)). On AI Mode the first PAA matches the user's query — feels intentional. Confirmed working."
+  ],
+  "updated_files": [
+    "/app/backend/tests/test_paa_iteration3.py"
+  ],
+  "success_rate": {"backend": "100% (6/6 pytest in iteration_3 + previous 10/10 still valid)", "frontend": "100% (Home paa-preview/paa-inline w/ 4 items + toggle; AI Mode deep-link + fresh search both render ai-paa-block; ProjectDetail paa-on-detail renders w/ 4 items; related-search chips link to /ai-mode?q=; /more has no PAA link; /people-also-ask returns 200 with no crash and no PAA tab; nav has 9 expected tabs and no PAA tab; 0 console errors)"},
+  "seed_data_creation": "None — knowledge base read-only JSON, faq.json contains 20 entries",
+  "retest_needed": false,
+  "main_agent_can_self_test": true,
+  "context_for_next_testing_agent": "PAA is INLINE only — never reintroduce a tab/page. New test file: /app/backend/tests/test_paa_iteration3.py (6 tests, all passing). Existing /app/backend/tests/test_ai_search.py still valid (10 tests). Frontend testids: paa-preview (Home wrapper), ai-paa-block (AI Mode wrapper), paa-on-detail (ProjectDetail wrapper), paa-inline (component root), paa-inline-item-N (each accordion item). Tabs are loaded from portfolio.js tabs array. AI Mode supports ?q= deep links (auto-runs search on mount). /api/ai/stats now reports faq_entries=20 and easter_eggs=8."
+}

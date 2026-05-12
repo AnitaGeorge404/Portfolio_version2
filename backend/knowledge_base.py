@@ -40,6 +40,7 @@ class KnowledgeBase:
     def __init__(self, knowledge_dir: Path = KNOWLEDGE_DIR):
         self.knowledge_dir = knowledge_dir
         self.chunks: List[Dict] = []
+        self.faq_entries: List[Dict] = []
         self.easter_eggs: Dict[str, Dict] = {}
         self._idf: Dict[str, float] = {}
         self._load()
@@ -106,6 +107,14 @@ class KnowledgeBase:
                     "url": (f.get("related") or ["/"])[0],
                     "related": f.get("related", []),
                     "text": blob,
+                })
+                # also keep a richer raw copy for people-also-ask matching
+                self.faq_entries.append({
+                    "q": f["q"],
+                    "a": f["a"],
+                    "related": f.get("related", []),
+                    "tags": f.get("tags", []),
+                    "_tokens": set(_tokenize(f["q"] + " " + f["a"] + " " + " ".join(f.get("tags", [])))),
                 })
 
         eggs_path = self.knowledge_dir / "easter_eggs.json"
@@ -191,4 +200,43 @@ class KnowledgeBase:
             "chunks": len(self.chunks),
             "vocab": len(self._idf),
             "easter_eggs": len(self.easter_eggs),
+            "faq_entries": len(self.faq_entries),
         }
+
+    def people_also_ask(self, query: str, k: int = 4) -> List[Dict]:
+        """Pick the most semantically-relevant FAQ entries for the query.
+
+        Falls back to a default 'broad' set if nothing matches well, so the
+        Home page (query='anita george') still gets a sensible default.
+        """
+        if not self.faq_entries:
+            return []
+        q_tokens = set(_tokenize(query or ""))
+        scored: List[Tuple[float, Dict]] = []
+        for f in self.faq_entries:
+            if not q_tokens:
+                score = 0.0
+            else:
+                overlap = q_tokens & f["_tokens"]
+                # token overlap + small boost when an explicit tag matches
+                tag_boost = 0.5 * sum(1 for t in f.get("tags", []) if t.lower() in q_tokens)
+                score = (len(overlap) / max(len(q_tokens), 1)) + tag_boost
+            scored.append((score, f))
+
+        scored.sort(key=lambda x: x[0], reverse=True)
+        # If nothing meaningful matched, return a diverse default
+        if all(s <= 0.05 for s, _ in scored):
+            default_qs = [
+                "What is Anita's strongest project?",
+                "Why does Anita care about humane technology?",
+                "What kind of engineer is Anita?",
+                "Why is Anita obsessed with graph theory?",
+            ]
+            ordered = [f for q in default_qs for f in self.faq_entries if f["q"] == q]
+            picked = ordered[:k] or [f for _, f in scored[:k]]
+        else:
+            picked = [f for _, f in scored[:k]]
+        return [
+            {"q": f["q"], "a": f["a"], "related": f.get("related", [])}
+            for f in picked
+        ]

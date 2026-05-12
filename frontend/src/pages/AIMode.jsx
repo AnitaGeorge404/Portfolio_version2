@@ -1,8 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import axios from "axios";
 import { Sparkles, Search, ArrowUpRight, ExternalLink, Bookmark, BookOpen, Quote } from "lucide-react";
 import { Squiggle, Sparkle, Rose, Tape, Sprig, HandArrow, Marker } from "@/components/Decorations";
+import PeopleAlsoAskInline from "@/components/PeopleAlsoAskInline";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
@@ -45,6 +46,7 @@ function TypingDots() {
 }
 
 export default function AIMode() {
+  const [searchParams] = useSearchParams();
   const [query, setQuery] = useState("");
   const [submitted, setSubmitted] = useState("");
   const [loading, setLoading] = useState(false);
@@ -60,6 +62,16 @@ export default function AIMode() {
       .then((r) => setStats(r.data))
       .catch(() => {});
   }, []);
+
+  // Deep-link: /ai-mode?q=...
+  useEffect(() => {
+    const qParam = searchParams.get("q");
+    if (qParam && qParam !== submitted) {
+      setQuery(qParam);
+      runSearch(qParam);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchParams]);
 
   const runSearch = async (q) => {
     const cleaned = (q || "").trim();
@@ -229,6 +241,17 @@ export default function AIMode() {
               </>
             )}
           </div>
+
+          {/* People also ask — inline, contextual */}
+          {result && !loading && result.people_also_ask?.length > 0 && (
+            <div className="mt-10" data-testid="ai-paa-block">
+              <PeopleAlsoAskInline
+                items={result.people_also_ask}
+                query={submitted}
+                variant="compact"
+              />
+            </div>
+          )}
 
           {/* related pages + closest archive + related searches */}
           {result && !loading && (

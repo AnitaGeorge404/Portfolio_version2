@@ -2,51 +2,121 @@
   {
     "q": "What is Anita's strongest project?",
     "a": "Different projects matter for different reasons. VantaAI is the most personally meaningful — an emotionally-aware AI companion. fAImer is the most useful in the field — it diagnoses crop disease on low-end Android phones. DelAI is the most technically interesting — it rewrites delivery routing using graph theory.",
-    "related": ["/projects/vanta-ai", "/projects/faimer", "/projects/del-ai"]
+    "related": ["/projects/vanta-ai", "/projects/faimer", "/projects/del-ai"],
+    "tags": ["best", "favorite", "project", "strongest", "proud"]
   },
   {
     "q": "Why does Anita care about humane technology?",
     "a": "She watched the internet she grew up on become loud and extractive. Humane technology, for her, is small pieces of an alternative — software that returns attention to the person instead of taking it. Her work consistently chooses calm over loud.",
-    "related": ["/research", "/people-also-ask"]
+    "related": ["/research", "/projects/vanta-ai"],
+    "tags": ["humane", "ethics", "ethical", "calm", "extractive", "attention"]
   },
   {
     "q": "What technologies does Anita use?",
     "a": "On the AI side: Python, PyTorch, TensorFlow, Transformers, LangChain and vector stores. On the full-stack side: React, Next.js, Tailwind, FastAPI, Node.js, MongoDB, Postgres and Redis. Her tools beyond code: Figma, Git, Docker, Vercel and Linear.",
-    "related": ["/", "/work"]
+    "related": ["/work", "/"],
+    "tags": ["tech", "stack", "tools", "technology", "python", "react", "ai"]
   },
   {
     "q": "What kind of engineer is Anita?",
     "a": "Research-leaning, design-obsessed, and quietly ambitious. She works in the soft seam between AI engineering and editorial design. She romanticizes coding deliberately and treats engineering as a craft that deserves more poetry, not less.",
-    "related": ["/", "/people-also-ask"]
+    "related": ["/", "/research"],
+    "tags": ["engineer", "kind", "type", "developer", "designer"]
   },
   {
-    "q": "Why does Anita find graph theory beautiful?",
-    "a": "Because everything she finds interesting — language, friendship, cities, love — is fundamentally a graph. Edges and nodes and the spaces between them. She sees graph theory as a way of understanding attention itself.",
-    "related": ["/projects/del-ai", "/research"]
+    "q": "Why is Anita obsessed with graph theory?",
+    "a": "Because everything she finds interesting — language, friendship, cities, love — is fundamentally a graph. Edges and nodes and the spaces between them. She sees graph theory as a way of understanding attention itself, which makes it both mathematical and intimate.",
+    "related": ["/projects/del-ai", "/research"],
+    "tags": ["graph", "theory", "graphs", "math", "obsessed", "obsession"]
+  },
+  {
+    "q": "How does graph theory influence her systems?",
+    "a": "Most visibly in DelAI, where she models delivery routes as a multi-objective constraint problem on a contracted graph. Less visibly in VantaAI, where her semantic memory layer is essentially a sparse weighted graph of an individual's own writing over time.",
+    "related": ["/projects/del-ai", "/projects/vanta-ai"],
+    "tags": ["graph", "theory", "graphs", "systems", "influence", "routing", "delai"]
+  },
+  {
+    "q": "Which projects use graph-based thinking?",
+    "a": "DelAI most explicitly — its routing engine sits on a custom graph data structure. VantaAI uses graph-shaped memory over a user's writing. And StudyBee's intention-tree is a small directed graph too.",
+    "related": ["/projects/del-ai", "/projects/vanta-ai", "/projects/studybee"],
+    "tags": ["graph", "projects", "use", "based", "thinking", "routing"]
   },
   {
     "q": "What does Anita think about AI ethics?",
     "a": "She is wary of AI that pretends to be a friend, and equally wary of AI that pretends it isn't one. She prefers systems that are honest about being software — useful, careful, and explicit about what they don't know.",
-    "related": ["/projects/vanta-ai", "/research"]
+    "related": ["/projects/vanta-ai", "/research"],
+    "tags": ["ethics", "ethical", "ai", "honest", "vanta"]
+  },
+  {
+    "q": "Does Anita romanticize overworking?",
+    "a": "She romanticizes coding — that part is true and unapologetic. She doesn't romanticize overworking. Soft software is partly a permission to rest. The 2am projects exist because she enjoys them, not because she's punishing herself.",
+    "related": ["/archive", "/"],
+    "tags": ["romanticize", "overwork", "overworking", "burnout", "rest", "2am", "late"]
+  },
+  {
+    "q": "What does Anita think about burnout culture?",
+    "a": "She thinks the productivity-as-identity loop is corrosive. StudyBee was specifically built without streaks because shaming the user into showing up is just bad design wearing a smile.",
+    "related": ["/projects/studybee", "/research"],
+    "tags": ["burnout", "culture", "productivity", "streaks", "studybee"]
+  },
+  {
+    "q": "Why do late-night systems keep appearing in her archive?",
+    "a": "Because she ships at night. The 2am version of her is more honest, more curious, and a little braver. Most of her side projects carry a timestamp from after midnight.",
+    "related": ["/archive", "/work"],
+    "tags": ["late", "night", "2am", "midnight", "archive", "ship"]
+  },
+  {
+    "q": "What is VantaAI in one sentence?",
+    "a": "An emotionally-aware AI companion that holds space rather than performs empathy — privacy-first, local-first, and quietly opinionated about not pretending to be your friend.",
+    "related": ["/projects/vanta-ai"],
+    "tags": ["vanta", "vantaai", "what", "companion", "emotional"]
   },
   {
     "q": "Where is Anita based?",
     "a": "Kerala, India. She is in the IST timezone and is often awake at 2am.",
-    "related": ["/contact"]
+    "related": ["/contact"],
+    "tags": ["where", "based", "location", "kerala", "india", "from"]
   },
   {
     "q": "How can I contact Anita?",
     "a": "Through GitHub (AnitaGeorge404), LinkedIn (anita-george-8b8334326), or her portfolio at anitageorge.vercel.app. There is no contact form on this site — she prefers letters to forms.",
-    "related": ["/contact"]
+    "related": ["/contact"],
+    "tags": ["contact", "email", "reach", "hire", "message", "social"]
   },
   {
     "q": "What is Anita studying?",
     "a": "She is a B.Tech Computer Science undergraduate at IIIT Kottayam. Her interests within CS are AI, graph theory, and the design of humane systems.",
-    "related": ["/"]
+    "related": ["/"],
+    "tags": ["study", "studying", "college", "university", "iiit", "kottayam", "school"]
   },
   {
     "q": "What inspires Anita's work?",
     "a": "Vintage botanical scans, magazine spreads from the 1990s, the work of Bret Victor, scrapbook composition, and a long Are.na board. She thinks engineering should feel handmade.",
-    "related": ["/images", "/research"]
+    "related": ["/images", "/research"],
+    "tags": ["inspire", "inspiration", "influences", "moodboard", "aesthetic"]
+  },
+  {
+    "q": "What is fAImer?",
+    "a": "A farmer-facing AI assistant that diagnoses crop disease from photos and recommends region-specific interventions in the local language. Built for low-end Android phones with patchy connectivity.",
+    "related": ["/projects/faimer"],
+    "tags": ["faimer", "what", "farm", "agriculture", "crop"]
+  },
+  {
+    "q": "What is StudyBee?",
+    "a": "A focus app shaped like a notebook. StudyBee replaces gamified streaks with quiet rituals — one page, one intention, one hour. Offline-first and accountless.",
+    "related": ["/projects/studybee"],
+    "tags": ["studybee", "what", "study", "focus", "productivity"]
+  },
+  {
+    "q": "What kind of future does Anita want to build?",
+    "a": "One where software feels like it was made by a person. More pauses, fewer notifications. AI that doesn't pretend to be a friend but doesn't pretend it isn't one either. A slower, softer internet.",
+    "related": ["/research"],
+    "tags": ["future", "build", "want", "dream", "vision"]
+  },
+  {
+    "q": "What does Anita think about at 2am?",
+    "a": "Graph theory. The geometry of attention. Whether AI can be tender. Whether her side projects are art or research or therapy. Usually all four.",
+    "related": ["/archive", "/ai-mode"],
+    "tags": ["2am", "midnight", "night", "thinking", "thoughts"]
   }
 ]
