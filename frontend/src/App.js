@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Layout from "@/components/Layout";
 import Home from "@/pages/Home";
 import Projects from "@/pages/Projects";
+import Work from "@/pages/Work";
 import ProjectDetail from "@/pages/ProjectDetail";
 import AIMode from "@/pages/AIMode";
 import Images from "@/pages/Images";
@@ -21,6 +22,7 @@ function App() {
         <Layout>
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/work" element={<Work />} />
             <Route path="/projects" element={<Projects />} />
             <Route path="/projects/:slug" element={<ProjectDetail />} />
             <Route path="/ai-mode" element={<AIMode />} />

@@ -1,0 +1,39 @@
+{
+  "name": "Anita George",
+  "pronouns": "she/her",
+  "role": "AI / Full-Stack Engineer",
+  "studying": "B.Tech, Computer Science — IIIT Kottayam",
+  "location": "Kerala, India",
+  "tagline": "building emotionally-driven, humane systems",
+  "blurb": "Anita is a computer science undergraduate at IIIT Kottayam who builds AI-driven systems with an unusual amount of feeling. Her work lives in the soft seam between graph theory and graceful interfaces — research-leaning, design-obsessed, and quietly ambitious about what humane technology can become.",
+  "links": {
+    "github": "https://github.com/AnitaGeorge404",
+    "linkedin": "https://www.linkedin.com/in/anita-george-8b8334326/",
+    "portfolio": "https://anitageorge.vercel.app/"
+  },
+  "interests": [
+    "graph theory",
+    "humane technology",
+    "emotional AI",
+    "soft software",
+    "editorial typography",
+    "feminine internet aesthetics",
+    "slow design",
+    "rural-tech",
+    "research-leaning engineering",
+    "the geometry of attention"
+  ],
+  "values": [
+    "honesty in interface design",
+    "calm over loud",
+    "privacy as a default",
+    "AI that holds space, not attention",
+    "small useful things over big polished platforms"
+  ],
+  "philosophy": [
+    "Anita believes engineering deserves more poetry, not less.",
+    "She thinks the internet can still be a tender place if people insist on it.",
+    "She views graph theory as a way of understanding everything — language, friendship, attention — because each of those is fundamentally edges and nodes.",
+    "She romanticizes coding deliberately and unapologetically."
+  ]
+}

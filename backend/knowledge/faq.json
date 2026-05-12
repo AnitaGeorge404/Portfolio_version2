@@ -1,0 +1,52 @@
+[
+  {
+    "q": "What is Anita's strongest project?",
+    "a": "Different projects matter for different reasons. VantaAI is the most personally meaningful — an emotionally-aware AI companion. fAImer is the most useful in the field — it diagnoses crop disease on low-end Android phones. DelAI is the most technically interesting — it rewrites delivery routing using graph theory.",
+    "related": ["/projects/vanta-ai", "/projects/faimer", "/projects/del-ai"]
+  },
+  {
+    "q": "Why does Anita care about humane technology?",
+    "a": "She watched the internet she grew up on become loud and extractive. Humane technology, for her, is small pieces of an alternative — software that returns attention to the person instead of taking it. Her work consistently chooses calm over loud.",
+    "related": ["/research", "/people-also-ask"]
+  },
+  {
+    "q": "What technologies does Anita use?",
+    "a": "On the AI side: Python, PyTorch, TensorFlow, Transformers, LangChain and vector stores. On the full-stack side: React, Next.js, Tailwind, FastAPI, Node.js, MongoDB, Postgres and Redis. Her tools beyond code: Figma, Git, Docker, Vercel and Linear.",
+    "related": ["/", "/work"]
+  },
+  {
+    "q": "What kind of engineer is Anita?",
+    "a": "Research-leaning, design-obsessed, and quietly ambitious. She works in the soft seam between AI engineering and editorial design. She romanticizes coding deliberately and treats engineering as a craft that deserves more poetry, not less.",
+    "related": ["/", "/people-also-ask"]
+  },
+  {
+    "q": "Why does Anita find graph theory beautiful?",
+    "a": "Because everything she finds interesting — language, friendship, cities, love — is fundamentally a graph. Edges and nodes and the spaces between them. She sees graph theory as a way of understanding attention itself.",
+    "related": ["/projects/del-ai", "/research"]
+  },
+  {
+    "q": "What does Anita think about AI ethics?",
+    "a": "She is wary of AI that pretends to be a friend, and equally wary of AI that pretends it isn't one. She prefers systems that are honest about being software — useful, careful, and explicit about what they don't know.",
+    "related": ["/projects/vanta-ai", "/research"]
+  },
+  {
+    "q": "Where is Anita based?",
+    "a": "Kerala, India. She is in the IST timezone and is often awake at 2am.",
+    "related": ["/contact"]
+  },
+  {
+    "q": "How can I contact Anita?",
+    "a": "Through GitHub (AnitaGeorge404), LinkedIn (anita-george-8b8334326), or her portfolio at anitageorge.vercel.app. There is no contact form on this site — she prefers letters to forms.",
+    "related": ["/contact"]
+  },
+  {
+    "q": "What is Anita studying?",
+    "a": "She is a B.Tech Computer Science undergraduate at IIIT Kottayam. Her interests within CS are AI, graph theory, and the design of humane systems.",
+    "related": ["/"]
+  },
+  {
+    "q": "What inspires Anita's work?",
+    "a": "Vintage botanical scans, magazine spreads from the 1990s, the work of Bret Victor, scrapbook composition, and a long Are.na board. She thinks engineering should feel handmade.",
+    "related": ["/images", "/research"]
+  }
+]

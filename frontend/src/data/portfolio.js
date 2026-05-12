@@ -32,6 +32,7 @@ export const searchSuggestions = [
 export const tabs = [
   { key: "all", label: "All", path: "/" },
   { key: "ai", label: "AI Mode", path: "/ai-mode", sparkle: true },
+  { key: "work", label: "Work", path: "/work" },
   { key: "images", label: "Images", path: "/images" },
   { key: "videos", label: "Videos", path: "/videos" },
   { key: "research", label: "Research", path: "/research" },

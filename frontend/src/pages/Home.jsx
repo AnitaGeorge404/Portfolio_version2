@@ -51,8 +51,8 @@ export default function Home() {
 
           {/* Buttons */}
           <div className="mt-6 flex flex-wrap justify-center gap-3 animate-fade-up delay-700">
-            <Link to="/projects" data-testid="hero-projects-btn" className="btn-soft px-5 py-2 text-sm rounded-full font-sans text-ink">
-              browse projects
+            <Link to="/work" data-testid="hero-projects-btn" className="btn-soft px-5 py-2 text-sm rounded-full font-sans text-ink">
+              browse work
             </Link>
             <Link to="/ai-mode" data-testid="hero-ai-btn" className="btn-soft px-5 py-2 text-sm rounded-full font-sans text-ink inline-flex items-center gap-1.5">
               <Sparkles size={12} /> i'm feeling lucky
@@ -126,8 +126,8 @@ export default function Home() {
                 </ResultCard>
               ))}
               <div>
-                <Link to="/projects" data-testid="see-all-projects" className="btn-soft inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm">
-                  see all projects (pinterest view) <ArrowUpRight size={14} />
+                <Link to="/work" data-testid="see-all-projects" className="btn-soft inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm">
+                  see all work (search-result view) <ArrowUpRight size={14} />
                 </Link>
               </div>
             </div>

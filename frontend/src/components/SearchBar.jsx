@@ -57,7 +57,7 @@ export default function SearchBar({ defaultValue = "anita george", autoFocus = f
   const submit = (e) => {
     e?.preventDefault?.();
     const q = (value || "").toLowerCase().trim();
-    if (q.includes("project") || q.includes("vanta") || q.includes("studybee") || q.includes("faimer") || q.includes("lawgorithm") || q.includes("delai")) navigate("/projects");
+    if (q.includes("work") || q.includes("project") || q.includes("vanta") || q.includes("studybee") || q.includes("faimer") || q.includes("lawgorithm") || q.includes("delai")) navigate("/work");
     else if (q.includes("ai")) navigate("/ai-mode");
     else if (q.includes("contact") || q.includes("email")) navigate("/contact");
     else if (q.includes("research") || q.includes("paper")) navigate("/research");

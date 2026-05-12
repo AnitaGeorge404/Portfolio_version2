@@ -1,0 +1,72 @@
+[
+  {
+    "slug": "vanta-ai",
+    "name": "VantaAI",
+    "year": "2024",
+    "tagline": "an emotionally-aware AI companion",
+    "summary": "A privacy-first emotional AI built around the idea that software can hold space for someone the way a friend does — quiet, unjudgemental, and actually listening. Vanta surfaces patterns from your own writing and builds a small mirror of how you've been.",
+    "motivation": "She kept noticing how loud the internet had become — every product wanted to be your everything. VantaAI is the opposite: a small, soft, slow companion that doesn't try to fix you.",
+    "architecture": "Local-first journaling with optional encrypted sync. A semantic memory layer over a vector store, a lightweight emotion classifier, and a planner that suggests gentle reflections rather than tasks.",
+    "failures": "First version felt like a chatbot. It took three rewrites before it stopped being a productivity tool wearing emotional clothing.",
+    "tags": ["AI", "NLP", "Emotional Systems", "Privacy"],
+    "stack": ["Python", "FastAPI", "OpenAI", "React", "MongoDB"],
+    "note": "built during a week where i barely slept",
+    "url": "/projects/vanta-ai"
+  },
+  {
+    "slug": "del-ai",
+    "name": "DelAI",
+    "year": "2024",
+    "tagline": "delivery routing rewritten with graphs",
+    "summary": "A graph-theory-first approach to last-mile logistics. DelAI re-imagines routes as living constraint problems, optimizing not just for speed but for the rider's day.",
+    "motivation": "Anita fell down a rabbit hole reading about TSP variants and realized most delivery apps optimize the wrong thing.",
+    "architecture": "Multi-objective routing on a contracted graph plus dynamic traffic edges plus a soft preference layer that learns rider patterns over time.",
+    "failures": "Two weeks tuning a heuristic that turned out to be worse than a clean Dijkstra. Lesson: measure first, romanticize later.",
+    "tags": ["Graphs", "Optimization", "Logistics"],
+    "stack": ["Python", "NetworkX", "FastAPI", "React", "Mapbox"],
+    "note": "graph theory is weirdly beautiful",
+    "url": "/projects/del-ai"
+  },
+  {
+    "slug": "faimer",
+    "name": "fAImer",
+    "year": "2025",
+    "tagline": "AI for small farms",
+    "summary": "A farmer-facing assistant that diagnoses crop disease from photos and recommends region-specific interventions in the local language. Built for low-end Android phones and patchy connections.",
+    "motivation": "Anita's grandparents farmed. She wanted to build the tool she wished existed in their village — not a SaaS dashboard, just something useful.",
+    "architecture": "On-device CNN for offline diagnosis, server-side LLM for reasoning over agricultural extension manuals, voice-first interface.",
+    "failures": "Initial dataset was too clean. Real photos are blurry, lit by kitchen bulbs, taken at odd angles. Re-collected from scratch.",
+    "tags": ["Computer Vision", "Agriculture", "Edge AI", "Multilingual"],
+    "stack": ["TensorFlow Lite", "React Native", "FastAPI", "Postgres"],
+    "note": "this project became strangely personal",
+    "url": "/projects/faimer"
+  },
+  {
+    "slug": "lawgorithm",
+    "name": "LawGorithm",
+    "year": "2024",
+    "tagline": "legal docs, demystified",
+    "summary": "A reading companion that translates dense legal documents into plain language with cross-references and risk highlights. Designed for first-generation founders who can't afford a lawyer for every paragraph.",
+    "motivation": "Reading a contract should not feel like climbing a wall barefoot.",
+    "architecture": "Document chunker, clause classifier, grounded LLM rewriting layer with an obligation/right/risk taxonomy.",
+    "failures": "First version hallucinated obligations. Added a strict citation requirement and the entire experience became honest again.",
+    "tags": ["NLP", "Legal Tech", "Accessibility"],
+    "stack": ["Python", "Transformers", "Next.js"],
+    "note": "i wrote half of this on a train",
+    "url": "/projects/lawgorithm"
+  },
+  {
+    "slug": "studybee",
+    "name": "StudyBee",
+    "year": "2023",
+    "tagline": "soft, slow studying",
+    "summary": "A focus app shaped like a notebook. StudyBee replaces gamified streaks with quiet rituals — a single page, a single intention, a single hour.",
+    "motivation": "Anita was tired of productivity tools shaming her. She wanted something that felt like a paper notebook on a Sunday morning.",
+    "architecture": "Offline-first, no accounts, no analytics. Just structured local storage and a beautiful page.",
+    "failures": "Tried to add streaks once. Removed them within 48 hours.",
+    "tags": ["Productivity", "UX", "Soft UI"],
+    "stack": ["React", "Tailwind", "IndexedDB"],
+    "note": "a love letter to my undergrad self",
+    "url": "/projects/studybee"
+  }
+]
