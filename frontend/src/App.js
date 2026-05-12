@@ -13,6 +13,7 @@ import Shopping from "@/pages/Shopping";
 import Contact from "@/pages/Contact";
 import Archive from "@/pages/Archive";
 import More from "@/pages/More";
+import NotFound from "@/pages/NotFound";
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
             <Route path="/contact" element={<Contact />} />
             <Route path="/archive" element={<Archive />} />
             <Route path="/more" element={<More />} />
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </Layout>
       </BrowserRouter>
