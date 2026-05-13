@@ -16,7 +16,7 @@ export default function Archive() {
 
       <ol className="mt-12 relative pl-6 border-l border-dashed border-brown/70 space-y-8 notebook-lines">
         {archive.map((a, i) => (
-          <li key={a.date} className="relative" data-testid={`archive-item-${i}`}>
+          <li key={`${a.date}-${i}`} className="relative" data-testid={`archive-item-${i}`}>
             <span className="absolute -left-[31px] top-1 w-3 h-3 rounded-full bg-pink border border-plum/40" />
             <div className="text-[10px] uppercase tracking-[0.3em] text-plum">{a.date}</div>
             <div className="font-serif italic text-xl text-ink leading-relaxed">{a.note}</div>

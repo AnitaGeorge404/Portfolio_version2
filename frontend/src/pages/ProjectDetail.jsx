@@ -161,28 +161,26 @@ export default function ProjectDetail() {
               <dt className="col-span-1 text-plum text-[11px] uppercase tracking-[0.2em]">tags</dt>
               <dd className="col-span-2 text-ink">{project.tags.join(", ")}</dd>
               <dt className="col-span-1 text-plum text-[11px] uppercase tracking-[0.2em]">status</dt>
-              <dd className="col-span-2 text-ink-soft italic">a living thing</dd>
+              <dd className="col-span-2 text-ink-soft italic">{project.status || "active"}</dd>
             </dl>
             <div className="mt-4 flex flex-col gap-2">
-              <a className="btn-soft inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-sm" href="https://github.com/AnitaGeorge404" target="_blank" rel="noreferrer">
+              <a className="btn-soft inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-sm" href="https://github.com/AnitaGeorge404/" target="_blank" rel="noreferrer">
                 <Github size={14} /> source on github
               </a>
               <a className="btn-soft inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-sm" href="https://anitageorge.vercel.app/" target="_blank" rel="noreferrer">
-                <Globe size={14} /> live (sometimes)
+                <Globe size={14} /> portfolio
               </a>
             </div>
           </div>
 
-          {/* connected obsessions */}
+          {/* themes */}
           <div className="relative bg-paper border border-[var(--border-soft)] rounded-2xl p-6 grid-paper">
             <Sprig className="absolute -top-12 -right-3 opacity-70" size={70} />
-            <div className="text-[10px] uppercase tracking-[0.3em] text-plum">connected obsessions</div>
+            <div className="text-[10px] uppercase tracking-[0.3em] text-plum">themes in this project</div>
             <ul className="mt-3 space-y-2 font-hand text-xl text-ink leading-tight">
-              <li>· graph theory</li>
-              <li>· slow software</li>
-              <li>· editorial typography</li>
-              <li>· ethical AI</li>
-              <li>· open notebooks</li>
+              {(project.themes || []).map((t) => (
+                <li key={t}>· {t}</li>
+              ))}
             </ul>
           </div>
         </aside>

@@ -167,7 +167,7 @@ export default function Home() {
               </div>
               <ol className="mt-6 relative pl-6 border-l border-dashed border-brown/70 space-y-7">
                 {experience.map((e, i) => (
-                  <li key={e.when} className="relative">
+                  <li key={`${e.when}-${e.where}`} className="relative">
                     <span className="absolute -left-[31px] top-1 w-3 h-3 rounded-full bg-pink border border-plum/40" />
                     <div className="text-[10px] uppercase tracking-[0.3em] text-plum">{e.when}</div>
                     <div className="font-serif text-xl text-ink">{e.role} · <span className="italic text-plum">{e.where}</span></div>
