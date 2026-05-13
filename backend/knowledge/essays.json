@@ -1,30 +1,30 @@
 [
   {
-    "title": "On the Quiet Thesis of Emotional AI",
-    "year": "2025",
-    "venue": "Personal Essay",
-    "url": "/research",
-    "body": "An argument for AI systems that decline to perform empathy and instead make space for it. Anita's central claim is that performing emotion is a kind of theatre, while holding space is a kind of architecture. The latter is harder, slower, and ultimately what humane software needs."
+    "title": "Humane technology as a recurring theme",
+    "year": "2024 – present",
+    "venue": "Recurring theme across projects",
+    "url": "/work",
+    "body": "Across VantaAI, NeuroBridge, fAImer, and LawGorithm, Anita's work consistently chooses calmer, safer, and more accessible defaults. Detection systems aim to reduce harm; adaptive interfaces aim to reduce cognitive load; tools for low-connectivity contexts aim to reduce exclusion."
   },
   {
-    "title": "Graphs as a Theory of Friendship",
-    "year": "2024",
-    "venue": "Working Notes",
-    "url": "/research",
-    "body": "A speculative piece linking small-world graphs and emotional bandwidth. Anita argues that the strength of a friendship maps surprisingly well to weighted edges and that attention itself behaves like a flow problem on a sparse graph."
+    "title": "Graph theory and optimization across the stack",
+    "year": "2024 – present",
+    "venue": "DSA practice + applied projects",
+    "url": "/projects/delai",
+    "body": "Anita has solved 400+ DSA problems (230+ LeetCode, 170+ Codeforces), with a particular focus on graph theory and optimization. This shows up in applied work — most directly in DelAI's graph-based routing, and as backend modeling intuition across other projects."
   },
   {
-    "title": "Multilingual Computer Vision for Smallholder Farms",
-    "year": "2024",
-    "venue": "Project Whitepaper",
-    "url": "/research",
-    "body": "Lessons from building fAImer for low-resource phones in three Indian languages — about how clean datasets fail and field photos do not, and why on-device inference matters more than model size."
+    "title": "Accessibility and adaptive interfaces",
+    "year": "2025 – present",
+    "venue": "NeuroBridge + UX research",
+    "url": "/projects/neurobridge",
+    "body": "NeuroBridge is the most explicit example: a modular adaptive-support platform for neurodivergent users, with ASD and ADHD support surfaces built around emotional safety and accessibility-first UX. The same accessibility instinct appears in the multilingual / offline-first design of fAImer."
   },
   {
-    "title": "Soft Software",
-    "year": "2023",
-    "venue": "Tinyletter",
-    "url": "/research",
-    "body": "A loose manifesto on slowness, modesty and femininity in software design. Soft software is small and useful, it refuses to gamify, and it treats its users like patient adults."
+    "title": "Backend systems, REST APIs, and modular architecture",
+    "year": "2024 – present",
+    "venue": "Project architectures",
+    "url": "/work",
+    "body": "Multiple projects (VantaAI, LawGorithm, fAImer, NeuroBridge) rely on REST API surfaces and modular backend services — built primarily with Python (FastAPI), Node.js (Express), and standard relational + Firebase/Supabase storage."
   }
 ]

@@ -19,6 +19,14 @@ export default function Contact() {
           </p>
 
           <div className="mt-10 space-y-5">
+            <a href={`mailto:${profile.email}`} className="group flex items-center gap-4 border-b border-[var(--border-soft)] pb-4" data-testid="contact-email">
+              <Mail size={20} className="text-plum" />
+              <div className="flex-1 min-w-0">
+                <div className="text-[10px] uppercase tracking-[0.3em] text-plum">email</div>
+                <div className="font-serif text-2xl text-ink group-hover:text-plum transition-colors truncate">{profile.email}</div>
+              </div>
+              <span className="font-hand text-plum text-lg group-hover:translate-x-1 transition-transform">↗</span>
+            </a>
             <a href={profile.github} target="_blank" rel="noreferrer" className="group flex items-center gap-4 border-b border-[var(--border-soft)] pb-4" data-testid="contact-github">
               <Github size={20} className="text-plum" />
               <div className="flex-1">
@@ -71,18 +79,20 @@ export default function Contact() {
             <Squiggle width={160} className="mt-3" />
             <dl className="mt-4 grid grid-cols-3 gap-y-3 text-sm">
               <dt className="col-span-1 text-plum text-[11px] uppercase tracking-[0.2em]">she/her</dt>
-              <dd className="col-span-2 text-ink-soft italic">— softly</dd>
-              <dt className="col-span-1 text-plum text-[11px] uppercase tracking-[0.2em]">role</dt>
-              <dd className="col-span-2 text-ink">{profile.role}</dd>
-              <dt className="col-span-1 text-plum text-[11px] uppercase tracking-[0.2em]">studying</dt>
-              <dd className="col-span-2 text-ink">{profile.studying}</dd>
+              <dd className="col-span-2 text-ink-soft italic">— full-stack · design-aware</dd>
+              <dt className="col-span-1 text-plum text-[11px] uppercase tracking-[0.2em]">degree</dt>
+              <dd className="col-span-2 text-ink">{profile.degree}</dd>
+              <dt className="col-span-1 text-plum text-[11px] uppercase tracking-[0.2em]">at</dt>
+              <dd className="col-span-2 text-ink">{profile.universityShort} · {profile.years}</dd>
+              <dt className="col-span-1 text-plum text-[11px] uppercase tracking-[0.2em]">gpa</dt>
+              <dd className="col-span-2 text-ink font-mono">{profile.gpa}</dd>
               <dt className="col-span-1 text-plum text-[11px] uppercase tracking-[0.2em]">timezone</dt>
-              <dd className="col-span-2 text-ink">IST · awake at 2am</dd>
+              <dd className="col-span-2 text-ink">IST · India</dd>
             </dl>
             <div className="mt-6 inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-tag border border-lavender text-xs">
               <Sparkles size={12} className="text-sage" />
               <span className="text-plum">currently</span>
-              <span className="text-ink">open to research collabs</span>
+              <span className="text-ink">open to collaborations</span>
             </div>
           </div>
         </aside>

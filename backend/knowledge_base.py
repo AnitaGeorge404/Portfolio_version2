@@ -69,13 +69,20 @@ class KnowledgeBase:
         projects_path = self.knowledge_dir / "projects.json"
         if projects_path.exists():
             for p in json.loads(projects_path.read_text()):
-                blob = (
-                    f"{p['name']} — {p['tagline']} ({p['year']}). "
-                    f"{p['summary']} Why: {p['motivation']} "
-                    f"How: {p['architecture']} What broke: {p['failures']}. "
-                    f"Tags: {', '.join(p['tags'])}. Stack: {', '.join(p['stack'])}. "
-                    f"Note: {p['note']}"
-                )
+                parts = [
+                    f"{p['name']} — {p.get('tagline', '')} ({p.get('year', '')}).",
+                    p.get("summary", ""),
+                    f"Motivation: {p['motivation']}" if p.get("motivation") else "",
+                    f"Architecture: {p['architecture']}" if p.get("architecture") else "",
+                    f"Outcomes: {p['outcomes']}" if p.get("outcomes") else "",
+                    f"Failures: {p['failures']}" if p.get("failures") else "",
+                    f"Status: {p['status']}." if p.get("status") else "",
+                    f"Tags: {', '.join(p.get('tags', []))}.",
+                    f"Stack: {', '.join(p.get('stack', []))}.",
+                    f"Themes: {', '.join(p.get('themes', []))}." if p.get("themes") else "",
+                    f"Note: {p.get('note', '')}",
+                ]
+                blob = " ".join(s for s in parts if s).strip()
                 self.chunks.append({
                     "id": f"project:{p['slug']}",
                     "source": "project",
@@ -120,6 +127,61 @@ class KnowledgeBase:
         eggs_path = self.knowledge_dir / "easter_eggs.json"
         if eggs_path.exists():
             self.easter_eggs = json.loads(eggs_path.read_text())
+
+        # Experience
+        exp_path = self.knowledge_dir / "experience.json"
+        if exp_path.exists():
+            for e in json.loads(exp_path.read_text()):
+                blob = (
+                    f"Experience: {e.get('role', '')} at {e.get('where', '')} "
+                    f"({e.get('year', '')}). {e.get('detail', '')}"
+                )
+                self.chunks.append({
+                    "id": f"experience:{e.get('where', '')[:30]}",
+                    "source": "experience",
+                    "title": f"{e.get('role', '')} · {e.get('where', '')}",
+                    "url": "/",
+                    "text": blob,
+                })
+
+        # Repos
+        repos_path = self.knowledge_dir / "repos.json"
+        if repos_path.exists():
+            for r in json.loads(repos_path.read_text()):
+                blob = (
+                    f"GitHub repository: {r['name']} ({r.get('kind', 'repository')}). "
+                    f"{r.get('description', '')}"
+                )
+                self.chunks.append({
+                    "id": f"repo:{r['name']}",
+                    "source": "repo",
+                    "title": r["name"],
+                    "url": r.get("url", "https://github.com/AnitaGeorge404/"),
+                    "text": blob,
+                })
+
+        # Achievements + certifications
+        ach_path = self.knowledge_dir / "achievements.json"
+        if ach_path.exists():
+            data = json.loads(ach_path.read_text())
+            for a in data.get("achievements", []):
+                blob = f"Achievement: {a['result']} at {a['title']} ({a.get('year', '')})."
+                self.chunks.append({
+                    "id": f"achievement:{a['title']}",
+                    "source": "achievement",
+                    "title": f"{a['result']} — {a['title']}",
+                    "url": "/",
+                    "text": blob,
+                })
+            for c in data.get("certifications", []):
+                blob = f"Certification: {c['title']} — issued by {c.get('issuer', '')}."
+                self.chunks.append({
+                    "id": f"cert:{c['title']}",
+                    "source": "certification",
+                    "title": c["title"],
+                    "url": "/",
+                    "text": blob,
+                })
 
         # Precompute TF & IDF
         N = max(len(self.chunks), 1)

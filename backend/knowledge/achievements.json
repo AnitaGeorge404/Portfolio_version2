@@ -1,0 +1,28 @@
+{
+  "achievements": [
+    {
+      "title": "TinkHack 2.0",
+      "result": "1st Prize Winner",
+      "year": "2024"
+    },
+    {
+      "title": "Girlathon",
+      "result": "1st Runner-Up",
+      "year": "2024"
+    }
+  ],
+  "certifications": [
+    {
+      "title": "IBM Full-Stack Backend Professional Certificate",
+      "issuer": "IBM"
+    },
+    {
+      "title": "Meta Frontend Professional Certificate",
+      "issuer": "Meta"
+    },
+    {
+      "title": "Google Data Analytics Certification",
+      "issuer": "Google"
+    }
+  ]
+}

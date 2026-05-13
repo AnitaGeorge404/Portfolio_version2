@@ -1,0 +1,44 @@
+[
+  {
+    "name": "anita-s-internet-brain",
+    "kind": "active experiment",
+    "url": "https://github.com/AnitaGeorge404/",
+    "description": "An evolving experiment in editorial portfolio + search-engine UX — design-first, architecture-evolving."
+  },
+  {
+    "name": "anita-s-digital-archive",
+    "kind": "active experiment",
+    "url": "https://github.com/AnitaGeorge404/",
+    "description": "A digital archive concept — an interface study around personal knowledge surfaces."
+  },
+  {
+    "name": "Portfolio_version2 / Pv2",
+    "kind": "interface study",
+    "url": "https://github.com/AnitaGeorge404/",
+    "description": "Iterative portfolio rebuilds exploring different visual systems and content structures."
+  },
+  {
+    "name": "Wrapped",
+    "kind": "design exploration",
+    "url": "https://github.com/AnitaGeorge404/",
+    "description": "A small year-in-review-style design exploration."
+  },
+  {
+    "name": "Neurobridge / Neurobridge_V2",
+    "kind": "ongoing system",
+    "url": "https://github.com/AnitaGeorge404/",
+    "description": "Architectural iterations on the NeuroBridge adaptive accessibility platform."
+  },
+  {
+    "name": "Lume",
+    "kind": "design-focused build",
+    "url": "https://github.com/AnitaGeorge404/",
+    "description": "A design-focused build — interface and visual-system exploration."
+  },
+  {
+    "name": "IndigoInForm / Indigo_admin",
+    "kind": "evolving project",
+    "url": "https://github.com/AnitaGeorge404/",
+    "description": "Form-system and admin-surface iterations — frontend and component-architecture explorations."
+  }
+]

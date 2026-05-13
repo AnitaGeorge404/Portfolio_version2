@@ -1,0 +1,84 @@
+{
+  "summary": "Iteration 4 end-to-end test of verified-content rewrite. Backend KB stats correct (chunks>40, faq_entries=23, easter_eggs=7), grounded answers for verified queries (NeuroBridge, engineer kind, hackathon builds) all pass with verified terms (IIIT Kottayam, 9.03, 400+, full-stack, Routine Visualizer, Sensory Regulation, ASD/ADHD). People-also-ask returns 4 grounded items (no poetic). Frontend pages render verified data correctly across Home, /work (all 6 slugs present), /projects/neurobridge, /projects/vantaai, /research (dsa/achievements/certifications panels present), /contact (email row with mailto), /ai-mode (form + starter questions work, fallback-badge correctly hidden when LLM works), /archive. No forbidden poetic phrases ('20-year-old', 'soft, honest software', 'i write code like letters', 'phoebe bridgers', 'midnight thoughts', 'awake at 2am') anywhere. Two real backend issues, two real frontend issues found.",
+  "backend_issues": {
+    "critical": [],
+    "minor": [
+      {
+        "endpoint": "/api/ai/search?q=what+is+neurobridge",
+        "issue": "closest_archive returns 'https://github.com/AnitaGeorge404/' instead of expected '/projects/neurobridge'. Sources list does include NeuroBridge title and related_pages logic appears unrelated. Likely the closest_archive lookup is matching/falling back to the global GitHub link instead of the project URL slug."
+      },
+      {
+        "endpoint": "/api/ai/search?q=does+anita+have+a+phd",
+        "issue": "Spec requires answer to start with 'I could not find enough verified information'. Instead the LLM answers factually: 'No, Anita does not have a PhD. She is currently a B.Tech CSE undergraduate at IIIT Kottayam...' — this is actually a correct grounded denial, not a hallucination, but it does not match the strict guard behavior the spec requires. Either tighten the SYSTEM_PROMPT to defer all 'does anita have X' negative-credential questions to the guard, or update the spec expectation."
+      }
+    ]
+  },
+  "frontend_issues": {
+    "ui_bugs": [
+      {
+        "component": "Multiple list renderings (likely Home knowledge panel / Work pins / Research panels)",
+        "issue": "React duplicate-key warnings — 20+ console errors of the form: \"Encountered two children with the same key, '%s' ... 2024 – present\" and '2024', '2025'. Year strings are being used as React list keys but are not unique across the dataset. This is a real React anti-pattern and clutters the console; under reconciliation it may cause subtle re-render bugs.",
+        "selector": "console error: 'Encountered two children with the same key, %s'",
+        "priority": "MEDIUM"
+      },
+      {
+        "component": "Mobile layout at 375x812",
+        "issue": "Horizontal overflow detected: / = 15px, /work = 4px, /ai-mode = 4px, /projects/neurobridge = 4px. The 15px overflow on Home is the most user-visible. Likely a fixed-width element (badge row, knowledge panel, hero subtitle, or AI overview pill) or absolute-positioned decorative element exceeding viewport.",
+        "selector": "document.documentElement.scrollWidth - clientWidth on 375 viewport",
+        "priority": "MEDIUM"
+      },
+      {
+        "component": "Mobile layout at 414x896",
+        "issue": "Horizontal overflow on Home (7px). Other tested pages (/work, /ai-mode, /projects/neurobridge) are clean (0px).",
+        "selector": "document.documentElement.scrollWidth - clientWidth on 414 viewport",
+        "priority": "LOW"
+      },
+      {
+        "component": "ProjectDetail / VantaAI status pill",
+        "issue": "Status pill displays 'a living thing' instead of the verified status 'hackathon-recognized' from projects.json. The body copy correctly says 'Hackathon-recognized.' but the side panel STATUS field is showing a generic/legacy label. Suspect ProjectDetail.jsx is rendering a hardcoded or stale status instead of project.status.",
+        "selector": "Project card STATUS row",
+        "priority": "LOW"
+      },
+      {
+        "component": "ProjectDetail 'CONNECTED OBSESSIONS' panel (VantaAI page)",
+        "issue": "Lists 'graph theory, slow software, editorial typography, ethical AI, open notebooks' — but 'slow software', 'editorial typography', 'open notebooks' are not present in the verified projects.json themes for VantaAI (themes are: digital dignity, online safety, ethical AI, protective systems). This panel is likely pulling from a legacy/global obsession list instead of project.themes.",
+        "selector": ".connected-obsessions or similar",
+        "priority": "LOW"
+      }
+    ],
+    "integration_issues": [],
+    "design_issues": []
+  },
+  "test_report_links": [
+    "/app/backend/tests/test_iteration4.py",
+    "/app/backend/tests/test_ai_search.py",
+    "/app/backend/tests/test_paa_iteration3.py",
+    "/app/test_reports/pytest/iteration_4.xml"
+  ],
+  "action_items": [
+    "Backend: fix closest_archive to prefer matching project URL slug over global links when sources include a project — for query 'what is neurobridge' it should be '/projects/neurobridge'.",
+    "Backend: decide policy on 'does anita have a phd' — either tighten the no-credential guard, or update spec. Current answer is correct but doesn't match required guard prefix.",
+    "Frontend: fix duplicate React keys. Year values (2024, 2025, '2024 – present') are being used as keys for lists. Replace with stable unique keys (e.g., project.slug, role.id, or `${item.year}-${item.name}`).",
+    "Frontend: fix mobile horizontal overflow on Home at 375 (15px) and 414 (7px). Inspect hero subtitle, AI overview pill, knowledge panel, badge rows for fixed widths / non-wrapping text / overflowing absolute children. Also fix the 4px overflow on /work, /ai-mode, /projects/neurobridge at 375.",
+    "Frontend: ProjectDetail STATUS pill should reflect project.status from projects.json (e.g., 'hackathon-recognized' for VantaAI) not the generic 'a living thing' label.",
+    "Frontend: 'CONNECTED OBSESSIONS' panel on ProjectDetail should render project.themes (verified per project) instead of a global obsession list."
+  ],
+  "critical_code_review_comments": [
+    "knowledge_base closest_archive fallback logic appears to use a global link list (github URL) when no slug match is found — but for queries that clearly map to a single project the project URL should win. Add a sources-first lookup before falling back to profile links.",
+    "Frontend React list keys: search the codebase for `key={...year...}` or `key={item.year}` and replace with unique stable identifiers. The same warning appears 20+ times suggesting it's a single recurring pattern across multiple list renders.",
+    "ProjectDetail.jsx appears to ignore project.status / project.themes for at least the VantaAI route, rendering a generic 'a living thing' status and a static obsession list. Verify the component reads from portfolio.js project objects correctly.",
+    "Hallucination guard scoring threshold is currently being bypassed by the LLM when adjacent verified context (GPA, certifications) is retrievable — the LLM is reasoning over it and producing a confident denial. Consider either: (a) detecting negative-credential intents server-side and forcing the guard prefix, or (b) accepting verified denials as valid (they aren't hallucinations)."
+  ],
+  "updated_files": [
+    "/app/backend/tests/test_iteration4.py"
+  ],
+  "success_rate": {
+    "backend": "71% (5/7 — TestStats 2/2, TestVerifiedQueries 3/5: neurobridge fails on closest_archive, phd fails on guard prefix; engineer_kind, hackathon_builds, people_also_ask grounded all PASS)",
+    "frontend": "~85% (all content checks pass; failures are React key warnings, mobile overflow, status/obsessions panel content mismatch)"
+  },
+  "seed_data_creation": "None",
+  "retest_needed": true,
+  "main_agent_can_self_test": true,
+  "context_for_next_testing_agent": "Backend test file is /app/backend/tests/test_iteration4.py (7 tests). 2 known failures pending main-agent fix: closest_archive=GitHub instead of /projects/neurobridge for NeuroBridge query, and PhD hallucination guard returning factual denial instead of guard prefix. Frontend forbidden-content sweep is clean — all P0 content correctness is good. Remaining frontend bugs are: (1) React duplicate keys on year fields, (2) mobile horizontal overflow on Home (15px@375, 7px@414) and 4px on /work,/ai-mode,/projects/neurobridge at 375w, (3) ProjectDetail status pill shows 'a living thing' instead of project.status, (4) CONNECTED OBSESSIONS panel shows stale themes. fallback-badge correctly NOT rendered when LLM works. AI Mode starter questions and search integration both work and return verified content. All 6 work-result-{slug} testids present on /work. contact-email testid renders anitageorge1806@gmail.com.",
+  "rca of the issue": "1) closest_archive: backend likely falls through to profile.links.github when no per-project URL match is computed, instead of using sources[0].url when sources contain a project chunk. 2) Duplicate React keys: a `.map(... key={year})` pattern exists where multiple items share '2024' or '2024 – present'. 3) Mobile overflow on Home at 375 (15px) — most likely a non-wrapping pill / horizontal badge strip / decorative image with fixed width exceeding viewport; inspect Home hero + knowledge panel + about-spread bottom panel."
+}

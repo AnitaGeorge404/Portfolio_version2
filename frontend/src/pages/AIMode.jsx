@@ -9,16 +9,16 @@ const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
 
 const STARTER_QUESTIONS = [
-  "What is VantaAI?",
-  "Why does Anita care about humane technology?",
+  "What kind of engineer is Anita?",
+  "What is NeuroBridge?",
+  "Why does graph theory appear in her work?",
+  "Is she more backend or frontend focused?",
   "What technologies does she use?",
-  "Why graph theory?",
-  "What is StudyBee?",
-  "What does she think about AI ethics?",
-  "What inspires her work?",
+  "Which projects focus on accessibility?",
+  "Which projects are hackathon builds?",
 ];
 
-const EGG_HINTS = ["midnight thoughts", "burnout", "best project", "future", "are you overwhelmed"];
+const EGG_HINTS = ["best project", "favorite project", "github", "linkedin", "future"];
 
 function IndexingBar({ stats }) {
   return (

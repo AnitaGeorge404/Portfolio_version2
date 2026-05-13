@@ -1,34 +1,30 @@
 {
-  "midnight thoughts": {
-    "answer": "At 2am she thinks about graph theory, the geometry of attention, whether AI can be tender, and whether her side projects are art or research or therapy. Usually all four. The midnight version of her is the most honest one.",
-    "related": ["/ai-mode", "/archive"]
-  },
-  "burnout": {
-    "answer": "She has been close. fAImer almost broke her twice — once when the dataset turned out to be unusable, once when she realized the people she was building it for didn't speak the languages her models had been trained on. She kept going. Soft software is also a permission to rest.",
-    "related": ["/projects/faimer", "/ai-mode"]
-  },
   "best project": {
-    "answer": "The honest answer is that the project she's most proud of is whichever one almost made her quit. VantaAI for emotional weight. fAImer for usefulness. DelAI for technical depth.",
-    "related": ["/work", "/projects/vanta-ai"]
+    "answer": "VantaAI and DelAI are the most technically mature — both hackathon-recognized, with measured outcomes (~30% latency improvement on VantaAI; ~20% routing efficiency on DelAI). NeuroBridge is the most ambitious in scope but is still actively evolving.",
+    "related": ["/projects/vantaai", "/projects/delai", "/projects/neurobridge"]
+  },
+  "favorite project": {
+    "answer": "Different projects matter for different reasons. NeuroBridge is the most ambitious — an evolving adaptive-support platform for neurodivergent users. DelAI is the most algorithmically interesting — graph-based routing with measured optimization wins. VantaAI is the most safety-focused — image-based abuse and deepfake detection.",
+    "related": ["/projects/neurobridge", "/projects/delai", "/projects/vantaai"]
   },
   "future": {
-    "answer": "She wants to build software that feels like it was made by a person. More pauses, fewer notifications. AI that doesn't pretend to be a friend but doesn't pretend it isn't one either. A slower, softer internet. That's the long arc.",
-    "related": ["/ai-mode", "/research"]
-  },
-  "are you overwhelmed": {
-    "answer": "Often. Always. She codes through it. She writes a little, scans botanicals at 2am, and reminds herself that small useful things matter more than big polished platforms. If you're reading this and you're overwhelmed too — same here.",
-    "related": ["/archive", "/ai-mode"]
-  },
-  "2am": {
-    "answer": "See: midnight thoughts. Or: every project that ended up on this site.",
-    "related": ["/archive"]
+    "answer": "Anita's direction is toward humane technology and accessibility-first systems — software that reduces harm, supports cognitive accessibility, and treats interface design as a first-class engineering concern.",
+    "related": ["/projects/neurobridge", "/work"]
   },
   "hello": {
-    "answer": "Hello. You're now searching through someone's digital mind. Ask softly, ask anything — Anita's archive will try to answer honestly, and if it can't, it'll point you somewhere close.",
-    "related": ["/"]
+    "answer": "Hello. This is the AI mode for Anita George's portfolio — a grounded semantic search over her real projects, repositories, technical interests, and design direction. Ask about VantaAI, DelAI, NeuroBridge, her stack, or her engineering themes.",
+    "related": ["/", "/work"]
   },
   "who built this": {
-    "answer": "Anita built this — a portfolio site shaped like a search engine, dressed in editorial typography and pressed botanicals. The AI mode you are using right now is grounded in a small curated archive about her.",
+    "answer": "This site was built by Anita George — a Computer Science Engineering undergraduate at IIIT Kottayam (2024–2028, GPA 9.03/10). The AI mode you're using is grounded in a curated archive of her actual projects, repositories, and engineering themes.",
     "related": ["/", "/work"]
+  },
+  "github": {
+    "answer": "Anita's GitHub contains a mix of completed projects (e.g., VantaAI, DelAI), active prototypes (NeuroBridge / Neurobridge_V2), and evolving experiments — anita-s-internet-brain, anita-s-digital-archive, Portfolio_version2 / Pv2, Wrapped, Lume, IndigoInForm, Indigo_admin. Not all repositories are polished production systems.",
+    "related": ["/work"]
+  },
+  "linkedin": {
+    "answer": "LinkedIn: linkedin.com/in/anita-george-8b8334326. The best way to reach Anita for collaboration or technical conversation.",
+    "related": ["/contact"]
   }
 }

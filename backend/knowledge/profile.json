@@ -1,39 +1,41 @@
 {
   "name": "Anita George",
   "pronouns": "she/her",
-  "role": "AI / Full-Stack Engineer",
-  "studying": "B.Tech, Computer Science — IIIT Kottayam",
-  "location": "Kerala, India",
-  "tagline": "building emotionally-driven, humane systems",
-  "blurb": "Anita is a computer science undergraduate at IIIT Kottayam who builds AI-driven systems with an unusual amount of feeling. Her work lives in the soft seam between graph theory and graceful interfaces — research-leaning, design-obsessed, and quietly ambitious about what humane technology can become.",
+  "role": "Computer Science Undergraduate · Full-Stack Developer · UI/UX Enthusiast",
+  "degree": "B.Tech in Computer Science Engineering",
+  "university": "Indian Institute of Information Technology Kottayam (IIIT Kottayam)",
+  "years": "2024 – 2028",
+  "gpa": "9.03 / 10",
+  "location": "Kollam, Kerala, India",
+  "tagline": "ambitious, systems-oriented, design-aware",
+  "blurb": "Anita George is a Computer Science Engineering undergraduate at IIIT Kottayam (2024–2028, GPA 9.03/10). She works across the full stack — from algorithmic backends and graph-theoretic optimization to accessibility-focused UI/UX. Her projects sit at the intersection of scalable systems, humane technology, and emotionally aware design, with a particular interest in safety, accessibility, and adaptive interfaces.",
   "links": {
-    "github": "https://github.com/AnitaGeorge404",
+    "github": "https://github.com/AnitaGeorge404/",
     "linkedin": "https://www.linkedin.com/in/anita-george-8b8334326/",
-    "portfolio": "https://anitageorge.vercel.app/"
+    "portfolio": "https://anitageorge.vercel.app/",
+    "email": "anitageorge1806@gmail.com"
   },
   "interests": [
-    "graph theory",
     "humane technology",
-    "emotional AI",
-    "soft software",
-    "editorial typography",
-    "feminine internet aesthetics",
-    "slow design",
-    "rural-tech",
-    "research-leaning engineering",
-    "the geometry of attention"
-  ],
-  "values": [
-    "honesty in interface design",
-    "calm over loud",
-    "privacy as a default",
-    "AI that holds space, not attention",
-    "small useful things over big polished platforms"
+    "graph theory and optimization",
+    "scalable backend systems",
+    "accessibility-first UX",
+    "adaptive interfaces",
+    "AI safety and digital dignity",
+    "modular system design",
+    "interface psychology",
+    "emotionally aware systems"
   ],
   "philosophy": [
-    "Anita believes engineering deserves more poetry, not less.",
-    "She thinks the internet can still be a tender place if people insist on it.",
-    "She views graph theory as a way of understanding everything — language, friendship, attention — because each of those is fundamentally edges and nodes.",
-    "She romanticizes coding deliberately and unapologetically."
-  ]
+    "Anita's work consistently combines scalable systems, accessibility-focused thinking, and strong interface design sensibilities.",
+    "Several of her projects explore how technology can reduce harm, improve accessibility, or create calmer, more honest user experiences.",
+    "She is interested in both backend systems (algorithms, APIs, optimization) and frontend systems (component architecture, interaction design, accessibility).",
+    "Graph theory and optimization appear repeatedly across her work — both as engineering tools and as design metaphors."
+  ],
+  "dsa": {
+    "total_problems": "400+",
+    "leetcode": "230+",
+    "codeforces": "170+",
+    "focus": ["graph theory", "optimization", "scalable systems", "algorithms"]
+  }
 }

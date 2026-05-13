@@ -1,122 +1,140 @@
 [
   {
-    "q": "What is Anita's strongest project?",
-    "a": "Different projects matter for different reasons. VantaAI is the most personally meaningful — an emotionally-aware AI companion. fAImer is the most useful in the field — it diagnoses crop disease on low-end Android phones. DelAI is the most technically interesting — it rewrites delivery routing using graph theory.",
-    "related": ["/projects/vanta-ai", "/projects/faimer", "/projects/del-ai"],
-    "tags": ["best", "favorite", "project", "strongest", "proud"]
+    "q": "What kind of engineer is Anita?",
+    "a": "Anita is a Computer Science Engineering undergraduate at IIIT Kottayam (2024–2028, GPA 9.03/10) working across the full stack. Her work consistently combines scalable backend systems (Python, Node.js, FastAPI, Express), strong frontend and UI/UX practice (React, Next.js, Tailwind), and a foundation in algorithms — 400+ DSA problems solved, with a focus on graph theory and optimization.",
+    "related": ["/", "/work"],
+    "tags": ["engineer", "kind", "type", "developer", "fullstack", "stack"]
   },
   {
-    "q": "Why does Anita care about humane technology?",
-    "a": "She watched the internet she grew up on become loud and extractive. Humane technology, for her, is small pieces of an alternative — software that returns attention to the person instead of taking it. Her work consistently chooses calm over loud.",
-    "related": ["/research", "/projects/vanta-ai"],
-    "tags": ["humane", "ethics", "ethical", "calm", "extractive", "attention"]
+    "q": "Is Anita more backend or frontend focused?",
+    "a": "Both. On the backend she builds REST APIs and modular services with Python (FastAPI), Node.js, and Express. On the frontend she uses React, Next.js, and Tailwind with a strong UI/UX sensibility (component architecture, responsive design, accessibility). Projects like NeuroBridge and VantaAI explicitly require both surfaces.",
+    "related": ["/work"],
+    "tags": ["backend", "frontend", "fullstack", "focused", "react", "fastapi"]
+  },
+  {
+    "q": "Why does humane technology appear repeatedly in her work?",
+    "a": "Several of her projects explore how technology can reduce harm, improve accessibility, or create calmer user experiences. VantaAI focuses on online safety and digital dignity. NeuroBridge focuses on cognitive accessibility and emotional safety. fAImer focuses on accessible technology for low-connectivity contexts. The thread connecting them is humane technology as a practical engineering choice.",
+    "related": ["/projects/vantaai", "/projects/neurobridge", "/projects/faimer"],
+    "tags": ["humane", "technology", "accessibility", "safety", "ethical"]
+  },
+  {
+    "q": "Why does graph theory appear repeatedly?",
+    "a": "Anita's DSA practice — 400+ problems including 170+ on Codeforces — emphasizes graph theory and optimization. The most direct application is DelAI, a graph-based route-optimization system using weighted graph modeling and shortest-path algorithms that achieved approximately 20% efficiency improvement. The underlying graph intuition shows up across her backend modeling more broadly.",
+    "related": ["/projects/delai", "/work"],
+    "tags": ["graph", "theory", "graphs", "math", "optimization", "delai", "algorithms"]
+  },
+  {
+    "q": "Which projects are most technically mature?",
+    "a": "VantaAI and DelAI are hackathon-recognized / hackathon-winning systems with measured outcomes (~30% latency improvement on VantaAI; ~20% routing efficiency improvement on DelAI). StudyBee and fAImer are active projects with working core flows. NeuroBridge is an actively evolving platform with significant architectural direction but is not deployed at scale.",
+    "related": ["/projects/vantaai", "/projects/delai", "/work"],
+    "tags": ["mature", "technical", "best", "strongest", "project"]
+  },
+  {
+    "q": "Which repositories are active experiments?",
+    "a": "Several of Anita's GitHub repositories — anita-s-internet-brain, anita-s-digital-archive, Portfolio_version2 / Pv2, Wrapped, Neurobridge / Neurobridge_V2, Lume, IndigoInForm, Indigo_admin — are evolving projects, active prototypes, interface studies, or architecture explorations rather than polished production systems.",
+    "related": ["/work"],
+    "tags": ["repositories", "repos", "active", "experiments", "github"]
+  },
+  {
+    "q": "What makes NeuroBridge different?",
+    "a": "NeuroBridge is an adaptive support platform for neurodivergent users, built around a modular set of accessibility tools — Routine Visualizer, Sensory Regulation, Social Story Builder, Emotional Check-in, Focus Sessions, Visual Timelines — with ASD and ADHD support surfaces. It is accessibility-first, emotionally aware in its UX, and architecturally evolving rather than a fully deployed or medically certified product.",
+    "related": ["/projects/neurobridge"],
+    "tags": ["neurobridge", "different", "adaptive", "accessibility", "neurodivergent"]
+  },
+  {
+    "q": "What themes connect NeuroBridge and VantaAI?",
+    "a": "Both projects are explicit about reducing harm and supporting users. VantaAI focuses on digital dignity and protective AI against image-based abuse and deepfakes. NeuroBridge focuses on accessibility-first adaptive interfaces for neurodivergent users. The common thread is humane technology — engineering choices made with user safety, dignity, and accessibility at the center.",
+    "related": ["/projects/vantaai", "/projects/neurobridge"],
+    "tags": ["themes", "connect", "humane", "safety", "accessibility", "neurobridge", "vantaai"]
   },
   {
     "q": "What technologies does Anita use?",
-    "a": "On the AI side: Python, PyTorch, TensorFlow, Transformers, LangChain and vector stores. On the full-stack side: React, Next.js, Tailwind, FastAPI, Node.js, MongoDB, Postgres and Redis. Her tools beyond code: Figma, Git, Docker, Vercel and Linear.",
-    "related": ["/work", "/"],
+    "a": "Programming: C++, Java, Python, SQL, JavaScript, C. Frontend: React, Next.js, Tailwind, HTML5, CSS3, responsive design, component architecture. Backend: Node.js, Express, FastAPI, REST APIs, authentication, modular backend systems. Databases: MySQL, Firebase, Supabase. Tools: Git, GitHub, Linux, Postman, Figma, Vercel, Vite.",
+    "related": ["/work"],
     "tags": ["tech", "stack", "tools", "technology", "python", "react", "ai"]
   },
   {
-    "q": "What kind of engineer is Anita?",
-    "a": "Research-leaning, design-obsessed, and quietly ambitious. She works in the soft seam between AI engineering and editorial design. She romanticizes coding deliberately and treats engineering as a craft that deserves more poetry, not less.",
-    "related": ["/", "/research"],
-    "tags": ["engineer", "kind", "type", "developer", "designer"]
+    "q": "What role does UI/UX play in her engineering process?",
+    "a": "UI/UX is integral, not decorative. Across BetaLabs (Web Development Core), Trendles (Design Core), and GDG IIIT Kottayam (Technical Core Team), her work has explicitly included component architecture, visual systems, and design-consistency initiatives. Projects like NeuroBridge are built around interaction-design choices, not just feature lists.",
+    "related": ["/work"],
+    "tags": ["ui", "ux", "design", "interface", "engineering"]
   },
   {
-    "q": "Why is Anita obsessed with graph theory?",
-    "a": "Because everything she finds interesting — language, friendship, cities, love — is fundamentally a graph. Edges and nodes and the spaces between them. She sees graph theory as a way of understanding attention itself, which makes it both mathematical and intimate.",
-    "related": ["/projects/del-ai", "/research"],
-    "tags": ["graph", "theory", "graphs", "math", "obsessed", "obsession"]
+    "q": "Which projects focus on accessibility?",
+    "a": "NeuroBridge is the most explicit — an adaptive support platform for neurodivergent users with modular ASD/ADHD tooling. fAImer is accessibility-focused in a different sense: multilingual + offline-first design for low-connectivity rural contexts. Anita's frontend practice generally emphasizes accessible component architecture.",
+    "related": ["/projects/neurobridge", "/projects/faimer"],
+    "tags": ["accessibility", "accessible", "neurodivergent", "neurobridge", "faimer"]
   },
   {
-    "q": "How does graph theory influence her systems?",
-    "a": "Most visibly in DelAI, where she models delivery routes as a multi-objective constraint problem on a contracted graph. Less visibly in VantaAI, where her semantic memory layer is essentially a sparse weighted graph of an individual's own writing over time.",
-    "related": ["/projects/del-ai", "/projects/vanta-ai"],
-    "tags": ["graph", "theory", "graphs", "systems", "influence", "routing", "delai"]
+    "q": "Which projects are hackathon builds?",
+    "a": "VantaAI was recognized at a hackathon. DelAI was a hackathon-winning project. Other projects (StudyBee, fAImer, LawGorithm, NeuroBridge) are independent or ongoing builds rather than hackathon entries.",
+    "related": ["/projects/vantaai", "/projects/delai"],
+    "tags": ["hackathon", "winner", "winning", "tinkhack", "girlathon", "competition"]
   },
   {
-    "q": "Which projects use graph-based thinking?",
-    "a": "DelAI most explicitly — its routing engine sits on a custom graph data structure. VantaAI uses graph-shaped memory over a user's writing. And StudyBee's intention-tree is a small directed graph too.",
-    "related": ["/projects/del-ai", "/projects/vanta-ai", "/projects/studybee"],
-    "tags": ["graph", "projects", "use", "based", "thinking", "routing"]
+    "q": "What achievements has Anita received?",
+    "a": "1st Prize Winner at TinkHack 2.0. 1st Runner-Up at Girlathon.",
+    "related": ["/", "/work"],
+    "tags": ["achievements", "awards", "prize", "winner", "tinkhack", "girlathon"]
   },
   {
-    "q": "What does Anita think about AI ethics?",
-    "a": "She is wary of AI that pretends to be a friend, and equally wary of AI that pretends it isn't one. She prefers systems that are honest about being software — useful, careful, and explicit about what they don't know.",
-    "related": ["/projects/vanta-ai", "/research"],
-    "tags": ["ethics", "ethical", "ai", "honest", "vanta"]
+    "q": "What certifications has Anita completed?",
+    "a": "IBM Full-Stack Backend Professional Certificate, Meta Frontend Professional Certificate, and Google Data Analytics Certification.",
+    "related": ["/"],
+    "tags": ["certifications", "certified", "ibm", "meta", "google", "credential"]
   },
   {
-    "q": "Does Anita romanticize overworking?",
-    "a": "She romanticizes coding — that part is true and unapologetic. She doesn't romanticize overworking. Soft software is partly a permission to rest. The 2am projects exist because she enjoys them, not because she's punishing herself.",
-    "related": ["/archive", "/"],
-    "tags": ["romanticize", "overwork", "overworking", "burnout", "rest", "2am", "late"]
-  },
-  {
-    "q": "What does Anita think about burnout culture?",
-    "a": "She thinks the productivity-as-identity loop is corrosive. StudyBee was specifically built without streaks because shaming the user into showing up is just bad design wearing a smile.",
-    "related": ["/projects/studybee", "/research"],
-    "tags": ["burnout", "culture", "productivity", "streaks", "studybee"]
-  },
-  {
-    "q": "Why do late-night systems keep appearing in her archive?",
-    "a": "Because she ships at night. The 2am version of her is more honest, more curious, and a little braver. Most of her side projects carry a timestamp from after midnight.",
-    "related": ["/archive", "/work"],
-    "tags": ["late", "night", "2am", "midnight", "archive", "ship"]
-  },
-  {
-    "q": "What is VantaAI in one sentence?",
-    "a": "An emotionally-aware AI companion that holds space rather than performs empathy — privacy-first, local-first, and quietly opinionated about not pretending to be your friend.",
-    "related": ["/projects/vanta-ai"],
-    "tags": ["vanta", "vantaai", "what", "companion", "emotional"]
+    "q": "Where does Anita study?",
+    "a": "Anita is a B.Tech Computer Science Engineering student at IIIT Kottayam (Indian Institute of Information Technology Kottayam), batch 2024–2028, with a current GPA of 9.03/10.",
+    "related": ["/"],
+    "tags": ["study", "studying", "college", "university", "iiit", "kottayam", "school", "gpa"]
   },
   {
     "q": "Where is Anita based?",
-    "a": "Kerala, India. She is in the IST timezone and is often awake at 2am.",
+    "a": "Kollam, Kerala, India.",
     "related": ["/contact"],
-    "tags": ["where", "based", "location", "kerala", "india", "from"]
+    "tags": ["where", "based", "location", "kerala", "kollam", "india", "from"]
   },
   {
     "q": "How can I contact Anita?",
-    "a": "Through GitHub (AnitaGeorge404), LinkedIn (anita-george-8b8334326), or her portfolio at anitageorge.vercel.app. There is no contact form on this site — she prefers letters to forms.",
+    "a": "Email: anitageorge1806@gmail.com. GitHub: github.com/AnitaGeorge404. LinkedIn: linkedin.com/in/anita-george-8b8334326. Portfolio: anitageorge.vercel.app.",
     "related": ["/contact"],
-    "tags": ["contact", "email", "reach", "hire", "message", "social"]
+    "tags": ["contact", "email", "reach", "hire", "message", "social", "github", "linkedin"]
   },
   {
-    "q": "What is Anita studying?",
-    "a": "She is a B.Tech Computer Science undergraduate at IIIT Kottayam. Her interests within CS are AI, graph theory, and the design of humane systems.",
-    "related": ["/"],
-    "tags": ["study", "studying", "college", "university", "iiit", "kottayam", "school"]
+    "q": "What is VantaAI?",
+    "a": "An image-based abuse and deepfake detection platform combining computer-vision and NLP classification pipelines behind a scalable REST API. Inference-pipeline optimizations achieved approximately 30% latency improvement. Hackathon-recognized.",
+    "related": ["/projects/vantaai"],
+    "tags": ["vanta", "vantaai", "what", "deepfake", "detection", "abuse", "safety"]
   },
   {
-    "q": "What inspires Anita's work?",
-    "a": "Vintage botanical scans, magazine spreads from the 1990s, the work of Bret Victor, scrapbook composition, and a long Are.na board. She thinks engineering should feel handmade.",
-    "related": ["/images", "/research"],
-    "tags": ["inspire", "inspiration", "influences", "moodboard", "aesthetic"]
+    "q": "What is DelAI?",
+    "a": "A graph-based route optimization system using weighted graph modeling and shortest-path algorithms, with a multi-objective heuristic that achieved approximately 20% improvement in route efficiency. Hackathon-winning project.",
+    "related": ["/projects/delai"],
+    "tags": ["delai", "what", "route", "routing", "graph", "optimization"]
   },
   {
     "q": "What is fAImer?",
-    "a": "A farmer-facing AI assistant that diagnoses crop disease from photos and recommends region-specific interventions in the local language. Built for low-end Android phones with patchy connectivity.",
+    "a": "A smart farming assistant with ML-based crop disease detection, expense tracking, market insights, multilingual UI, and offline-first support — designed for low-connectivity rural contexts.",
     "related": ["/projects/faimer"],
-    "tags": ["faimer", "what", "farm", "agriculture", "crop"]
+    "tags": ["faimer", "what", "farm", "agriculture", "crop", "offline", "multilingual"]
+  },
+  {
+    "q": "What is LawGorithm?",
+    "a": "A scam detection and risk-analysis platform using NLP-based detection, algorithmic risk scoring, and REST APIs to surface safety alerts.",
+    "related": ["/projects/lawgorithm"],
+    "tags": ["lawgorithm", "what", "scam", "fraud", "risk", "nlp", "safety"]
   },
   {
     "q": "What is StudyBee?",
-    "a": "A focus app shaped like a notebook. StudyBee replaces gamified streaks with quiet rituals — one page, one intention, one hour. Offline-first and accountless.",
+    "a": "An AI study assistant that generates structured notes, quizzes, and formula sheets from source material. Internal use measured approximately 40% reduction in preparation time.",
     "related": ["/projects/studybee"],
-    "tags": ["studybee", "what", "study", "focus", "productivity"]
+    "tags": ["studybee", "what", "study", "notes", "quiz", "education"]
   },
   {
-    "q": "What kind of future does Anita want to build?",
-    "a": "One where software feels like it was made by a person. More pauses, fewer notifications. AI that doesn't pretend to be a friend but doesn't pretend it isn't one either. A slower, softer internet.",
-    "related": ["/research"],
-    "tags": ["future", "build", "want", "dream", "vision"]
-  },
-  {
-    "q": "What does Anita think about at 2am?",
-    "a": "Graph theory. The geometry of attention. Whether AI can be tender. Whether her side projects are art or research or therapy. Usually all four.",
-    "related": ["/archive", "/ai-mode"],
-    "tags": ["2am", "midnight", "night", "thinking", "thoughts"]
+    "q": "What is NeuroBridge?",
+    "a": "An adaptive support platform for neurodivergent users (Feb 2026 – present). Modular accessibility tools including Routine Visualizer, Sensory Regulation, Social Story Builder, Emotional Check-in, Focus Sessions, and Visual Timelines. ASD and ADHD support surfaces, accessibility-first UX, and emotionally aware interaction design. Actively evolving — not fully deployed or medically certified.",
+    "related": ["/projects/neurobridge"],
+    "tags": ["neurobridge", "what", "adaptive", "neurodivergent", "asd", "adhd", "accessibility"]
   }
 ]

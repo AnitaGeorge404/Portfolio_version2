@@ -110,11 +110,11 @@ export default function ProjectDetail() {
             </div>
           </ResultCard>
           <ResultCard
-            url={`anita.dev › projects › ${project.slug} › failures`}
-            title="what almost broke me"
-            snippet={project.failures}
-            meta={<><Marker n={3} /><span>chapter 3 · iterations</span></>}
-            footer="a love letter, in three rewrites."
+            url={`anita.dev › projects › ${project.slug} › outcomes`}
+            title="what came out of it"
+            snippet={project.outcomes || project.failures || ""}
+            meta={<><Marker n={3} /><span>chapter 3 · outcomes & status</span></>}
+            footer={project.status ? `status: ${project.status}` : undefined}
           />
 
           {/* related searches */}

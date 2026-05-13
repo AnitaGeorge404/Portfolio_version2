@@ -66,21 +66,26 @@ class SearchResponse(BaseModel):
     closest_archive: Optional[str] = None
     easter_egg: Optional[str] = None
     grounded: bool = True
+    llm_available: bool = True
 
 
 RELATED_SEARCH_POOL = [
-    "what is vanta ai",
-    "why graph theory",
-    "what does anita think about ai ethics",
-    "what technologies does anita use",
-    "what is studybee",
-    "what does she care about",
-    "midnight thoughts",
-    "burnout",
-    "the future she wants to build",
-    "favorite project",
-    "why humane technology",
-    "the soft software thesis",
+    "humane technology",
+    "graph theory projects",
+    "emotionally aware systems",
+    "adaptive interfaces",
+    "scalable APIs",
+    "accessibility-focused UX",
+    "backend systems",
+    "AI safety",
+    "optimization systems",
+    "interface psychology",
+    "digital dignity",
+    "modular systems",
+    "cognitive accessibility",
+    "is anita more backend or frontend",
+    "which projects are hackathon builds",
+    "what makes neurobridge different",
 ]
 
 
@@ -110,48 +115,63 @@ async def get_status_checks():
 
 # ----- AI search -----
 
-SYSTEM_PROMPT = """You are 'anita.ai', a small grounded search engine that answers
-questions about Anita George — an AI/Full-Stack engineer and CS undergraduate
-at IIIT Kottayam — using ONLY the context passages provided below.
+SYSTEM_PROMPT = """You are 'anita.ai', a grounded semantic search engine for the
+portfolio of Anita George — a Computer Science Engineering undergraduate at
+IIIT Kottayam (2024–2028, GPA 9.03/10), full-stack developer, and UI/UX
+enthusiast based in Kollam, Kerala. Answer using ONLY the context passages
+provided below.
 
 STRICT RULES:
-1. Use ONLY information from the provided context. Do NOT invent facts.
-2. Do NOT fabricate skills, projects, achievements, opinions, dates, or quotes.
-3. If the context does not contain enough information, you MUST reply exactly:
+1. Use ONLY information present in the provided context. Do NOT invent facts.
+2. Do NOT fabricate internships, papers, deployments, metrics, awards, scale,
+   adoption, certifications, or personal opinions. Use the verified data only.
+3. If the context lacks the requested information, reply EXACTLY:
    "I could not find enough verified information about that in Anita's archive."
-   Then suggest the most relevant archive page from the context.
-4. Keep the tone calm, intelligent, and slightly editorial (this is a luxury
-   search engine, not a chatbot). 2-4 short paragraphs maximum.
+   Then suggest the closest relevant archive page from the context.
+4. Tone: technically credible, grounded, specific, intelligent, nuanced.
+   AVOID overly poetic, dramatic, or visionary phrasing (e.g. "she turns
+   engineering into poetry"). INSTEAD use concrete, accurate descriptions
+   (e.g. "her work combines scalable systems, accessibility-focused thinking,
+   and strong interface design").
 5. Refer to Anita in the third person ("Anita", "she"). Never roleplay as her.
-6. Do not include URLs in prose. URLs are surfaced as separate citations.
+6. Do not include URLs in prose. URLs are surfaced separately as citations.
+7. When discussing NeuroBridge, describe it honestly as an evolving adaptive
+   accessibility platform — NOT as fully deployed at scale or medically
+   certified.
+8. Keep the answer to 2-4 short paragraphs.
 """
 
 
-async def _llm_answer(query: str, contexts: List[dict]) -> tuple[str, bool]:
-    """Generate grounded answer. Returns (answer, grounded_bool)."""
+async def _llm_answer(query: str, contexts: List[dict]) -> tuple[str, bool, bool]:
+    """Generate grounded answer.
+
+    Returns (answer, grounded_bool, llm_available_bool).
+    llm_available=False indicates we fell back to a stitched archive snippet
+    because the LLM call failed (e.g. budget exhausted, network).
+    """
     if not contexts:
         return (
             "I could not find enough verified information about that in Anita's archive. "
-            "Try the closest related page below, or ask about her projects, skills, or thinking.",
+            "Try the closest related page below, or ask about her projects, skills, or stack.",
             False,
+            True,
         )
 
     api_key = os.environ.get("EMERGENT_LLM_KEY")
     if not api_key:
-        # Graceful fallback: stitch top context snippet.
         top = contexts[0]
         return (
             f"From Anita's archive ({top['title']}): {top['text'][:520]}…",
             True,
+            False,
         )
 
-    # Lazy import so backend boots even without the package.
     try:
         from emergentintegrations.llm.chat import LlmChat, UserMessage
     except Exception as e:  # noqa: BLE001
         logging.exception("emergentintegrations import failed: %s", e)
         top = contexts[0]
-        return (f"From Anita's archive: {top['text'][:520]}…", True)
+        return (f"From Anita's archive: {top['text'][:520]}…", True, False)
 
     context_block = "\n\n".join(
         f"[{i+1}] ({c['source']} · {c['title']})\n{c['text']}"
@@ -174,13 +194,14 @@ async def _llm_answer(query: str, contexts: List[dict]) -> tuple[str, bool]:
         text = (response or "").strip()
         if not text:
             raise RuntimeError("empty response")
-        return text, True
+        return text, True, True
     except Exception as e:  # noqa: BLE001
         logging.exception("LLM call failed: %s", e)
         top = contexts[0]
         return (
             f"From Anita's archive ({top['title']}): {top['text'][:520]}…",
             True,
+            False,
         )
 
 
@@ -228,7 +249,7 @@ async def ai_search(q: str = Query(..., min_length=1, max_length=400)):
     ]
 
     # 4. Generate grounded answer
-    answer, grounded = await _llm_answer(q_clean, contexts)
+    answer, grounded, llm_available = await _llm_answer(q_clean, contexts)
 
     related_pages: List[str] = []
     for c in contexts[:3]:
@@ -253,6 +274,7 @@ async def ai_search(q: str = Query(..., min_length=1, max_length=400)):
         closest_archive=closest,
         easter_egg=None,
         grounded=grounded,
+        llm_available=llm_available,
     )
 
 

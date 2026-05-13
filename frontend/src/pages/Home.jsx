@@ -53,8 +53,9 @@ export default function Home() {
             <Squiggle width={260} />
           </div>
           <p className="mt-5 font-sans text-base sm:text-lg text-ink-soft max-w-xl mx-auto animate-fade-up delay-300">
-            <span className="font-hand text-2xl text-plum">a digital diary</span> dressed as a search engine —
-            projects, obsessions, and internet traces of a 20-year-old engineer building soft, honest software.
+            <span className="font-hand text-2xl text-plum">a search engine</span> for one person's
+            engineering practice — projects, repositories, themes, and interests of a CS undergraduate
+            building accessible, systems-level software.
           </p>
 
           <div className="mt-10 animate-fade-up delay-400">
@@ -66,7 +67,7 @@ export default function Home() {
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-lavender bg-white/70 backdrop-blur text-[12px] text-ink font-sans">
               <Sparkles size={12} className="text-sage" />
               <span className="text-plum">AI overview:</span>
-              <span className="text-ink-soft">elite engineer with editorial taste</span>
+              <span className="text-ink-soft">full-stack · graphs · accessibility-first UX</span>
             </div>
           </div>
 
@@ -190,15 +191,17 @@ export default function Home() {
               <dl className="mt-4 grid grid-cols-3 gap-y-3 text-sm">
                 <dt className="col-span-1 text-plum text-[11px] uppercase tracking-[0.2em]">role</dt>
                 <dd className="col-span-2 text-ink">{profile.role}</dd>
-                <dt className="col-span-1 text-plum text-[11px] uppercase tracking-[0.2em]">study</dt>
-                <dd className="col-span-2 text-ink">{profile.studying}</dd>
+                <dt className="col-span-1 text-plum text-[11px] uppercase tracking-[0.2em]">degree</dt>
+                <dd className="col-span-2 text-ink">{profile.degree}</dd>
+                <dt className="col-span-1 text-plum text-[11px] uppercase tracking-[0.2em]">at</dt>
+                <dd className="col-span-2 text-ink">{profile.universityShort} · {profile.years}</dd>
+                <dt className="col-span-1 text-plum text-[11px] uppercase tracking-[0.2em]">gpa</dt>
+                <dd className="col-span-2 text-ink font-mono">{profile.gpa}</dd>
                 <dt className="col-span-1 text-plum text-[11px] uppercase tracking-[0.2em]">based</dt>
                 <dd className="col-span-2 text-ink">{profile.location}</dd>
-                <dt className="col-span-1 text-plum text-[11px] uppercase tracking-[0.2em]">she/her</dt>
-                <dd className="col-span-2 text-ink-soft italic">— softly online</dd>
               </dl>
               <div className="mt-4 pt-4 border-t border-[var(--border-soft)] flex flex-wrap gap-2">
-                {["AI", "Graphs", "Soft UX", "Editorial"].map((t) => (
+                {["Full-Stack", "Graphs", "Accessibility", "UI/UX"].map((t) => (
                   <span key={t} className="px-2.5 py-1 text-[11px] uppercase tracking-[0.2em] bg-tag border border-[var(--border-soft)] rounded-full text-plum">{t}</span>
                 ))}
               </div>
@@ -237,8 +240,8 @@ export default function Home() {
             {/* internet traces */}
             <div className="relative bg-paper border border-[var(--border-soft)] rounded-2xl p-6" data-testid="internet-traces-panel">
               <div className="flex items-center justify-between">
-                <div className="text-[10px] uppercase tracking-[0.3em] text-plum">internet traces</div>
-                <span className="font-hand text-plum text-base">— fake history</span>
+                <div className="text-[10px] uppercase tracking-[0.3em] text-plum">recent tabs</div>
+                <span className="font-hand text-plum text-base">— learning + building</span>
               </div>
               <ul className="mt-3 divide-y divide-[var(--border-soft)] text-sm">
                 {internetTraces.slice(0, 6).map((t) => (
@@ -287,29 +290,32 @@ export default function Home() {
               />
             </div>
             <div className="absolute -bottom-6 -right-4 bg-paper border border-[var(--border-soft)] px-3 py-2 font-hand text-plum text-lg rotate-[3deg]">
-              kerala, 2am
+              kollam · kerala
             </div>
             <Sparkle className="absolute -top-6 -left-6" size={22} />
           </div>
           <div className="lg:col-span-7">
             <div className="text-[10px] uppercase tracking-[0.3em] text-plum">field notes · about me</div>
             <h2 className="font-serif text-5xl sm:text-6xl text-ink leading-[0.95] mt-2">
-              i'm <span className="italic">anita</span> —<br /> i write code like letters.
+              i'm <span className="italic">anita</span> —<br /> i build across the full stack.
             </h2>
             <Quote size={22} className="text-plum mt-4" />
             <p className="mt-3 font-serif italic text-xl text-ink-soft leading-relaxed max-w-xl">
-              I build software the way other people keep journals. The systems I make are small,
-              honest, and quietly opinionated. I think the internet can still be a tender place,
-              if we let it.
+              Computer Science Engineering undergraduate at IIIT Kottayam. I work across backend
+              systems, frontend interfaces, and algorithmic foundations — with a particular
+              interest in humane technology, accessibility-first UX, and graph-based optimization.
             </p>
             <div className="mt-6 grid grid-cols-2 sm:grid-cols-3 gap-4 max-w-xl">
               {[
-                { k: "studying", v: "IIIT Kottayam" },
-                { k: "current", v: "VantaAI · fAImer" },
-                { k: "reading", v: "Bret Victor" },
-                { k: "listening", v: "phoebe bridgers" },
-                { k: "drinking", v: "filter coffee" },
-                { k: "wanting", v: "to ship one tiny tool a month" },
+                { k: "degree", v: "B.Tech CSE" },
+                { k: "at", v: "IIIT Kottayam" },
+                { k: "years", v: profile.years },
+                { k: "gpa", v: profile.gpa },
+                { k: "based", v: "Kollam, Kerala" },
+                { k: "stack", v: "Python · React · FastAPI" },
+                { k: "dsa", v: "400+ problems" },
+                { k: "wins", v: "TinkHack · Girlathon" },
+                { k: "certs", v: "IBM · Meta · Google" },
               ].map((m) => (
                 <div key={m.k}>
                   <div className="text-[10px] uppercase tracking-[0.3em] text-plum">{m.k}</div>
