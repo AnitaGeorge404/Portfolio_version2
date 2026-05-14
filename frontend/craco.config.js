@@ -37,6 +37,15 @@ let webpackConfig = {
       '@': path.resolve(__dirname, 'src'),
     },
     configure: (webpackConfig) => {
+      if (!isDevServer) {
+        webpackConfig.devtool = false;
+
+        for (const minimizer of webpackConfig.optimization?.minimizer || []) {
+          if (minimizer.constructor?.name === "TerserPlugin") {
+            minimizer.options.parallel = false;
+          }
+        }
+      }
 
       // Add ignored patterns to reduce watched directories
         webpackConfig.watchOptions = {
