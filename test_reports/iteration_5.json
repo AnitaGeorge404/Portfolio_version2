@@ -1,0 +1,43 @@
+{
+  "summary": "Iteration 5 end-to-end test of v2.0.0 Gemini conversational RAG sync. Backend: 9/9 pytest tests pass. /api/ (mode=conversational-rag, chunks=65, projects=6, repos=7, themes=6, relationships=8) and /api/ai/stats (gemini_configured=true, primary_model=gemini-2.5-flash, faq_entries=23) correct. /api/ai/chat returns llm_available=true with grounded answers for NeuroBridge (mentions Routine Visualizer + ASD/ADHD, sources include NeuroBridge), DelAI (graph-theory query cites DelAI), and politely redirects out-of-scope query ('barack obama'). POST /api/ai/search and legacy GET both return identical SearchResponse shape. Conversational memory works when messages array is passed in the body (pronoun 'it' correctly resolved -> NeuroBridge with StudyBee comparison). Frontend: /ai-mode UI renders with 'AI Mode' title, LIVE ARCHIVE THREAD card, MEMORY sidebar, archive index (65 passages/6 projects/7 repos/6 themes), starter questions trigger /api/ai/chat (12s Gemini latency observed), follow-up via bottom input persists session and yields conversational follow-up that mentions both NeuroBridge AND StudyBee. Memory sidebar populates with project trail (NeuroBridge, fAImer, VantaAI) and earlier-question breadcrumb. Home (4 PAA questions), /work (all 6 slugs), /research (DSA + certifications), /contact (email + GitHub + LinkedIn) all render correctly. Mobile overflow at 375x812 is now 0px on /, /work, /ai-mode, /projects/neurobridge (previously 15/4/4/4) -- fully fixed. Zero console errors across all pages. All iteration-4 frontend bugs appear resolved.",
+  "backend_issues": {
+    "critical": [],
+    "minor": [
+      {
+        "endpoint": "/api/ai/chat",
+        "issue": "API contract mismatch with review spec: spec says body shape is {q, session_id}, but Pydantic SearchRequest has only {q, conversationId, messages[]}. There is NO server-side session_id-keyed memory store; conversation history is supplied per-request via the `messages` array. Memory works only because the frontend re-sends the running messages list each call. If a client sends only session_id with no messages, the second turn has NO context. This is fine in practice (frontend AIMode.jsx does send messages) but the review spec language is misleading. Recommend either (a) adding a `session_id` field that maps to in-memory history store, or (b) updating spec wording to clarify it's frontend-managed conversation state."
+      }
+    ]
+  },
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": []
+  },
+  "test_report_links": [
+    "/app/backend/tests/test_iteration5.py",
+    "/app/test_reports/pytest/iteration_5.xml"
+  ],
+  "action_items": [
+    "(Optional) Clarify whether session_id should be a real backend-tracked field or remain a frontend-managed convention. Currently AIMode.jsx must keep the messages[] array client-side; any client that follows the review spec literally (sending only q+session_id) will get NO conversational memory."
+  ],
+  "critical_code_review_comments": [
+    "SearchRequest model accepts `conversationId` and `messages[]`, but the review spec advertises `session_id`. Extra fields will be silently rejected by Pydantic unless model_config allows extras -- verify frontend is actually sending messages (not just session_id). [Confirmed working in /ai-mode UI test.]",
+    "_gemini_answer truncated-JSON regex fallback (lines 604-609) is good defensive code -- max_output_tokens bumped from 900 to 2048, plus regex recovery for the answer field. Solid fix.",
+    "Conversation memory is fully client-side -- there is no server cache. This means horizontal scaling is easy but token cost grows linearly with conversation length since the full transcript is re-sent each turn. Consider summarising older turns once messages exceed ~10 entries."
+  ],
+  "updated_files": [
+    "/app/backend/tests/test_iteration5.py",
+    "/app/test_reports/iteration_5.json"
+  ],
+  "success_rate": {
+    "backend": "100% (9/9 pytest -- TestKB 2/2, TestAIChat 5/5, TestMemory 2/2)",
+    "frontend": "100% (all pages render, all integrations work, mobile overflow=0 on all tested viewports, 0 console errors)"
+  },
+  "test_credentials": "N/A - no auth in this app",
+  "seed_data_creation": "None",
+  "retest_needed": false,
+  "main_agent_can_self_test": true,
+  "context_for_next_testing_agent": "v2.0.0 sync is healthy. Backend test file: /app/backend/tests/test_iteration5.py (run via: pytest /app/backend/tests/test_iteration5.py -v). Gemini calls take ~3-12s -- pytest timeout=45s is comfortable. KB stats: chunks=65, projects=6, repos=7, themes=6, relationships=8, faq=23, easter_eggs=7. Confirmed: AI Mode UI at /ai-mode includes ARCHIVE INDEX sidebar, MEMORY sidebar with project trail, SEMANTIC GRAPH with relationships, follow-up searches as chips, citations panel, continuous-thread input with confidence pct. Conversational memory verified end-to-end (both backend pytest AND frontend Playwright: starter 'Tell me about NeuroBridge' then bottom-input follow-up 'how is it different from StudyBee?' returns answer mentioning both projects). All iteration-4 mobile-overflow issues (15px/4px/4px/4px at 375w) are now 0px. All iteration-4 react-key warnings appear resolved (0 console errors during full traversal of /, /work, /research, /contact, /ai-mode, /projects/neurobridge). Note: backend API spec mismatch -- session_id is NOT a backend field; memory requires sending messages[] array per request.",
+  "rca of the issue": "No blocking issues found. The only finding is a documentation/spec mismatch: the review request describes the API as session_id-based, but SearchRequest accepts conversationId + messages[] instead. The frontend AIMode.jsx correctly sends messages[] so end-user experience is unaffected. Iteration-4 known issues (closest_archive fallback, PhD guard prefix, react duplicate keys, mobile overflow, status pill, connected-obsessions panel) all appear to be addressed -- 0 console errors and 0 mobile overflow observed in this iteration."
+}

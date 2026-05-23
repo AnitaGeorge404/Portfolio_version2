@@ -1,0 +1,58 @@
+[
+  {
+    "name": "anita-s-internet-brain",
+    "kind": "active experiment",
+    "url": "https://github.com/AnitaGeorge404/",
+    "description": "An evolving experiment in editorial portfolio and search-engine UX; design-first and architecture-evolving.",
+    "themes": ["semantic archive interface", "search experience", "portfolio systems"],
+    "relatedProjects": []
+  },
+  {
+    "name": "anita-s-digital-archive",
+    "kind": "active experiment",
+    "url": "https://github.com/AnitaGeorge404/",
+    "description": "A digital archive concept and interface study around personal knowledge surfaces.",
+    "themes": ["semantic archive interface", "knowledge systems", "interface psychology"],
+    "relatedProjects": []
+  },
+  {
+    "name": "Portfolio_version2 / Pv2",
+    "kind": "interface study",
+    "url": "https://github.com/AnitaGeorge404/",
+    "description": "Iterative portfolio rebuilds exploring different visual systems and content structures.",
+    "themes": ["portfolio systems", "visual systems", "component architecture"],
+    "relatedProjects": []
+  },
+  {
+    "name": "Wrapped",
+    "kind": "design exploration",
+    "url": "https://github.com/AnitaGeorge404/",
+    "description": "A small year-in-review-style design exploration.",
+    "themes": ["visual systems", "interface design"],
+    "relatedProjects": []
+  },
+  {
+    "name": "Neurobridge / Neurobridge_V2",
+    "kind": "ongoing system",
+    "url": "https://github.com/AnitaGeorge404/",
+    "description": "Architectural iterations on the NeuroBridge adaptive accessibility platform.",
+    "themes": ["accessibility and adaptive interfaces", "modular architecture", "humane technology"],
+    "relatedProjects": ["neurobridge"]
+  },
+  {
+    "name": "Lume",
+    "kind": "design-focused build",
+    "url": "https://github.com/AnitaGeorge404/",
+    "description": "A design-focused build for interface and visual-system exploration.",
+    "themes": ["interface psychology", "visual systems"],
+    "relatedProjects": []
+  },
+  {
+    "name": "IndigoInForm / Indigo_admin",
+    "kind": "evolving project",
+    "url": "https://github.com/AnitaGeorge404/",
+    "description": "Form-system and admin-surface iterations; frontend and component-architecture explorations.",
+    "themes": ["component architecture", "admin systems", "frontend engineering"],
+    "relatedProjects": []
+  }
+]

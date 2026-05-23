@@ -9,7 +9,8 @@ import { Sparkle, Squiggle, HandArrow, Sprig, Rose, Tape, Marker, HandAsterisk, 
 import { Sparkles, ArrowUpRight, Bookmark, Quote } from "lucide-react";
 import { profile, aiOverview, projects, peopleAlsoAsk, experience, skills, internetTraces, obsessions } from "@/data/portfolio";
 
-const API = `${process.env.REACT_APP_BACKEND_URL}/api`;
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || "";
+const API = BACKEND_URL ? `${BACKEND_URL}/api` : "/api";
 
 const fallbackPAA = peopleAlsoAsk.slice(0, 4).map((p) => ({
   q: p.q,

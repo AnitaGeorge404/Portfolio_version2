@@ -1,0 +1,70 @@
+{
+  "version": 1,
+  "strategy": "curated lightweight semantic aliases; no live GitHub scraping and no runtime embedding API required",
+  "concepts": [
+    {
+      "id": "accessibility",
+      "label": "accessibility and adaptive interfaces",
+      "weight": 1.45,
+      "aliases": ["accessibility", "accessible", "inclusive", "screen reader", "screen readers", "wcag", "keyboard navigation", "adaptive ux", "adaptive interface", "adaptive interfaces", "cognitive accessibility", "neurodivergent", "asd", "adhd", "calm interfaces"],
+      "relatedProjects": ["neurobridge", "faimer"],
+      "relatedThemes": ["humane technology", "interface psychology", "cognitive accessibility"]
+    },
+    {
+      "id": "humane",
+      "label": "humane technology",
+      "weight": 1.35,
+      "aliases": ["humane", "humane technology", "emotional safety", "digital dignity", "harm reduction", "online safety", "protective systems", "ethical ai", "calm", "safer"],
+      "relatedProjects": ["neurobridge", "vantaai", "faimer", "lawgorithm"],
+      "relatedThemes": ["accessibility and adaptive interfaces", "AI safety and practical ML"]
+    },
+    {
+      "id": "backend",
+      "label": "backend systems and scalable APIs",
+      "weight": 1.25,
+      "aliases": ["backend", "api", "apis", "rest", "rest api", "rest apis", "fastapi", "express", "node", "scalable api", "scalable apis", "service", "services", "modular backend"],
+      "relatedProjects": ["vantaai", "lawgorithm", "faimer"],
+      "relatedThemes": ["modular architecture", "optimization systems"]
+    },
+    {
+      "id": "graph",
+      "label": "graph theory and optimization",
+      "weight": 1.4,
+      "aliases": ["graph", "graphs", "graph theory", "optimization", "routing", "route optimization", "shortest path", "weighted graph", "algorithm", "algorithms", "dsa", "codeforces", "leetcode"],
+      "relatedProjects": ["delai"],
+      "relatedThemes": ["systems engineering", "backend systems and scalable APIs"]
+    },
+    {
+      "id": "ai",
+      "label": "AI safety and practical ML",
+      "weight": 1.2,
+      "aliases": ["ai", "artificial intelligence", "machine learning", "ml", "computer vision", "nlp", "classification", "deepfake", "risk analysis", "crop disease", "study assistant"],
+      "relatedProjects": ["vantaai", "lawgorithm", "faimer", "studybee"],
+      "relatedThemes": ["humane technology", "backend systems and scalable APIs"]
+    },
+    {
+      "id": "interface",
+      "label": "interface psychology",
+      "weight": 1.18,
+      "aliases": ["interface", "interfaces", "ui", "ux", "ui ux", "design", "component architecture", "visual systems", "responsive design", "emotionally aware ux", "interaction design"],
+      "relatedProjects": ["neurobridge", "studybee", "faimer"],
+      "relatedThemes": ["accessibility and adaptive interfaces", "humane technology"]
+    },
+    {
+      "id": "repository",
+      "label": "repository relationships",
+      "weight": 1.3,
+      "aliases": ["repo", "repos", "repository", "repositories", "github", "active experiment", "interface study", "maturity", "production"],
+      "relatedProjects": ["neurobridge"],
+      "relatedThemes": ["semantic archive interface", "project maturity"]
+    }
+  ],
+  "projectAliases": {
+    "vantaai": ["vanta", "vanta ai", "deepfake detection", "image based abuse"],
+    "delai": ["del ai", "route optimization", "routing system"],
+    "faimer": ["fAImer", "farmer", "smart farming", "crop disease"],
+    "lawgorithm": ["law algorithm", "scam detection", "risk analysis"],
+    "studybee": ["study bee", "study assistant", "notes quizzes"],
+    "neurobridge": ["neuro bridge", "adaptive support", "neurodivergent platform", "asd adhd"]
+  }
+}

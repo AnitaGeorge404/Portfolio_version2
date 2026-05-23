@@ -1,361 +1,616 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import axios from "axios";
-import { Sparkles, Search, ArrowUpRight, ExternalLink, Bookmark, BookOpen, Quote } from "lucide-react";
-import { Squiggle, Sparkle, Rose, Tape, Sprig, HandArrow, Marker } from "@/components/Decorations";
+import {
+  ArrowUpRight,
+  BookOpen,
+  BrainCircuit,
+  CornerDownLeft,
+  ExternalLink,
+  FileSearch,
+  GitBranch,
+  History,
+  Layers,
+  MessageSquareText,
+  Network,
+  Search,
+  SendHorizontal,
+  ShieldCheck,
+  Sparkles,
+  UserRound,
+} from "lucide-react";
+import { Marker, Rose, Sparkle, Sprig, Squiggle, Tape } from "@/components/Decorations";
 import PeopleAlsoAskInline from "@/components/PeopleAlsoAskInline";
+import { buildLocalArchiveResponse, normalizeArchiveResponse } from "@/utils/archiveSearch";
 
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
-const API = `${BACKEND_URL}/api`;
+const BACKEND_URL = (process.env.REACT_APP_BACKEND_URL || "").replace(/\/$/, "");
+const API = BACKEND_URL ? `${BACKEND_URL}/api` : "/api";
 
 const STARTER_QUESTIONS = [
-  "What kind of engineer is Anita?",
-  "What is NeuroBridge?",
-  "Why does graph theory appear in her work?",
-  "Is she more backend or frontend focused?",
-  "What technologies does she use?",
-  "Which projects focus on accessibility?",
-  "Which projects are hackathon builds?",
+  "Tell me about NeuroBridge.",
+  "How does accessibility connect across her projects?",
+  "Compare VantaAI and NeuroBridge.",
+  "Which repositories are active experiments?",
+  "Why does graph theory matter in her work?",
+  "Is Anita more backend or frontend focused?",
 ];
 
-const EGG_HINTS = ["best project", "favorite project", "github", "linkedin", "future"];
+const DEFAULT_STAGES = [
+  "analyzing archive intent",
+  "retrieving project evidence",
+  "connecting themes",
+  "retrieving related repositories",
+  "checking citation strength",
+  "synthesizing grounded response",
+];
 
-function IndexingBar({ stats }) {
-  return (
-    <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-[10px] uppercase tracking-[0.3em] text-plum">
-      <span className="inline-flex items-center gap-1.5">
-        <span className="w-1.5 h-1.5 rounded-full bg-sage animate-pulse" />
-        indexed {stats?.chunks ?? 20} archive passages
-      </span>
-      <span className="text-brown">·</span>
-      <span>{stats?.vocab ?? 532} tokens</span>
-      <span className="text-brown">·</span>
-      <span>grounded retrieval · no hallucinations</span>
-    </div>
-  );
+function makeId(prefix) {
+  if (window.crypto?.randomUUID) return `${prefix}-${window.crypto.randomUUID()}`;
+  return `${prefix}-${Date.now()}-${Math.random().toString(16).slice(2)}`;
 }
 
 function TypingDots() {
   return (
-    <span className="inline-flex gap-1 items-end" aria-label="loading">
-      <span className="w-1.5 h-1.5 bg-plum/70 rounded-full animate-pulse" />
-      <span className="w-1.5 h-1.5 bg-plum/70 rounded-full animate-pulse" style={{ animationDelay: "0.18s" }} />
-      <span className="w-1.5 h-1.5 bg-plum/70 rounded-full animate-pulse" style={{ animationDelay: "0.36s" }} />
+    <span className="inline-flex items-end gap-1" aria-label="loading">
+      <span className="w-1.5 h-1.5 rounded-full bg-plum/70 animate-pulse" />
+      <span className="w-1.5 h-1.5 rounded-full bg-plum/70 animate-pulse" style={{ animationDelay: "0.16s" }} />
+      <span className="w-1.5 h-1.5 rounded-full bg-plum/70 animate-pulse" style={{ animationDelay: "0.32s" }} />
     </span>
+  );
+}
+
+function ArchiveLink({ page, className = "" }) {
+  if (!page?.url) return null;
+  const content = (
+    <>
+      <span className="truncate">{page.title || page.url}</span>
+      {page.url.startsWith("http") ? <ExternalLink size={12} /> : <ArrowUpRight size={12} />}
+    </>
+  );
+
+  if (page.url.startsWith("http")) {
+    return (
+      <a href={page.url} target="_blank" rel="noreferrer" className={`inline-flex min-w-0 items-center gap-1 link-soft ${className}`}>
+        {content}
+      </a>
+    );
+  }
+
+  return (
+    <Link to={page.url} className={`inline-flex min-w-0 items-center gap-1 link-soft ${className}`}>
+      {content}
+    </Link>
+  );
+}
+
+function SignalStrip({ stats }) {
+  return (
+    <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-[10px] uppercase tracking-[0.26em] text-plum">
+      <span className="inline-flex items-center gap-1.5">
+        <span className="h-1.5 w-1.5 rounded-full bg-sage animate-pulse" />
+        {stats?.chunks ?? 65} archive passages
+      </span>
+      <span>{stats?.projects ?? 6} projects</span>
+      <span>{stats?.repositories ?? 7} repositories</span>
+      <span>{stats?.mode || "conversational-rag"}</span>
+    </div>
+  );
+}
+
+function StageRail({ loading, activeStage, result }) {
+  const stages = result?.analysisStages?.length ? result.analysisStages : DEFAULT_STAGES;
+  return (
+    <div className="grid grid-cols-2 lg:grid-cols-6 gap-2" data-testid="semantic-analysis-states">
+      {stages.slice(0, 6).map((stage, index) => {
+        const isActive = loading && stage === activeStage;
+        return (
+          <div key={`${stage}-${index}`} className="border border-[var(--border-soft)] bg-white/65 px-3 py-2 min-h-[68px]">
+            <div className="flex items-center gap-2 text-[10px] uppercase tracking-[0.18em] text-plum">
+              <span className={`h-1.5 w-1.5 rounded-full ${isActive ? "bg-sage animate-pulse" : "bg-brown"}`} />
+              {String(index + 1).padStart(2, "0")}
+            </div>
+            <div className="mt-2 text-xs leading-snug text-ink-soft">{stage}</div>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+function UserMessage({ message }) {
+  return (
+    <article className="flex justify-end" data-testid="ai-user-message">
+      <div className="max-w-[86%] sm:max-w-[72%] bg-ink text-paper px-4 py-3 rounded-sm shadow-[0_16px_34px_-28px_rgba(45,42,38,0.55)]">
+        <div className="mb-1 flex items-center justify-end gap-1.5 text-[10px] uppercase tracking-[0.2em] text-paper/70">
+          you <UserRound size={11} />
+        </div>
+        <p className="text-[15px] leading-relaxed">{message.content}</p>
+      </div>
+    </article>
+  );
+}
+
+function ProjectCards({ projects = [], onAsk }) {
+  if (!projects.length) return null;
+  return (
+    <div className="mt-5 grid grid-cols-1 md:grid-cols-2 gap-3" data-testid="related-project-cards">
+      {projects.slice(0, 4).map((project) => (
+        <div key={project.slug} className="bg-paper/80 border border-[var(--border-soft)] p-4">
+          <div className="flex items-start justify-between gap-3">
+            <div className="min-w-0">
+              <ArchiveLink page={{ title: project.name, url: project.url }} className="font-serif text-xl text-ink" />
+              <p className="mt-1 text-xs uppercase tracking-[0.18em] text-plum">{project.status}</p>
+            </div>
+            <button type="button" onClick={() => onAsk(`Go deeper on ${project.name}.`)} className="btn-soft shrink-0 p-2" aria-label={`Go deeper on ${project.name}`}>
+              <ArrowUpRight size={14} />
+            </button>
+          </div>
+          <p className="mt-2 text-sm leading-relaxed text-ink-soft">{project.reason}</p>
+          <div className="mt-3 flex flex-wrap gap-1.5">
+            {(project.themes || []).slice(0, 3).map((theme) => (
+              <span key={theme} className="bg-white/75 border border-[var(--border-soft)] px-2 py-0.5 text-[11px] text-plum">
+                {theme}
+              </span>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function SemanticGraph({ connections = [] }) {
+  if (!connections.length) return null;
+  return (
+    <div className="mt-5 border border-[var(--border-soft)] bg-warm/45 p-4 grid-paper" data-testid="semantic-graph">
+      <div className="mb-3 flex items-center gap-2 text-[10px] uppercase tracking-[0.26em] text-plum">
+        <Network size={12} /> semantic graph
+      </div>
+      <div className="space-y-3">
+        {connections.slice(0, 4).map((connection, index) => (
+          <div key={`${connection.source}-${connection.target}-${index}`} className="grid grid-cols-[minmax(0,1fr)_46px_minmax(0,1fr)] items-center gap-2">
+            <div className="truncate border border-[var(--border-soft)] bg-white/70 px-3 py-2 text-sm text-ink">{connection.source}</div>
+            <div className="relative h-px bg-brown">
+              <span className="absolute left-1/2 top-1/2 h-2 w-2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-sage" />
+            </div>
+            <div className="truncate border border-[var(--border-soft)] bg-white/70 px-3 py-2 text-sm text-ink">{connection.target}</div>
+            <div className="col-span-3 text-xs leading-relaxed text-ink-soft">
+              <span className="font-medium text-plum">{connection.theme}</span>: {connection.reason}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function CitationList({ citations = [] }) {
+  if (!citations.length) return null;
+  return (
+    <details className="mt-5 border border-[var(--border-soft)] bg-white/70 p-4" data-testid="ai-citations">
+      <summary className="cursor-pointer list-none text-[10px] uppercase tracking-[0.26em] text-plum inline-flex items-center gap-2">
+        <BookOpen size={12} /> citations from archive
+      </summary>
+      <ol className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+        {citations.slice(0, 6).map((source, index) => (
+          <li key={`${source.id}-${index}`} className="flex min-w-0 gap-3">
+            <Marker n={index + 1} className="mt-1 shrink-0" />
+            <div className="min-w-0">
+              <ArchiveLink page={{ title: source.title, url: source.url }} className="font-medium text-link" />
+              <div className="mt-0.5 text-[11px] uppercase tracking-[0.18em] text-plum">
+                {source.source} . relevance {Math.round((source.score || 0) * 100)}%
+              </div>
+              <p className="mt-1 text-sm leading-relaxed text-ink-soft">{source.snippet}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </details>
+  );
+}
+
+function AssistantMessage({ message, isLatest, displayedAnswer, onAsk }) {
+  const result = message.result || {};
+  const answer = isLatest ? displayedAnswer || "" : message.content;
+  const engineLabel = result.llm_available ? "Gemini 2.5 Flash RAG" : result.client_fallback ? "local archive fallback" : "archive RAG";
+
+  return (
+    <article className="relative bg-white/88 border border-lavender p-5 sm:p-6 shadow-[0_30px_70px_-52px_rgba(138,121,134,0.5)]" data-testid="ai-assistant-message">
+      <Tape className="-top-3 right-8" rotate={-8} w={64} />
+      <div className="flex flex-wrap items-center gap-2 text-[10px] uppercase tracking-[0.22em] text-plum">
+        <Sparkles size={11} className="text-sage" />
+        {engineLabel}
+        <span className="text-brown">.</span>
+        <span>{result.intent || "archive"}</span>
+        {result.grounded !== false && (
+          <>
+            <span className="text-brown">.</span>
+            <span className="inline-flex items-center gap-1"><ShieldCheck size={11} /> grounded</span>
+          </>
+        )}
+      </div>
+
+      <p className="mt-4 font-serif text-2xl sm:text-[29px] leading-snug text-ink whitespace-pre-line min-h-[72px]">
+        {answer}
+        {isLatest && displayedAnswer && displayedAnswer.length < message.content.length && <span className="caret" />}
+      </p>
+
+      {result.fallbackReason && !result.client_fallback && (
+        <div className="mt-3 text-xs text-ink-soft">{result.fallbackReason}</div>
+      )}
+
+      <ProjectCards projects={result.relatedProjects} onAsk={onAsk} />
+      <SemanticGraph connections={result.semanticConnections} />
+      <CitationList citations={result.citations || result.sources} />
+
+      {!!result.relatedSearches?.length && (
+        <div className="mt-5 border-t border-[var(--border-soft)] pt-4">
+          <div className="mb-2 flex items-center gap-2 text-[10px] uppercase tracking-[0.26em] text-plum">
+            <Layers size={12} /> follow-up searches
+          </div>
+          <div className="flex flex-wrap gap-2">
+            {result.relatedSearches.slice(0, 7).map((search) => (
+              <button
+                key={search}
+                type="button"
+                onClick={() => onAsk(search)}
+                className="bg-tag border border-[var(--border-soft)] px-3 py-1.5 text-sm text-ink hover:bg-warm transition"
+              >
+                {search}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+    </article>
+  );
+}
+
+function PendingMessage({ activeStage }) {
+  return (
+    <article className="bg-white/80 border border-lavender p-5 sm:p-6" data-testid="ai-pending-message">
+      <div className="flex items-center gap-2 text-[10px] uppercase tracking-[0.24em] text-plum">
+        <BrainCircuit size={12} className="text-sage" /> {activeStage || "retrieving archive evidence"}
+      </div>
+      <div className="mt-4 font-serif italic text-2xl text-ink-soft">
+        synthesizing from Anita's archive <TypingDots />
+      </div>
+    </article>
+  );
+}
+
+function MemoryPanel({ messages, latestResult, stats, onAsk }) {
+  const breadcrumbs = latestResult?.memoryBreadcrumbs || [];
+  const projects = latestResult?.relatedProjects || [];
+  const repos = latestResult?.relatedRepositories || [];
+
+  return (
+    <aside className="space-y-4 lg:sticky lg:top-24 self-start">
+      <section className="border border-[var(--border-soft)] bg-paper/75 p-5 grid-paper">
+        <div className="text-[10px] uppercase tracking-[0.28em] text-plum inline-flex items-center gap-2">
+          <FileSearch size={12} /> archive index
+        </div>
+        <div className="mt-4 grid grid-cols-2 gap-2">
+          {[
+            ["passages", stats?.chunks ?? 65],
+            ["projects", stats?.projects ?? 6],
+            ["repos", stats?.repositories ?? 7],
+            ["themes", stats?.themes ?? 6],
+          ].map(([label, value]) => (
+            <div key={label} className="bg-white/70 border border-[var(--border-soft)] px-3 py-2">
+              <div className="font-serif text-2xl text-ink">{value}</div>
+              <div className="text-[10px] uppercase tracking-[0.18em] text-plum">{label}</div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section className="border border-[var(--border-soft)] bg-white/76 p-5">
+        <div className="text-[10px] uppercase tracking-[0.28em] text-plum inline-flex items-center gap-2">
+          <History size={12} /> memory
+        </div>
+        <div className="mt-3 space-y-2">
+          {breadcrumbs.length ? (
+            breadcrumbs.map((crumb) => (
+              <div key={crumb} className="text-sm leading-relaxed text-ink-soft">{crumb}</div>
+            ))
+          ) : (
+            <div className="font-serif italic text-xl text-ink-soft">new thread</div>
+          )}
+        </div>
+        {messages.filter((message) => message.role === "user").length > 1 && (
+          <div className="mt-4 border-t border-[var(--border-soft)] pt-3 space-y-2">
+            {messages.filter((message) => message.role === "user").slice(-3).map((message) => (
+              <button key={message.id} type="button" onClick={() => onAsk(message.content)} className="block w-full truncate text-left text-sm text-link link-soft">
+                {message.content}
+              </button>
+            ))}
+          </div>
+        )}
+      </section>
+
+      {!!repos.length && (
+        <section className="border border-[var(--border-soft)] bg-warm/60 p-5">
+          <div className="text-[10px] uppercase tracking-[0.28em] text-plum inline-flex items-center gap-2">
+            <GitBranch size={12} /> repository layer
+          </div>
+          <div className="mt-3 space-y-3">
+            {repos.slice(0, 4).map((repo) => (
+              <div key={repo.name}>
+                <a href={repo.url} target="_blank" rel="noreferrer" className="font-serif text-lg text-ink link-soft">
+                  {repo.name}
+                </a>
+                <div className="text-xs uppercase tracking-[0.18em] text-plum">{repo.kind}</div>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {!!projects.length && (
+        <section className="border border-[var(--border-soft)] bg-paper/80 p-5">
+          <div className="text-[10px] uppercase tracking-[0.28em] text-plum">project trail</div>
+          <div className="mt-3 flex flex-wrap gap-2">
+            {projects.slice(0, 5).map((project) => (
+              <button key={project.slug} type="button" onClick={() => onAsk(`How does ${project.name} connect to Anita's broader engineering direction?`)} className="bg-white/75 border border-[var(--border-soft)] px-2.5 py-1 text-xs text-ink hover:bg-warm transition">
+                {project.name}
+              </button>
+            ))}
+          </div>
+        </section>
+      )}
+    </aside>
   );
 }
 
 export default function AIMode() {
   const [searchParams] = useSearchParams();
+  const [conversationId, setConversationId] = useState(() => makeId("archive"));
   const [query, setQuery] = useState("");
-  const [submitted, setSubmitted] = useState("");
+  const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [result, setResult] = useState(null);
-  const [error, setError] = useState("");
+  const [activeStage, setActiveStage] = useState(DEFAULT_STAGES[0]);
+  const [displayedAnswer, setDisplayedAnswer] = useState("");
   const [stats, setStats] = useState(null);
-  const [history, setHistory] = useState([]);
-  const answerRef = useRef(null);
+  const [error, setError] = useState("");
+  const bottomRef = useRef(null);
+  const paramHandledRef = useRef(false);
+
+  const assistantMessages = useMemo(() => messages.filter((message) => message.role === "assistant"), [messages]);
+  const latestAssistant = assistantMessages[assistantMessages.length - 1] || null;
+  const latestResult = latestAssistant?.result || null;
 
   useEffect(() => {
     axios
-      .get(`${API}/ai/stats`)
-      .then((r) => setStats(r.data))
-      .catch(() => {});
+      .get(`${API}/ai/stats`, { timeout: 6000 })
+      .then((response) => setStats(response.data))
+      .catch(() => setStats({ chunks: 65, projects: 6, repositories: 7, themes: 6, mode: "local-ready" }));
   }, []);
 
-  // Deep-link: /ai-mode?q=...
   useEffect(() => {
     const qParam = searchParams.get("q");
-    if (qParam && qParam !== submitted) {
+    if (qParam && !paramHandledRef.current) {
+      paramHandledRef.current = true;
       setQuery(qParam);
       runSearch(qParam);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchParams]);
 
-  const runSearch = async (q) => {
-    const cleaned = (q || "").trim();
-    if (!cleaned) return;
-    setSubmitted(cleaned);
+  useEffect(() => {
+    if (!latestAssistant?.content) {
+      setDisplayedAnswer("");
+      return undefined;
+    }
+
+    const units = latestAssistant.content.split(/(\s+)/);
+    let index = 0;
+    setDisplayedAnswer("");
+    const timer = window.setInterval(() => {
+      index += 2;
+      setDisplayedAnswer(units.slice(0, index).join(""));
+      if (index >= units.length) window.clearInterval(timer);
+    }, 18);
+
+    return () => window.clearInterval(timer);
+  }, [latestAssistant?.id, latestAssistant?.content]);
+
+  useEffect(() => {
+    bottomRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
+  }, [messages, loading, activeStage]);
+
+  const runSearch = async (value) => {
+    const cleaned = String(value || "").trim();
+    if (!cleaned || loading) return;
+
+    const userMessage = {
+      id: makeId("user"),
+      role: "user",
+      content: cleaned,
+    };
+    const nextMessages = [...messages, userMessage];
+
+    setMessages(nextMessages);
+    setQuery("");
     setLoading(true);
     setError("");
-    setResult(null);
+
+    let stageIndex = 0;
+    setActiveStage(DEFAULT_STAGES[0]);
+    const stageTimer = window.setInterval(() => {
+      stageIndex = (stageIndex + 1) % DEFAULT_STAGES.length;
+      setActiveStage(DEFAULT_STAGES[stageIndex]);
+    }, 780);
+
     try {
-      const r = await axios.get(`${API}/ai/search`, { params: { q: cleaned } });
-      setResult(r.data);
-      setHistory((h) => [{ q: cleaned, at: new Date() }, ...h].slice(0, 6));
-      setTimeout(() => answerRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }), 100);
-    } catch (e) {
-      setError("the archive is taking a breath — try again in a moment.");
+      const response = await axios.post(
+        `${API}/ai/search`,
+        {
+          q: cleaned,
+          conversationId,
+          messages: nextMessages.map((message) => ({
+            role: message.role,
+            content: message.content,
+          })),
+        },
+        { timeout: 14000 }
+      );
+      const normalized = normalizeArchiveResponse(response.data, cleaned);
+      setConversationId(normalized.conversationId || conversationId);
+      setMessages((items) => [
+        ...items,
+        {
+          id: makeId("assistant"),
+          role: "assistant",
+          content: normalized.answer,
+          result: normalized,
+        },
+      ]);
+    } catch (requestError) {
+      const fallback = buildLocalArchiveResponse(cleaned);
+      setError("backend unavailable - local archive fallback");
+      setMessages((items) => [
+        ...items,
+        {
+          id: makeId("assistant"),
+          role: "assistant",
+          content: fallback.answer,
+          result: fallback,
+        },
+      ]);
     } finally {
+      window.clearInterval(stageTimer);
       setLoading(false);
+      setActiveStage(DEFAULT_STAGES[0]);
     }
   };
 
-  const onSubmit = (e) => {
-    e.preventDefault();
+  const onSubmit = (event) => {
+    event.preventDefault();
     runSearch(query);
   };
 
   return (
-    <div className="max-w-5xl mx-auto px-4 sm:px-6 pt-10 pb-20" data-testid="ai-mode-page">
-      {/* header */}
-      <div className="relative">
-        <Rose className="absolute -top-10 -left-10 opacity-70 hidden sm:block" size={100} />
-        <Sparkle className="absolute top-2 right-1 opacity-70 animate-float-slow" size={20} />
-        <div className="text-[11px] uppercase tracking-[0.3em] text-plum inline-flex items-center gap-2">
-          <Sparkles size={12} className="text-sage" /> ai mode · grounded search
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-7 pb-24" data-testid="ai-mode-page">
+      <section className="relative border-b border-[var(--border-soft)] pb-6">
+        <Rose className="absolute -top-10 -left-8 opacity-60 hidden md:block" size={100} />
+        <Sparkle className="absolute top-2 right-4 opacity-70 animate-float-slow" size={18} />
+        <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
+          <div className="min-w-0">
+            <div className="text-[11px] uppercase tracking-[0.3em] text-plum inline-flex items-center gap-2">
+              <BrainCircuit size={13} className="text-sage" /> Anita George archive intelligence
+            </div>
+            <h1 className="mt-2 font-serif text-5xl sm:text-7xl lg:text-[84px] leading-[0.9] text-ink">
+              AI Mode
+            </h1>
+            <Squiggle width={230} className="mt-2" />
+          </div>
+          <div className="lg:max-w-xl">
+            <SignalStrip stats={stats} />
+            <p className="mt-3 text-base sm:text-lg leading-relaxed text-ink-soft">
+              A conversational research layer over Anita's verified projects, repositories, technical themes, and design direction.
+            </p>
+          </div>
         </div>
-        <h1 className="font-serif text-6xl sm:text-7xl lg:text-[88px] text-ink leading-[0.92] mt-2">
-          ask <span className="italic">anita</span> anything.
-        </h1>
-        <Squiggle width={240} className="mt-3" />
-        <p className="mt-4 font-serif italic text-xl text-ink-soft max-w-2xl">
-          a small AI grounded in her curated archive. it will not invent things.
-          if it doesn't know, it will say so — and quietly point you somewhere close.
-        </p>
+      </section>
+
+      <div className="mt-6">
+        <StageRail loading={loading} activeStage={activeStage} result={latestResult} />
       </div>
 
-      {/* indexing bar */}
-      <div className="mt-8 pb-4 border-b border-[var(--border-soft)]">
-        <IndexingBar stats={stats} />
-      </div>
-
-      {/* search */}
-      <form onSubmit={onSubmit} className="mt-8" data-testid="ai-search-form">
-        <div className="search-glow flex items-center gap-3 bg-white border border-[var(--border-soft)] rounded-full px-5 py-3 shadow-[0_2px_30px_-14px_rgba(138,121,134,0.3)]">
-          <Search size={18} className="text-plum shrink-0" />
-          <input
-            data-testid="ai-search-input"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            placeholder="why does anita romanticize coding?"
-            className="flex-1 bg-transparent outline-none placeholder:text-plum/70 text-ink text-base"
-          />
-          <button
-            data-testid="ai-search-submit"
-            type="submit"
-            disabled={loading || !query.trim()}
-            className="btn-soft inline-flex items-center gap-1.5 px-4 py-1.5 text-xs rounded-full disabled:opacity-50"
-          >
-            {loading ? "asking…" : "ask"}
-            <Sparkles size={12} className="text-sage" />
-          </button>
-        </div>
-
-        {/* starter chips */}
-        {!submitted && (
-          <div className="mt-5">
-            <div className="text-[10px] uppercase tracking-[0.3em] text-plum">try asking</div>
-            <div className="mt-3 flex flex-wrap gap-2" data-testid="starter-questions">
-              {STARTER_QUESTIONS.map((q) => (
-                <button
-                  key={q}
-                  type="button"
-                  data-testid={`starter-${q.toLowerCase().replace(/[^a-z]+/g, "-").slice(0, 24)}`}
-                  onClick={() => {
-                    setQuery(q);
-                    runSearch(q);
-                  }}
-                  className="px-3 py-1.5 text-sm bg-tag border border-[var(--border-soft)] rounded-full text-ink hover:bg-warm transition"
-                >
-                  ↗ {q}
-                </button>
-              ))}
-            </div>
-            <div className="mt-4 text-[10px] uppercase tracking-[0.3em] text-plum">hidden searches</div>
-            <div className="mt-2 flex flex-wrap gap-2">
-              {EGG_HINTS.map((q) => (
-                <button
-                  key={q}
-                  type="button"
-                  data-testid={`egg-${q.replace(/\s+/g, "-")}`}
-                  onClick={() => {
-                    setQuery(q);
-                    runSearch(q);
-                  }}
-                  className="px-2.5 py-1 text-xs bg-pink/40 border border-pink rounded-full text-plum hover:bg-pink/60 italic transition"
-                >
-                  · {q}
-                </button>
-              ))}
-            </div>
-          </div>
-        )}
-      </form>
-
-      {/* answer + sources */}
-      {(loading || result || error) && (
-        <div ref={answerRef} className="mt-10 scroll-mt-32" data-testid="ai-answer-block">
-          <div className="text-[10px] uppercase tracking-[0.3em] text-plum">
-            search result · "{submitted}"
-            {result?.easter_egg && <span className="ml-2 text-pink-700/90">· hidden archive matched</span>}
-          </div>
-
-          {/* main answer card */}
-          <div className="relative bg-white/85 border border-lavender rounded-2xl p-6 sm:p-8 mt-3 shadow-[0_30px_60px_-40px_rgba(138,121,134,0.4)]" data-testid="ai-answer-card">
-            <div className="absolute -top-3 left-6 px-2.5 py-1 bg-paper border border-lavender rounded-full text-[10px] uppercase tracking-[0.25em] text-plum inline-flex items-center gap-1.5">
-              <Sparkles size={11} className="text-sage" /> generated answer
-            </div>
-            <Tape className="-top-3 right-10" rotate={-10} w={70} />
-
-            {loading && (
-              <div className="font-serif italic text-xl text-ink-soft">
-                anita.ai is reading the archive <TypingDots />
+      <div className="mt-7 grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_330px] gap-6">
+        <main className="min-w-0">
+          <section className="min-h-[460px] border border-[var(--border-soft)] bg-paper/60 p-3 sm:p-5" data-testid="ai-conversation-thread">
+            {messages.length === 0 && !loading ? (
+              <div className="relative overflow-hidden bg-white/72 border border-lavender p-5 sm:p-8 min-h-[360px]">
+                <Tape className="-top-3 right-12" rotate={7} w={72} />
+                <Sprig className="absolute -bottom-10 -right-4 opacity-55" size={110} />
+                <div className="text-[10px] uppercase tracking-[0.28em] text-plum inline-flex items-center gap-2">
+                  <MessageSquareText size={12} /> live archive thread
+                </div>
+                <p className="mt-5 max-w-3xl font-serif text-3xl sm:text-[42px] leading-tight text-ink">
+                  Ask about the shape of Anita's engineering work, then keep going.
+                </p>
+                <div className="mt-7 grid grid-cols-1 sm:grid-cols-2 gap-2" data-testid="starter-questions">
+                  {STARTER_QUESTIONS.map((starter) => (
+                    <button
+                      key={starter}
+                      type="button"
+                      onClick={() => runSearch(starter)}
+                      className="group flex items-center justify-between gap-3 border border-[var(--border-soft)] bg-tag px-4 py-3 text-left text-sm text-ink hover:bg-warm transition"
+                    >
+                      <span className="leading-snug">{starter}</span>
+                      <ArrowUpRight size={14} className="shrink-0 text-plum transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                    </button>
+                  ))}
+                </div>
+              </div>
+            ) : (
+              <div className="space-y-5">
+                {messages.map((message) =>
+                  message.role === "user" ? (
+                    <UserMessage key={message.id} message={message} />
+                  ) : (
+                    <AssistantMessage
+                      key={message.id}
+                      message={message}
+                      isLatest={message.id === latestAssistant?.id}
+                      displayedAnswer={displayedAnswer}
+                      onAsk={runSearch}
+                    />
+                  )
+                )}
+                {loading && <PendingMessage activeStage={activeStage} />}
+                <div ref={bottomRef} />
               </div>
             )}
+          </section>
 
-            {error && !loading && (
-              <div className="font-serif italic text-xl text-plum">{error}</div>
-            )}
+          {latestResult?.people_also_ask?.length > 0 && !loading && (
+            <div className="mt-8" data-testid="ai-paa-block">
+              <PeopleAlsoAskInline items={latestResult.people_also_ask} query={latestResult.query} variant="compact" />
+            </div>
+          )}
 
-            {result && !loading && (
-              <>
-                <Quote size={22} className="text-plum mb-2" />
-                <p className="font-serif text-2xl sm:text-[28px] text-ink leading-snug whitespace-pre-line">
-                  {result.answer}
-                </p>
+          {error && (
+            <div className="mt-4 text-xs uppercase tracking-[0.22em] text-plum" data-testid="ai-fallback-notice">
+              {error}
+            </div>
+          )}
 
-                {/* citations */}
-                {result.sources?.length > 0 && (
-                  <div className="mt-6 pt-5 border-t border-[var(--border-soft)]" data-testid="ai-sources">
-                    <div className="text-[10px] uppercase tracking-[0.3em] text-plum">sources from the archive</div>
-                    <ol className="mt-3 space-y-3">
-                      {result.sources.map((s, i) => (
-                        <li key={s.id} className="flex items-start gap-3" data-testid={`ai-source-${i}`}>
-                          <Marker n={i + 1} className="mt-1 shrink-0" />
-                          <div className="flex-1 min-w-0">
-                            <Link to={s.url} className="text-link font-medium link-soft inline-flex items-center gap-1">
-                              {s.title} <ArrowUpRight size={12} />
-                            </Link>
-                            <div className="text-[11px] uppercase tracking-[0.2em] text-plum mt-0.5">
-                              {s.source} · relevance {Math.round(s.score * 100)}%
-                            </div>
-                            <p className="text-sm text-ink-soft mt-1 leading-relaxed">{s.snippet}</p>
-                          </div>
-                        </li>
-                      ))}
-                    </ol>
-                  </div>
-                )}
-              </>
-            )}
-          </div>
-
-          {/* People also ask — inline, contextual */}
-          {result && !loading && result.people_also_ask?.length > 0 && (
-            <div className="mt-10" data-testid="ai-paa-block">
-              <PeopleAlsoAskInline
-                items={result.people_also_ask}
-                query={submitted}
-                variant="compact"
+          <form onSubmit={onSubmit} className="sticky bottom-4 z-10 mt-6" data-testid="ai-search-form">
+            <div className="search-glow flex items-center gap-3 bg-white/95 backdrop-blur border border-[var(--border-soft)] px-4 py-3 shadow-[0_18px_55px_-35px_rgba(45,42,38,0.4)]">
+              <Search size={18} className="text-plum shrink-0" />
+              <input
+                data-testid="ai-search-input"
+                value={query}
+                onChange={(event) => setQuery(event.target.value)}
+                placeholder="Ask a follow-up about Anita's work..."
+                className="min-w-0 flex-1 bg-transparent outline-none text-base text-ink placeholder:text-plum/65"
               />
+              <button
+                data-testid="ai-search-submit"
+                type="submit"
+                disabled={loading || !query.trim()}
+                className="btn-soft inline-flex shrink-0 items-center gap-2 px-3 sm:px-4 py-2 text-xs uppercase tracking-[0.18em] disabled:opacity-50"
+              >
+                <span className="hidden sm:inline">send</span>
+                {loading ? <TypingDots /> : <SendHorizontal size={14} />}
+              </button>
             </div>
-          )}
-
-          {/* related pages + closest archive + related searches */}
-          {result && !loading && (
-            <div className="mt-8 grid grid-cols-1 lg:grid-cols-3 gap-5">
-              {/* related pages */}
-              <div className="relative bg-paper border border-[var(--border-soft)] rounded-2xl p-5">
-                <Sprig className="absolute -top-10 -right-4 opacity-60" size={70} />
-                <div className="text-[10px] uppercase tracking-[0.3em] text-plum inline-flex items-center gap-2">
-                  <BookOpen size={12} /> related pages
-                </div>
-                <ul className="mt-3 space-y-2">
-                  {(result.related_pages || []).map((p) => (
-                    <li key={p}>
-                      <Link to={p} className="inline-flex items-center gap-1 text-ink link-soft font-sans">
-                        → {p}
-                      </Link>
-                    </li>
-                  ))}
-                  {(!result.related_pages || result.related_pages.length === 0) && (
-                    <li className="text-sm text-ink-soft italic">— none directly linked</li>
-                  )}
-                </ul>
-              </div>
-
-              {/* closest archive */}
-              <div className="relative bg-white/80 border border-[var(--border-soft)] rounded-2xl p-5">
-                <Tape className="-top-3 left-8" rotate={-7} w={60} />
-                <div className="text-[10px] uppercase tracking-[0.3em] text-plum inline-flex items-center gap-2">
-                  <Bookmark size={12} /> closest archive
-                </div>
-                {result.closest_archive ? (
-                  <Link
-                    to={result.closest_archive}
-                    data-testid="ai-closest-archive"
-                    className="mt-2 inline-flex items-center gap-1.5 font-serif italic text-2xl text-ink hover:text-plum transition"
-                  >
-                    → {result.closest_archive}
-                  </Link>
-                ) : (
-                  <div className="mt-2 font-serif italic text-xl text-ink-soft">— nothing close enough.</div>
-                )}
-                <p className="mt-3 text-sm text-ink-soft">
-                  if the answer above wasn't enough, this is the nearest page in anita's archive.
-                </p>
-              </div>
-
-              {/* related searches */}
-              <div className="relative bg-warm/50 border border-[var(--border-soft)] rounded-2xl p-5 grid-paper">
-                <div className="text-[10px] uppercase tracking-[0.3em] text-plum">related searches</div>
-                <ul className="mt-3 flex flex-wrap gap-2">
-                  {(result.related_searches || []).map((s) => (
-                    <li key={s}>
-                      <button
-                        type="button"
-                        data-testid={`related-${s.replace(/\s+/g, "-").slice(0, 24)}`}
-                        onClick={() => {
-                          setQuery(s);
-                          runSearch(s);
-                        }}
-                        className="px-3 py-1 text-sm bg-tag border border-[var(--border-soft)] rounded-full text-ink hover:bg-warm transition font-hand text-base"
-                      >
-                        ↗ {s}
-                      </button>
-                    </li>
-                  ))}
-                </ul>
-              </div>
+            <div className="mt-2 flex flex-wrap items-center gap-2 text-[10px] uppercase tracking-[0.2em] text-plum">
+              <CornerDownLeft size={11} /> continuous thread
+              {latestResult?.confidence != null && (
+                <>
+                  <span className="text-brown">.</span>
+                  <span>confidence {Math.round((latestResult.confidence || 0) * 100)}%</span>
+                </>
+              )}
             </div>
-          )}
-        </div>
-      )}
+          </form>
+        </main>
 
-      {/* search history */}
-      {history.length > 1 && (
-        <div className="mt-14 border-t border-[var(--border-soft)] pt-6">
-          <div className="text-[10px] uppercase tracking-[0.3em] text-plum">recent searches · this session</div>
-          <ul className="mt-3 divide-y divide-[var(--border-soft)] text-sm">
-            {history.map((h, i) => (
-              <li key={i} className="py-2 flex items-baseline gap-3">
-                <span className="text-[10px] uppercase tracking-[0.2em] text-plum w-28 shrink-0">
-                  {h.at.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
-                </span>
-                <button
-                  onClick={() => {
-                    setQuery(h.q);
-                    runSearch(h.q);
-                  }}
-                  className="text-ink link-soft text-left"
-                >
-                  {h.q}
-                </button>
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
-
-      {/* footnote */}
-      <div className="mt-14 max-w-2xl flex items-start gap-4">
-        <HandArrow className="rotate-[-25deg] shrink-0" />
-        <p className="font-hand text-plum text-2xl leading-snug">
-          — grounded retrieval over a small handwritten archive. it will say "I don't know"
-          when it should. that's the whole point.
-        </p>
+        <MemoryPanel messages={messages} latestResult={latestResult} stats={stats} onAsk={runSearch} />
       </div>
     </div>
   );
