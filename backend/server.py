@@ -587,7 +587,7 @@ contain verified evidence for it and redirect to a useful Anita-archive thread.
             contents=prompt,
             config=types.GenerateContentConfig(
                 temperature=0.35,
-                max_output_tokens=2048,
+                max_output_tokens=900,
                 response_mime_type="application/json",
             ),
         )
@@ -597,16 +597,7 @@ contain verified evidence for it and redirect to a useful Anita-archive thread.
         if raw.startswith("```"):
             raw = re.sub(r"^```(?:json)?", "", raw).strip()
             raw = raw.removesuffix("```").strip()
-        try:
-            parsed = json.loads(raw)
-        except json.JSONDecodeError:
-            # Best-effort recovery for truncated JSON: extract the "answer" field.
-            m = re.search(r'"answer"\s*:\s*"((?:[^"\\]|\\.)*)"', raw, re.DOTALL)
-            if not m:
-                return None
-            answer_text = m.group(1).encode("utf-8").decode("unicode_escape", errors="ignore")
-            related = re.findall(r'"([^"\\]{2,80})"', raw.split('"relatedSearches"', 1)[-1]) if '"relatedSearches"' in raw else []
-            parsed = {"answer": answer_text, "relatedSearches": related[:5]}
+        parsed = json.loads(raw)
         return parsed if isinstance(parsed, dict) and parsed.get("answer") else None
 
     try:
