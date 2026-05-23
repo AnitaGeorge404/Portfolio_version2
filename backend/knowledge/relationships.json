@@ -1,0 +1,66 @@
+[
+  {
+    "source": "neurobridge",
+    "target": "faimer",
+    "type": "theme",
+    "theme": "accessibility and adaptive interfaces",
+    "reason": "Both projects treat accessibility as a product constraint: NeuroBridge through neurodivergent support tooling, fAImer through multilingual and offline-first access.",
+    "strength": 0.92
+  },
+  {
+    "source": "neurobridge",
+    "target": "vantaai",
+    "type": "theme",
+    "theme": "humane technology",
+    "reason": "NeuroBridge focuses on emotional safety and cognitive accessibility, while VantaAI focuses on digital dignity and reducing online harm.",
+    "strength": 0.88
+  },
+  {
+    "source": "vantaai",
+    "target": "lawgorithm",
+    "type": "theme",
+    "theme": "online safety",
+    "reason": "Both systems use AI or NLP classification to surface safety signals: VantaAI for image-based abuse and deepfakes, LawGorithm for scam/risk analysis.",
+    "strength": 0.86
+  },
+  {
+    "source": "delai",
+    "target": "profile:dsa",
+    "type": "skill",
+    "theme": "graph theory and optimization",
+    "reason": "DelAI is the clearest applied expression of Anita's DSA focus on graph theory, weighted routing, and optimization.",
+    "strength": 0.9
+  },
+  {
+    "source": "vantaai",
+    "target": "delai",
+    "type": "engineering-pattern",
+    "theme": "optimization systems",
+    "reason": "Both projects report measured system improvements: VantaAI reduced inference latency, DelAI improved route efficiency.",
+    "strength": 0.78
+  },
+  {
+    "source": "studybee",
+    "target": "neurobridge",
+    "type": "experience-pattern",
+    "theme": "reducing overwhelm",
+    "reason": "StudyBee structures academic material to reduce preparation load; NeuroBridge structures routines, sensory regulation, and focus support.",
+    "strength": 0.76
+  },
+  {
+    "source": "anita-s-internet-brain",
+    "target": "Portfolio_version2 / Pv2",
+    "type": "repository-evolution",
+    "theme": "semantic archive interface",
+    "reason": "Both repositories are described as portfolio/search-engine interface studies rather than polished production products.",
+    "strength": 0.74
+  },
+  {
+    "source": "Neurobridge / Neurobridge_V2",
+    "target": "neurobridge",
+    "type": "repository-project",
+    "theme": "adaptive accessibility platform",
+    "reason": "The repository archive identifies Neurobridge iterations as architectural work on the NeuroBridge adaptive accessibility platform.",
+    "strength": 0.93
+  }
+]

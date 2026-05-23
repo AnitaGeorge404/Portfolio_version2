@@ -7,7 +7,8 @@ import PeopleAlsoAskInline from "@/components/PeopleAlsoAskInline";
 import { Sparkle, Squiggle, Tape, Marker, Sprig } from "@/components/Decorations";
 import { Sparkles, ArrowUpRight, Github, Globe } from "lucide-react";
 
-const API = `${process.env.REACT_APP_BACKEND_URL}/api`;
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || "";
+const API = BACKEND_URL ? `${BACKEND_URL}/api` : "/api";
 
 export default function ProjectDetail() {
   const { slug } = useParams();

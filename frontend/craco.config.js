@@ -70,6 +70,8 @@ let webpackConfig = {
 };
 
 webpackConfig.devServer = (devServerConfig) => {
+  devServerConfig.historyApiFallback = true;
+
   // Add health check endpoints if enabled
   if (config.enableHealthCheck && setupHealthEndpoints && healthPluginInstance) {
     const originalSetupMiddlewares = devServerConfig.setupMiddlewares;
@@ -105,5 +107,31 @@ if (isDevServer) {
     }
   }
 }
+
+const configuredDevServer = webpackConfig.devServer;
+webpackConfig.devServer = (devServerConfig, context) => {
+  const nextConfig =
+    typeof configuredDevServer === "function"
+      ? configuredDevServer(devServerConfig, context)
+      : { ...devServerConfig, ...(configuredDevServer || {}) };
+
+  nextConfig.historyApiFallback = {
+    index: "/index.html",
+    disableDotRule: true,
+  };
+
+  if (!process.env.REACT_APP_BACKEND_URL) {
+    nextConfig.proxy = [
+      {
+        context: ["/api"],
+        target: process.env.REACT_APP_LOCAL_BACKEND_URL || "http://127.0.0.1:8001",
+        changeOrigin: true,
+        secure: false,
+      },
+    ];
+  }
+
+  return nextConfig;
+};
 
 module.exports = webpackConfig;
