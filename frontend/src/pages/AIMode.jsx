@@ -52,9 +52,9 @@ function makeId(prefix) {
 function TypingDots() {
   return (
     <span className="inline-flex items-end gap-1" aria-label="loading">
-      <span className="w-1.5 h-1.5 rounded-full bg-plum/70 animate-pulse" />
-      <span className="w-1.5 h-1.5 rounded-full bg-plum/70 animate-pulse" style={{ animationDelay: "0.16s" }} />
-      <span className="w-1.5 h-1.5 rounded-full bg-plum/70 animate-pulse" style={{ animationDelay: "0.32s" }} />
+      <span className="w-1.5 h-1.5 rounded-full bg-[var(--plum)]/70 animate-pulse" />
+      <span className="w-1.5 h-1.5 rounded-full bg-[var(--plum)]/70 animate-pulse" style={{ animationDelay: "0.16s" }} />
+      <span className="w-1.5 h-1.5 rounded-full bg-[var(--plum)]/70 animate-pulse" style={{ animationDelay: "0.32s" }} />
     </span>
   );
 }
@@ -85,9 +85,9 @@ function ArchiveLink({ page, className = "" }) {
 
 function SignalStrip({ stats }) {
   return (
-    <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-[10px] uppercase tracking-[0.26em] text-plum">
+    <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-[10px] uppercase tracking-[0.26em] text-[var(--plum)]">
       <span className="inline-flex items-center gap-1.5">
-        <span className="h-1.5 w-1.5 rounded-full bg-sage animate-pulse" />
+        <span className="h-1.5 w-1.5 rounded-full bg-[var(--sage)] animate-pulse" />
         {stats?.chunks ?? 65} archive passages
       </span>
       <span>{stats?.projects ?? 6} projects</span>
@@ -105,8 +105,8 @@ function StageRail({ loading, activeStage, result }) {
         const isActive = loading && stage === activeStage;
         return (
           <div key={`${stage}-${index}`} className="border border-[var(--border-soft)] bg-white/65 px-3 py-2 min-h-[68px]">
-            <div className="flex items-center gap-2 text-[10px] uppercase tracking-[0.18em] text-plum">
-              <span className={`h-1.5 w-1.5 rounded-full ${isActive ? "bg-sage animate-pulse" : "bg-brown"}`} />
+            <div className="flex items-center gap-2 text-[10px] uppercase tracking-[0.18em] text-[var(--plum)]">
+              <span className={`h-1.5 w-1.5 rounded-full ${isActive ? "bg-[var(--sage)] animate-pulse" : "bg-[var(--brown)]"}`} />
               {String(index + 1).padStart(2, "0")}
             </div>
             <div className="mt-2 text-xs leading-snug text-ink-soft">{stage}</div>
@@ -139,7 +139,7 @@ function ProjectCards({ projects = [], onAsk }) {
           <div className="flex items-start justify-between gap-3">
             <div className="min-w-0">
               <ArchiveLink page={{ title: project.name, url: project.url }} className="font-serif text-xl text-ink" />
-              <p className="mt-1 text-xs uppercase tracking-[0.18em] text-plum">{project.status}</p>
+              <p className="mt-1 text-xs uppercase tracking-[0.18em] text-[var(--plum)]">{project.status}</p>
             </div>
             <button type="button" onClick={() => onAsk(`Go deeper on ${project.name}.`)} className="btn-soft shrink-0 p-2" aria-label={`Go deeper on ${project.name}`}>
               <ArrowUpRight size={14} />
@@ -148,7 +148,7 @@ function ProjectCards({ projects = [], onAsk }) {
           <p className="mt-2 text-sm leading-relaxed text-ink-soft">{project.reason}</p>
           <div className="mt-3 flex flex-wrap gap-1.5">
             {(project.themes || []).slice(0, 3).map((theme) => (
-              <span key={theme} className="bg-white/75 border border-[var(--border-soft)] px-2 py-0.5 text-[11px] text-plum">
+              <span key={theme} className="bg-white/75 border border-[var(--border-soft)] px-2 py-0.5 text-[11px] text-[var(--plum)]">
                 {theme}
               </span>
             ))}
@@ -162,20 +162,20 @@ function ProjectCards({ projects = [], onAsk }) {
 function SemanticGraph({ connections = [] }) {
   if (!connections.length) return null;
   return (
-    <div className="mt-5 border border-[var(--border-soft)] bg-warm/45 p-4 grid-paper" data-testid="semantic-graph">
-      <div className="mb-3 flex items-center gap-2 text-[10px] uppercase tracking-[0.26em] text-plum">
+    <div className="mt-5 border border-[var(--border-soft)] bg-[var(--bg-warm)]/45 p-4 grid-paper" data-testid="semantic-graph">
+      <div className="mb-3 flex items-center gap-2 text-[10px] uppercase tracking-[0.26em] text-[var(--plum)]">
         <Network size={12} /> semantic graph
       </div>
       <div className="space-y-3">
         {connections.slice(0, 4).map((connection, index) => (
           <div key={`${connection.source}-${connection.target}-${index}`} className="grid grid-cols-[minmax(0,1fr)_46px_minmax(0,1fr)] items-center gap-2">
             <div className="truncate border border-[var(--border-soft)] bg-white/70 px-3 py-2 text-sm text-ink">{connection.source}</div>
-            <div className="relative h-px bg-brown">
-              <span className="absolute left-1/2 top-1/2 h-2 w-2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-sage" />
+            <div className="relative h-px bg-[var(--brown)]">
+              <span className="absolute left-1/2 top-1/2 h-2 w-2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[var(--sage)]" />
             </div>
             <div className="truncate border border-[var(--border-soft)] bg-white/70 px-3 py-2 text-sm text-ink">{connection.target}</div>
             <div className="col-span-3 text-xs leading-relaxed text-ink-soft">
-              <span className="font-medium text-plum">{connection.theme}</span>: {connection.reason}
+              <span className="font-medium text-[var(--plum)]">{connection.theme}</span>: {connection.reason}
             </div>
           </div>
         ))}
@@ -188,7 +188,7 @@ function CitationList({ citations = [] }) {
   if (!citations.length) return null;
   return (
     <details className="mt-5 border border-[var(--border-soft)] bg-white/70 p-4" data-testid="ai-citations">
-      <summary className="cursor-pointer list-none text-[10px] uppercase tracking-[0.26em] text-plum inline-flex items-center gap-2">
+      <summary className="cursor-pointer list-none text-[10px] uppercase tracking-[0.26em] text-[var(--plum)] inline-flex items-center gap-2">
         <BookOpen size={12} /> citations from archive
       </summary>
       <ol className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -197,7 +197,7 @@ function CitationList({ citations = [] }) {
             <Marker n={index + 1} className="mt-1 shrink-0" />
             <div className="min-w-0">
               <ArchiveLink page={{ title: source.title, url: source.url }} className="font-medium text-link" />
-              <div className="mt-0.5 text-[11px] uppercase tracking-[0.18em] text-plum">
+              <div className="mt-0.5 text-[11px] uppercase tracking-[0.18em] text-[var(--plum)]">
                 {source.source} . relevance {Math.round((source.score || 0) * 100)}%
               </div>
               <p className="mt-1 text-sm leading-relaxed text-ink-soft">{source.snippet}</p>
@@ -215,16 +215,16 @@ function AssistantMessage({ message, isLatest, displayedAnswer, onAsk }) {
   const engineLabel = result.llm_available ? "Gemini 2.5 Flash RAG" : result.client_fallback ? "local archive fallback" : "archive RAG";
 
   return (
-    <article className="relative bg-white/88 border border-lavender p-5 sm:p-6 shadow-[0_30px_70px_-52px_rgba(138,121,134,0.5)]" data-testid="ai-assistant-message">
-      <Tape className="-top-3 right-8" rotate={-8} w={64} />
-      <div className="flex flex-wrap items-center gap-2 text-[10px] uppercase tracking-[0.22em] text-plum">
-        <Sparkles size={11} className="text-sage" />
+    <article className="relative bg-white/88 border border-[var(--border-medium)] p-5 sm:p-6 shadow-[0_30px_70px_-52px_rgba(139,58,82,0.25)]" data-testid="ai-assistant-message">
+      <Tape className="-top-3 right-8" rotate={-8} w={64} variant="pink" />
+      <div className="flex flex-wrap items-center gap-2 text-[10px] uppercase tracking-[0.22em] text-[var(--plum)]">
+        <Sparkles size={11} className="text-[var(--sage)]" />
         {engineLabel}
-        <span className="text-brown">.</span>
+        <span className="text-[var(--brown)]">.</span>
         <span>{result.intent || "archive"}</span>
         {result.grounded !== false && (
           <>
-            <span className="text-brown">.</span>
+            <span className="text-[var(--brown)]">.</span>
             <span className="inline-flex items-center gap-1"><ShieldCheck size={11} /> grounded</span>
           </>
         )}
@@ -244,8 +244,8 @@ function AssistantMessage({ message, isLatest, displayedAnswer, onAsk }) {
       <CitationList citations={result.citations || result.sources} />
 
       {!!result.relatedSearches?.length && (
-        <div className="mt-5 border-t border-[var(--border-soft)] pt-4">
-          <div className="mb-2 flex items-center gap-2 text-[10px] uppercase tracking-[0.26em] text-plum">
+          <div className="mt-5 border-t border-[var(--border-soft)] pt-4">
+          <div className="mb-2 flex items-center gap-2 text-[10px] uppercase tracking-[0.26em] text-[var(--plum)]">
             <Layers size={12} /> follow-up searches
           </div>
           <div className="flex flex-wrap gap-2">
@@ -254,7 +254,7 @@ function AssistantMessage({ message, isLatest, displayedAnswer, onAsk }) {
                 key={search}
                 type="button"
                 onClick={() => onAsk(search)}
-                className="bg-tag border border-[var(--border-soft)] px-3 py-1.5 text-sm text-ink hover:bg-warm transition"
+                className="bg-[var(--bg-tag)] border border-[var(--border-soft)] px-3 py-1.5 text-sm text-ink hover:bg-[var(--bg-warm)] transition"
               >
                 {search}
               </button>
@@ -268,9 +268,9 @@ function AssistantMessage({ message, isLatest, displayedAnswer, onAsk }) {
 
 function PendingMessage({ activeStage }) {
   return (
-    <article className="bg-white/80 border border-lavender p-5 sm:p-6" data-testid="ai-pending-message">
-      <div className="flex items-center gap-2 text-[10px] uppercase tracking-[0.24em] text-plum">
-        <BrainCircuit size={12} className="text-sage" /> {activeStage || "retrieving archive evidence"}
+    <article className="bg-white/80 border border-[var(--border-medium)] p-5 sm:p-6" data-testid="ai-pending-message">
+      <div className="flex items-center gap-2 text-[10px] uppercase tracking-[0.24em] text-[var(--plum)]">
+        <BrainCircuit size={12} className="text-[var(--sage)]" /> {activeStage || "retrieving archive evidence"}
       </div>
       <div className="mt-4 font-serif italic text-2xl text-ink-soft">
         synthesizing from Anita's archive <TypingDots />
@@ -286,8 +286,8 @@ function MemoryPanel({ messages, latestResult, stats, onAsk }) {
 
   return (
     <aside className="space-y-4 lg:sticky lg:top-24 self-start">
-      <section className="border border-[var(--border-soft)] bg-paper/75 p-5 grid-paper">
-        <div className="text-[10px] uppercase tracking-[0.28em] text-plum inline-flex items-center gap-2">
+      <section className="border border-[var(--border-soft)] bg-[var(--bg-paper)]/75 p-5 grid-paper">
+        <div className="text-[10px] uppercase tracking-[0.28em] text-[var(--plum)] inline-flex items-center gap-2">
           <FileSearch size={12} /> archive index
         </div>
         <div className="mt-4 grid grid-cols-2 gap-2">
@@ -299,14 +299,14 @@ function MemoryPanel({ messages, latestResult, stats, onAsk }) {
           ].map(([label, value]) => (
             <div key={label} className="bg-white/70 border border-[var(--border-soft)] px-3 py-2">
               <div className="font-serif text-2xl text-ink">{value}</div>
-              <div className="text-[10px] uppercase tracking-[0.18em] text-plum">{label}</div>
+              <div className="text-[10px] uppercase tracking-[0.18em] text-[var(--plum)]">{label}</div>
             </div>
           ))}
         </div>
       </section>
 
       <section className="border border-[var(--border-soft)] bg-white/76 p-5">
-        <div className="text-[10px] uppercase tracking-[0.28em] text-plum inline-flex items-center gap-2">
+        <div className="text-[10px] uppercase tracking-[0.28em] text-[var(--plum)] inline-flex items-center gap-2">
           <History size={12} /> memory
         </div>
         <div className="mt-3 space-y-2">
@@ -330,8 +330,8 @@ function MemoryPanel({ messages, latestResult, stats, onAsk }) {
       </section>
 
       {!!repos.length && (
-        <section className="border border-[var(--border-soft)] bg-warm/60 p-5">
-          <div className="text-[10px] uppercase tracking-[0.28em] text-plum inline-flex items-center gap-2">
+        <section className="border border-[var(--border-soft)] bg-[var(--bg-warm)]/60 p-5">
+          <div className="text-[10px] uppercase tracking-[0.28em] text-[var(--plum)] inline-flex items-center gap-2">
             <GitBranch size={12} /> repository layer
           </div>
           <div className="mt-3 space-y-3">
@@ -340,7 +340,7 @@ function MemoryPanel({ messages, latestResult, stats, onAsk }) {
                 <a href={repo.url} target="_blank" rel="noreferrer" className="font-serif text-lg text-ink link-soft">
                   {repo.name}
                 </a>
-                <div className="text-xs uppercase tracking-[0.18em] text-plum">{repo.kind}</div>
+                <div className="text-xs uppercase tracking-[0.18em] text-[var(--plum)]">{repo.kind}</div>
               </div>
             ))}
           </div>
@@ -348,11 +348,11 @@ function MemoryPanel({ messages, latestResult, stats, onAsk }) {
       )}
 
       {!!projects.length && (
-        <section className="border border-[var(--border-soft)] bg-paper/80 p-5">
-          <div className="text-[10px] uppercase tracking-[0.28em] text-plum">project trail</div>
+        <section className="border border-[var(--border-soft)] bg-[var(--bg-paper)]/80 p-5">
+          <div className="text-[10px] uppercase tracking-[0.28em] text-[var(--plum)]">project trail</div>
           <div className="mt-3 flex flex-wrap gap-2">
             {projects.slice(0, 5).map((project) => (
-              <button key={project.slug} type="button" onClick={() => onAsk(`How does ${project.name} connect to Anita's broader engineering direction?`)} className="bg-white/75 border border-[var(--border-soft)] px-2.5 py-1 text-xs text-ink hover:bg-warm transition">
+              <button key={project.slug} type="button" onClick={() => onAsk(`How does ${project.name} connect to Anita's broader engineering direction?`)} className="bg-white/75 border border-[var(--border-soft)] px-2.5 py-1 text-xs text-ink hover:bg-[var(--bg-warm)] transition">
                 {project.name}
               </button>
             ))}
@@ -497,8 +497,8 @@ export default function AIMode() {
         <Sparkle className="absolute top-2 right-4 opacity-70 animate-float-slow" size={18} />
         <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
           <div className="min-w-0">
-            <div className="text-[11px] uppercase tracking-[0.3em] text-plum inline-flex items-center gap-2">
-              <BrainCircuit size={13} className="text-sage" /> Anita George archive intelligence
+            <div className="text-[11px] uppercase tracking-[0.3em] text-[var(--plum)] inline-flex items-center gap-2">
+              <BrainCircuit size={13} className="text-[var(--sage)]" /> Anita George archive intelligence
             </div>
             <h1 className="mt-2 font-serif text-5xl sm:text-7xl lg:text-[84px] leading-[0.9] text-ink">
               AI Mode
@@ -520,12 +520,12 @@ export default function AIMode() {
 
       <div className="mt-7 grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_330px] gap-6">
         <main className="min-w-0">
-          <section className="min-h-[460px] border border-[var(--border-soft)] bg-paper/60 p-3 sm:p-5" data-testid="ai-conversation-thread">
+          <section className="min-h-[460px] border border-[var(--border-soft)] bg-[var(--bg-paper)]/60 p-3 sm:p-5" data-testid="ai-conversation-thread">
             {messages.length === 0 && !loading ? (
-              <div className="relative overflow-hidden bg-white/72 border border-lavender p-5 sm:p-8 min-h-[360px]">
-                <Tape className="-top-3 right-12" rotate={7} w={72} />
+              <div className="relative overflow-hidden bg-white/72 border border-[var(--border-medium)] p-5 sm:p-8 min-h-[360px]">
+                <Tape className="-top-3 right-12" rotate={7} w={72} variant="pink" />
                 <Sprig className="absolute -bottom-10 -right-4 opacity-55" size={110} />
-                <div className="text-[10px] uppercase tracking-[0.28em] text-plum inline-flex items-center gap-2">
+                <div className="text-[10px] uppercase tracking-[0.28em] text-[var(--plum)] inline-flex items-center gap-2">
                   <MessageSquareText size={12} /> live archive thread
                 </div>
                 <p className="mt-5 max-w-3xl font-serif text-3xl sm:text-[42px] leading-tight text-ink">
@@ -537,10 +537,10 @@ export default function AIMode() {
                       key={starter}
                       type="button"
                       onClick={() => runSearch(starter)}
-                      className="group flex items-center justify-between gap-3 border border-[var(--border-soft)] bg-tag px-4 py-3 text-left text-sm text-ink hover:bg-warm transition"
+                      className="group flex items-center justify-between gap-3 border border-[var(--border-soft)] bg-[var(--bg-tag)] px-4 py-3 text-left text-sm text-ink hover:bg-[var(--bg-warm)] transition"
                     >
                       <span className="leading-snug">{starter}</span>
-                      <ArrowUpRight size={14} className="shrink-0 text-plum transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                      <ArrowUpRight size={14} className="shrink-0 text-[var(--plum)] transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                     </button>
                   ))}
                 </div>
@@ -573,20 +573,20 @@ export default function AIMode() {
           )}
 
           {error && (
-            <div className="mt-4 text-xs uppercase tracking-[0.22em] text-plum" data-testid="ai-fallback-notice">
+            <div className="mt-4 text-xs uppercase tracking-[0.22em] text-[var(--plum)]" data-testid="ai-fallback-notice">
               {error}
             </div>
           )}
 
           <form onSubmit={onSubmit} className="sticky bottom-4 z-10 mt-6" data-testid="ai-search-form">
             <div className="search-glow flex items-center gap-3 bg-white/95 backdrop-blur border border-[var(--border-soft)] px-4 py-3 shadow-[0_18px_55px_-35px_rgba(45,42,38,0.4)]">
-              <Search size={18} className="text-plum shrink-0" />
+              <Search size={18} className="text-[var(--plum)] shrink-0" />
               <input
                 data-testid="ai-search-input"
                 value={query}
                 onChange={(event) => setQuery(event.target.value)}
                 placeholder="Ask a follow-up about Anita's work..."
-                className="min-w-0 flex-1 bg-transparent outline-none text-base text-ink placeholder:text-plum/65"
+                className="min-w-0 flex-1 bg-transparent outline-none text-base text-ink placeholder:text-[var(--plum)]/65"
               />
               <button
                 data-testid="ai-search-submit"
@@ -598,11 +598,11 @@ export default function AIMode() {
                 {loading ? <TypingDots /> : <SendHorizontal size={14} />}
               </button>
             </div>
-            <div className="mt-2 flex flex-wrap items-center gap-2 text-[10px] uppercase tracking-[0.2em] text-plum">
+            <div className="mt-2 flex flex-wrap items-center gap-2 text-[10px] uppercase tracking-[0.2em] text-[var(--plum)]">
               <CornerDownLeft size={11} /> continuous thread
               {latestResult?.confidence != null && (
                 <>
-                  <span className="text-brown">.</span>
+                  <span className="text-[var(--brown)]">.</span>
                   <span>confidence {Math.round((latestResult.confidence || 0) * 100)}%</span>
                 </>
               )}

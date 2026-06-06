@@ -6,7 +6,7 @@ import { Sparkles } from "lucide-react";
 export default function SearchTabs() {
   return (
     <nav
-      className="border-b border-[var(--border-soft)]/80"
+      className="border-b border-[var(--border-soft)]/80 bg-[var(--bg-paper)]/60"
       aria-label="Search categories"
       data-testid="search-tabs"
     >
@@ -20,15 +20,15 @@ export default function SearchTabs() {
                 data-testid={`tab-${t.key}`}
                 className={({ isActive }) =>
                   `relative inline-flex items-center gap-1.5 px-3 sm:px-4 py-3 text-[13px] font-sans tracking-tight transition-colors whitespace-nowrap
-                  ${isActive ? "text-ink" : "text-ink-soft hover:text-ink"}`
+                  ${isActive ? "text-[var(--plum)]" : "text-ink-soft hover:text-[var(--plum)]"}`
                 }
               >
                 {({ isActive }) => (
                   <>
-                    {t.sparkle && <Sparkles size={12} className="text-sage" />}
+                    {t.sparkle && <Sparkles size={12} className="text-rose" />}
                     {t.label}
                     {isActive && (
-                      <span className="absolute left-3 right-3 -bottom-px h-[2px] bg-plum rounded-full" />
+                      <span className="absolute left-3 right-3 -bottom-px h-[2px] bg-[var(--rose)] rounded-full" />
                     )}
                   </>
                 )}

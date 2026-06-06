@@ -5,7 +5,10 @@ import SearchBar from "@/components/SearchBar";
 import SearchTabs from "@/components/SearchTabs";
 import ResultCard from "@/components/ResultCard";
 import PeopleAlsoAskInline from "@/components/PeopleAlsoAskInline";
-import { Sparkle, Squiggle, HandArrow, Sprig, Rose, Tape, Marker, HandAsterisk, Paperclip } from "@/components/Decorations";
+import {
+  Sparkle, Squiggle, HandArrow, Sprig, CherryBlossom,
+  Tape, Marker, Paperclip, PetalRain
+} from "@/components/Decorations";
 import { Sparkles, ArrowUpRight, Bookmark, Quote } from "lucide-react";
 import { profile, aiOverview, projects, peopleAlsoAsk, experience, skills, internetTraces, obsessions } from "@/data/portfolio";
 
@@ -18,8 +21,30 @@ const fallbackPAA = peopleAlsoAsk.slice(0, 4).map((p) => ({
   related: ["/work", "/ai-mode"],
 }));
 
+// Google-style colored dots logo
+function AnitaLogo({ large = false }) {
+  const dots = [
+    { color: "#C96B84" },
+    { color: "#EDAABB" },
+    { color: "#8B3A52" },
+    { color: "#F2C4CE" },
+    { color: "#C96B84" },
+    { color: "#D9939F" },
+  ];
+  return (
+    <div className={`font-serif leading-none tracking-tight text-ink select-none ${large ? "text-8xl sm:text-9xl lg:text-[140px]" : "text-5xl"}`}>
+      <span className="italic" style={{ color: "#C96B84" }}>A</span>
+      <span style={{ color: "#8B3A52" }}>n</span>
+      <span style={{ color: "#EDAABB" }}>i</span>
+      <span style={{ color: "#C96B84" }}>t</span>
+      <span style={{ color: "#D9939F" }}>a</span>
+    </div>
+  );
+}
+
 export default function Home() {
   const [paa, setPaa] = useState(fallbackPAA);
+  const [searched, setSearched] = useState(false);
 
   useEffect(() => {
     axios
@@ -32,87 +57,149 @@ export default function Home() {
 
   return (
     <div data-testid="home-page">
-      {/* HERO SEARCH */}
-      <section className="relative pt-16 sm:pt-24 pb-10 px-4 sm:px-6">
-        {/* Floating decorations */}
-        <Rose className="absolute top-10 -left-2 sm:left-10 opacity-70 hidden sm:block animate-float-slow pointer-events-none" size={130} />
-        <Sprig className="absolute top-32 right-4 sm:right-16 opacity-60 hidden md:block animate-drift pointer-events-none" size={110} />
-        <Sparkle className="absolute top-44 left-1/4 opacity-70 animate-float-slow delay-200 pointer-events-none" size={20} />
-        <Sparkle className="absolute top-20 right-1/4 opacity-50 animate-float-slow delay-500 pointer-events-none" size={14} color="#A3B19B" />
+      {/* ── HERO — Centered Search (Google-inspired) ── */}
+      <section className="relative min-h-[82vh] flex flex-col items-center justify-center px-4 sm:px-6 pt-8 pb-16 overflow-hidden">
+        {/* Petal rain in background */}
+        <PetalRain />
 
-        <div className="max-w-3xl mx-auto text-center relative">
-          <div className="font-hand text-plum text-2xl sm:text-3xl rotate-[-3deg] inline-block animate-fade-up" data-testid="hero-tag">
-            search results for —
-          </div>
-          <h1
-            className="font-serif text-6xl sm:text-7xl lg:text-8xl text-ink leading-[0.95] mt-2 tracking-tight animate-fade-up delay-100"
-            data-testid="hero-title"
+        {/* Floating botanical decorations */}
+        <CherryBlossom
+          className="absolute top-8 left-4 sm:left-14 opacity-75 hidden sm:block animate-float-slow pointer-events-none"
+          size={140}
+        />
+        <Sprig
+          className="absolute top-16 right-4 sm:right-16 opacity-65 hidden md:block animate-drift pointer-events-none"
+          size={100}
+        />
+        <CherryBlossom
+          className="absolute bottom-12 left-1/4 opacity-40 hidden lg:block animate-float-slow pointer-events-none"
+          size={80}
+          style={{ animationDelay: "2s" }}
+        />
+        <Sprig
+          className="absolute bottom-8 right-1/4 opacity-45 hidden md:block animate-drift pointer-events-none"
+          size={70}
+          style={{ animationDelay: "1.5s" }}
+        />
+
+        {/* Sparkle accents */}
+        <Sparkle className="absolute top-1/3 left-[10%] opacity-60 animate-float-slow" size={16} color="#C96B84" />
+        <Sparkle className="absolute top-1/4 right-[12%] opacity-50 animate-float-slow" size={12} color="#EDAABB" style={{ animationDelay: "1s" }} />
+        <Sparkle className="absolute bottom-1/3 right-[8%] opacity-40 animate-float-slow" size={10} color="#8B3A52" style={{ animationDelay: "3s" }} />
+
+        {/* Center content */}
+        <div className="max-w-2xl w-full mx-auto text-center relative z-10">
+          {/* Handwritten tagline */}
+          <div
+            className="font-hand text-[var(--rose)] text-xl sm:text-2xl rotate-[-2deg] inline-block animate-fade-up mb-3"
+            data-testid="hero-tag"
           >
-            <span className="italic">Anita</span> <span className="font-light">George</span>
-          </h1>
-          <div className="mt-2 flex justify-center animate-fade-up delay-200">
-            <Squiggle width={260} />
+            — searching anita&apos;s universe —
           </div>
-          <p className="mt-5 font-sans text-base sm:text-lg text-ink-soft max-w-xl mx-auto animate-fade-up delay-300">
-            <span className="font-hand text-2xl text-plum">a search engine</span> for one person's
-            engineering practice — projects, repositories, themes, and interests of a CS undergraduate
-            building accessible, systems-level software.
+
+          {/* Google-style colored name logo */}
+          <div className="animate-fade-up delay-100 mb-2">
+            <AnitaLogo large />
+          </div>
+
+          {/* Squiggle underline */}
+          <div className="flex justify-center animate-fade-up delay-200 mb-6">
+            <Squiggle width={200} color="#EDAABB" />
+          </div>
+
+          {/* Tagline */}
+          <p className="font-hand text-[var(--plum)] text-xl sm:text-2xl animate-fade-up delay-300 mb-8">
+            full-stack engineer · accessibility-first · girl in STEM
           </p>
 
-          <div className="mt-10 animate-fade-up delay-400">
+          {/* Search bar */}
+          <div className="animate-fade-up delay-400">
             <SearchBar autoFocus={false} />
           </div>
 
-          {/* AI overview pill */}
-          <div className="mt-5 flex justify-center animate-fade-up delay-500">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-lavender bg-white/70 backdrop-blur text-[12px] text-ink font-sans">
-              <Sparkles size={12} className="text-sage" />
-              <span className="text-plum">AI overview:</span>
-              <span className="text-ink-soft">full-stack · graphs · accessibility-first UX</span>
-            </div>
+          {/* Quick search pills — like Google suggestions below search */}
+          <div className="mt-6 flex flex-wrap justify-center gap-2 animate-fade-up delay-500">
+            {[
+              { label: "Who is Anita?", to: "/ai-mode" },
+              { label: "Her Projects", to: "/work" },
+              { label: "Experience", to: "/work" },
+              { label: "Contact", to: "/contact" },
+            ].map((item) => (
+              <Link
+                key={item.label}
+                to={item.to}
+                className="btn-soft px-4 py-2 text-sm rounded-full font-sans text-ink inline-flex items-center gap-1.5 border-[var(--border-soft)]"
+              >
+                {item.label}
+              </Link>
+            ))}
           </div>
 
-          {/* Buttons */}
-          <div className="mt-6 flex flex-wrap justify-center gap-3 animate-fade-up delay-700">
-            <Link to="/work" data-testid="hero-projects-btn" className="btn-soft px-5 py-2 text-sm rounded-full font-sans text-ink">
-              browse work
-            </Link>
-            <Link to="/ai-mode" data-testid="hero-ai-btn" className="btn-soft px-5 py-2 text-sm rounded-full font-sans text-ink inline-flex items-center gap-1.5">
-              <Sparkles size={12} /> i'm feeling lucky
+          {/* I'm feeling lucky */}
+          <div className="mt-4 flex justify-center gap-3 animate-fade-up delay-700">
+            <Link
+              to="/ai-mode"
+              data-testid="hero-ai-btn"
+              className="btn-soft px-5 py-2 text-sm rounded-full font-sans text-[var(--plum)] inline-flex items-center gap-1.5"
+            >
+              <Sparkles size={13} className="text-rose" /> I&apos;m feeling lucky
             </Link>
           </div>
         </div>
       </section>
 
+      {/* Search tabs */}
       <SearchTabs />
 
-      {/* RESULTS BODY */}
+      {/* ── RESULTS BODY ── */}
       <section className="max-w-6xl mx-auto px-4 sm:px-6 py-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
           {/* LEFT COLUMN — search results */}
           <div className="lg:col-span-8 space-y-10">
-            <div className="text-[11px] uppercase tracking-[0.3em] text-plum">about 4,219 results · 0.42 seconds · curated by hand</div>
+            {/* Results meta */}
+            <div className="text-[11px] uppercase tracking-[0.3em] text-[var(--plum)]">
+              about 4,219 results · 0.42 seconds · curated by hand
+            </div>
 
             {/* AI Overview block */}
-            <div className="relative bg-white/80 border border-lavender rounded-2xl p-6 sm:p-7 shadow-[0_30px_60px_-40px_rgba(138,121,134,0.4)]" data-testid="ai-overview-card">
-              <div className="absolute -top-3 left-6 px-2.5 py-1 bg-paper border border-lavender rounded-full text-[10px] uppercase tracking-[0.25em] text-plum inline-flex items-center gap-1.5">
-                <Sparkles size={11} className="text-sage" /> AI overview
+            <div
+              className="relative bg-white/80 border border-[var(--border-soft)] rounded-3xl p-6 sm:p-7 shadow-[0_20px_50px_-30px_rgba(139,58,82,0.20)]"
+              data-testid="ai-overview-card"
+            >
+              {/* Washi tape */}
+              <span
+                className="tape tape-pink absolute -top-3 left-10"
+                style={{ width: 80, height: 20, transform: "rotate(-9deg)" }}
+                aria-hidden
+              />
+              <span
+                className="tape tape-yellow absolute -top-3 right-12"
+                style={{ width: 56, height: 20, transform: "rotate(7deg)" }}
+                aria-hidden
+              />
+              <div className="absolute -top-3 left-6 px-3 py-1 bg-[var(--bg-petal)] border border-[var(--border-soft)] rounded-full text-[10px] uppercase tracking-[0.25em] text-[var(--plum)] inline-flex items-center gap-1.5">
+                <Sparkles size={11} className="text-rose" /> AI overview
               </div>
-              <Tape className="-top-3 right-10" rotate={-12} w={70} />
-              <p className="font-serif italic text-2xl sm:text-3xl text-ink leading-snug mt-1">
-                "{aiOverview.answer}"
+              <p className="font-serif italic text-xl sm:text-2xl text-ink leading-snug mt-3">
+                &ldquo;{aiOverview.answer.slice(0, 180)}...&rdquo;
               </p>
-              <div className="mt-5 flex flex-wrap items-center gap-3">
-                <span className="text-[10px] uppercase tracking-[0.3em] text-plum">sources</span>
+              <div className="mt-4 flex flex-wrap items-center gap-3">
+                <span className="text-[10px] uppercase tracking-[0.3em] text-[var(--plum)]">sources</span>
                 {aiOverview.citations.map((c, i) => (
-                  <a key={c.url} href={c.url} target="_blank" rel="noreferrer" className="text-xs font-mono-soft text-link link-soft">
+                  <a
+                    key={c.url}
+                    href={c.url}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="text-xs font-mono text-[var(--link)] link-soft"
+                  >
                     [{i + 1}] {c.label}
                   </a>
                 ))}
               </div>
             </div>
 
-            {/* about result */}
+            {/* About result */}
             <ResultCard
               url="anitageorge.vercel.app › about"
               title="Anita George — AI / Full-Stack Engineer at IIIT Kottayam"
@@ -122,11 +209,11 @@ export default function Home() {
               footer="more from this site → projects · research · contact"
             />
 
-            {/* featured projects (3 quick results) */}
+            {/* Featured projects */}
             <div className="space-y-7">
               <div className="flex items-baseline gap-3">
                 <h2 className="font-serif text-3xl text-ink">featured projects</h2>
-                <span className="font-hand text-plum text-xl">— pinterest below ↘</span>
+                <span className="font-hand text-[var(--rose)] text-xl">— scrapbook below ↘</span>
               </div>
               {projects.slice(0, 3).map((p, idx) => (
                 <ResultCard
@@ -136,12 +223,12 @@ export default function Home() {
                   snippet={p.summary}
                   meta={<><Marker n={idx + 2} /><span>{p.year} · {p.tags.slice(0, 2).join(" · ")}</span></>}
                   testid={`result-project-${p.slug}`}
-                  footer={<span className="font-hand text-lg text-plum">"{p.note}"</span>}
+                  footer={<span className="font-hand text-lg text-[var(--rose)]">&ldquo;{p.note}&rdquo;</span>}
                 >
                   <div className="mt-3">
                     <Link
                       to={`/projects/${p.slug}`}
-                      className="inline-flex items-center gap-1 text-sm text-link link-soft"
+                      className="inline-flex items-center gap-1 text-sm text-[var(--link)] link-soft"
                     >
                       read the long version <ArrowUpRight size={14} />
                     </Link>
@@ -149,29 +236,35 @@ export default function Home() {
                 </ResultCard>
               ))}
               <div>
-                <Link to="/work" data-testid="see-all-projects" className="btn-soft inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm">
-                  see all work (search-result view) <ArrowUpRight size={14} />
+                <Link
+                  to="/work"
+                  data-testid="see-all-projects"
+                  className="btn-soft inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm"
+                >
+                  see all work <ArrowUpRight size={14} />
                 </Link>
               </div>
             </div>
 
-            {/* People Also Ask — contextual, semantically generated */}
+            {/* People Also Ask */}
             <div className="border-y border-[var(--border-soft)] py-7" data-testid="paa-preview">
               <PeopleAlsoAskInline items={paa} query="anita george" />
             </div>
 
-            {/* Experience timeline */}
+            {/* Experience timeline — journal entries */}
             <div data-testid="experience-section">
               <div className="flex items-baseline gap-3">
-                <h2 className="font-serif text-3xl text-ink">a quiet timeline</h2>
-                <span className="font-hand text-plum text-xl">— how she got here</span>
+                <h2 className="font-serif text-3xl text-ink">journal entries</h2>
+                <span className="font-hand text-[var(--rose)] text-xl">— how she got here</span>
               </div>
-              <ol className="mt-6 relative pl-6 border-l border-dashed border-brown/70 space-y-7">
+              <ol className="mt-6 relative pl-6 border-l border-dashed border-[var(--blossom)]/70 space-y-7">
                 {experience.map((e, i) => (
                   <li key={`${e.when}-${e.where}`} className="relative">
-                    <span className="absolute -left-[31px] top-1 w-3 h-3 rounded-full bg-pink border border-plum/40" />
-                    <div className="text-[10px] uppercase tracking-[0.3em] text-plum">{e.when}</div>
-                    <div className="font-serif text-xl text-ink">{e.role} · <span className="italic text-plum">{e.where}</span></div>
+                    <span className="absolute -left-[31px] top-1 w-3 h-3 rounded-full bg-[var(--pink)] border border-[var(--rose)]/40" />
+                    <div className="text-[10px] uppercase tracking-[0.3em] text-[var(--plum)]">{e.when}</div>
+                    <div className="font-serif text-xl text-ink">
+                      {e.role} · <span className="italic text-[var(--rose)]">{e.where}</span>
+                    </div>
                     <p className="mt-1 text-sm text-ink-soft leading-relaxed max-w-xl">{e.detail}</p>
                   </li>
                 ))}
@@ -179,46 +272,74 @@ export default function Home() {
             </div>
           </div>
 
-          {/* RIGHT — sidebar (knowledge panel + related) */}
+          {/* RIGHT — knowledge panel sidebar */}
           <aside className="lg:col-span-4 space-y-6">
-            {/* knowledge panel */}
-            <div className="relative bg-white/80 border border-[var(--border-soft)] rounded-2xl p-6" data-testid="knowledge-panel">
-              <Tape className="-top-3 left-8" rotate={-7} w={64} />
-              <Tape className="-top-3 right-8" rotate={9} w={48} />
-              <div className="text-[10px] uppercase tracking-[0.3em] text-plum">knowledge panel</div>
+            {/* Knowledge panel */}
+            <div
+              className="relative bg-white/85 border border-[var(--border-soft)] rounded-3xl p-6"
+              data-testid="knowledge-panel"
+            >
+              {/* Washi tapes */}
+              <span
+                className="tape tape-pink absolute -top-3 left-8"
+                style={{ width: 72, height: 20, transform: "rotate(-8deg)" }}
+                aria-hidden
+              />
+              <span
+                className="tape tape-mint absolute -top-3 right-8"
+                style={{ width: 52, height: 20, transform: "rotate(10deg)" }}
+                aria-hidden
+              />
+              <div className="text-[10px] uppercase tracking-[0.3em] text-[var(--plum)]">knowledge panel</div>
               <h3 className="font-serif text-3xl text-ink mt-1 leading-tight">{profile.name}</h3>
-              <div className="font-hand text-plum text-xl">{profile.tagline}</div>
-              <Squiggle width={180} className="mt-3" />
+              <div className="font-hand text-[var(--rose)] text-xl">{profile.tagline}</div>
+              <Squiggle width={170} className="mt-3" color="#EDAABB" />
               <dl className="mt-4 grid grid-cols-3 gap-y-3 text-sm">
-                <dt className="col-span-1 text-plum text-[11px] uppercase tracking-[0.2em]">role</dt>
-                <dd className="col-span-2 text-ink">{profile.role}</dd>
-                <dt className="col-span-1 text-plum text-[11px] uppercase tracking-[0.2em]">degree</dt>
-                <dd className="col-span-2 text-ink">{profile.degree}</dd>
-                <dt className="col-span-1 text-plum text-[11px] uppercase tracking-[0.2em]">at</dt>
-                <dd className="col-span-2 text-ink">{profile.universityShort} · {profile.years}</dd>
-                <dt className="col-span-1 text-plum text-[11px] uppercase tracking-[0.2em]">gpa</dt>
-                <dd className="col-span-2 text-ink font-mono">{profile.gpa}</dd>
-                <dt className="col-span-1 text-plum text-[11px] uppercase tracking-[0.2em]">based</dt>
-                <dd className="col-span-2 text-ink">{profile.location}</dd>
+                {[
+                  { k: "role", v: profile.role.split(" · ")[0] },
+                  { k: "degree", v: profile.degree },
+                  { k: "at", v: `${profile.universityShort} · ${profile.years}` },
+                  { k: "gpa", v: profile.gpa },
+                  { k: "based", v: profile.location },
+                ].map(({ k, v }) => (
+                  <React.Fragment key={k}>
+                    <dt className="col-span-1 text-[var(--plum)] text-[11px] uppercase tracking-[0.2em]">{k}</dt>
+                    <dd className="col-span-2 text-ink">{v}</dd>
+                  </React.Fragment>
+                ))}
               </dl>
               <div className="mt-4 pt-4 border-t border-[var(--border-soft)] flex flex-wrap gap-2">
                 {["Full-Stack", "Graphs", "Accessibility", "UI/UX"].map((t) => (
-                  <span key={t} className="px-2.5 py-1 text-[11px] uppercase tracking-[0.2em] bg-tag border border-[var(--border-soft)] rounded-full text-plum">{t}</span>
+                  <span
+                    key={t}
+                    className="px-2.5 py-1 text-[11px] uppercase tracking-[0.2em] bg-[var(--bg-petal)] border border-[var(--border-soft)] rounded-full text-[var(--plum)]"
+                  >
+                    {t}
+                  </span>
                 ))}
               </div>
             </div>
 
-            {/* skills */}
-            <div className="relative bg-paper border border-[var(--border-soft)] rounded-2xl p-6" data-testid="skills-panel">
-              <Paperclip className="absolute -top-3 right-6 rotate-12" />
-              <div className="text-[10px] uppercase tracking-[0.3em] text-plum">skills · index</div>
-              <ul className="mt-3 space-y-3">
+            {/* Knowledge Garden — skills as flowers */}
+            <div
+              className="relative bg-[var(--bg-petal)] border border-[var(--border-soft)] rounded-3xl p-6"
+              data-testid="skills-panel"
+            >
+              <Paperclip className="absolute -top-3 right-6 rotate-12" color="#C96B84" />
+              <div className="text-[10px] uppercase tracking-[0.3em] text-[var(--plum)] mb-1">knowledge garden</div>
+              <div className="font-hand text-[var(--rose)] text-lg mb-3">— skills as flowers</div>
+              <ul className="space-y-3">
                 {skills.map((g) => (
                   <li key={g.group}>
-                    <div className="font-hand text-plum text-lg">{g.group}</div>
+                    <div className="font-hand text-[var(--plum)] text-lg">{g.group}</div>
                     <div className="flex flex-wrap gap-1.5 mt-1">
                       {g.items.map((it) => (
-                        <span key={it} className="px-2 py-0.5 text-[11px] bg-tag border border-[var(--border-soft)] rounded-sm text-ink">{it}</span>
+                        <span
+                          key={it}
+                          className="px-2 py-0.5 text-[11px] bg-white/70 border border-[var(--border-soft)] rounded-sm text-ink hover:bg-[var(--pink)]/30 transition-colors"
+                        >
+                          {it}
+                        </span>
                       ))}
                     </div>
                   </li>
@@ -226,49 +347,67 @@ export default function Home() {
               </ul>
             </div>
 
-            {/* obsessions */}
-            <div className="relative bg-warm/60 border border-[var(--border-soft)] rounded-2xl p-6 grid-paper" data-testid="obsessions-panel">
-              <div className="text-[10px] uppercase tracking-[0.3em] text-plum">obsessions <span className="text-ink-soft normal-case tracking-normal">— rotating</span></div>
+            {/* Obsessions */}
+            <div
+              className="relative bg-[var(--bg-warm)] border border-[var(--border-soft)] rounded-3xl p-6 notebook-lines"
+              data-testid="obsessions-panel"
+            >
+              <div className="text-[10px] uppercase tracking-[0.3em] text-[var(--plum)]">
+                collected obsessions
+              </div>
               <ul className="mt-3 flex flex-wrap gap-2">
                 {obsessions.map((o, i) => (
-                  <li key={o} className="font-hand text-lg leading-tight" style={{ transform: `rotate(${(i % 3 - 1) * 1.5}deg)` }}>
-                    <span className="text-plum">·</span> <span className="text-ink">{o}</span>
+                  <li
+                    key={o}
+                    className="font-hand text-lg leading-tight"
+                    style={{ transform: `rotate(${(i % 3 - 1) * 1.5}deg)` }}
+                  >
+                    <span className="text-[var(--blossom)]">·</span>{" "}
+                    <span className="text-ink">{o}</span>
                   </li>
                 ))}
               </ul>
             </div>
 
-            {/* internet traces */}
-            <div className="relative bg-paper border border-[var(--border-soft)] rounded-2xl p-6" data-testid="internet-traces-panel">
-              <div className="flex items-center justify-between">
-                <div className="text-[10px] uppercase tracking-[0.3em] text-plum">recent tabs</div>
-                <span className="font-hand text-plum text-base">— learning + building</span>
+            {/* Internet traces */}
+            <div
+              className="relative bg-white/85 border border-[var(--border-soft)] rounded-3xl p-6"
+              data-testid="internet-traces-panel"
+            >
+              <div className="flex items-center justify-between mb-3">
+                <div className="text-[10px] uppercase tracking-[0.3em] text-[var(--plum)]">recent tabs</div>
+                <span className="font-hand text-[var(--rose)] text-base">— learning</span>
               </div>
-              <ul className="mt-3 divide-y divide-[var(--border-soft)] text-sm">
-                {internetTraces.slice(0, 6).map((t) => (
+              <ul className="divide-y divide-[var(--border-soft)] text-sm">
+                {internetTraces.slice(0, 5).map((t) => (
                   <li key={t.title} className="py-2.5 flex items-baseline gap-3">
-                    <span className="text-[10px] uppercase tracking-[0.2em] text-plum w-24 shrink-0">{t.time}</span>
+                    <span className="text-[10px] uppercase tracking-[0.2em] text-[var(--plum)] w-20 shrink-0">{t.time}</span>
                     <div className="flex-1 min-w-0">
-                      <div className="text-ink truncate">{t.title}</div>
-                      <div className="text-sage text-xs font-mono-soft truncate">{t.url}</div>
+                      <div className="text-ink truncate text-xs">{t.title}</div>
+                      <div className="text-[var(--sage)] text-[11px] font-mono truncate">{t.url}</div>
                     </div>
-                    <span className="text-[10px] uppercase tracking-[0.2em] text-plum">{t.tag}</span>
                   </li>
                 ))}
               </ul>
             </div>
 
-            {/* contact preview */}
-            <div className="relative bg-white/80 border border-[var(--border-soft)] rounded-2xl p-6">
-              <Rose className="absolute -top-8 -right-6 opacity-80" size={70} />
-              <div className="text-[10px] uppercase tracking-[0.3em] text-plum">say hello</div>
-              <p className="mt-2 font-serif italic text-xl text-ink">"the door is open."</p>
+            {/* Contact preview */}
+            <div className="relative bg-white/85 border border-[var(--border-soft)] rounded-3xl p-6">
+              <CherryBlossom className="absolute -top-8 -right-4 opacity-70" size={72} />
+              <div className="text-[10px] uppercase tracking-[0.3em] text-[var(--plum)]">say hello</div>
+              <p className="mt-2 font-serif italic text-xl text-ink">&ldquo;the door is open.&rdquo;</p>
               <div className="mt-3 flex flex-col gap-2 text-sm">
-                <a href={profile.github} target="_blank" rel="noreferrer" className="link-soft text-ink" data-testid="side-github">github / AnitaGeorge404 ↗</a>
-                <a href={profile.linkedin} target="_blank" rel="noreferrer" className="link-soft text-ink" data-testid="side-linkedin">linkedin / anita-george ↗</a>
-                <a href={profile.portfolio} target="_blank" rel="noreferrer" className="link-soft text-ink" data-testid="side-portfolio">anitageorge.vercel.app ↗</a>
+                <a href={profile.github} target="_blank" rel="noreferrer" className="link-soft text-ink">
+                  github / AnitaGeorge404 ↗
+                </a>
+                <a href={profile.linkedin} target="_blank" rel="noreferrer" className="link-soft text-ink">
+                  linkedin / anita-george ↗
+                </a>
               </div>
-              <Link to="/contact" className="btn-soft mt-4 inline-flex items-center gap-1 px-4 py-1.5 text-xs rounded-full">
+              <Link
+                to="/contact"
+                className="btn-soft mt-4 inline-flex items-center gap-1 px-4 py-1.5 text-xs rounded-full"
+              >
                 full contact card <ArrowUpRight size={12} />
               </Link>
             </div>
@@ -276,55 +415,66 @@ export default function Home() {
         </div>
       </section>
 
-      {/* About spread — magazine-style */}
-      <section className="relative max-w-6xl mx-auto px-4 sm:px-6 mt-14 mb-20">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
-          <div className="lg:col-span-5 relative">
-            <div className="relative">
-              <Tape className="-top-3 left-10" w={90} rotate={-8} />
-              <Tape className="-top-3 right-10" w={70} rotate={6} />
-              <img
-                src="https://images.pexels.com/photos/5040995/pexels-photo-5040995.jpeg"
-                alt="moodboard placeholder"
-                className="w-full h-[460px] object-cover rounded-sm border border-[var(--border-soft)] shadow-[0_30px_60px_-40px_rgba(45,42,38,0.45)]"
-                data-testid="about-image"
-              />
-            </div>
-            <div className="absolute -bottom-6 -right-4 bg-paper border border-[var(--border-soft)] px-3 py-2 font-hand text-plum text-lg rotate-[3deg]">
-              kollam · kerala
-            </div>
-            <Sparkle className="absolute -top-6 -left-6" size={22} />
-          </div>
-          <div className="lg:col-span-7">
-            <div className="text-[10px] uppercase tracking-[0.3em] text-plum">field notes · about me</div>
-            <h2 className="font-serif text-5xl sm:text-6xl text-ink leading-[0.95] mt-2">
-              i'm <span className="italic">anita</span> —<br /> i build across the full stack.
-            </h2>
-            <Quote size={22} className="text-plum mt-4" />
-            <p className="mt-3 font-serif italic text-xl text-ink-soft leading-relaxed max-w-xl">
-              Computer Science Engineering undergraduate at IIIT Kottayam. I work across backend
-              systems, frontend interfaces, and algorithmic foundations — with a particular
-              interest in humane technology, accessibility-first UX, and graph-based optimization.
-            </p>
-            <div className="mt-6 grid grid-cols-2 sm:grid-cols-3 gap-4 max-w-xl">
-              {[
-                { k: "degree", v: "B.Tech CSE" },
-                { k: "at", v: "IIIT Kottayam" },
-                { k: "years", v: profile.years },
-                { k: "gpa", v: profile.gpa },
-                { k: "based", v: "Kollam, Kerala" },
-                { k: "stack", v: "Python · React · FastAPI" },
-                { k: "dsa", v: "400+ problems" },
-                { k: "wins", v: "TinkHack · Girlathon" },
-                { k: "certs", v: "IBM · Meta · Google" },
-              ].map((m) => (
-                <div key={m.k}>
-                  <div className="text-[10px] uppercase tracking-[0.3em] text-plum">{m.k}</div>
-                  <div className="font-sans text-ink mt-1">{m.v}</div>
+      {/* ── ABOUT SPREAD — scrapbook magazine style ── */}
+      <section className="relative max-w-6xl mx-auto px-4 sm:px-6 mt-14 mb-20 torn-top">
+        <div className="bg-[var(--bg-petal)]/40 rounded-3xl p-8 sm:p-12 border border-[var(--border-soft)]">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+            <div className="lg:col-span-5 relative">
+              {/* Polaroid frame */}
+              <div className="polaroid relative inline-block w-full">
+                <span
+                  className="tape tape-pink absolute -top-3 left-12"
+                  style={{ width: 80, height: 20, transform: "rotate(-8deg)" }}
+                  aria-hidden
+                />
+                <span
+                  className="tape tape-mint absolute -top-3 right-10"
+                  style={{ width: 60, height: 20, transform: "rotate(7deg)" }}
+                  aria-hidden
+                />
+                <img
+                  src="https://images.pexels.com/photos/5040995/pexels-photo-5040995.jpeg"
+                  alt="Anita George — profile"
+                  className="w-full h-[420px] object-cover"
+                  data-testid="about-image"
+                />
+                <div className="text-center pt-3 font-hand text-[var(--plum)] text-lg">
+                  — kollam · kerala · 2024 —
                 </div>
-              ))}
+              </div>
+              <Sparkle className="absolute -top-6 -left-4" size={20} color="#C96B84" />
             </div>
-            <HandArrow className="mt-6 -ml-2" />
+
+            <div className="lg:col-span-7">
+              <div className="text-[10px] uppercase tracking-[0.3em] text-[var(--plum)]">field notes · about me</div>
+              <h2 className="font-serif text-5xl sm:text-6xl text-ink leading-[0.95] mt-2">
+                i&apos;m <span className="italic text-[var(--rose)]">anita</span> —<br />
+                i build across the full stack.
+              </h2>
+              <Squiggle width={220} className="mt-3" color="#EDAABB" />
+              <Quote size={22} className="text-[var(--rose)] mt-4" />
+              <p className="mt-3 font-serif italic text-lg text-ink-soft leading-relaxed max-w-xl">
+                Computer Science Engineering undergraduate at IIIT Kottayam. I work across backend
+                systems, frontend interfaces, and algorithmic foundations — with a particular
+                interest in humane technology, accessibility-first UX, and graph-based optimization.
+              </p>
+              <div className="mt-6 grid grid-cols-2 sm:grid-cols-3 gap-4 max-w-xl">
+                {[
+                  { k: "degree", v: "B.Tech CSE" },
+                  { k: "at", v: "IIIT Kottayam" },
+                  { k: "gpa", v: profile.gpa },
+                  { k: "dsa", v: "400+ problems" },
+                  { k: "wins", v: "TinkHack · Girlathon" },
+                  { k: "stack", v: "Python · React · FastAPI" },
+                ].map((m) => (
+                  <div key={m.k}>
+                    <div className="text-[10px] uppercase tracking-[0.3em] text-[var(--plum)]">{m.k}</div>
+                    <div className="font-sans text-ink mt-1 text-sm">{m.v}</div>
+                  </div>
+                ))}
+              </div>
+              <HandArrow className="mt-6 -ml-2" color="#C96B84" />
+            </div>
           </div>
         </div>
       </section>

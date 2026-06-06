@@ -33,7 +33,7 @@ export default function PeopleAlsoAskInline({
         <div className="flex items-center gap-2.5">
           <MessageSquareText
             size={compact ? 13 : 15}
-            className="text-plum shrink-0"
+            className="text-[var(--plum)] shrink-0"
           />
           <h3
             className={`font-serif text-ink ${
@@ -44,8 +44,8 @@ export default function PeopleAlsoAskInline({
           </h3>
         </div>
         {query && !compact && (
-          <span className="font-hand text-plum text-lg rotate-[-1.5deg] hidden sm:inline">
-            — semantic expansion of "{query}"
+          <span className="font-hand text-[var(--rose)] text-lg rotate-[-1.5deg] hidden sm:inline">
+            — semantic expansion of &ldquo;{query}&rdquo;
           </span>
         )}
       </div>
@@ -59,17 +59,17 @@ export default function PeopleAlsoAskInline({
                 type="button"
                 onClick={() => setOpen(isOpen ? -1 : i)}
                 aria-expanded={isOpen}
-                className="w-full flex items-start gap-4 py-4 text-left group hover:bg-warm/30 transition-colors px-1"
+                className="w-full flex items-start gap-4 py-4 text-left group hover:bg-[var(--bg-petal)]/50 transition-colors px-1"
               >
-                <span className="font-mono text-[10px] tracking-[0.2em] text-plum mt-1 shrink-0 w-6">
+                <span className="font-mono text-[10px] tracking-[0.2em] text-[var(--plum)] mt-1 shrink-0 w-6">
                   {String(i + 1).padStart(2, "0")}
                 </span>
-                <span className="flex-1 font-serif text-lg sm:text-xl text-ink leading-snug group-hover:text-plum transition-colors">
+                <span className="flex-1 font-serif text-lg sm:text-xl text-ink leading-snug group-hover:text-[var(--plum)] transition-colors">
                   {q.q}
                 </span>
                 <ChevronDown
                   size={16}
-                  className={`text-plum mt-1.5 transition-transform duration-300 ${
+                  className={`text-[var(--rose)] mt-1.5 transition-transform duration-300 ${
                     isOpen ? "rotate-180" : ""
                   }`}
                 />
@@ -86,7 +86,7 @@ export default function PeopleAlsoAskInline({
                     </p>
                     {q.related && q.related.length > 0 && (
                       <div className="mt-3">
-                        <div className="text-[10px] uppercase tracking-[0.3em] text-plum">
+                        <div className="text-[10px] uppercase tracking-[0.3em] text-[var(--plum)]">
                           related archives
                         </div>
                         <div className="mt-1.5 flex flex-wrap gap-x-4 gap-y-1.5">
@@ -94,7 +94,7 @@ export default function PeopleAlsoAskInline({
                             <Link
                               key={r}
                               to={r}
-                              className="inline-flex items-center gap-1 text-sm text-link link-soft"
+                              className="inline-flex items-center gap-1 text-sm text-[var(--link)] link-soft"
                             >
                               → {r} <ArrowUpRight size={11} />
                             </Link>
@@ -111,9 +111,9 @@ export default function PeopleAlsoAskInline({
       </ul>
 
       {!compact && (
-        <div className="mt-3 font-hand text-plum text-base">
-          — these change with the search query.
-        </div>
+      <div className="mt-3 font-hand text-[var(--rose)] text-base">
+        — these change with the search query.
+      </div>
       )}
     </section>
   );
