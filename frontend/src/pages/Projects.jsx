@@ -1,23 +1,19 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { projects } from "@/data/portfolio";
-import { Sparkle, Tape, Paperclip, Rose, Sprig, Squiggle, HandArrow } from "@/components/Decorations";
+import { Sparkle, Tape, Paperclip, CherryBlossom, Sprig, Squiggle, HandArrow } from "@/components/Decorations";
 import { ArrowUpRight } from "lucide-react";
 
 const allTags = Array.from(new Set(projects.flatMap((p) => p.tags)));
 
 const heightMap = {
-  short: "min-h-[260px]",
-  medium: "min-h-[360px]",
-  tall: "min-h-[460px]",
+  short: "min-h-[240px]",
+  medium: "min-h-[320px]",
+  tall: "min-h-[420px]",
 };
 
-const colorBg = {
-  lavender: "bg-lavender/30",
-  pink: "bg-pink/30",
-  sage: "bg-sage/20",
-  plum: "bg-plum/15",
-};
+// Washi tape variants cycling
+const tapeVariants = ["pink", "yellow", "mint", "pink", "yellow"];
 
 export default function Projects() {
   const [filter, setFilter] = useState("all");
@@ -25,30 +21,33 @@ export default function Projects() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 py-14" data-testid="projects-page">
-      {/* header */}
+      {/* Header */}
       <div className="relative max-w-3xl">
-        <Rose className="absolute -top-8 -left-8 opacity-70" size={90} />
-        <div className="text-[11px] uppercase tracking-[0.3em] text-plum">/ projects</div>
+        <CherryBlossom className="absolute -top-10 -left-8 opacity-70 hidden sm:block animate-float-slow" size={100} />
+        <div className="text-[11px] uppercase tracking-[0.3em] text-[var(--plum)]">/ projects</div>
         <h1 className="font-serif text-6xl sm:text-7xl text-ink leading-[0.95] mt-2">
-          a <span className="italic">pinterest</span><br /> of things i made
+          a <span className="italic" style={{ color: "#C96B84" }}>scrapbook</span><br />
+          <span className="text-[var(--plum)]">of things i made</span>
         </h1>
-        <Squiggle width={200} className="mt-3" />
+        <Squiggle width={200} className="mt-3" color="#EDAABB" />
         <p className="mt-4 font-serif italic text-xl text-ink-soft max-w-xl">
           half projects, half love letters. pin the ones that catch you.
         </p>
-        <div className="mt-2 font-hand text-plum text-xl rotate-[-2deg] inline-block">
+        <div className="mt-2 font-hand text-[var(--rose)] text-xl rotate-[-2deg] inline-block">
           ↑ structurally pinterest. emotionally a notebook.
         </div>
       </div>
 
-      {/* filters */}
+      {/* Filters */}
       <div className="mt-10 flex flex-wrap gap-2 items-center" data-testid="project-filters">
-        <span className="text-[10px] uppercase tracking-[0.3em] text-plum mr-2">filter</span>
+        <span className="text-[10px] uppercase tracking-[0.3em] text-[var(--plum)] mr-2">filter</span>
         <button
           onClick={() => setFilter("all")}
           data-testid="filter-all"
-          className={`px-3 py-1 text-xs rounded-full border transition ${
-            filter === "all" ? "bg-ink text-paper border-ink" : "bg-tag border-[var(--border-soft)] text-ink hover:bg-warm"
+          className={`px-3 py-1 text-xs rounded-full border transition-all ${
+            filter === "all"
+              ? "bg-[var(--plum)] text-[var(--bg-paper)] border-[var(--plum)]"
+              : "bg-[var(--bg-petal)] border-[var(--border-soft)] text-ink hover:bg-[var(--pink)]/30"
           }`}
         >
           all
@@ -58,8 +57,10 @@ export default function Projects() {
             key={t}
             onClick={() => setFilter(t)}
             data-testid={`filter-${t}`}
-            className={`px-3 py-1 text-xs rounded-full border transition ${
-              filter === t ? "bg-ink text-paper border-ink" : "bg-tag border-[var(--border-soft)] text-ink hover:bg-warm"
+            className={`px-3 py-1 text-xs rounded-full border transition-all ${
+              filter === t
+                ? "bg-[var(--plum)] text-[var(--bg-paper)] border-[var(--plum)]"
+                : "bg-[var(--bg-petal)] border-[var(--border-soft)] text-ink hover:bg-[var(--pink)]/30"
             }`}
           >
             {t}
@@ -67,63 +68,88 @@ export default function Projects() {
         ))}
       </div>
 
-      {/* masonry */}
-      <div className="mt-10 columns-1 sm:columns-2 lg:columns-3 gap-6 space-y-6 [column-fill:_balance]" data-testid="projects-masonry">
+      {/* Masonry grid */}
+      <div
+        className="mt-10 columns-1 sm:columns-2 lg:columns-3 gap-6 space-y-6 [column-fill:_balance]"
+        data-testid="projects-masonry"
+      >
         {filtered.map((p, idx) => (
           <Link
             to={`/projects/${p.slug}`}
             key={p.slug}
             data-testid={`pin-${p.slug}`}
-            className="pin-card relative block break-inside-avoid bg-white border border-[var(--border-soft)] rounded-sm overflow-hidden p-3"
+            className="pin-card relative block break-inside-avoid group"
             style={{ transform: `rotate(${(idx % 3 - 1) * 0.4}deg)` }}
           >
-            {/* tape */}
-            <Tape className="-top-2 left-6" w={70} rotate={-9} />
-            {idx % 2 === 0 && <Tape className="-top-2 right-6" w={50} rotate={8} />}
-
-            <div className={`relative overflow-hidden ${colorBg[p.color] || "bg-warm/40"} ${heightMap[p.height] || "min-h-[340px]"}`}>
-              <img
-                src={p.image}
-                alt={p.name}
-                loading="lazy"
-                className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 mix-blend-multiply opacity-95"
+            {/* Polaroid card */}
+            <div className="bg-white border border-[var(--border-soft)] overflow-hidden p-2.5 shadow-[0_4px_20px_-8px_rgba(44,26,29,0.15)]">
+              {/* Washi tape */}
+              <Tape
+                className="absolute -top-3 left-6"
+                w={70}
+                rotate={-9}
+                variant={tapeVariants[idx % tapeVariants.length]}
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-ink/30 via-transparent to-transparent" />
-              <div className="absolute top-3 left-3 text-[10px] uppercase tracking-[0.3em] text-paper bg-ink/60 backdrop-blur px-2 py-0.5 rounded-full">
-                {p.year}
-              </div>
-              <div className="absolute bottom-3 left-3 right-3">
-                <div className="font-hand text-paper/90 text-lg leading-tight italic drop-shadow-md">
-                  "{p.note}"
-                </div>
-              </div>
-              {idx === 0 && <Paperclip className="absolute -top-1 right-2 rotate-12 drop-shadow-sm" size={28} color="#FFF" />}
-            </div>
+              {idx % 2 === 0 && (
+                <Tape
+                  className="absolute -top-3 right-6"
+                  w={50}
+                  rotate={8}
+                  variant={tapeVariants[(idx + 2) % tapeVariants.length]}
+                />
+              )}
 
-            <div className="mt-3 px-1">
-              <div className="flex items-baseline justify-between gap-2">
-                <h3 className="font-serif text-2xl text-ink leading-tight">{p.name}</h3>
-                <ArrowUpRight size={16} className="text-plum opacity-60" />
+              <div className={`relative overflow-hidden bg-[var(--bg-petal)]/40 ${heightMap[p.height] || "min-h-[320px]"}`}>
+                <img
+                  src={p.image}
+                  alt={p.name}
+                  loading="lazy"
+                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 mix-blend-multiply opacity-90"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[var(--ink)]/25 via-transparent to-transparent" />
+                <div className="absolute top-3 left-3 text-[10px] uppercase tracking-[0.3em] bg-white/90 backdrop-blur px-2 py-0.5 rounded-full text-[var(--plum)]">
+                  {p.year}
+                </div>
+                <div className="absolute bottom-3 left-3 right-3">
+                  <div className="font-hand text-white/95 text-lg leading-tight italic drop-shadow-md">
+                    &ldquo;{p.note}&rdquo;
+                  </div>
+                </div>
+                {idx === 0 && (
+                  <Paperclip className="absolute -top-1 right-2 rotate-12 drop-shadow-sm" size={26} color="#C96B84" />
+                )}
               </div>
-              <div className="font-hand text-plum text-lg leading-tight">— {p.tagline}</div>
-              <p className="mt-2 text-[13px] text-ink-soft leading-relaxed line-clamp-3">{p.summary}</p>
-              <div className="mt-3 flex flex-wrap gap-1.5">
-                {p.tags.map((t) => (
-                  <span key={t} className="px-2 py-0.5 text-[10px] uppercase tracking-[0.2em] bg-tag border border-[var(--border-soft)] text-plum">
-                    {t}
-                  </span>
-                ))}
+
+              <div className="mt-3 px-1 pb-1">
+                <div className="flex items-baseline justify-between gap-2">
+                  <h3 className="font-serif text-2xl text-ink leading-tight group-hover:text-[var(--plum)] transition-colors">
+                    {p.name}
+                  </h3>
+                  <ArrowUpRight size={16} className="text-[var(--rose)] opacity-60" />
+                </div>
+                <div className="font-hand text-[var(--rose)] text-lg leading-tight">— {p.tagline}</div>
+                <p className="mt-2 text-[13px] text-ink-soft leading-relaxed line-clamp-2">{p.summary}</p>
+                <div className="mt-3 flex flex-wrap gap-1.5">
+                  {p.tags.map((t) => (
+                    <span
+                      key={t}
+                      className="px-2 py-0.5 text-[10px] uppercase tracking-[0.2em] bg-[var(--bg-petal)] border border-[var(--border-soft)] text-[var(--plum)]"
+                    >
+                      {t}
+                    </span>
+                  ))}
+                </div>
               </div>
             </div>
           </Link>
         ))}
       </div>
 
-      {/* footnote */}
+      {/* Footnote */}
       <div className="mt-16 max-w-3xl">
-        <HandArrow className="rotate-[-30deg]" />
-        <p className="font-hand text-plum text-2xl">
-          — click a pin to read the long, soft version.
+        <HandArrow className="rotate-[-30deg]" color="#C96B84" />
+        <p className="font-hand text-[var(--plum)] text-2xl">
+          — click a card to read the full scrapbook page.
         </p>
       </div>
     </div>

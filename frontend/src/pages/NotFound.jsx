@@ -5,11 +5,11 @@ import { Squiggle, Sparkle, HandArrow } from "@/components/Decorations";
 export default function NotFound() {
   return (
     <div className="max-w-3xl mx-auto px-4 sm:px-6 py-20" data-testid="not-found-page">
-      <div className="text-[11px] uppercase tracking-[0.3em] text-plum">404 · no result</div>
+      <div className="text-[11px] uppercase tracking-[0.3em] text-[var(--plum)]">404 · no result</div>
       <h1 className="font-serif text-6xl sm:text-7xl text-ink leading-[0.95] mt-2">
-        nothing <span className="italic">indexed</span> at that url.
+        nothing <span className="italic" style={{ color: "#C96B84" }}>indexed</span> at that url.
       </h1>
-      <Squiggle width={220} className="mt-3" />
+      <Squiggle width={220} className="mt-3" color="#EDAABB" />
       <p className="mt-4 font-serif italic text-xl text-ink-soft max-w-xl">
         this corner of the archive is empty. try the homepage, or ask AI Mode something.
       </p>
@@ -25,8 +25,8 @@ export default function NotFound() {
         </Link>
       </div>
       <div className="mt-12 max-w-xl">
-        <HandArrow className="rotate-[-30deg]" />
-        <p className="font-hand text-plum text-2xl mt-2">
+        <HandArrow className="rotate-[-30deg]" color="#C96B84" />
+        <p className="font-hand text-[var(--plum)] text-2xl mt-2">
           — even a 404 deserves a soft landing.
         </p>
       </div>
