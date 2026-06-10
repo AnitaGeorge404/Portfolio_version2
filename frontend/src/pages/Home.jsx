@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
 import axios from "axios";
 import SearchBar from "@/components/SearchBar";
 import SearchTabs from "@/components/SearchTabs";
 import ResultCard from "@/components/ResultCard";
 import PeopleAlsoAskInline from "@/components/PeopleAlsoAskInline";
+import { RevealOnScroll, containerVariants, itemVariants } from "@/components/MotionFramework";
 import {
   Sparkle, Squiggle, HandArrow, Sprig, CherryBlossom,
   Tape, Marker, Paperclip, PetalRain
@@ -62,78 +64,152 @@ export default function Home() {
         {/* Petal rain in background */}
         <PetalRain />
 
-        {/* Floating botanical decorations */}
-        <CherryBlossom
-          className="absolute top-8 left-4 sm:left-14 opacity-75 hidden sm:block animate-float-slow pointer-events-none"
-          size={140}
-        />
-        <Sprig
-          className="absolute top-16 right-4 sm:right-16 opacity-65 hidden md:block animate-drift pointer-events-none"
-          size={100}
-        />
-        <CherryBlossom
-          className="absolute bottom-12 left-1/4 opacity-40 hidden lg:block animate-float-slow pointer-events-none"
-          size={80}
-          style={{ animationDelay: "2s" }}
-        />
-        <Sprig
-          className="absolute bottom-8 right-1/4 opacity-45 hidden md:block animate-drift pointer-events-none"
-          size={70}
-          style={{ animationDelay: "1.5s" }}
-        />
+        {/* Floating botanical decorations with motion */}
+        <motion.div
+          className="absolute top-8 left-4 sm:left-14 hidden sm:block pointer-events-none"
+          animate={{ y: [0, -20, 0], rotate: [0, 3, 0] }}
+          transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+        >
+          <CherryBlossom
+            className="opacity-75 animate-float-slow"
+            size={140}
+          />
+        </motion.div>
+        <motion.div
+          className="absolute top-16 right-4 sm:right-16 opacity-65 hidden md:block pointer-events-none"
+          animate={{ y: [0, 15, 0], x: [0, 8, 0] }}
+          transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
+        >
+          <Sprig size={100} />
+        </motion.div>
+        <motion.div
+          className="absolute bottom-12 left-1/4 opacity-40 hidden lg:block pointer-events-none"
+          animate={{ y: [0, -15, 0] }}
+          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
+        >
+          <CherryBlossom size={80} />
+        </motion.div>
+        <motion.div
+          className="absolute bottom-8 right-1/4 opacity-45 hidden md:block pointer-events-none"
+          animate={{ y: [0, 12, 0], x: [0, -6, 0] }}
+          transition={{ duration: 7.5, repeat: Infinity, ease: "easeInOut", delay: 0.7 }}
+        >
+          <Sprig size={70} />
+        </motion.div>
 
         {/* Sparkle accents */}
-        <Sparkle className="absolute top-1/3 left-[10%] opacity-60 animate-float-slow" size={16} color="#C96B84" />
-        <Sparkle className="absolute top-1/4 right-[12%] opacity-50 animate-float-slow" size={12} color="#EDAABB" style={{ animationDelay: "1s" }} />
-        <Sparkle className="absolute bottom-1/3 right-[8%] opacity-40 animate-float-slow" size={10} color="#8B3A52" style={{ animationDelay: "3s" }} />
+        <motion.div
+          className="absolute top-1/3 left-[10%] opacity-60 pointer-events-none"
+          animate={{ scale: [1, 1.2, 1], opacity: [0.6, 0.8, 0.6] }}
+          transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+        >
+          <Sparkle size={16} color="#C96B84" />
+        </motion.div>
+        <motion.div
+          className="absolute top-1/4 right-[12%] opacity-50 pointer-events-none"
+          animate={{ scale: [1, 1.15, 1] }}
+          transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
+        >
+          <Sparkle size={12} color="#EDAABB" />
+        </motion.div>
+        <motion.div
+          className="absolute bottom-1/3 right-[8%] opacity-40 pointer-events-none"
+          animate={{ scale: [1, 1.1, 1], opacity: [0.4, 0.6, 0.4] }}
+          transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+        >
+          <Sparkle size={10} color="#8B3A52" />
+        </motion.div>
 
         {/* Center content */}
         <div className="max-w-2xl w-full mx-auto text-center relative z-10">
           {/* Handwritten tagline */}
-          <div
-            className="font-hand text-[var(--rose)] text-xl sm:text-2xl rotate-[-2deg] inline-block animate-fade-up mb-3"
+          <motion.div
+            className="font-hand text-[var(--rose)] text-xl sm:text-2xl rotate-[-2deg] inline-block mb-3"
             data-testid="hero-tag"
+            initial={{ opacity: 0, y: -12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, ease: "easeOut", delay: 0.2 }}
           >
             — searching anita&apos;s universe —
-          </div>
+          </motion.div>
 
           {/* Google-style colored name logo */}
-          <div className="animate-fade-up delay-100 mb-2">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8, ease: "easeOut", delay: 0.4 }}
+            className="mb-2"
+          >
             <AnitaLogo large />
-          </div>
+          </motion.div>
 
           {/* Squiggle underline */}
-          <div className="flex justify-center animate-fade-up delay-200 mb-6">
+          <motion.div
+            className="flex justify-center mb-6"
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, ease: "easeOut", delay: 0.6 }}
+          >
             <Squiggle width={200} color="#EDAABB" />
-          </div>
+          </motion.div>
 
           {/* Tagline */}
-          <p className="font-hand text-[var(--plum)] text-xl sm:text-2xl animate-fade-up delay-300 mb-8">
+          <motion.p
+            className="font-hand text-[var(--plum)] text-xl sm:text-2xl mb-8"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.7, ease: "easeOut", delay: 0.7 }}
+          >
             full-stack engineer · accessibility-first · girl in STEM
-          </p>
+          </motion.p>
 
           {/* Search bar */}
-          <div className="animate-fade-up delay-400">
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: "easeOut", delay: 0.8 }}
+          >
             <SearchBar autoFocus={false} />
-          </div>
+          </motion.div>
 
           {/* Quick search pills — like Google suggestions below search */}
-          <div className="mt-6 flex flex-wrap justify-center gap-2 animate-fade-up delay-500">
+          <motion.div
+            className="mt-6 flex flex-wrap justify-center gap-2"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.6, delay: 1 }}
+            variants={{
+              hidden: { opacity: 0 },
+              visible: {
+                opacity: 1,
+                transition: { staggerChildren: 0.08 },
+              },
+            }}
+          >
             {[
               { label: "Who is Anita?", to: "/ai-mode" },
               { label: "Her Projects", to: "/work" },
               { label: "Experience", to: "/work" },
               { label: "Contact", to: "/contact" },
             ].map((item) => (
-              <Link
+              <motion.div
                 key={item.label}
-                to={item.to}
-                className="btn-soft px-4 py-2 text-sm rounded-full font-sans text-ink inline-flex items-center gap-1.5 border-[var(--border-soft)]"
+                variants={{
+                  hidden: { opacity: 0, y: 8 },
+                  visible: { opacity: 1, y: 0 },
+                }}
               >
-                {item.label}
-              </Link>
+                <Link
+                  to={item.to}
+                  className="btn-soft px-4 py-2 text-sm rounded-full font-sans text-ink inline-flex items-center gap-1.5 border-[var(--border-soft)]"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  {item.label}
+                </Link>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
 
           {/* I'm feeling lucky */}
           <div className="mt-4 flex justify-center gap-3 animate-fade-up delay-700">
