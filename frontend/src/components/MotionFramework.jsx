@@ -152,18 +152,18 @@ export function MagneticButton({ children, className = "" }) {
   const [isHovered, setIsHovered] = React.useState(false);
   const [mousePos, setMousePos] = React.useState({ x: 0, y: 0 });
 
-  const handleMouseMove = (e) => {
-    if (!ref.current || !isHovered) return;
-    const rect = ref.current.getBoundingClientRect();
-    const centerX = rect.left + rect.width / 2;
-    const centerY = rect.top + rect.height / 2;
-    setMousePos({
-      x: (e.clientX - centerX) * 0.2,
-      y: (e.clientY - centerY) * 0.2,
-    });
-  };
-
   React.useEffect(() => {
+    const handleMouseMove = (e) => {
+      if (!ref.current || !isHovered) return;
+      const rect = ref.current.getBoundingClientRect();
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
+      setMousePos({
+        x: (e.clientX - centerX) * 0.2,
+        y: (e.clientY - centerY) * 0.2,
+      });
+    };
+
     if (isHovered) {
       window.addEventListener("mousemove", handleMouseMove);
       return () => window.removeEventListener("mousemove", handleMouseMove);
