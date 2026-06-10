@@ -371,6 +371,258 @@ body {
     animation: fade-up 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
+/* ── Glass & Editorial Depth ── */
+/* Premium glass effect for cards */
+.glass {
+    backdrop-filter: blur(8px);
+    background: rgba(255, 255, 255, 0.7);
+    border: 1px solid rgba(240, 216, 220, 0.5);
+}
+.glass:hover {
+    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.8);
+    border-color: rgba(240, 216, 220, 0.7);
+    transition: all 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Deep shadow stack for elevated cards */
+.card-elevated {
+    box-shadow:
+        0 2px 4px rgba(44, 26, 29, 0.04),
+        0 4px 8px rgba(44, 26, 29, 0.08),
+        0 8px 16px rgba(44, 26, 29, 0.12),
+        0 16px 32px rgba(44, 26, 29, 0.08);
+}
+.card-elevated:hover {
+    box-shadow:
+        0 2px 4px rgba(44, 26, 29, 0.08),
+        0 8px 16px rgba(44, 26, 29, 0.12),
+        0 16px 32px rgba(44, 26, 29, 0.16),
+        0 32px 64px rgba(44, 26, 29, 0.12);
+}
+
+/* Soft layered shadows */
+.shadow-soft {
+    box-shadow: 0 4px 12px rgba(139, 58, 82, 0.08);
+}
+.shadow-medium {
+    box-shadow: 0 12px 32px rgba(139, 58, 82, 0.12);
+}
+.shadow-deep {
+    box-shadow: 0 20px 60px rgba(139, 58, 82, 0.16);
+}
+
+/* Inset shadow for depth */
+.inset-shadow {
+    box-shadow: inset 0 1px 3px rgba(44, 26, 29, 0.05);
+}
+
+/* Floating effect with layered shadows */
+.floating {
+    transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+    box-shadow:
+        0 4px 8px rgba(44, 26, 29, 0.06),
+        0 8px 16px rgba(44, 26, 29, 0.08);
+}
+.floating:hover {
+    transform: translateY(-4px);
+    box-shadow:
+        0 8px 16px rgba(44, 26, 29, 0.10),
+        0 16px 32px rgba(44, 26, 29, 0.12);
+}
+
+/* Link underline with gradient */
+.link-gradient {
+    position: relative;
+    text-decoration: none;
+    background: linear-gradient(to right, var(--plum), var(--rose));
+    background-size: 0% 2px;
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    transition: background-size 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.link-gradient:hover {
+    background-size: 100% 2px;
+}
+
+/* Pressed button state */
+.btn-active {
+    background: var(--bg-petal);
+    border-color: var(--blossom);
+    color: var(--plum);
+    box-shadow: inset 0 2px 4px rgba(44, 26, 29, 0.08);
+}
+
+/* Focus state with rose glow */
+.focus-glow:focus-within {
+    box-shadow: 0 0 0 3px rgba(242, 196, 206, 0.25), 0 0 0 6px rgba(242, 196, 206, 0.12);
+}
+
+/* ── Premium Microinteractions ── */
+/* Button ripple effect base */
+button, a[role="button"] {
+    position: relative;
+    overflow: hidden;
+}
+
+/* Subtle scale on active */
+button:active, a[role="button"]:active {
+    transform: scale(0.98);
+}
+
+/* Link hover animation with arrow */
+a:not(.btn-soft):not(.link-soft) {
+    transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+    position: relative;
+}
+
+/* Magnetic button effect prep */
+.magnetic-btn {
+    transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+    cursor: pointer;
+}
+.magnetic-btn:hover {
+    transform: scale(1.04);
+    filter: drop-shadow(0 8px 20px rgba(139, 58, 82, 0.15));
+}
+
+/* Text selection color */
+::selection {
+    background: var(--pink);
+    color: var(--ink);
+}
+
+/* Focus visible for accessibility */
+*:focus-visible {
+    outline: 2px solid var(--rose);
+    outline-offset: 2px;
+}
+
+/* Smooth transitions for all interactive elements */
+button, input, textarea, select, a, [role="button"], [role="link"] {
+    transition-property: background-color, color, border-color, box-shadow, transform;
+    transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+    transition-duration: 0.35s;
+}
+
+/* Input focus state */
+input:focus, textarea:focus, select:focus {
+    box-shadow: 0 0 0 3px rgba(242, 196, 206, 0.2);
+    border-color: var(--blossom);
+}
+
+/* ── Scroll Reveal & Parallax ── */
+/* Scroll reveal trigger point */
+.scroll-reveal {
+    animation: fade-up 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    opacity: 0;
+}
+.scroll-reveal[data-in-view="true"] {
+    animation-play-state: running;
+}
+
+/* Staggered reveal children */
+.reveal-child {
+    opacity: 0;
+    animation: fade-up 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+.reveal-child:nth-child(1) { animation-delay: 0.05s; }
+.reveal-child:nth-child(2) { animation-delay: 0.1s; }
+.reveal-child:nth-child(3) { animation-delay: 0.15s; }
+.reveal-child:nth-child(4) { animation-delay: 0.2s; }
+.reveal-child:nth-child(5) { animation-delay: 0.25s; }
+.reveal-child:nth-child(n+6) { animation-delay: calc(0.05s * var(--child-index, 1)); }
+
+/* Parallax layer */
+.parallax {
+    position: relative;
+    will-change: transform;
+}
+.parallax-slow {
+    animation: parallax-slow 10s linear infinite;
+}
+.parallax-medium {
+    animation: parallax-medium 8s linear infinite;
+}
+.parallax-fast {
+    animation: parallax-fast 6s linear infinite;
+}
+
+@keyframes parallax-slow {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
+}
+@keyframes parallax-medium {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-12px); }
+}
+@keyframes parallax-fast {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+}
+
+/* Scroll parallax depth */
+.scroll-parallax {
+    position: relative;
+    transform: translateZ(0);
+}
+.scroll-parallax[data-scroll="0"] {
+    transform: translateY(0px);
+}
+
+/* Fade in on scroll */
+.fade-scroll {
+    opacity: 0.3;
+    transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.fade-scroll[data-in-view="true"] {
+    opacity: 1;
+}
+
+/* Slide up on scroll */
+.slide-up {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: all 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.slide-up[data-in-view="true"] {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Slide left on scroll */
+.slide-left {
+    opacity: 0;
+    transform: translateX(-40px);
+    transition: all 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.slide-left[data-in-view="true"] {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* Slide right on scroll */
+.slide-right {
+    opacity: 0;
+    transform: translateX(40px);
+    transition: all 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.slide-right[data-in-view="true"] {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* Scale up on scroll */
+.scale-up {
+    opacity: 0;
+    transform: scale(0.9);
+    transition: all 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.scale-up[data-in-view="true"] {
+    opacity: 1;
+    transform: scale(1);
+}
+
 @layer base {
     [data-debug-wrapper="true"] {
         display: contents !important;
