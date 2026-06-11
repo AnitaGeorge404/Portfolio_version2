@@ -7,16 +7,6 @@ export function ThemeProvider({ children }) {
   const [currentTheme, setCurrentTheme] = useState("archive");
   const [isLoaded, setIsLoaded] = useState(false);
 
-  // Initialize theme from localStorage on mount
-  useEffect(() => {
-    const savedTheme = localStorage.getItem("portfolio-theme");
-    const initialTheme = savedTheme && themeTokens[savedTheme] ? savedTheme : "archive";
-    
-    setCurrentTheme(initialTheme);
-    applyTheme(initialTheme);
-    setIsLoaded(true);
-  }, []);
-
   // Apply theme to document root
   const applyTheme = useCallback((themeName) => {
     if (!themeTokens[themeName]) {
@@ -32,6 +22,16 @@ export function ThemeProvider({ children }) {
     // Set data attribute for theme-specific selectors
     document.documentElement.setAttribute("data-theme", themeName);
   }, []);
+
+  // Initialize theme from localStorage on mount
+  useEffect(() => {
+    const savedTheme = localStorage.getItem("portfolio-theme");
+    const initialTheme = savedTheme && themeTokens[savedTheme] ? savedTheme : "archive";
+    
+    setCurrentTheme(initialTheme);
+    applyTheme(initialTheme);
+    setIsLoaded(true);
+  }, [applyTheme]);
 
   // Handle theme change
   const changeTheme = useCallback((themeName) => {
