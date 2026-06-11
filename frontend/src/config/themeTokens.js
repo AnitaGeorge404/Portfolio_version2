@@ -1,6 +1,6 @@
 /**
  * Premium Multi-Theme Design System
- * Four distinct visual identities with unified functionality
+ * Each theme is a complete environment/experience, not just colors
  */
 
 export const themeTokens = {
@@ -33,6 +33,12 @@ export const themeTokens = {
     // Decorations
     decorationPrimary: "#C96B84",
     decorationSecondary: "#EDAABB",
+    // Theme-specific experience tokens
+    animationDuration: "8s",
+    particleDensity: 15,
+    textureOpacity: 0.03,
+    decorationIntensity: 0.9,
+    cardShadowStyle: "layered-paper",
     // Semantic colors (HSL for shadcn compatibility)
     background: "20 60% 97%",
     foreground: "345 30% 14%",
@@ -63,7 +69,7 @@ export const themeTokens = {
     bgPetal: "#F2F2F2",
     // Text colors
     ink: "#1A1A1A",
-    inkSoft: "#666666",
+    inkSoft: "#5F6368",
     // Accent colors
     plum: "#3B5BDB",
     pink: "#E8F0FE",
@@ -80,6 +86,12 @@ export const themeTokens = {
     // Decorations
     decorationPrimary: "#4A71E8",
     decorationSecondary: "#D4E3FF",
+    // Theme-specific experience tokens
+    animationDuration: "0.3s",
+    particleDensity: 0,
+    textureOpacity: 0,
+    decorationIntensity: 0.2,
+    cardShadowStyle: "soft-elevation",
     // Semantic colors (HSL for shadcn compatibility)
     background: "0 0% 100%",
     foreground: "0 0% 10%",
@@ -100,96 +112,108 @@ export const themeTokens = {
 
   midnight: {
     name: "Midnight",
-    description: "Deep, intelligent, celestial night research aesthetic",
+    description: "Luxury observation deck, celestial night research",
     emoji: "🌙",
-    // Background colors
-    bgPaper: "#0F1117",
-    bgWarm: "#161B22",
-    bgCard: "#0D1117",
-    bgTag: "#21262D",
-    bgPetal: "#1C2128",
-    // Text colors
-    ink: "#E6EDF3",
-    inkSoft: "#8B949E",
-    // Accent colors
-    plum: "#79C0FF",
-    pink: "#58A6FF",
-    blossom: "#6E40AA",
+    // FIXED: Warm charcoal instead of pure black (luxury feel)
+    bgPaper: "#1A2634",
+    bgWarm: "#202C3D",
+    bgCard: "#192433",
+    bgTag: "#2D3F52",
+    bgPetal: "#1F2E3F",
+    // Warm whites on dark (AAA contrast + luxury)
+    ink: "#F5F7FA",
+    inkSoft: "#C0C7CF",
+    // Premium blues, purples, silvers
+    plum: "#A8D5FF",
+    pink: "#7EC4FF",
+    blossom: "#8B6FF8",
     rose: "#79C0FF",
-    burgundy: "#5865F2",
-    cream: "#161B22",
-    dusty: "#A8D5FF",
-    sage: "#6E8C9C",
-    brown: "#7B8FA8",
-    // Borders
-    borderSoft: "#30363D",
-    borderMedium: "#21262D",
-    // Decorations
+    burgundy: "#6E40AA",
+    cream: "#1A2634",
+    dusty: "#B8D5FF",
+    sage: "#8BA5C0",
+    brown: "#8B9DB8",
+    // Borders - subtle silver
+    borderSoft: "#374B5C",
+    borderMedium: "#2D3F52",
+    // Decorations - premium blue + purple
     decorationPrimary: "#79C0FF",
-    decorationSecondary: "#6E40AA",
+    decorationSecondary: "#8B6FF8",
+    // Theme-specific experience tokens
+    animationDuration: "3s",
+    particleDensity: 40,
+    textureOpacity: 0.02,
+    decorationIntensity: 0.8,
+    cardShadowStyle: "glassmorphism-glow",
     // Semantic colors (HSL for shadcn compatibility)
-    background: "215 28% 7%",
-    foreground: "217 33% 90%",
+    background: "215 28% 15%",
+    foreground: "217 33% 96%",
     primary: "212 100% 50%",
-    primaryForeground: "215 28% 7%",
+    primaryForeground: "215 28% 15%",
     secondary: "212 46% 35%",
-    secondaryForeground: "217 33% 90%",
-    muted: "215 16% 22%",
-    mutedForeground: "217 15% 55%",
+    secondaryForeground: "217 33% 96%",
+    muted: "215 16% 25%",
+    mutedForeground: "217 15% 75%",
     accent: "212 89% 61%",
-    accentForeground: "215 28% 7%",
+    accentForeground: "215 28% 15%",
     destructive: "0 60% 50%",
     destructiveForeground: "0 0% 98%",
-    border: "215 16% 22%",
-    input: "215 16% 22%",
+    border: "215 16% 25%",
+    input: "215 16% 25%",
     ring: "212 100% 50%",
   },
 
   herbarium: {
     name: "Herbarium",
-    description: "Luxury botanical, timeless nature journal aesthetic",
+    description: "Botanical research archive, dark & luxe",
     emoji: "🌿",
-    // Background colors
-    bgPaper: "#F5F3F0",
-    bgWarm: "#EBE7E2",
-    bgCard: "#F2EFEA",
-    bgTag: "#EDE9E4",
-    bgPetal: "#EAE6E1",
-    // Text colors
-    ink: "#3D3630",
-    inkSoft: "#6B6158",
-    // Accent colors
-    plum: "#4A6741",
-    pink: "#A8C9A0",
+    // FIXED: DARK moss green (completely redesigned from light)
+    bgPaper: "#0F2419",
+    bgWarm: "#163325",
+    bgCard: "#0E2317",
+    bgTag: "#1A3B2F",
+    bgPetal: "#0D2216",
+    // Light cream text on dark green (AAA contrast)
+    ink: "#E8E6E0",
+    inkSoft: "#C0B8AE",
+    // Bright botanical greens (visible on dark)
+    plum: "#6DB563",
+    pink: "#A8D5AA",
     blossom: "#B8D5AA",
-    rose: "#6B8E5E",
-    burgundy: "#3D5835",
-    cream: "#F5F3F0",
-    dusty: "#A89B8F",
-    sage: "#7A8E72",
-    brown: "#8B7D70",
-    // Borders
-    borderSoft: "#DDD5CE",
-    borderMedium: "#CFC5BD",
-    // Decorations
-    decorationPrimary: "#6B8E5E",
-    decorationSecondary: "#B8D5AA",
+    rose: "#5FA050",
+    burgundy: "#4A7C3A",
+    cream: "#E8E6E0",
+    dusty: "#8BA57A",
+    sage: "#7A9B6F",
+    brown: "#8B9E7A",
+    // Borders - subtle on dark
+    borderSoft: "#2B4838",
+    borderMedium: "#1F3A2E",
+    // Decorations - bright botanicals
+    decorationPrimary: "#6DB563",
+    decorationSecondary: "#A8D5AA",
+    // Theme-specific experience tokens
+    animationDuration: "6s",
+    particleDensity: 20,
+    textureOpacity: 0.08,
+    decorationIntensity: 0.85,
+    cardShadowStyle: "aged-paper-shadow",
     // Semantic colors (HSL for shadcn compatibility)
-    background: "30 14% 95%",
-    foreground: "20 12% 20%",
-    primary: "100 25% 35%",
-    primaryForeground: "30 14% 95%",
-    secondary: "100 22% 60%",
-    secondaryForeground: "20 12% 20%",
-    muted: "30 10% 88%",
-    mutedForeground: "20 8% 42%",
-    accent: "100 35% 55%",
-    accentForeground: "20 12% 20%",
+    background: "145 42% 12%",
+    foreground: "28 12% 90%",
+    primary: "105 35% 42%",
+    primaryForeground: "28 12% 90%",
+    secondary: "105 30% 55%",
+    secondaryForeground: "145 42% 12%",
+    muted: "145 30% 25%",
+    mutedForeground: "28 10% 75%",
+    accent: "105 45% 50%",
+    accentForeground: "145 42% 12%",
     destructive: "0 60% 50%",
     destructiveForeground: "0 0% 98%",
-    border: "30 10% 88%",
-    input: "30 10% 88%",
-    ring: "100 25% 35%",
+    border: "145 30% 25%",
+    input: "145 30% 25%",
+    ring: "105 35% 42%",
   },
 };
 
@@ -222,6 +246,12 @@ export function getThemeCSSVariables(theme) {
     "--border-medium": tokens.borderMedium,
     "--decoration-primary": tokens.decorationPrimary,
     "--decoration-secondary": tokens.decorationSecondary,
+    // Experience tokens for theme-specific behavior
+    "--animation-duration": tokens.animationDuration,
+    "--particle-density": tokens.particleDensity,
+    "--texture-opacity": tokens.textureOpacity,
+    "--decoration-intensity": tokens.decorationIntensity,
+    "--card-shadow-style": tokens.cardShadowStyle,
     // Semantic HSL colors
     "--background": tokens.background,
     "--foreground": tokens.foreground,
