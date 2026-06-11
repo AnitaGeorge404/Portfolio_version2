@@ -3,6 +3,8 @@ import { Link, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 import SearchBar from "@/components/SearchBar";
 import SearchTabs from "@/components/SearchTabs";
+import ThemeSwitcher from "@/components/ThemeSwitcher";
+import ThemeDecoration from "@/components/ThemeDecoration";
 import { Sparkle, CherryBlossom } from "@/components/Decorations";
 import { AmbientParticles, PageTransition } from "@/components/MotionFramework";
 import { FloatingPetal, Butterfly } from "@/components/BotanicalElements";
@@ -26,6 +28,12 @@ export default function Layout({ children }) {
 
   return (
     <div className="relative" data-testid="layout-root">
+      {/* Theme Switcher */}
+      <ThemeSwitcher />
+
+      {/* Theme-Specific Decorations */}
+      <ThemeDecoration />
+
       {/* Ambient particle atmosphere */}
       <AmbientParticles count={30} className="opacity-40" />
 
