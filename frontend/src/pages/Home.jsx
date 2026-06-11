@@ -24,23 +24,15 @@ const fallbackPAA = peopleAlsoAsk.slice(0, 4).map((p) => ({
   related: ["/work", "/ai-mode"],
 }));
 
-// Google-style colored dots logo
+// Google-style colored dots logo - theme-aware
 function AnitaLogo({ large = false }) {
-  const dots = [
-    { color: "#C96B84" },
-    { color: "#EDAABB" },
-    { color: "#8B3A52" },
-    { color: "#F2C4CE" },
-    { color: "#C96B84" },
-    { color: "#D9939F" },
-  ];
   return (
     <div className={`font-serif leading-none tracking-tight text-ink select-none ${large ? "text-8xl sm:text-9xl lg:text-[140px]" : "text-5xl"}`}>
-      <span className="italic" style={{ color: "#C96B84" }}>A</span>
-      <span style={{ color: "#8B3A52" }}>n</span>
-      <span style={{ color: "#EDAABB" }}>i</span>
-      <span style={{ color: "#C96B84" }}>t</span>
-      <span style={{ color: "#D9939F" }}>a</span>
+      <span className="italic" style={{ color: "var(--rose)" }}>A</span>
+      <span style={{ color: "var(--plum)" }}>n</span>
+      <span style={{ color: "var(--blossom)" }}>i</span>
+      <span style={{ color: "var(--rose)" }}>t</span>
+      <span style={{ color: "var(--dusty)" }}>a</span>
     </div>
   );
 }

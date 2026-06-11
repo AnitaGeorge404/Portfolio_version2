@@ -112,7 +112,7 @@ export const themeTokens = {
 
   midnight: {
     name: "Midnight",
-    description: "Luxury dark mode: black & cream with subtle gold accents",
+    description: "Luxury dark mode: pure black & bright cream",
     emoji: "🌙",
     // Pure black luxury background
     bgPaper: "#000000",
@@ -120,25 +120,25 @@ export const themeTokens = {
     bgCard: "#0A0A0A",
     bgTag: "#1A1A1A",
     bgPetal: "#050505",
-    // Cream text for luxury readability (AAA contrast on black)
-    ink: "#F5F3F0",
-    inkSoft: "#D4D0C8",
-    // Subtle luxury accents: gold, silver, refined neutrals
+    // BRIGHT off-white/cream text for maximum readability
+    ink: "#FFFAF5",
+    inkSoft: "#F0E6D2",
+    // Luxury accents: gold, silver, cream
     plum: "#D4AF37",
-    pink: "#E8E4D8",
-    blossom: "#C9B896",
-    rose: "#B8956A",
-    burgundy: "#8B7355",
-    cream: "#F5F3F0",
-    dusty: "#A89968",
-    sage: "#8B8680",
-    brown: "#9B8F7E",
-    // Borders - refined gray
-    borderSoft: "#2A2A2A",
-    borderMedium: "#1F1F1F",
-    // Decorations - subtle gold + silver
+    pink: "#FFFAF5",
+    blossom: "#E8DCC8",
+    rose: "#D4AF37",
+    burgundy: "#C9A86B",
+    cream: "#FFFAF5",
+    dusty: "#D4AF37",
+    sage: "#D0C5B8",
+    brown: "#C9B8A5",
+    // Borders - refined dark gray
+    borderSoft: "#3A3A3A",
+    borderMedium: "#2A2A2A",
+    // Decorations - gold + silver
     decorationPrimary: "#D4AF37",
-    decorationSecondary: "#E8E4D8",
+    decorationSecondary: "#FFFAF5",
     // Theme-specific experience tokens
     animationDuration: "2s",
     particleDensity: 20,
@@ -147,19 +147,19 @@ export const themeTokens = {
     cardShadowStyle: "luxury-shadow",
     // Semantic colors (HSL for shadcn compatibility)
     background: "0 0% 0%",
-    foreground: "28 10% 96%",
+    foreground: "30 100% 98%",
     primary: "43 100% 51%",
     primaryForeground: "0 0% 0%",
     secondary: "43 30% 40%",
-    secondaryForeground: "28 10% 96%",
-    muted: "0 0% 15%",
-    mutedForeground: "28 8% 84%",
+    secondaryForeground: "30 100% 98%",
+    muted: "0 0% 20%",
+    mutedForeground: "30 30% 94%",
     accent: "43 100% 51%",
     accentForeground: "0 0% 0%",
     destructive: "0 60% 50%",
     destructiveForeground: "0 0% 98%",
-    border: "0 0% 15%",
-    input: "0 0% 15%",
+    border: "0 0% 20%",
+    input: "0 0% 20%",
     ring: "43 100% 51%",
   },
 
