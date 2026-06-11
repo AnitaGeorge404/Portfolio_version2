@@ -29,6 +29,8 @@
     --washi-yellow: rgba(255, 234, 170, 0.65);
     --washi-pink: rgba(242, 196, 206, 0.6);
     --washi-mint: rgba(180, 215, 195, 0.55);
+    --decoration-primary: #C96B84;
+    --decoration-secondary: #EDAABB;
 }
 
 @layer base {
