@@ -1,0 +1,387 @@
+/* ── CUSTOM CURSOR SYSTEM ── */
+
+.custom-cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 80px;
+  height: 80px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  z-index: 9999;
+}
+
+.custom-cursor.visible {
+  opacity: 1;
+}
+
+.cursor-svg {
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+}
+
+/* ── ARCHIVE THEME - PRESSED FLOWER ── */
+
+.cursor-archive .cursor-svg {
+  filter: drop-shadow(0 2px 6px rgba(201, 107, 132, 0.3));
+}
+
+.cursor-archive .flower-petals ellipse {
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.cursor-archive .flower-center {
+  transition: all 0.3s ease;
+}
+
+/* Bloom effect on hover */
+.cursor-archive.hover-card .flower-petals ellipse,
+.cursor-archive.hover-project .flower-petals ellipse {
+  animation: bloom 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+.cursor-archive.hover-link .flower-petals ellipse {
+  animation: drift 2s ease-in-out infinite;
+}
+
+.cursor-archive.hover-button .flower-center {
+  animation: pulse-flower 0.4s ease-out;
+}
+
+@keyframes bloom {
+  0% {
+    rx: 12;
+    ry: 15;
+    opacity: 0.8;
+  }
+  50% {
+    rx: 15;
+    ry: 18;
+    opacity: 0.9;
+  }
+  100% {
+    rx: 14;
+    ry: 17;
+    opacity: 0.85;
+  }
+}
+
+@keyframes drift {
+  0%, 100% {
+    transform: translateX(0) rotate(0deg);
+  }
+  50% {
+    transform: translateX(2px) rotate(2deg);
+  }
+}
+
+@keyframes pulse-flower {
+  0% {
+    r: 10;
+  }
+  50% {
+    r: 12;
+  }
+  100% {
+    r: 10;
+  }
+}
+
+/* ── SEARCH THEME - PRECISION LENS ── */
+
+.cursor-search .cursor-svg {
+  filter: drop-shadow(0 1px 3px rgba(26, 26, 26, 0.2));
+}
+
+.cursor-search .search-ring {
+  transition: all 0.3s ease;
+}
+
+.cursor-search .search-handle {
+  transition: all 0.3s ease;
+}
+
+/* Ring expands on button hover */
+.cursor-search.hover-button .search-ring {
+  r: 28;
+  stroke-width: 2.5;
+  animation: focus-pulse 0.4s ease-out;
+}
+
+/* Precision highlight on link */
+.cursor-search.hover-link .search-ring {
+  stroke: #1F2937;
+  r: 20;
+}
+
+/* Transform on search bar */
+.cursor-search.hover-search .search-ring {
+  r: 25;
+  opacity: 0.8;
+  animation: search-activate 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Card hover - subtle ring */
+.cursor-search.hover-card .search-ring {
+  r: 22;
+  opacity: 0.7;
+}
+
+@keyframes focus-pulse {
+  0% {
+    r: 22;
+  }
+  50% {
+    r: 30;
+  }
+  100% {
+    r: 28;
+  }
+}
+
+@keyframes search-activate {
+  0% {
+    r: 22;
+    opacity: 0.5;
+  }
+  100% {
+    r: 25;
+    opacity: 0.8;
+  }
+}
+
+/* ── MIDNIGHT THEME - LUXURY INTELLIGENCE ── */
+
+.cursor-midnight .cursor-svg {
+  filter: drop-shadow(0 4px 12px rgba(212, 175, 55, 0.25));
+}
+
+.cursor-midnight .luxury-ring {
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.cursor-midnight .luxury-center {
+  transition: all 0.2s ease;
+}
+
+/* Glass distortion effect on hover */
+.cursor-midnight.hover-card {
+  animation: magnetic-pull 0.3s ease-out;
+}
+
+.cursor-midnight.hover-card .luxury-ring {
+  r: 22;
+  stroke: #E8DCC8;
+  opacity: 0.9;
+  animation: glass-distort 0.4s ease-out;
+}
+
+/* Glow response on buttons */
+.cursor-midnight.hover-button .luxury-center {
+  animation: luxury-glow 0.4s ease-out;
+  r: 5;
+}
+
+.cursor-midnight.hover-button .luxury-ring {
+  animation: expand-ring 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* AI mode semantic pulse */
+.cursor-midnight.hover-project {
+  animation: semantic-pulse 0.6s ease-out infinite;
+}
+
+.cursor-midnight.hover-project .luxury-ring {
+  stroke: #D4AF37;
+  animation: phase-shift 1s ease-in-out infinite;
+}
+
+@keyframes glass-distort {
+  0% {
+    r: 18;
+    opacity: 0.7;
+  }
+  50% {
+    r: 24;
+    opacity: 0.9;
+  }
+  100% {
+    r: 22;
+    opacity: 0.85;
+  }
+}
+
+@keyframes luxury-glow {
+  0% {
+    r: 3;
+    fill: #FFFAF5;
+  }
+  50% {
+    r: 6;
+    fill: #E8DCC8;
+  }
+  100% {
+    r: 5;
+    fill: #FFFAF5;
+  }
+}
+
+@keyframes expand-ring {
+  0% {
+    r: 18;
+  }
+  50% {
+    r: 25;
+  }
+  100% {
+    r: 22;
+  }
+}
+
+@keyframes magnetic-pull {
+  0% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(0, -2px);
+  }
+}
+
+@keyframes semantic-pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+@keyframes phase-shift {
+  0%, 100% {
+    stroke-dashoffset: 0;
+  }
+  50% {
+    stroke-dashoffset: 113;
+  }
+}
+
+/* ── HERBARIUM THEME - BOTANICAL EXPLORER ── */
+
+.cursor-herbarium .cursor-svg {
+  filter: drop-shadow(0 2px 6px rgba(126, 198, 111, 0.3));
+}
+
+.cursor-herbarium .clover-leaf ellipse {
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Leaf unfolds on projects */
+.cursor-herbarium.hover-project .clover-leaf ellipse {
+  animation: leaf-unfold 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+/* Botanical sketch appears on cards */
+.cursor-herbarium.hover-card {
+  animation: sketch-appear 0.4s ease-out;
+}
+
+.cursor-herbarium.hover-card .clover-leaf ellipse {
+  opacity: 0.95;
+}
+
+/* Vine animation on links */
+.cursor-herbarium.hover-link {
+  animation: vine-animate 2s ease-in-out infinite;
+}
+
+/* Center circle response */
+.cursor-herbarium.hover-button circle:first-of-type {
+  animation: botanical-pulse 0.4s ease-out;
+}
+
+@keyframes leaf-unfold {
+  0% {
+    rx: 9;
+    ry: 14;
+    opacity: 0.6;
+  }
+  50% {
+    rx: 12;
+    ry: 17;
+    opacity: 0.9;
+  }
+  100% {
+    rx: 11;
+    ry: 16;
+    opacity: 0.85;
+  }
+}
+
+@keyframes sketch-appear {
+  0% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes vine-animate {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-2px) rotate(1deg);
+  }
+}
+
+@keyframes botanical-pulse {
+  0% {
+    r: 6;
+  }
+  50% {
+    r: 8;
+  }
+  100% {
+    r: 6;
+  }
+}
+
+/* ── RESPONSIVE SIZE ADJUSTMENTS ── */
+
+@media (max-width: 768px) {
+  .custom-cursor {
+    width: 60px;
+    height: 60px;
+  }
+
+  .cursor-svg {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+/* ── ANIMATIONS FOR ALL THEMES ── */
+
+.cursor-archive.hover-image,
+.cursor-search.hover-image,
+.cursor-midnight.hover-image,
+.cursor-herbarium.hover-image {
+  animation: image-detect 0.3s ease-out;
+}
+
+@keyframes image-detect {
+  0% {
+    transform: scale(0.95);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Smooth transitions when switching themes */
+.custom-cursor {
+  transition: filter 0.3s ease, opacity 0.2s ease;
+}

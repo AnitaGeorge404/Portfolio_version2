@@ -279,52 +279,6 @@ body {
 .animate-bloom { animation: bloom 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }
 .animate-sway { animation: gentle-sway 4s ease-in-out infinite; }
 
-/* ── THEME-SPECIFIC CURSORS ── */
-
-/* Archive Theme - Rose flower cursor */
-html[data-theme="archive"] {
-    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><circle cx="12" cy="12" r="10" fill="%23C96B84"/><circle cx="12" cy="12" r="6" fill="%23EDAABB"/><circle cx="12" cy="12" r="3" fill="%238B3A52"/></svg>') 12 12, auto;
-}
-
-html[data-theme="archive"] a,
-html[data-theme="archive"] button,
-html[data-theme="archive"] [role="button"] {
-    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><circle cx="12" cy="12" r="10" fill="%23C96B84"/><circle cx="12" cy="12" r="6" fill="%23EDAABB"/><circle cx="12" cy="12" r="3" fill="%238B3A52"/></svg>') 12 12, pointer;
-}
-
-/* Search Theme - Search magnifying glass cursor */
-html[data-theme="search"] {
-    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><circle cx="9" cy="9" r="7" fill="none" stroke="%231A1A1A" stroke-width="2"/><line x1="14" y1="14" x2="20" y2="20" stroke="%231A1A1A" stroke-width="2" stroke-linecap="round"/></svg>') 12 12, auto;
-}
-
-html[data-theme="search"] a,
-html[data-theme="search"] button,
-html[data-theme="search"] [role="button"] {
-    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><circle cx="9" cy="9" r="7" fill="none" stroke="%231A1A1A" stroke-width="2"/><line x1="14" y1="14" x2="20" y2="20" stroke="%231A1A1A" stroke-width="2" stroke-linecap="round"/></svg>') 12 12, pointer;
-}
-
-/* Midnight Theme - Modern luxury geometric cursor */
-html[data-theme="midnight"] {
-    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><circle cx="12" cy="12" r="8" fill="none" stroke="%23D4AF37" stroke-width="1.5"/><line x1="12" y1="4" x2="12" y2="20" stroke="%23D4AF37" stroke-width="1.5"/><line x1="4" y1="12" x2="20" y2="12" stroke="%23D4AF37" stroke-width="1.5"/><circle cx="12" cy="12" r="2" fill="%23FFFAF5"/></svg>') 12 12, auto;
-}
-
-html[data-theme="midnight"] a,
-html[data-theme="midnight"] button,
-html[data-theme="midnight"] [role="button"] {
-    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><circle cx="12" cy="12" r="8" fill="none" stroke="%23D4AF37" stroke-width="1.5"/><line x1="12" y1="4" x2="12" y2="20" stroke="%23D4AF37" stroke-width="1.5"/><line x1="4" y1="12" x2="20" y2="12" stroke="%23D4AF37" stroke-width="1.5"/><circle cx="12" cy="12" r="2" fill="%23FFFAF5"/></svg>') 12 12, pointer;
-}
-
-/* Herbarium Theme - Botanical leaf cursor */
-html[data-theme="herbarium"] {
-    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M12 2 Q8 6 8 12 Q8 18 12 22 Q16 18 16 12 Q16 6 12 2" fill="%237EC66F"/><path d="M12 6 Q10 8 10 12 Q10 16 12 20" stroke="%23F0EDE8" stroke-width="1"/></svg>') 12 12, auto;
-}
-
-html[data-theme="herbarium"] a,
-html[data-theme="herbarium"] button,
-html[data-theme="herbarium"] [role="button"] {
-    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M12 2 Q8 6 8 12 Q8 18 12 22 Q16 18 16 12 Q16 6 12 2" fill="%237EC66F"/><path d="M12 6 Q10 8 10 12 Q10 16 12 20" stroke="%23F0EDE8" stroke-width="1"/></svg>') 12 12, pointer;
-}
-
 /* ── Theme-Specific Overrides ── */
 
 /* Search Theme: Pure white, zero decorations, professional */
