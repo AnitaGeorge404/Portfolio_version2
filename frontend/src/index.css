@@ -322,7 +322,50 @@ html[data-theme="search"] .pointer-events-none {
 /* Midnight Theme: Pure black & cream luxury aesthetic */
 html[data-theme="midnight"] body {
     background-color: #000000 !important;
-    color: #F5F3F0 !important;
+    color: #FFFAF5 !important;
+}
+
+html[data-theme="midnight"] .paper-bg {
+    background-color: #000000 !important;
+}
+
+html[data-theme="midnight"] .paper-bg::before,
+html[data-theme="midnight"] .paper-bg::after {
+    display: none !important;
+}
+
+/* Force ALL text in Midnight to be white/cream */
+html[data-theme="midnight"] * {
+    color: #FFFAF5 !important;
+}
+
+/* Ensure specific elements are white */
+html[data-theme="midnight"] p,
+html[data-theme="midnight"] span,
+html[data-theme="midnight"] h1,
+html[data-theme="midnight"] h2,
+html[data-theme="midnight"] h3,
+html[data-theme="midnight"] h4,
+html[data-theme="midnight"] h5,
+html[data-theme="midnight"] h6,
+html[data-theme="midnight"] a,
+html[data-theme="midnight"] button,
+html[data-theme="midnight"] li,
+html[data-theme="midnight"] div,
+html[data-theme="midnight"] label,
+html[data-theme="midnight"] .text-ink,
+html[data-theme="midnight"] .text-ink-soft {
+    color: #FFFAF5 !important;
+}
+
+/* Override Tailwind text colors */
+html[data-theme="midnight"] .text-rose,
+html[data-theme="midnight"] .text-plum,
+html[data-theme="midnight"] .text-blossom,
+html[data-theme="midnight"] .text-dusty,
+html[data-theme="midnight"] .text-sage,
+html[data-theme="midnight"] .text-brown {
+    color: #FFFAF5 !important;
 }
 
 html[data-theme="midnight"] .paper-bg {
