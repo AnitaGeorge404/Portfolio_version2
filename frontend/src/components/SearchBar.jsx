@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { searchSuggestions } from "@/data/portfolio";
 import { SemanticRipple } from "@/components/MotionFramework";
-import { Rose, Peony, FloatingPetal } from "@/components/BotanicalElements";
+import { ProminentRose, ProminentPeony, WashiTape } from "@/components/ProminentFlowers";
 
 const quickSearches = [
   { label: "Who is Anita?", icon: "✦" },
@@ -94,23 +94,23 @@ export default function SearchBar({ defaultValue = "", autoFocus = false, compac
       className={`relative w-full ${compact ? "max-w-2xl" : "max-w-2xl"} mx-auto`}
       data-testid="search-bar-wrap"
     >
-      {/* Decorative botanical elements */}
+      {/* PROMINENT FLORAL DECORATIONS - Large, Visible, Beautiful */}
       {!compact && (
         <>
-          <motion.div
-            className="absolute -top-8 -left-12 pointer-events-none"
-            animate={{ y: [0, -4, 0], rotate: [0, 2, 0] }}
-            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-          >
-            <Rose className="w-8 h-8 opacity-60" />
-          </motion.div>
-          <motion.div
-            className="absolute -bottom-10 -right-16 pointer-events-none"
-            animate={{ y: [0, 4, 0], rotate: [0, -2, 0] }}
-            transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
-          >
-            <Peony className="w-10 h-10 opacity-50" />
-          </motion.div>
+          {/* Large rose positioned dramatically */}
+          <div className="absolute -top-20 -left-24 pointer-events-none hidden lg:block">
+            <ProminentRose size="large" delay={0} />
+          </div>
+
+          {/* Large peony on right side */}
+          <div className="absolute -top-16 -right-20 pointer-events-none hidden lg:block">
+            <ProminentPeony size="medium" delay={0.15} />
+          </div>
+
+          {/* Washi tape across top */}
+          <div className="absolute -top-6 left-1/2 transform -translate-x-1/2 pointer-events-none">
+            <WashiTape rotation={-5} delay={0.1} />
+          </div>
         </>
       )}
 
