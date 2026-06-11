@@ -279,7 +279,65 @@ body {
 .animate-bloom { animation: bloom 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }
 .animate-sway { animation: gentle-sway 4s ease-in-out infinite; }
 
-/* ── Theme-Specific Animations ── */
+/* ── Theme-Specific Overrides ── */
+
+/* Search Theme: Pure white, zero decorations, professional */
+html[data-theme="search"] body {
+    background-color: #FFFFFF !important;
+    color: #202124 !important;
+}
+
+html[data-theme="search"] .paper-bg {
+    background-color: #FFFFFF !important;
+}
+
+html[data-theme="search"] .paper-bg::before,
+html[data-theme="search"] .paper-bg::after,
+html[data-theme="search"] .grid-paper,
+html[data-theme="search"] .notebook-lines,
+html[data-theme="search"] .tape {
+    display: none !important;
+}
+
+html[data-theme="search"] .torn-top::before {
+    display: none !important;
+}
+
+/* Hide all SVG decorations in Search theme */
+html[data-theme="search"] svg {
+    display: none !important;
+}
+
+/* Hide motion.div decorations */
+html[data-theme="search"] .animate-float-slow,
+html[data-theme="search"] .animate-drift,
+html[data-theme="search"] .animate-fade-up,
+html[data-theme="search"] .animate-fade-in,
+html[data-theme="search"] .animate-petal,
+html[data-theme="search"] .animate-petal-2,
+html[data-theme="search"] .pointer-events-none {
+    display: none !important;
+}
+
+/* Midnight Theme: Warm charcoal background */
+html[data-theme="midnight"] body {
+    background-color: #1A2634 !important;
+    color: #F5F7FA !important;
+}
+
+html[data-theme="midnight"] .paper-bg {
+    background-color: #1A2634 !important;
+}
+
+/* Herbarium Theme: Dark moss green */
+html[data-theme="herbarium"] body {
+    background-color: #0F2419 !important;
+    color: #E8E6E0 !important;
+}
+
+html[data-theme="herbarium"] .paper-bg {
+    background-color: #0F2419 !important;
+}
 
 /* Archive Theme - Soft, Drifting Motion */
 @keyframes tape-flutter {
