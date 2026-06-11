@@ -5,6 +5,7 @@ import SearchBar from "@/components/SearchBar";
 import SearchTabs from "@/components/SearchTabs";
 import { Sparkle, CherryBlossom } from "@/components/Decorations";
 import { AmbientParticles, PageTransition } from "@/components/MotionFramework";
+import { FloatingPetal, Butterfly } from "@/components/BotanicalElements";
 import { Github, Linkedin, Globe } from "lucide-react";
 import { profile } from "@/data/portfolio";
 
@@ -27,6 +28,11 @@ export default function Layout({ children }) {
     <div className="relative" data-testid="layout-root">
       {/* Ambient particle atmosphere */}
       <AmbientParticles count={30} className="opacity-40" />
+
+      {/* Occasional floating petals for life */}
+      {Math.random() > 0.7 && <FloatingPetal delay={0} duration={10} />}
+      {Math.random() > 0.7 && <FloatingPetal delay={1.5} duration={12} />}
+      {Math.random() > 0.6 && <Butterfly delay={2} duration={14} />}
 
       {/* Top info bar */}
       <motion.div
