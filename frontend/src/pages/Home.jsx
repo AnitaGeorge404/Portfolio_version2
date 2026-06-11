@@ -7,6 +7,7 @@ import SearchTabs from "@/components/SearchTabs";
 import ResultCard from "@/components/ResultCard";
 import PeopleAlsoAskInline from "@/components/PeopleAlsoAskInline";
 import { RevealOnScroll, containerVariants, itemVariants } from "@/components/MotionFramework";
+import { FloatingPetal, Butterfly, PressedFlower, BotanicalSketch } from "@/components/BotanicalElements";
 import {
   Sparkle, Squiggle, HandArrow, Sprig, CherryBlossom,
   Tape, Marker, Paperclip, PetalRain
@@ -119,6 +120,16 @@ export default function Home() {
         >
           <Sparkle size={10} color="#8B3A52" />
         </motion.div>
+
+        {/* Floating petals - create living atmosphere */}
+        {[0, 1.2, 2.4, 3.6, 4.8].map((delay, i) => (
+          <FloatingPetal key={`petal-${i}`} delay={delay} duration={8 + i} />
+        ))}
+
+        {/* Subtle butterflies */}
+        {[0, 2, 4].map((delay, i) => (
+          <Butterfly key={`butterfly-${i}`} delay={delay} duration={12 + i * 2} />
+        ))}
 
         {/* Center content */}
         <div className="max-w-2xl w-full mx-auto text-center relative z-10">

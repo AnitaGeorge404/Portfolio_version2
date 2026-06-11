@@ -1,16 +1,42 @@
 import React from "react";
 import { motion } from "framer-motion";
+import { PressedFlower, BotanicalSketch } from "@/components/BotanicalElements";
 
 export default function ResultCard({ url, title, snippet, meta, children, footer, testid }) {
   return (
     <motion.article
-      className="group max-w-2xl"
+      className="group max-w-2xl relative page-texture"
       data-testid={testid}
       initial={{ opacity: 0, y: 16 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-100px" }}
       transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
     >
+      {/* Subtle decorative pressed flower */}
+      {Math.random() > 0.5 && (
+        <motion.div
+          className="absolute -left-12 top-4 opacity-30"
+          initial={{ opacity: 0, rotate: -20 }}
+          whileInView={{ opacity: 0.4, rotate: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.3, duration: 0.7 }}
+        >
+          <PressedFlower />
+        </motion.div>
+      )}
+
+      {/* Handwritten annotation occasionally */}
+      {Math.random() > 0.7 && (
+        <motion.div
+          className="absolute -right-8 -top-6 font-hand text-[var(--plum)] text-sm opacity-40 italic"
+          initial={{ opacity: 0, y: 8 }}
+          whileInView={{ opacity: 0.4, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.4 }}
+        >
+          ✓ read this
+        </motion.div>
+      )}
       {meta && (
         <motion.div
           className="flex items-center gap-2 text-[11px] tracking-[0.2em] uppercase text-[var(--plum)] mb-1"

@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { searchSuggestions } from "@/data/portfolio";
 import { SemanticRipple } from "@/components/MotionFramework";
+import { Rose, Peony, FloatingPetal } from "@/components/BotanicalElements";
 
 const quickSearches = [
   { label: "Who is Anita?", icon: "✦" },
@@ -93,15 +94,46 @@ export default function SearchBar({ defaultValue = "", autoFocus = false, compac
       className={`relative w-full ${compact ? "max-w-2xl" : "max-w-2xl"} mx-auto`}
       data-testid="search-bar-wrap"
     >
+      {/* Decorative botanical elements */}
+      {!compact && (
+        <>
+          <motion.div
+            className="absolute -top-8 -left-12 pointer-events-none"
+            animate={{ y: [0, -4, 0], rotate: [0, 2, 0] }}
+            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+          >
+            <Rose className="w-8 h-8 opacity-60" />
+          </motion.div>
+          <motion.div
+            className="absolute -bottom-10 -right-16 pointer-events-none"
+            animate={{ y: [0, 4, 0], rotate: [0, -2, 0] }}
+            transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
+          >
+            <Peony className="w-10 h-10 opacity-50" />
+          </motion.div>
+        </>
+      )}
+
       <form onSubmit={submit}>
         <motion.div
-          className={`search-glow flex items-center gap-3 bg-white/90 border border-[var(--border-soft)] ${
+          className={`search-glow journal-shadow flex items-center gap-3 bg-white/90 border border-[var(--border-soft)] ${
             compact ? "py-2.5 px-4" : "py-4 px-6"
-          } rounded-full shadow-[0_4px_40px_-10px_rgba(139,58,82,0.18)]`}
-          whileFocus={{ boxShadow: "0 0 0 8px rgba(242, 196, 206, 0.3), 0 12px 48px -10px rgba(139, 58, 82, 0.25)" }}
+          } rounded-full relative`}
+          whileFocus={{ 
+            boxShadow: "0 0 0 8px rgba(242, 196, 206, 0.3), 0 12px 48px -10px rgba(139, 58, 82, 0.25)",
+            scale: 1.02
+          }}
           onFocus={() => setOpen(true)}
           onClick={() => setOpen(true)}
         >
+          {/* Shimmer overlay on focus */}
+          <motion.div
+            className="absolute inset-0 rounded-full bg-gradient-to-r from-transparent via-white to-transparent"
+            initial={{ opacity: 0, x: "-100%" }}
+            whileFocus={{ opacity: 0.3, x: "100%" }}
+            transition={{ duration: 0.8 }}
+            style={{ pointerEvents: "none" }}
+          />
           {compact ? (
             <Search size={15} className="text-rose shrink-0" />
           ) : (
