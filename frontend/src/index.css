@@ -319,14 +319,19 @@ html[data-theme="search"] .pointer-events-none {
     display: none !important;
 }
 
-/* Midnight Theme: Warm charcoal background */
+/* Midnight Theme: Pure black & cream luxury aesthetic */
 html[data-theme="midnight"] body {
-    background-color: #1A2634 !important;
-    color: #F5F7FA !important;
+    background-color: #000000 !important;
+    color: #F5F3F0 !important;
 }
 
 html[data-theme="midnight"] .paper-bg {
-    background-color: #1A2634 !important;
+    background-color: #000000 !important;
+}
+
+html[data-theme="midnight"] .paper-bg::before,
+html[data-theme="midnight"] .paper-bg::after {
+    display: none !important;
 }
 
 /* Herbarium Theme: Dark moss green */
