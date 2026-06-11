@@ -1,6 +1,5 @@
 import "@/App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import CustomCursor from "@/components/CustomCursor";
 import Layout from "@/components/Layout";
 import Home from "@/pages/Home";
 import Projects from "@/pages/Projects";
@@ -19,7 +18,6 @@ import NotFound from "@/pages/NotFound";
 function App() {
   return (
     <div className="App paper-bg min-h-screen">
-      <CustomCursor />
       <BrowserRouter>
         <Layout>
           <Routes>
