@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
+import { motion } from "framer-motion";
 import axios from "axios";
 import {
   ArrowUpRight,
@@ -20,6 +21,7 @@ import {
   UserRound,
 } from "lucide-react";
 import { Marker, Rose, Sparkle, Sprig, Squiggle, Tape } from "@/components/Decorations";
+import { BotanicalSketch, HandwrittenNote, ScrapbookStamp } from "@/components/BotanicalElements";
 import PeopleAlsoAskInline from "@/components/PeopleAlsoAskInline";
 import { buildLocalArchiveResponse, normalizeArchiveResponse } from "@/utils/archiveSearch";
 
@@ -215,25 +217,51 @@ function AssistantMessage({ message, isLatest, displayedAnswer, onAsk }) {
   const engineLabel = result.llm_available ? "Gemini 2.5 Flash RAG" : result.client_fallback ? "local archive fallback" : "archive RAG";
 
   return (
-    <article className="relative bg-white/88 border border-[var(--border-medium)] p-5 sm:p-6 shadow-[0_30px_70px_-52px_rgba(139,58,82,0.25)]" data-testid="ai-assistant-message">
+    <motion.article 
+      className="relative pressed-paper archive-folder journal-shadow p-5 sm:p-6 border-l-4 border-[var(--rose)]"
+      data-testid="ai-assistant-message"
+      initial={{ opacity: 0, y: 16 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6 }}
+    >
       <Tape className="-top-3 right-8" rotate={-8} w={64} variant="pink" />
-      <div className="flex flex-wrap items-center gap-2 text-[10px] uppercase tracking-[0.22em] text-[var(--plum)]">
+      
+      {/* Botanical sketch decorating the corner */}
+      <motion.div
+        className="absolute top-4 right-6 opacity-30 hidden sm:block"
+        animate={{ rotate: [0, 2, 0] }}
+        transition={{ duration: 4, repeat: Infinity }}
+      >
+        <BotanicalSketch className="w-8 h-8" />
+      </motion.div>
+
+      <motion.div 
+        className="flex flex-wrap items-center gap-2 text-[10px] uppercase tracking-[0.22em] text-[var(--plum)]"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.1 }}
+      >
         <Sparkles size={11} className="text-[var(--sage)]" />
         {engineLabel}
         <span className="text-[var(--brown)]">.</span>
-        <span>{result.intent || "archive"}</span>
+        <span className="font-hand normal-case text-xs">{result.intent || "archive"}</span>
         {result.grounded !== false && (
           <>
             <span className="text-[var(--brown)]">.</span>
             <span className="inline-flex items-center gap-1"><ShieldCheck size={11} /> grounded</span>
           </>
         )}
-      </div>
+      </motion.div>
 
-      <p className="mt-4 font-serif text-2xl sm:text-[29px] leading-snug text-ink whitespace-pre-line min-h-[72px]">
+      <motion.p 
+        className="mt-4 font-serif text-2xl sm:text-[29px] leading-snug text-ink whitespace-pre-line min-h-[72px]"
+        initial={{ opacity: 0.8 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.7, delay: 0.15 }}
+      >
         {answer}
         {isLatest && displayedAnswer && displayedAnswer.length < message.content.length && <span className="caret" />}
-      </p>
+      </motion.p>
 
       {result.fallbackReason && !result.client_fallback && (
         <div className="mt-3 text-xs text-ink-soft">{result.fallbackReason}</div>
@@ -244,25 +272,45 @@ function AssistantMessage({ message, isLatest, displayedAnswer, onAsk }) {
       <CitationList citations={result.citations || result.sources} />
 
       {!!result.relatedSearches?.length && (
-          <div className="mt-5 border-t border-[var(--border-soft)] pt-4">
+        <motion.div 
+          className="mt-5 border-t border-[var(--border-soft)] pt-4 delicate-divider"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+        >
           <div className="mb-2 flex items-center gap-2 text-[10px] uppercase tracking-[0.26em] text-[var(--plum)]">
             <Layers size={12} /> follow-up searches
           </div>
-          <div className="flex flex-wrap gap-2">
+          <motion.div 
+            className="flex flex-wrap gap-2"
+            variants={{
+              hidden: { opacity: 0 },
+              visible: { opacity: 1, transition: { staggerChildren: 0.06 } },
+            }}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+          >
             {result.relatedSearches.slice(0, 7).map((search) => (
-              <button
+              <motion.button
                 key={search}
                 type="button"
                 onClick={() => onAsk(search)}
-                className="bg-[var(--bg-tag)] border border-[var(--border-soft)] px-3 py-1.5 text-sm text-ink hover:bg-[var(--bg-warm)] transition"
+                className="sticky-note bg-[var(--bg-tag)] border border-[var(--border-soft)] px-3 py-1.5 text-sm text-ink hover:bg-[var(--bg-warm)] transition handwritten"
+                variants={{
+                  hidden: { opacity: 0, y: 8 },
+                  visible: { opacity: 1, y: 0 },
+                }}
+                whileHover={{ scale: 1.05, rotate: 1 }}
+                whileTap={{ scale: 0.95 }}
               >
                 {search}
-              </button>
+              </motion.button>
             ))}
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       )}
-    </article>
+    </motion.article>
   );
 }
 
