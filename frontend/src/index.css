@@ -377,14 +377,48 @@ html[data-theme="midnight"] .paper-bg::after {
     display: none !important;
 }
 
-/* Herbarium Theme: Dark moss green */
+/* Herbarium Theme: Dark green & cream - NO PINK */
 html[data-theme="herbarium"] body {
     background-color: #0F2419 !important;
-    color: #E8E6E0 !important;
+    color: #F0EDE8 !important;
 }
 
 html[data-theme="herbarium"] .paper-bg {
     background-color: #0F2419 !important;
+}
+
+/* Force ALL text in Herbarium to be cream/white - NO PINK */
+html[data-theme="herbarium"] * {
+    color: #F0EDE8 !important;
+}
+
+/* Ensure specific elements are cream */
+html[data-theme="herbarium"] p,
+html[data-theme="herbarium"] span,
+html[data-theme="herbarium"] h1,
+html[data-theme="herbarium"] h2,
+html[data-theme="herbarium"] h3,
+html[data-theme="herbarium"] h4,
+html[data-theme="herbarium"] h5,
+html[data-theme="herbarium"] h6,
+html[data-theme="herbarium"] a,
+html[data-theme="herbarium"] button,
+html[data-theme="herbarium"] li,
+html[data-theme="herbarium"] div,
+html[data-theme="herbarium"] label,
+html[data-theme="herbarium"] .text-ink,
+html[data-theme="herbarium"] .text-ink-soft {
+    color: #F0EDE8 !important;
+}
+
+/* Override Tailwind text colors */
+html[data-theme="herbarium"] .text-rose,
+html[data-theme="herbarium"] .text-plum,
+html[data-theme="herbarium"] .text-blossom,
+html[data-theme="herbarium"] .text-dusty,
+html[data-theme="herbarium"] .text-sage,
+html[data-theme="herbarium"] .text-brown {
+    color: #F0EDE8 !important;
 }
 
 /* Archive Theme - Soft, Drifting Motion */

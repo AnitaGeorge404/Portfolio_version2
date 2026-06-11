@@ -165,33 +165,33 @@ export const themeTokens = {
 
   herbarium: {
     name: "Herbarium",
-    description: "Botanical research archive, dark & luxe",
+    description: "Botanical research archive, dark green & cream",
     emoji: "🌿",
-    // FIXED: DARK moss green (completely redesigned from light)
+    // Dark forest green background
     bgPaper: "#0F2419",
     bgWarm: "#163325",
     bgCard: "#0E2317",
     bgTag: "#1A3B2F",
     bgPetal: "#0D2216",
-    // Light cream text on dark green (AAA contrast)
-    ink: "#E8E6E0",
-    inkSoft: "#C0B8AE",
-    // Bright botanical greens (visible on dark)
-    plum: "#6DB563",
-    pink: "#A8D5AA",
-    blossom: "#B8D5AA",
-    rose: "#5FA050",
-    burgundy: "#4A7C3A",
-    cream: "#E8E6E0",
-    dusty: "#8BA57A",
-    sage: "#7A9B6F",
-    brown: "#8B9E7A",
+    // Bright cream text on dark green (AAA contrast)
+    ink: "#F0EDE8",
+    inkSoft: "#D4CCC0",
+    // ONLY GREEN and CREAM - NO PINK/ROSE
+    plum: "#7EC66F",
+    pink: "#F0EDE8",
+    blossom: "#C8D9C0",
+    rose: "#7EC66F",
+    burgundy: "#5A9B52",
+    cream: "#F0EDE8",
+    dusty: "#9ABF8F",
+    sage: "#8BAF7F",
+    brown: "#9AB98F",
     // Borders - subtle on dark
     borderSoft: "#2B4838",
     borderMedium: "#1F3A2E",
-    // Decorations - bright botanicals
-    decorationPrimary: "#6DB563",
-    decorationSecondary: "#A8D5AA",
+    // Decorations - bright greens
+    decorationPrimary: "#7EC66F",
+    decorationSecondary: "#C8D9C0",
     // Theme-specific experience tokens
     animationDuration: "6s",
     particleDensity: 20,
@@ -200,20 +200,20 @@ export const themeTokens = {
     cardShadowStyle: "aged-paper-shadow",
     // Semantic colors (HSL for shadcn compatibility)
     background: "145 42% 12%",
-    foreground: "28 12% 90%",
-    primary: "105 35% 42%",
-    primaryForeground: "28 12% 90%",
+    foreground: "28 12% 93%",
+    primary: "105 35% 45%",
+    primaryForeground: "28 12% 93%",
     secondary: "105 30% 55%",
     secondaryForeground: "145 42% 12%",
     muted: "145 30% 25%",
-    mutedForeground: "28 10% 75%",
+    mutedForeground: "28 10% 82%",
     accent: "105 45% 50%",
     accentForeground: "145 42% 12%",
     destructive: "0 60% 50%",
     destructiveForeground: "0 0% 98%",
     border: "145 30% 25%",
     input: "145 30% 25%",
-    ring: "105 35% 42%",
+    ring: "105 35% 45%",
   },
 };
 
