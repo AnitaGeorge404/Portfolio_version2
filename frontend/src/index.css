@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&family=Outfit:wght@200;300;400;500;600;700&family=Caveat:wght@400;500;600;700&family=DM+Mono:wght@300;400;500&display=swap');
+@import './components/CursorEffects.css';
 
 @tailwind base;
 @tailwind components;
@@ -371,10 +372,528 @@ body {
     animation: fade-up 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
+/* ── Glass & Editorial Depth ── */
+/* Premium glass effect for cards */
+.glass {
+    backdrop-filter: blur(8px);
+    background: rgba(255, 255, 255, 0.7);
+    border: 1px solid rgba(240, 216, 220, 0.5);
+}
+.glass:hover {
+    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.8);
+    border-color: rgba(240, 216, 220, 0.7);
+    transition: all 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Deep shadow stack for elevated cards */
+.card-elevated {
+    box-shadow:
+        0 2px 4px rgba(44, 26, 29, 0.04),
+        0 4px 8px rgba(44, 26, 29, 0.08),
+        0 8px 16px rgba(44, 26, 29, 0.12),
+        0 16px 32px rgba(44, 26, 29, 0.08);
+}
+.card-elevated:hover {
+    box-shadow:
+        0 2px 4px rgba(44, 26, 29, 0.08),
+        0 8px 16px rgba(44, 26, 29, 0.12),
+        0 16px 32px rgba(44, 26, 29, 0.16),
+        0 32px 64px rgba(44, 26, 29, 0.12);
+}
+
+/* Soft layered shadows */
+.shadow-soft {
+    box-shadow: 0 4px 12px rgba(139, 58, 82, 0.08);
+}
+.shadow-medium {
+    box-shadow: 0 12px 32px rgba(139, 58, 82, 0.12);
+}
+.shadow-deep {
+    box-shadow: 0 20px 60px rgba(139, 58, 82, 0.16);
+}
+
+/* Inset shadow for depth */
+.inset-shadow {
+    box-shadow: inset 0 1px 3px rgba(44, 26, 29, 0.05);
+}
+
+/* Floating effect with layered shadows */
+.floating {
+    transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+    box-shadow:
+        0 4px 8px rgba(44, 26, 29, 0.06),
+        0 8px 16px rgba(44, 26, 29, 0.08);
+}
+.floating:hover {
+    transform: translateY(-4px);
+    box-shadow:
+        0 8px 16px rgba(44, 26, 29, 0.10),
+        0 16px 32px rgba(44, 26, 29, 0.12);
+}
+
+/* Link underline with gradient */
+.link-gradient {
+    position: relative;
+    text-decoration: none;
+    background: linear-gradient(to right, var(--plum), var(--rose));
+    background-size: 0% 2px;
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    transition: background-size 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.link-gradient:hover {
+    background-size: 100% 2px;
+}
+
+/* Pressed button state */
+.btn-active {
+    background: var(--bg-petal);
+    border-color: var(--blossom);
+    color: var(--plum);
+    box-shadow: inset 0 2px 4px rgba(44, 26, 29, 0.08);
+}
+
+/* Focus state with rose glow */
+.focus-glow:focus-within {
+    box-shadow: 0 0 0 3px rgba(242, 196, 206, 0.25), 0 0 0 6px rgba(242, 196, 206, 0.12);
+}
+
+/* ── Premium Microinteractions ── */
+/* Button ripple effect base */
+button, a[role="button"] {
+    position: relative;
+    overflow: hidden;
+}
+
+/* Subtle scale on active */
+button:active, a[role="button"]:active {
+    transform: scale(0.98);
+}
+
+/* Link hover animation with arrow */
+a:not(.btn-soft):not(.link-soft) {
+    transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+    position: relative;
+}
+
+/* Magnetic button effect prep */
+.magnetic-btn {
+    transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+    cursor: pointer;
+}
+.magnetic-btn:hover {
+    transform: scale(1.04);
+    filter: drop-shadow(0 8px 20px rgba(139, 58, 82, 0.15));
+}
+
+/* Text selection color */
+::selection {
+    background: var(--pink);
+    color: var(--ink);
+}
+
+/* Focus visible for accessibility */
+*:focus-visible {
+    outline: 2px solid var(--rose);
+    outline-offset: 2px;
+}
+
+/* Smooth transitions for all interactive elements */
+button, input, textarea, select, a, [role="button"], [role="link"] {
+    transition-property: background-color, color, border-color, box-shadow, transform;
+    transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+    transition-duration: 0.35s;
+}
+
+/* Input focus state */
+input:focus, textarea:focus, select:focus {
+    box-shadow: 0 0 0 3px rgba(242, 196, 206, 0.2);
+    border-color: var(--blossom);
+}
+
+/* ── Scroll Reveal & Parallax ── */
+/* Scroll reveal trigger point */
+.scroll-reveal {
+    animation: fade-up 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    opacity: 0;
+}
+.scroll-reveal[data-in-view="true"] {
+    animation-play-state: running;
+}
+
+/* Staggered reveal children */
+.reveal-child {
+    opacity: 0;
+    animation: fade-up 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+.reveal-child:nth-child(1) { animation-delay: 0.05s; }
+.reveal-child:nth-child(2) { animation-delay: 0.1s; }
+.reveal-child:nth-child(3) { animation-delay: 0.15s; }
+.reveal-child:nth-child(4) { animation-delay: 0.2s; }
+.reveal-child:nth-child(5) { animation-delay: 0.25s; }
+.reveal-child:nth-child(n+6) { animation-delay: calc(0.05s * var(--child-index, 1)); }
+
+/* Parallax layer */
+.parallax {
+    position: relative;
+    will-change: transform;
+}
+.parallax-slow {
+    animation: parallax-slow 10s linear infinite;
+}
+.parallax-medium {
+    animation: parallax-medium 8s linear infinite;
+}
+.parallax-fast {
+    animation: parallax-fast 6s linear infinite;
+}
+
+@keyframes parallax-slow {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
+}
+@keyframes parallax-medium {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-12px); }
+}
+@keyframes parallax-fast {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+}
+
+/* Scroll parallax depth */
+.scroll-parallax {
+    position: relative;
+    transform: translateZ(0);
+}
+.scroll-parallax[data-scroll="0"] {
+    transform: translateY(0px);
+}
+
+/* Fade in on scroll */
+.fade-scroll {
+    opacity: 0.3;
+    transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.fade-scroll[data-in-view="true"] {
+    opacity: 1;
+}
+
+/* Slide up on scroll */
+.slide-up {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: all 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.slide-up[data-in-view="true"] {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Slide left on scroll */
+.slide-left {
+    opacity: 0;
+    transform: translateX(-40px);
+    transition: all 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.slide-left[data-in-view="true"] {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* Slide right on scroll */
+.slide-right {
+    opacity: 0;
+    transform: translateX(40px);
+    transition: all 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.slide-right[data-in-view="true"] {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* Scale up on scroll */
+.scale-up {
+    opacity: 0;
+    transform: scale(0.9);
+    transition: all 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.scale-up[data-in-view="true"] {
+    opacity: 1;
+    transform: scale(1);
+}
+
 @layer base {
     [data-debug-wrapper="true"] {
         display: contents !important;
     }
+}
+
+/* ── JOURNAL & SCRAPBOOK AESTHETICS ── */
+
+/* Handwritten annotations */
+.handwritten {
+    font-family: 'Caveat', cursive;
+    font-size: 1.1rem;
+    color: var(--plum);
+    letter-spacing: 0.02em;
+    text-decoration: underline wavy var(--pink);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+}
+
+/* Torn paper edges effect */
+.torn-edge {
+    position: relative;
+    background: linear-gradient(45deg, transparent 30%, var(--bg-paper) 30%, var(--bg-paper) 70%, transparent 70%);
+    background-size: 4px 4px;
+    background-position: 0 0;
+}
+
+/* Page texture - subtle linen */
+.page-texture {
+    background-image: 
+        repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(139, 58, 82, 0.02) 2px, rgba(139, 58, 82, 0.02) 4px),
+        repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(139, 58, 82, 0.02) 2px, rgba(139, 58, 82, 0.02) 4px);
+    background-size: 4px 4px;
+}
+
+/* Pressed paper - slightly aged */
+.pressed-paper {
+    background: linear-gradient(135deg, var(--bg-paper) 0%, var(--bg-warm) 100%);
+    box-shadow: 
+        inset 0 1px 0 rgba(0, 0, 0, 0.05),
+        inset 0 -1px 0 rgba(255, 255, 255, 0.5);
+}
+
+/* Folded corner effect */
+.folded-corner::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0 20px 20px 0;
+    border-color: transparent var(--pink) transparent transparent;
+    opacity: 0.3;
+}
+
+/* Gentle page shadow (like open journal) */
+.journal-shadow {
+    box-shadow: 
+        -2px 4px 12px rgba(139, 58, 82, 0.08),
+        inset 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+
+/* Watermark-style background text */
+.watermark {
+    position: relative;
+    opacity: 1;
+}
+.watermark::before {
+    content: attr(data-text);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 3rem;
+    font-weight: 700;
+    color: var(--pink);
+    opacity: 0.04;
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* Bookmark ribbon */
+.bookmark-ribbon {
+    position: absolute;
+    top: -10px;
+    right: 20px;
+    width: 8px;
+    height: 60px;
+    background: linear-gradient(90deg, var(--pink), var(--blossom));
+    border-radius: 2px;
+    box-shadow: 1px 2px 4px rgba(139, 58, 82, 0.2);
+    animation: ribbon-sway 3s ease-in-out infinite;
+}
+
+@keyframes ribbon-sway {
+    0%, 100% { transform: rotateZ(-2deg); }
+    50% { transform: rotateZ(2deg); }
+}
+
+/* Annotation arrow */
+.annotation-arrow {
+    position: relative;
+}
+.annotation-arrow::after {
+    content: '→';
+    position: absolute;
+    color: var(--plum);
+    opacity: 0.4;
+    font-weight: bold;
+    right: -16px;
+    top: 50%;
+    transform: translateY(-50%);
+    animation: arrow-point 2s ease-in-out infinite;
+}
+
+@keyframes arrow-point {
+    0%, 100% { transform: translateY(-50%) translateX(0); }
+    50% { transform: translateY(-50%) translateX(3px); }
+}
+
+/* Highlighted text with marker effect */
+.marker-highlight {
+    background: linear-gradient(120deg, transparent 0%, var(--washi-yellow) 20%, var(--washi-yellow) 80%, transparent 100%);
+    padding: 0 2px;
+    border-radius: 1px;
+}
+
+/* Sticky note hover effect */
+.sticky-note {
+    transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+    transform: rotate(0deg);
+}
+.sticky-note:hover {
+    transform: rotate(2deg) translateY(-2px);
+    box-shadow: 0 8px 20px rgba(139, 58, 82, 0.15);
+}
+
+/* Collection badge */
+.collection-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 8px;
+    background: var(--bg-petal);
+    border: 1px solid var(--border-soft);
+    border-radius: 50px;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--plum);
+    transition: all 0.3s ease;
+}
+.collection-badge:hover {
+    background: var(--pink);
+    border-color: var(--blossom);
+}
+
+/* Delicate divider */
+.delicate-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--pink) 10%, var(--pink) 90%, transparent);
+    margin: 2rem 0;
+    opacity: 0.5;
+}
+
+/* Archive folder aesthetic */
+.archive-folder {
+    background: linear-gradient(135deg, var(--bg-warm) 0%, var(--bg-petal) 100%);
+    border-left: 4px solid var(--rose);
+    padding-left: 12px;
+    border-radius: 2px;
+}
+
+/* Hand-drawn circle highlight */
+.hand-drawn-circle {
+    position: relative;
+    display: inline-block;
+}
+.hand-drawn-circle::before {
+    content: '';
+    position: absolute;
+    inset: -6px;
+    border: 2px solid var(--plum);
+    border-radius: 50%;
+    opacity: 0.2;
+    animation: hand-drawn-wobble 2s ease-in-out infinite;
+}
+
+@keyframes hand-drawn-wobble {
+    0%, 100% { transform: rotate(0deg) scale(1); }
+    25% { transform: rotate(1deg) scale(1.02); }
+    50% { transform: rotate(0deg) scale(1); }
+    75% { transform: rotate(-1deg) scale(0.98); }
+}
+
+/* Underlined text (hand-drawn style) */
+.underline-hand {
+    position: relative;
+    text-decoration: none;
+    padding-bottom: 2px;
+}
+.underline-hand::after {
+    content: '';
+    position: absolute;
+    bottom: -3px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--plum);
+    opacity: 0.3;
+    border-radius: 1px;
+}
+
+/* Coffee stain effect */
+.coffee-stain {
+    position: relative;
+    filter: blur(1px);
+}
+.coffee-stain::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at 30% 40%, rgba(139, 58, 82, 0.1) 0%, transparent 50%);
+    pointer-events: none;
+    border-radius: inherit;
+}
+
+/* Doodle border */
+.doodle-border {
+    border-image: url("data:image/svg+xml,%3Csvg width='10' height='10' viewBox='0 0 10 10' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='5' cy='5' r='2' fill='%23C96B84' opacity='0.3'/%3E%3C/svg%3E") 1;
+}
+
+/* Page curl effect on hover */
+.page-curl {
+    position: relative;
+    transition: all 0.4s ease;
+}
+.page-curl::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    right: -8px;
+    width: 0;
+    height: 0;
+    border-left: 16px solid transparent;
+    border-top: 16px solid var(--bg-warm);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+.page-curl:hover::after {
+    opacity: 0.5;
+}
+
+/* Subtle shimmer (vintage paper) */
+.shimmer {
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    background-size: 200% 100%;
+    animation: shimmer-slide 3s ease-in-out infinite;
+}
+
+@keyframes shimmer-slide {
+    0% { background-position: -200% 0; }
+    50% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+@layer base {
     [data-debug-wrapper="true"] > * {
         margin-left: inherit;
         margin-right: inherit;

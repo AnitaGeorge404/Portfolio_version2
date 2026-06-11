@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { motion } from "framer-motion";
 import SearchBar from "@/components/SearchBar";
 import SearchTabs from "@/components/SearchTabs";
 import { Sparkle, CherryBlossom } from "@/components/Decorations";
+import { AmbientParticles, PageTransition } from "@/components/MotionFramework";
+import { FloatingPetal, Butterfly } from "@/components/BotanicalElements";
 import { Github, Linkedin, Globe } from "lucide-react";
 import { profile } from "@/data/portfolio";
 
@@ -23,8 +26,21 @@ export default function Layout({ children }) {
 
   return (
     <div className="relative" data-testid="layout-root">
+      {/* Ambient particle atmosphere */}
+      <AmbientParticles count={30} className="opacity-40" />
+
+      {/* Occasional floating petals for life */}
+      {Math.random() > 0.7 && <FloatingPetal delay={0} duration={10} />}
+      {Math.random() > 0.7 && <FloatingPetal delay={1.5} duration={12} />}
+      {Math.random() > 0.6 && <Butterfly delay={2} duration={14} />}
+
       {/* Top info bar */}
-      <div className="relative z-20 border-b border-[var(--border-soft)] bg-[var(--bg-petal)]/80 backdrop-blur-sm">
+      <motion.div
+        className="relative z-20 border-b border-[var(--border-soft)] bg-[var(--bg-petal)]/80 backdrop-blur-sm"
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
         <div className="max-w-6xl mx-auto px-4 sm:px-6 py-2.5 flex items-center justify-between text-[11px] tracking-[0.18em] uppercase font-sans text-[var(--plum)]">
           <Link to="/" data-testid="brand-link" className="flex items-center gap-2 link-soft">
             <Sparkle size={12} color="#C96B84" />
@@ -63,13 +79,16 @@ export default function Layout({ children }) {
             kerala · {new Date().getFullYear()}
           </span>
         </div>
-      </div>
+      </motion.div>
 
       {/* Sticky search header — appears on scroll for home, always for inner pages */}
       {(!isHome || scrolled) && (
-        <header
+        <motion.header
           className="sticky top-0 z-20 bg-[var(--bg-paper)]/92 backdrop-blur-md border-b border-[var(--border-soft)]"
           data-testid="sticky-search-header"
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4 }}
         >
           <div className="max-w-6xl mx-auto px-4 sm:px-6 py-3 flex items-center gap-4">
             <Link to="/" className="shrink-0" data-testid="logo-link" aria-label="Home">
@@ -84,13 +103,26 @@ export default function Layout({ children }) {
             </div>
           </div>
           <SearchTabs />
-        </header>
+        </motion.header>
       )}
 
-      <main className="relative z-10">{children}</main>
+      <motion.main
+        className="relative z-10"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.4, delay: 0.1 }}
+      >
+        {children}
+      </motion.main>
 
       {/* Footer */}
-      <footer className="relative z-10 mt-20 border-t border-[var(--border-soft)] bg-[var(--bg-petal)]/40">
+      <motion.footer
+        className="relative z-10 mt-20 border-t border-[var(--border-soft)] bg-[var(--bg-petal)]/40"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        transition={{ duration: 0.6 }}
+        viewport={{ once: true }}
+      >
         <div className="max-w-6xl mx-auto px-4 sm:px-6 py-14 grid grid-cols-1 md:grid-cols-3 gap-10">
           <div className="relative">
             <CherryBlossom className="absolute -top-6 -right-4 opacity-60" size={64} />
@@ -140,7 +172,7 @@ export default function Layout({ children }) {
             <span className="font-hand text-base normal-case tracking-normal text-[var(--rose)]">— end of page —</span>
           </div>
         </div>
-      </footer>
+      </motion.footer>
     </div>
   );
 }

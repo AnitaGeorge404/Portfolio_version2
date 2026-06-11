@@ -1,8 +1,11 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
 import { projects } from "@/data/portfolio";
+import { RevealOnScroll, containerVariants, itemVariants, HoverLift } from "@/components/MotionFramework";
+import { OverlapFlower, ProminentRose, ProminentPeony, PressedFlowers, WashiTape as WashiTapeImg, Bookmark } from "@/components/ProminentFlowers";
 import { Sparkle, Squiggle, Tape, Paperclip, Marker, HandArrow, CherryBlossom, Sprig, PetalRain } from "@/components/Decorations";
-import { ArrowUpRight, Bookmark, Sparkles } from "lucide-react";
+import { ArrowUpRight, Bookmark as BookmarkIcon, Sparkles } from "lucide-react";
 
 const heightClass = {
   short: "min-h-[240px]",
@@ -56,8 +59,19 @@ export default function Work() {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-10 pb-20" data-testid="work-page">
       {/* Title block */}
-      <div className="relative max-w-3xl">
-        <CherryBlossom className="absolute -top-12 -left-6 opacity-70 hidden sm:block animate-float-slow" size={120} />
+      <motion.div
+        className="relative max-w-3xl"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.7, ease: "easeOut" }}
+      >
+        <motion.div
+          className="absolute -top-12 -left-6 opacity-70 hidden sm:block pointer-events-none"
+          animate={{ y: [0, -15, 0], rotate: [0, 2, 0] }}
+          transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+        >
+          <CherryBlossom size={120} />
+        </motion.div>
         <Sparkle className="absolute -top-2 right-0 opacity-70" size={18} color="#C96B84" />
         <div className="text-[11px] uppercase tracking-[0.3em] text-[var(--plum)]">/ work · search category</div>
         <h1 className="font-serif text-6xl sm:text-7xl lg:text-[88px] text-ink leading-[0.92] mt-2">
@@ -66,17 +80,29 @@ export default function Work() {
         </h1>
         <Squiggle width={240} className="mt-3" color="#EDAABB" />
         <p className="mt-4 font-serif italic text-xl text-ink-soft max-w-xl">
-          search results filtered to things she actually built. half projects, half love letters.
+          Search results filtered to things she actually built. half projects, half love letters.
         </p>
-      </div>
+      </motion.div>
 
       {/* Indexing metadata */}
-      <div className="mt-8 pb-4 border-b border-[var(--border-soft)]">
+      <motion.div
+        className="mt-8 pb-4 border-b border-[var(--border-soft)]"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true }}
+        transition={{ delay: 0.2 }}
+      >
         <IndexingMeta />
-      </div>
+      </motion.div>
 
       {/* Filter row */}
-      <div className="mt-6 flex flex-wrap items-center gap-2" data-testid="work-filters">
+      <motion.div
+        className="mt-6 flex flex-wrap items-center gap-2"
+        data-testid="work-filters"
+        initial={{ opacity: 0, y: 12 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.3 }}
+      >
         <span className="text-[10px] uppercase tracking-[0.3em] text-[var(--plum)] mr-1">filter</span>
         <button
           onClick={() => setFilter("all")}
@@ -103,35 +129,65 @@ export default function Work() {
             {t}
           </button>
         ))}
-      </div>
+      </motion.div>
 
       {/* Results header */}
-      <div className="mt-10 flex items-baseline justify-between">
+      <motion.div
+        className="mt-10 flex items-baseline justify-between"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true }}
+      >
         <h2 className="font-serif text-3xl text-ink">
-          <span className="italic" style={{ color: "#C96B84" }}>{filtered.length}</span>{" "}
+          <motion.span
+            className="italic"
+            style={{ color: "#C96B84" }}
+            initial={{ count: 0 }}
+            whileInView={{ count: filtered.length }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+          >
+            {filtered.length}
+          </motion.span>{" "}
           result{filtered.length === 1 ? "" : "s"}
         </h2>
         <span className="font-hand text-[var(--rose)] text-xl rotate-[-2deg]">— softly ranked</span>
-      </div>
+      </motion.div>
 
       {/* Scrapbook masonry grid */}
-      <div
+      <motion.div
         className="mt-8 columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6 [column-fill:_balance]"
         data-testid="work-results"
+        variants={containerVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-100px" }}
       >
         {filtered.map((p, idx) => {
           const sticky = stickyNotes[idx % stickyNotes.length];
           const tapeVariant = tapeVariants[idx % tapeVariants.length];
           const tapeVariant2 = tapeVariants[(idx + 2) % tapeVariants.length];
           return (
-            <Link
-              to={`/projects/${p.slug}`}
+            <motion.div
               key={p.slug}
-              data-testid={`work-result-${p.slug}`}
-              className="pin-card relative block break-inside-avoid group"
-              style={{ transform: `rotate(${(idx % 3 - 1) * 0.4}deg)` }}
+              variants={itemVariants}
             >
-              {/* Polaroid-style card */}
+              <Link
+                to={`/projects/${p.slug}`}
+                data-testid={`work-result-${p.slug}`}
+                className="pin-card relative block break-inside-avoid group"
+                style={{ transform: `rotate(${(idx % 3 - 1) * 0.4}deg)` }}
+              >
+                {/* PROMINENT OVERLAPPING FLOWERS - Beautiful and visible */}
+                {Math.random() > 0.35 && (
+                  <OverlapFlower
+                    size={idx % 2 === 0 ? "small" : "medium"}
+                    position={idx % 4 === 0 ? "top-left" : idx % 4 === 1 ? "top-right" : idx % 4 === 2 ? "bottom-left" : "bottom-right"}
+                    delay={idx * 0.1}
+                  />
+                )}
+
+                {/* Polaroid-style card */}
               <div className="bg-white border border-[var(--border-soft)] shadow-[0_4px_20px_-8px_rgba(44,26,29,0.18)]">
                 {/* Washi tape decorations */}
                 <Tape
@@ -225,11 +281,12 @@ export default function Work() {
                     </span>
                   </div>
                 </div>
-              </div>
-            </Link>
-          );
-        })}
-      </div>
+                  </div>
+                </Link>
+              </motion.div>
+            );
+          })}
+        </motion.div>
 
       {/* Empty state */}
       {filtered.length === 0 && (

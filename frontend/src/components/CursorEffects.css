@@ -1,0 +1,147 @@
+/* Delicate, feminine cursor effects and interactions */
+
+/* Hide default cursor on interactive elements */
+button,
+a,
+input,
+textarea,
+select,
+[role="button"],
+[role="link"] {
+    cursor: none;
+}
+
+/* Custom cursor - base */
+body {
+    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='2.5' fill='%23C96B84' opacity='0.6'/%3E%3Ccircle cx='12' cy='12' r='1.5' fill='%23C96B84'/%3E%3C/svg%3E") 12 12, auto;
+}
+
+/* Hover cursor - interactive */
+button:hover,
+a:hover,
+[role="button"]:hover,
+[role="link"]:hover,
+input:hover,
+textarea:hover,
+select:hover {
+    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='3.5' fill='%23EDAABB' opacity='0.5'/%3E%3Ccircle cx='12' cy='12' r='2.5' fill='%23C96B84' opacity='0.7'/%3E%3Ccircle cx='12' cy='12' r='1.2' fill='%23C96B84'/%3E%3C/svg%3E") 12 12, pointer;
+}
+
+/* Text cursor */
+input[type="text"],
+input[type="search"],
+textarea {
+    cursor: text;
+}
+
+/* Selection highlight */
+::selection {
+    background: var(--pink);
+    color: var(--ink);
+}
+
+/* Focus ring - delicate rose glow */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+    outline: 2px solid var(--rose);
+    outline-offset: 2px;
+    border-radius: 2px;
+}
+
+/* Cursor trail effect on interactive elements */
+@keyframes cursor-sparkle {
+    0% {
+        opacity: 1;
+        transform: scale(1) rotate(0deg);
+    }
+    100% {
+        opacity: 0;
+        transform: scale(0.5) rotate(180deg);
+    }
+}
+
+/* Smooth transitions for interactive states */
+button,
+a,
+[role="button"],
+[role="link"] {
+    transition: all 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+    position: relative;
+}
+
+/* Active/pressed state feedback */
+button:active,
+a:active,
+[role="button"]:active,
+[role="link"]:active {
+    transform: scale(0.98);
+}
+
+/* Disabled state */
+button:disabled,
+input:disabled,
+select:disabled,
+textarea:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Hover elevation with shadow */
+button:not(:disabled):hover,
+[role="button"]:hover {
+    box-shadow: 0 8px 20px rgba(139, 58, 82, 0.15);
+    transform: translateY(-1px);
+}
+
+/* Link hover underline animation */
+a:not(.btn-soft):not([role="button"]) {
+    position: relative;
+    text-decoration: none;
+}
+
+a:not(.btn-soft):not([role="button"])::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: var(--rose);
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+a:not(.btn-soft):not([role="button"]):hover::after {
+    transform: scaleX(1);
+    transform-origin: left;
+}
+
+/* Form input focus glow */
+input:focus,
+textarea:focus,
+select:focus {
+    border-color: var(--blossom);
+    box-shadow: 0 0 0 3px rgba(242, 196, 206, 0.2);
+}
+
+/* Smooth scroll behavior */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Placeholder styling */
+::placeholder {
+    color: var(--dusty);
+    opacity: 0.7;
+}
+
+/* Subtle focus ring for keyboard navigation */
+*:focus-visible {
+    outline: 2px solid var(--rose);
+    outline-offset: 2px;
+    border-radius: 2px;
+}

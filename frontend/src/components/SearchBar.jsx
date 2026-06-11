@@ -1,7 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Search, Sparkles, Mic } from "lucide-react";
+import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { searchSuggestions } from "@/data/portfolio";
+import { SemanticRipple } from "@/components/MotionFramework";
+import { ProminentRose, ProminentPeony, WashiTape } from "@/components/ProminentFlowers";
 
 const quickSearches = [
   { label: "Who is Anita?", icon: "✦" },
@@ -91,12 +94,46 @@ export default function SearchBar({ defaultValue = "", autoFocus = false, compac
       className={`relative w-full ${compact ? "max-w-2xl" : "max-w-2xl"} mx-auto`}
       data-testid="search-bar-wrap"
     >
+      {/* PROMINENT FLORAL DECORATIONS - Large, Visible, Beautiful */}
+      {!compact && (
+        <>
+          {/* Large rose positioned dramatically */}
+          <div className="absolute -top-20 -left-24 pointer-events-none hidden lg:block">
+            <ProminentRose size="large" delay={0} />
+          </div>
+
+          {/* Large peony on right side */}
+          <div className="absolute -top-16 -right-20 pointer-events-none hidden lg:block">
+            <ProminentPeony size="medium" delay={0.15} />
+          </div>
+
+          {/* Washi tape across top */}
+          <div className="absolute -top-6 left-1/2 transform -translate-x-1/2 pointer-events-none">
+            <WashiTape rotation={-5} delay={0.1} />
+          </div>
+        </>
+      )}
+
       <form onSubmit={submit}>
-        <div
-          className={`search-glow flex items-center gap-3 bg-white/90 border border-[var(--border-soft)] ${
+        <motion.div
+          className={`search-glow journal-shadow flex items-center gap-3 bg-white/90 border border-[var(--border-soft)] ${
             compact ? "py-2.5 px-4" : "py-4 px-6"
-          } rounded-full shadow-[0_4px_40px_-10px_rgba(139,58,82,0.18)]`}
+          } rounded-full relative`}
+          whileFocus={{ 
+            boxShadow: "0 0 0 8px rgba(242, 196, 206, 0.3), 0 12px 48px -10px rgba(139, 58, 82, 0.25)",
+            scale: 1.02
+          }}
+          onFocus={() => setOpen(true)}
+          onClick={() => setOpen(true)}
         >
+          {/* Shimmer overlay on focus */}
+          <motion.div
+            className="absolute inset-0 rounded-full bg-gradient-to-r from-transparent via-white to-transparent"
+            initial={{ opacity: 0, x: "-100%" }}
+            whileFocus={{ opacity: 0.3, x: "100%" }}
+            transition={{ duration: 0.8 }}
+            style={{ pointerEvents: "none" }}
+          />
           {compact ? (
             <Search size={15} className="text-rose shrink-0" />
           ) : (
@@ -125,32 +162,60 @@ export default function SearchBar({ defaultValue = "", autoFocus = false, compac
           {!compact && (
             <Mic size={18} className="text-[var(--dusty)] shrink-0 opacity-80 cursor-pointer hover:text-rose transition-colors" />
           )}
-          <button
+          <motion.button
             type="submit"
             className="shrink-0 flex items-center justify-center w-8 h-8 rounded-full transition-all hover:bg-[var(--bg-petal)]"
             aria-label="Search"
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.95 }}
           >
             <Search size={compact ? 14 : 17} className="text-rose" />
-          </button>
-        </div>
+          </motion.button>
+        </motion.div>
       </form>
 
       {/* Suggestions dropdown */}
       {open && !compact && (
-        <div
+        <motion.div
           className="absolute left-0 right-0 mt-3 bg-white/95 border border-[var(--border-soft)] rounded-3xl shadow-[0_24px_60px_-20px_rgba(139,58,82,0.22)] overflow-hidden animate-fade-up z-30 backdrop-blur-sm"
           data-testid="search-suggestions"
+          initial={{ opacity: 0, y: -12, scale: 0.96 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          exit={{ opacity: 0, y: -12 }}
+          transition={{ duration: 0.2, ease: "easeOut" }}
         >
           {/* Quick searches */}
-          <div className="px-5 pt-4 pb-2">
+          <motion.div
+            className="px-5 pt-4 pb-2"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.3 }}
+          >
             <div className="text-[10px] uppercase tracking-[0.35em] text-[var(--plum)] mb-3 flex items-center gap-2">
               <Sparkles size={11} className="text-rose" />
               <span>search suggestions</span>
             </div>
-            <ul className="space-y-0.5">
+            <motion.ul
+              className="space-y-0.5"
+              variants={{
+                hidden: { opacity: 0 },
+                visible: {
+                  opacity: 1,
+                  transition: { staggerChildren: 0.06 },
+                },
+              }}
+              initial="hidden"
+              animate="visible"
+            >
               {quickSearches.map((s) => (
-                <li key={s.label}>
-                  <button
+                <motion.li
+                  key={s.label}
+                  variants={{
+                    hidden: { opacity: 0, x: -12 },
+                    visible: { opacity: 1, x: 0 },
+                  }}
+                >
+                  <motion.button
                     type="button"
                     data-testid={`suggestion-${s.label.replace(/\s+/g, "-").toLowerCase()}`}
                     onClick={() => {
@@ -159,25 +224,40 @@ export default function SearchBar({ defaultValue = "", autoFocus = false, compac
                       submit(null, s.label);
                     }}
                     className="w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-left hover:bg-[var(--bg-petal)] transition-all group"
+                    whileHover={{ x: 4, backgroundColor: "rgba(252, 238, 242, 0.8)" }}
+                    whileTap={{ scale: 0.98 }}
                   >
                     <Search size={14} className="text-[var(--blossom)] group-hover:text-rose transition-colors shrink-0" />
                     <span className="font-sans text-ink text-[14px] group-hover:text-[var(--plum)] transition-colors">{s.label}</span>
                     <span className="ml-auto font-hand text-[var(--blossom)] text-base group-hover:text-rose transition-colors">↗</span>
-                  </button>
-                </li>
+                  </motion.button>
+                </motion.li>
               ))}
-            </ul>
-          </div>
+            </motion.ul>
+          </motion.div>
 
           {/* Divider */}
           <div className="mx-5 border-t border-[var(--border-soft)] my-1" />
 
           {/* Related interests */}
-          <div className="px-5 pb-4 pt-2">
+          <motion.div
+            className="px-5 pb-4 pt-2"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.1, duration: 0.3 }}
+          >
             <div className="text-[10px] uppercase tracking-[0.35em] text-[var(--plum)] mb-3">related interests</div>
-            <div className="flex flex-wrap gap-2">
+            <motion.div
+              className="flex flex-wrap gap-2"
+              variants={{
+                hidden: { opacity: 0 },
+                visible: { opacity: 1, transition: { staggerChildren: 0.05 } },
+              }}
+              initial="hidden"
+              animate="visible"
+            >
               {searchSuggestions.slice(0, 8).map((s) => (
-                <button
+                <motion.button
                   key={s}
                   type="button"
                   onClick={() => {
@@ -186,13 +266,19 @@ export default function SearchBar({ defaultValue = "", autoFocus = false, compac
                     setTimeout(() => submit(null, s), 60);
                   }}
                   className="px-3 py-1.5 text-[12px] font-sans text-[var(--plum)] bg-[var(--bg-petal)] border border-[var(--border-soft)] rounded-full hover:bg-pink/30 hover:border-[var(--blossom)] transition-all"
+                  variants={{
+                    hidden: { opacity: 0, y: 8 },
+                    visible: { opacity: 1, y: 0 },
+                  }}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
                 >
                   {s}
-                </button>
+                </motion.button>
               ))}
-            </div>
-          </div>
-        </div>
+            </motion.div>
+          </motion.div>
+        </motion.div>
       )}
     </div>
   );
