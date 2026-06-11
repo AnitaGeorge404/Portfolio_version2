@@ -1,13 +1,8 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { OverlapFlower, ProminentRose, ProminentPeony, PressedFlowers, WashiTape } from "@/components/ProminentFlowers";
+import { PressedFlower, BotanicalSketch } from "@/components/BotanicalElements";
 
 export default function ResultCard({ url, title, snippet, meta, children, footer, testid }) {
-  const randomFlowerSide = Math.random() > 0.5 ? "top-right" : "top-left";
-  const randomFlowerSize = Math.random() > 0.6 ? "medium" : "small";
-  const showFlower = Math.random() > 0.4; // 60% of cards show prominent flowers
-  const showTape = Math.random() > 0.7; // 30% show tape
-  
   return (
     <motion.article
       className="group max-w-2xl relative page-texture"
@@ -17,31 +12,29 @@ export default function ResultCard({ url, title, snippet, meta, children, footer
       viewport={{ once: true, margin: "-100px" }}
       transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
     >
-      {/* PROMINENT OVERLAPPING FLOWERS - Visible and beautiful */}
-      {showFlower && (
-        <OverlapFlower size={randomFlowerSize} position={randomFlowerSide} delay={0.2} />
-      )}
-
-      {/* Washi tape accent - occasionally visible */}
-      {showTape && (
-        <WashiTape
-          className="absolute top-4 right-6 pointer-events-none"
-          position="absolute"
-          rotation={Math.random() > 0.5 ? 12 : -12}
-          delay={0.3}
-        />
-      )}
-
-      {/* Handwritten annotation */}
-      {Math.random() > 0.6 && (
+      {/* Subtle decorative pressed flower */}
+      {Math.random() > 0.5 && (
         <motion.div
-          className="absolute -right-8 -top-6 font-hand text-[var(--plum)] text-sm opacity-60 italic font-bold"
+          className="absolute -left-12 top-4 opacity-30"
+          initial={{ opacity: 0, rotate: -20 }}
+          whileInView={{ opacity: 0.4, rotate: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.3, duration: 0.7 }}
+        >
+          <PressedFlower />
+        </motion.div>
+      )}
+
+      {/* Handwritten annotation occasionally */}
+      {Math.random() > 0.7 && (
+        <motion.div
+          className="absolute -right-8 -top-6 font-hand text-[var(--plum)] text-sm opacity-40 italic"
           initial={{ opacity: 0, y: 8 }}
-          whileInView={{ opacity: 0.6, y: 0 }}
+          whileInView={{ opacity: 0.4, y: 0 }}
           viewport={{ once: true }}
           transition={{ delay: 0.4 }}
         >
-          ✓ saved
+          ✓ read this
         </motion.div>
       )}
       {meta && (

@@ -21,7 +21,6 @@ import {
   UserRound,
 } from "lucide-react";
 import { Marker, Rose, Sparkle, Sprig, Squiggle, Tape } from "@/components/Decorations";
-import { ProminentRose, ProminentPeony, BotanicalSketch as BotanicalSketchImg, PressedFlowers, Bookmark } from "@/components/ProminentFlowers";
 import { BotanicalSketch, HandwrittenNote, ScrapbookStamp } from "@/components/BotanicalElements";
 import PeopleAlsoAskInline from "@/components/PeopleAlsoAskInline";
 import { buildLocalArchiveResponse, normalizeArchiveResponse } from "@/utils/archiveSearch";
@@ -227,23 +226,14 @@ function AssistantMessage({ message, isLatest, displayedAnswer, onAsk }) {
     >
       <Tape className="-top-3 right-8" rotate={-8} w={64} variant="pink" />
       
-      {/* PROMINENT BOTANICAL DECORATIONS - Visible and beautiful */}
-      {Math.random() > 0.4 && (
-        <div className="absolute -top-16 -right-12 pointer-events-none hidden md:block">
-          <ProminentRose size="medium" delay={0.2} />
-        </div>
-      )}
-
-      {Math.random() > 0.5 && (
-        <div className="absolute -bottom-12 -left-8 pointer-events-none hidden md:block">
-          <PressedFlowers size="small" delay={0.3} />
-        </div>
-      )}
-
-      {/* Bookmark decoration on left edge */}
-      <div className="absolute -left-8 top-12 pointer-events-none hidden md:block">
-        <Bookmark delay={0.25} />
-      </div>
+      {/* Botanical sketch decorating the corner */}
+      <motion.div
+        className="absolute top-4 right-6 opacity-30 hidden sm:block"
+        animate={{ rotate: [0, 2, 0] }}
+        transition={{ duration: 4, repeat: Infinity }}
+      >
+        <BotanicalSketch className="w-8 h-8" />
+      </motion.div>
 
       <motion.div 
         className="flex flex-wrap items-center gap-2 text-[10px] uppercase tracking-[0.22em] text-[var(--plum)]"
