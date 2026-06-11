@@ -8,7 +8,6 @@ import ResultCard from "@/components/ResultCard";
 import PeopleAlsoAskInline from "@/components/PeopleAlsoAskInline";
 import { RevealOnScroll, containerVariants, itemVariants } from "@/components/MotionFramework";
 import { FloatingPetal, Butterfly, PressedFlower, BotanicalSketch } from "@/components/BotanicalElements";
-import { ProminentRose, ProminentPeony, PressedFlowers, BotanicalSketch as BotanicalSketchImg, WashiTape } from "@/components/ProminentFlowers";
 import {
   Sparkle, Squiggle, HandArrow, Sprig, CherryBlossom,
   Tape, Marker, Paperclip, PetalRain
@@ -84,41 +83,12 @@ export default function Home() {
         >
           <Sprig size={100} />
         </motion.div>
-        {/* Prominent floral decorations - VISIBLE and BEAUTIFUL */}
-        {/* Large rose top left */}
-        <div className="absolute -top-16 -left-20 pointer-events-none hidden lg:block">
-          <ProminentRose size="large" delay={0} />
-        </div>
-        
-        {/* Large peony top right */}
-        <div className="absolute -top-12 -right-16 pointer-events-none hidden lg:block">
-          <ProminentPeony size="medium" delay={0.2} />
-        </div>
-
-        {/* Botanical sketch bottom left */}
-        <div className="absolute bottom-0 -left-24 pointer-events-none hidden lg:block opacity-70">
-          <BotanicalSketchImg size="large" delay={0.3} />
-        </div>
-
-        {/* Pressed flowers bottom right */}
-        <div className="absolute bottom-12 -right-12 pointer-events-none hidden md:block">
-          <PressedFlowers size="medium" delay={0.4} />
-        </div>
-
-        {/* Cherry blossom decoration (existing) */}
         <motion.div
-          className="absolute top-16 left-1/4 opacity-40 pointer-events-none hidden md:block"
-          animate={{ y: [0, 16, 0], x: [0, 8, 0] }}
+          className="absolute bottom-12 left-1/4 opacity-40 hidden lg:block pointer-events-none"
+          animate={{ y: [0, -15, 0] }}
           transition={{ duration: 8, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
         >
           <CherryBlossom size={80} />
-        </motion.div>
-        <motion.div
-          className="absolute bottom-8 right-1/4 opacity-45 hidden md:block pointer-events-none"
-          animate={{ y: [0, 12, 0], x: [0, -6, 0] }}
-          transition={{ duration: 7.5, repeat: Infinity, ease: "easeInOut", delay: 0.7 }}
-        >
-          <Sprig size={70} />
         </motion.div>
         <motion.div
           className="absolute bottom-8 right-1/4 opacity-45 hidden md:block pointer-events-none"
