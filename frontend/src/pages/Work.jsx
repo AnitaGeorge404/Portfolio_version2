@@ -3,8 +3,9 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { projects } from "@/data/portfolio";
 import { RevealOnScroll, containerVariants, itemVariants, HoverLift } from "@/components/MotionFramework";
+import { OverlapFlower, ProminentRose, ProminentPeony, PressedFlowers, WashiTape as WashiTapeImg, Bookmark } from "@/components/ProminentFlowers";
 import { Sparkle, Squiggle, Tape, Paperclip, Marker, HandArrow, CherryBlossom, Sprig, PetalRain } from "@/components/Decorations";
-import { ArrowUpRight, Bookmark, Sparkles } from "lucide-react";
+import { ArrowUpRight, Bookmark as BookmarkIcon, Sparkles } from "lucide-react";
 
 const heightClass = {
   short: "min-h-[240px]",
@@ -177,6 +178,15 @@ export default function Work() {
                 className="pin-card relative block break-inside-avoid group"
                 style={{ transform: `rotate(${(idx % 3 - 1) * 0.4}deg)` }}
               >
+                {/* PROMINENT OVERLAPPING FLOWERS - Beautiful and visible */}
+                {Math.random() > 0.35 && (
+                  <OverlapFlower
+                    size={idx % 2 === 0 ? "small" : "medium"}
+                    position={idx % 4 === 0 ? "top-left" : idx % 4 === 1 ? "top-right" : idx % 4 === 2 ? "bottom-left" : "bottom-right"}
+                    delay={idx * 0.1}
+                  />
+                )}
+
                 {/* Polaroid-style card */}
               <div className="bg-white border border-[var(--border-soft)] shadow-[0_4px_20px_-8px_rgba(44,26,29,0.18)]">
                 {/* Washi tape decorations */}
