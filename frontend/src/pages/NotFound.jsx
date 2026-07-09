@@ -1,8 +1,31 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Squiggle, Sparkle, HandArrow } from "@/components/Decorations";
+import { useTheme } from "@/context/ThemeContext";
+import { ScholarMetaLine } from "@/components/ScholarPrimitives";
+
+function ScholarNotFound() {
+  return (
+    <div className="max-w-2xl mx-auto px-4 sm:px-6 py-20" data-testid="not-found-page">
+      <ScholarMetaLine>No indexed record found</ScholarMetaLine>
+      <h1 className="mt-1 font-serif text-3xl sm:text-4xl text-[var(--ink)]">Nothing indexed at that URL.</h1>
+      <p className="mt-3 text-[15px] text-[var(--ink-soft)]">
+        Try searching, or return to the index.
+      </p>
+      <div className="mt-6 flex flex-wrap gap-x-5 text-sm">
+        <Link to="/" className="text-[var(--link)] hover:underline underline-offset-4" data-testid="nf-home">Return to index</Link>
+        <Link to="/ai-mode" className="text-[var(--link)] hover:underline underline-offset-4" data-testid="nf-ai">Search with AI</Link>
+        <Link to="/work" className="text-[var(--link)] hover:underline underline-offset-4" data-testid="nf-work">Browse work</Link>
+      </div>
+    </div>
+  );
+}
 
 export default function NotFound() {
+  const { currentTheme } = useTheme();
+  if (currentTheme === "search") {
+    return <ScholarNotFound />;
+  }
   return (
     <div className="max-w-3xl mx-auto px-4 sm:px-6 py-20" data-testid="not-found-page">
       <div className="text-[11px] uppercase tracking-[0.3em] text-[var(--plum)]">404 · no result</div>

@@ -2,8 +2,42 @@ import React from "react";
 import { videos } from "@/data/portfolio";
 import { Squiggle, Sparkle, Tape } from "@/components/Decorations";
 import { Play } from "lucide-react";
+import { useTheme } from "@/context/ThemeContext";
+import { ScholarMetaLine } from "@/components/ScholarPrimitives";
+
+function ScholarVideos() {
+  return (
+    <div className="max-w-4xl mx-auto px-4 sm:px-6 py-12" data-testid="videos-page">
+      <ScholarMetaLine>Anita George · Indexed media records</ScholarMetaLine>
+      <h1 className="mt-1 font-serif text-3xl sm:text-4xl text-[var(--ink)]">Videos</h1>
+      <p className="mt-2 text-[15px] text-[var(--ink-soft)] max-w-2xl">
+        Screen recordings of things she's built — real videos coming when she has time to record them.
+      </p>
+
+      <div className="mt-6" data-testid="videos-grid">
+        {videos.map((v) => (
+          <article key={v.title} className="py-4 border-b border-[var(--border-soft)] flex items-center gap-4">
+            <div className="relative w-28 h-16 shrink-0 bg-[var(--bg-card)] overflow-hidden">
+              <img src={v.thumb} alt={v.title} className="w-full h-full object-cover opacity-90" />
+              <Play size={16} className="absolute inset-0 m-auto text-white" />
+            </div>
+            <div className="min-w-0">
+              <div className="font-serif text-lg text-[var(--ink)] truncate">{v.title}</div>
+              <div className="text-[13px] text-[var(--ink-soft)]">{v.channel} · {v.duration}</div>
+              <div className="font-mono text-[11px] text-[var(--ink-soft)] mt-0.5">Status: placeholder — not yet recorded</div>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  );
+}
 
 export default function Videos() {
+  const { currentTheme } = useTheme();
+  if (currentTheme === "search") {
+    return <ScholarVideos />;
+  }
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 py-12" data-testid="videos-page">
       <div className="relative max-w-3xl">

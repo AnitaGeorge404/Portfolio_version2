@@ -8,6 +8,13 @@ export const themeTokens = {
     name: "Archive",
     description: "Warm, artistic, nostalgic scrapbook aesthetic",
     emoji: "🌹",
+    // Typography & composition grammar
+    fontHeading: '"Cormorant Garamond", Georgia, serif',
+    fontBody: '"Outfit", -apple-system, sans-serif',
+    fontLabel: '"Outfit", -apple-system, sans-serif',
+    fontHand: '"Caveat", cursive',
+    motionPreset: "paper",
+    cardStyle: "tape",
     // Background colors
     bgPaper: "#FDF6F0",
     bgWarm: "#F9EDE8",
@@ -30,6 +37,7 @@ export const themeTokens = {
     // Borders
     borderSoft: "#F0D8DC",
     borderMedium: "#E8B8C2",
+    link: "#8B3A52",
     // Decorations
     decorationPrimary: "#C96B84",
     decorationSecondary: "#EDAABB",
@@ -58,34 +66,42 @@ export const themeTokens = {
   },
 
   search: {
-    name: "Search",
-    description: "Google-inspired: pure white, minimal, functional research",
+    name: "Scholar",
+    description: "Indexed-record research index: pure white, precise, citation-led",
     emoji: "🔍",
+    // Typography & composition grammar
+    fontHeading: '"Source Serif 4", Georgia, serif',
+    fontBody: '"IBM Plex Sans", -apple-system, sans-serif',
+    fontLabel: '"IBM Plex Mono", ui-monospace, monospace',
+    fontHand: null,
+    motionPreset: "precise",
+    cardStyle: "index-row",
     // Pure white background like Google homepage
     bgPaper: "#FFFFFF",
     bgWarm: "#FFFFFF",
     bgCard: "#F8F8F8",
     bgTag: "#F5F5F5",
     bgPetal: "#FFFFFF",
-    // Google-style gray text
+    // Academic gray text
     ink: "#202124",
     inkSoft: "#5F6368",
-    // Minimal accent colors (only for subtle highlights)
-    plum: "#1F2937",
+    // Restrained academic blue — the one accent color in Scholar
+    plum: "#1558D6",
     pink: "#F3F3F3",
-    blossom: "#E8E8E8",
-    rose: "#3C4043",
-    burgundy: "#1A1A1A",
+    blossom: "#8AB4F8",
+    rose: "#1558D6",
+    burgundy: "#0B3D91",
     cream: "#FFFFFF",
-    dusty: "#DADCE0",
-    sage: "#DADCE0",
-    brown: "#D2D3D4",
+    dusty: "#5F6368",
+    sage: "#5F6368",
+    brown: "#DADCE0",
     // Borders - very subtle
     borderSoft: "#DADCE0",
     borderMedium: "#D2D3D4",
+    link: "#1558D6",
     // Decorations - none (like Google)
-    decorationPrimary: "#1F2937",
-    decorationSecondary: "#E8E8E8",
+    decorationPrimary: "#1558D6",
+    decorationSecondary: "#8AB4F8",
     // Theme-specific experience tokens
     animationDuration: "0.2s",
     particleDensity: 0,
@@ -114,6 +130,13 @@ export const themeTokens = {
     name: "Midnight",
     description: "Luxury dark mode: pure black & bright cream",
     emoji: "🌙",
+    // Typography & composition grammar
+    fontHeading: '"Instrument Serif", Georgia, serif',
+    fontBody: '"Manrope", -apple-system, sans-serif',
+    fontLabel: '"IBM Plex Mono", ui-monospace, monospace',
+    fontHand: null,
+    motionPreset: "inertial",
+    cardStyle: "glass",
     // Pure black luxury background
     bgPaper: "#000000",
     bgWarm: "#0D0D0D",
@@ -136,6 +159,7 @@ export const themeTokens = {
     // Borders - refined dark gray
     borderSoft: "#3A3A3A",
     borderMedium: "#2A2A2A",
+    link: "#D4AF37",
     // Decorations - gold + silver
     decorationPrimary: "#D4AF37",
     decorationSecondary: "#FFFAF5",
@@ -167,6 +191,13 @@ export const themeTokens = {
     name: "Herbarium",
     description: "Botanical research archive, dark green & cream",
     emoji: "🌿",
+    // Typography & composition grammar
+    fontHeading: '"Spectral", Georgia, serif',
+    fontBody: '"Spectral", Georgia, serif',
+    fontLabel: '"Space Mono", ui-monospace, monospace',
+    fontHand: null,
+    motionPreset: "environmental",
+    cardStyle: "specimen",
     // Dark forest green background
     bgPaper: "#0F2419",
     bgWarm: "#163325",
@@ -189,6 +220,7 @@ export const themeTokens = {
     // Borders - subtle on dark
     borderSoft: "#2B4838",
     borderMedium: "#1F3A2E",
+    link: "#7EC66F",
     // Decorations - bright greens
     decorationPrimary: "#7EC66F",
     decorationSecondary: "#C8D9C0",
@@ -226,6 +258,10 @@ export function getThemeCSSVariables(theme) {
   if (!tokens) return {};
 
   return {
+    "--font-heading": tokens.fontHeading,
+    "--font-body": tokens.fontBody,
+    "--font-label": tokens.fontLabel,
+    "--font-hand": tokens.fontHand || tokens.fontBody,
     "--bg-paper": tokens.bgPaper,
     "--bg-warm": tokens.bgWarm,
     "--bg-card": tokens.bgCard,
@@ -244,6 +280,7 @@ export function getThemeCSSVariables(theme) {
     "--brown": tokens.brown,
     "--border-soft": tokens.borderSoft,
     "--border-medium": tokens.borderMedium,
+    "--link": tokens.link,
     "--decoration-primary": tokens.decorationPrimary,
     "--decoration-secondary": tokens.decorationSecondary,
     // Experience tokens for theme-specific behavior

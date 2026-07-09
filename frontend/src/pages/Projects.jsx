@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import { projects } from "@/data/portfolio";
 import { Sparkle, Tape, Paperclip, CherryBlossom, Sprig, Squiggle, HandArrow } from "@/components/Decorations";
 import { ArrowUpRight } from "lucide-react";
+import { useTheme } from "@/context/ThemeContext";
+import { ScholarResultRow, ScholarFilterBar, ScholarMetaLine } from "@/components/ScholarPrimitives";
 
 const allTags = Array.from(new Set(projects.flatMap((p) => p.tags)));
 
@@ -15,9 +17,50 @@ const heightMap = {
 // Washi tape variants cycling
 const tapeVariants = ["pink", "yellow", "mint", "pink", "yellow"];
 
+function ScholarProjects() {
+  const [filter, setFilter] = useState("All");
+  const tags = ["All", ...Array.from(new Set(projects.flatMap((p) => p.tags)))];
+  const filtered = filter === "All" ? projects : projects.filter((p) => p.tags.includes(filter));
+
+  return (
+    <div className="max-w-4xl mx-auto px-4 sm:px-6 py-14" data-testid="projects-page">
+      <ScholarMetaLine>Anita George · Complete project index</ScholarMetaLine>
+      <h1 className="mt-1 font-serif text-3xl sm:text-4xl text-[var(--ink)]">Projects</h1>
+      <p className="mt-2 text-[15px] text-[var(--ink-soft)] max-w-2xl">
+        The full indexed corpus of Anita's engineering work — every verified project record.
+      </p>
+
+      <div className="mt-6">
+        <ScholarFilterBar options={tags} active={filter} onSelect={setFilter} testid="project-filters" />
+      </div>
+
+      <div className="mt-2" data-testid="projects-masonry">
+        {filtered.map((p) => (
+          <ScholarResultRow
+            key={p.slug}
+            testid={`pin-${p.slug}`}
+            eyebrow={`Anita George · Project · ${p.year} · ${p.status || "active"}`}
+            title={p.name}
+            href={`/projects/${p.slug}`}
+            meta={p.tagline}
+            description={p.summary}
+            tags={p.tags}
+            actions={[{ label: "View project", to: `/projects/${p.slug}` }]}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export default function Projects() {
   const [filter, setFilter] = useState("all");
   const filtered = filter === "all" ? projects : projects.filter((p) => p.tags.includes(filter));
+  const { currentTheme } = useTheme();
+
+  if (currentTheme === "search") {
+    return <ScholarProjects />;
+  }
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 py-14" data-testid="projects-page">

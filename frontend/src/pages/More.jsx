@@ -2,6 +2,86 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Squiggle, Sparkle, Tape, HandArrow } from "@/components/Decorations";
 import { ArrowUpRight } from "lucide-react";
+import { useTheme } from "@/context/ThemeContext";
+import { ScholarMetaLine } from "@/components/ScholarPrimitives";
+import { profile, skills, experience, achievements, themes } from "@/data/portfolio";
+
+function ScholarMore() {
+  const links = [
+    { to: "/archive", label: "Indexed history" },
+    { to: "/research", label: "Research & technical exploration" },
+    { to: "/ai-mode", label: "AI synthesis" },
+    { to: "/images", label: "Visual artifact index" },
+    { to: "/videos", label: "Media records" },
+    { to: "/shopping", label: "Wishlist record" },
+  ];
+
+  return (
+    <div className="max-w-3xl mx-auto px-4 sm:px-6 py-12" data-testid="more-page">
+      <ScholarMetaLine>Anita George · Indexed profile directory</ScholarMetaLine>
+      <h1 className="mt-1 font-serif text-3xl sm:text-4xl text-[var(--ink)]">More</h1>
+
+      <div className="mt-8 pt-6 border-t border-[var(--border-soft)]">
+        <ScholarMetaLine>Education</ScholarMetaLine>
+        <p className="mt-1.5 text-[15px] text-[var(--ink)]">{profile.degree} &middot; {profile.universityShort}</p>
+        <p className="text-[13px] text-[var(--ink-soft)]">{profile.years} &middot; GPA {profile.gpa}</p>
+      </div>
+
+      <div className="mt-8 pt-6 border-t border-[var(--border-soft)]">
+        <ScholarMetaLine>Skills</ScholarMetaLine>
+        <div className="mt-2 space-y-2">
+          {skills.map((g) => (
+            <div key={g.group} className="text-[15px]">
+              <span className="font-mono text-[12px] uppercase text-[var(--ink-soft)] mr-2">{g.group}</span>
+              <span className="text-[var(--ink)]">{g.items.join(", ")}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="mt-8 pt-6 border-t border-[var(--border-soft)]">
+        <ScholarMetaLine>Experience</ScholarMetaLine>
+        <div className="mt-2 space-y-3">
+          {experience.map((e) => (
+            <div key={`${e.when}-${e.where}`}>
+              <div className="text-[15px] text-[var(--ink)]">{e.role} &middot; {e.where}</div>
+              <div className="text-[13px] text-[var(--ink-soft)]">{e.when}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="mt-8 pt-6 border-t border-[var(--border-soft)]">
+        <ScholarMetaLine>Achievements</ScholarMetaLine>
+        <div className="mt-2 space-y-1">
+          {achievements.map((a) => (
+            <div key={a.title} className="text-[15px] text-[var(--ink)]">{a.result} — {a.title} ({a.year})</div>
+          ))}
+        </div>
+      </div>
+
+      <div className="mt-8 pt-6 border-t border-[var(--border-soft)]">
+        <ScholarMetaLine>Technical interests</ScholarMetaLine>
+        <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-[15px] text-[var(--ink)]">
+          {themes.map((t) => (
+            <span key={t.title}>{t.title}</span>
+          ))}
+        </div>
+      </div>
+
+      <div className="mt-8 pt-6 border-t border-[var(--border-soft)]">
+        <ScholarMetaLine>Links</ScholarMetaLine>
+        <div className="mt-2">
+          {links.map((l) => (
+            <Link key={l.to} to={l.to} className="block py-2 text-[15px] text-[var(--link)] hover:underline underline-offset-4">
+              {l.label} →
+            </Link>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
 
 const corners = [
   { to: "/archive", title: "Hidden Archive", note: "old html pages, embarrassing usernames", testid: "more-archive" },
@@ -13,6 +93,10 @@ const corners = [
 ];
 
 export default function More() {
+  const { currentTheme } = useTheme();
+  if (currentTheme === "search") {
+    return <ScholarMore />;
+  }
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 py-12" data-testid="more-page">
       <div className="text-[11px] uppercase tracking-[0.3em] text-plum">/ more · the back rooms</div>

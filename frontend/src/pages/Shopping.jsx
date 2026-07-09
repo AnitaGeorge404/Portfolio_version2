@@ -1,8 +1,38 @@
 import React from "react";
 import { shopping } from "@/data/portfolio";
 import { Squiggle, Sparkle, Tape } from "@/components/Decorations";
+import { useTheme } from "@/context/ThemeContext";
+import { ScholarMetaLine } from "@/components/ScholarPrimitives";
+
+function ScholarShopping() {
+  return (
+    <div className="max-w-3xl mx-auto px-4 sm:px-6 py-12" data-testid="shopping-page">
+      <ScholarMetaLine>Anita George · Personal wishlist record</ScholarMetaLine>
+      <h1 className="mt-1 font-serif text-3xl sm:text-4xl text-[var(--ink)]">Wishlist</h1>
+      <p className="mt-2 text-[15px] text-[var(--ink-soft)] max-w-2xl">
+        A tongue-in-cheek personal-interest record — small things that shape a life.
+      </p>
+
+      <div className="mt-8" data-testid="shopping-grid">
+        {shopping.map((s, idx) => (
+          <article key={s.item} className="py-3 border-t border-[var(--border-soft)] flex items-baseline justify-between gap-4">
+            <div>
+              <div className="text-[15px] text-[var(--ink)]">{s.item}</div>
+              <div className="text-[13px] text-[var(--ink-soft)]">{s.note}</div>
+            </div>
+            <span className="font-mono text-[13px] text-[var(--ink-soft)] shrink-0">{s.price}</span>
+          </article>
+        ))}
+      </div>
+    </div>
+  );
+}
 
 export default function Shopping() {
+  const { currentTheme } = useTheme();
+  if (currentTheme === "search") {
+    return <ScholarShopping />;
+  }
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 py-12" data-testid="shopping-page">
       <div className="text-[11px] uppercase tracking-[0.3em] text-plum">/ shopping · gently ironic</div>

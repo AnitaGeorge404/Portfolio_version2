@@ -4,8 +4,82 @@ import { themes, dsa, achievements, certifications } from "@/data/portfolio";
 import ResultCard from "@/components/ResultCard";
 import { Squiggle, Sparkle, Marker, Tape, Sprig } from "@/components/Decorations";
 import { ArrowUpRight, BookOpen } from "lucide-react";
+import { useTheme } from "@/context/ThemeContext";
+import { ScholarMetaLine, ScholarStatLine } from "@/components/ScholarPrimitives";
+
+function ScholarResearch() {
+  return (
+    <div className="max-w-3xl mx-auto px-4 sm:px-6 py-12" data-testid="research-page">
+      <ScholarMetaLine>Anita George · Technical exploration index</ScholarMetaLine>
+      <h1 className="mt-1 font-serif text-3xl sm:text-4xl text-[var(--ink)]">Research &amp; Technical Exploration</h1>
+      <p className="mt-2 text-[15px] text-[var(--ink-soft)] max-w-2xl">
+        Not a publication record — an index of the technical themes and design patterns that recur across her projects.
+      </p>
+
+      <div className="mt-6 pt-4 border-t border-[var(--border-soft)]">
+        <ScholarStatLine
+          items={[
+            ["problems solved", dsa.total],
+            ["LeetCode", dsa.leetcode],
+            ["Codeforces", dsa.codeforces],
+          ]}
+        />
+        <div className="mt-2 flex flex-wrap gap-x-3 gap-y-1 font-mono text-[11px] text-[var(--ink-soft)]">
+          {dsa.focus.map((f) => (
+            <span key={f}>{f}</span>
+          ))}
+        </div>
+      </div>
+
+      <div className="mt-8">
+        {themes.map((t, i) => (
+          <article key={t.title} className="py-5 border-t border-[var(--border-soft)]">
+            <ScholarMetaLine>{t.venue}</ScholarMetaLine>
+            <h2 className="mt-1 font-serif text-xl text-[var(--ink)]">{t.title}</h2>
+            <p className="mt-2 text-[15px] leading-relaxed text-[var(--ink)] max-w-2xl">{t.desc}</p>
+          </article>
+        ))}
+      </div>
+
+      <div className="mt-8 pt-6 border-t border-[var(--border-soft)] grid grid-cols-1 sm:grid-cols-2 gap-8">
+        <div>
+          <ScholarMetaLine>Hackathon placements (verified)</ScholarMetaLine>
+          <ul className="mt-2 space-y-2">
+            {achievements.map((a) => (
+              <li key={a.title}>
+                <div className="text-[15px] text-[var(--ink)]">{a.result}</div>
+                <div className="text-[13px] text-[var(--ink-soft)]">{a.title} · {a.year}</div>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div>
+          <ScholarMetaLine>Certifications</ScholarMetaLine>
+          <ul className="mt-2 space-y-2">
+            {certifications.map((c) => (
+              <li key={c.title}>
+                <div className="text-[15px] text-[var(--ink)]">{c.title}</div>
+                <div className="text-[13px] text-[var(--ink-soft)]">{c.issuer}</div>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+
+      <div className="mt-8 pt-6 border-t border-[var(--border-soft)]">
+        <Link to="/work" className="text-sm text-[var(--link)] hover:underline underline-offset-4">
+          See the projects these themes show up in →
+        </Link>
+      </div>
+    </div>
+  );
+}
 
 export default function Research() {
+  const { currentTheme } = useTheme();
+  if (currentTheme === "search") {
+    return <ScholarResearch />;
+  }
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 py-12" data-testid="research-page">
       <div className="relative">

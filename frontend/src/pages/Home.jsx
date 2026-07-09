@@ -13,7 +13,9 @@ import {
   Tape, Marker, Paperclip, PetalRain
 } from "@/components/Decorations";
 import { Sparkles, ArrowUpRight, Bookmark, Quote } from "lucide-react";
-import { profile, aiOverview, projects, peopleAlsoAsk, experience, skills, internetTraces, obsessions } from "@/data/portfolio";
+import { profile, aiOverview, projects, peopleAlsoAsk, experience, skills, internetTraces, obsessions, themes, dsa, achievements, repos } from "@/data/portfolio";
+import { useTheme } from "@/context/ThemeContext";
+import { ScholarSearchBar, ScholarResultRow, ScholarStatLine, ScholarSectionTitle, ScholarProfileIndex, ScholarMetaLine } from "@/components/ScholarPrimitives";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || "";
 const API = BACKEND_URL ? `${BACKEND_URL}/api` : "/api";
@@ -37,9 +39,96 @@ function AnitaLogo({ large = false }) {
   );
 }
 
+// Scholar — index entrance: identity, search, indexed interests, selected records
+function ScholarHome({ paa }) {
+  const suggestedQueries = ["NeuroBridge accessibility", "graph optimization", "full-stack development", "AI safety"];
+  const featured = projects.slice(0, 3);
+
+  return (
+    <div className="max-w-4xl mx-auto px-4 sm:px-6 pt-14 pb-20" data-testid="home-page">
+      <div className="text-center">
+        <ScholarMetaLine className="justify-center inline-block">Anita George — Indexed Record</ScholarMetaLine>
+        <h1 className="mt-2 font-serif text-4xl sm:text-5xl text-[var(--ink)]">Anita George</h1>
+        <p className="mt-1.5 text-[15px] text-[var(--ink-soft)]">
+          {profile.role} &middot; {profile.universityShort}
+        </p>
+        <div className="mt-6 flex justify-center">
+          <ScholarSearchBar autoFocus={false} />
+        </div>
+        <div className="mt-3 flex flex-wrap justify-center gap-x-4 gap-y-1.5 text-sm">
+          {suggestedQueries.map((q) => (
+            <Link key={q} to={`/ai-mode?q=${encodeURIComponent(q)}`} className="text-[var(--link)] hover:underline underline-offset-4">
+              {q}
+            </Link>
+          ))}
+        </div>
+      </div>
+
+      <div className="mt-10 pt-6 border-t border-[var(--border-soft)]">
+        <ScholarStatLine
+          items={[
+            ["projects indexed", projects.length],
+            ["repositories", repos.length],
+            ["problems solved", dsa.total],
+            ["hackathon placements", achievements.length],
+          ]}
+        />
+      </div>
+
+      <div className="mt-8">
+        <ScholarMetaLine>Engineering interests</ScholarMetaLine>
+        <div className="mt-2 flex flex-wrap gap-x-5 gap-y-1.5 text-[15px] text-[var(--ink)]">
+          {themes.map((t) => (
+            <Link key={t.title} to={`/research`} className="hover:underline underline-offset-4">
+              {t.title}
+            </Link>
+          ))}
+        </div>
+      </div>
+
+      <div className="mt-10">
+        <ScholarSectionTitle count={projects.length}>Selected indexed records</ScholarSectionTitle>
+        {featured.map((p) => (
+          <ScholarResultRow
+            key={p.slug}
+            testid={`scholar-home-result-${p.slug}`}
+            eyebrow={`Anita George · Project · ${p.year}`}
+            title={p.name}
+            href={`/projects/${p.slug}`}
+            meta={p.tagline}
+            description={p.summary}
+            tags={p.tags.slice(0, 4)}
+            actions={[
+              { label: "View project", to: `/projects/${p.slug}` },
+              { label: "Explore with AI", to: `/ai-mode?q=${encodeURIComponent(p.name)}` },
+            ]}
+          />
+        ))}
+        <div className="mt-4">
+          <Link to="/work" className="text-sm text-[var(--link)] hover:underline underline-offset-4">
+            View the full project index →
+          </Link>
+        </div>
+      </div>
+
+      <div className="mt-10 pt-8 border-t border-[var(--border-soft)]">
+        <ScholarProfileIndex profile={profile} interests={themes.map((t) => t.title)} />
+        <p className="mt-3 text-[15px] leading-relaxed text-[var(--ink-soft)] max-w-2xl">{profile.blurb}</p>
+      </div>
+
+      {paa.length > 0 && (
+        <div className="mt-10 pt-8 border-t border-[var(--border-soft)]" data-testid="paa-preview">
+          <PeopleAlsoAskInline items={paa} query="anita george" variant="compact" />
+        </div>
+      )}
+    </div>
+  );
+}
+
 export default function Home() {
   const [paa, setPaa] = useState(fallbackPAA);
   const [searched, setSearched] = useState(false);
+  const { currentTheme } = useTheme();
 
   useEffect(() => {
     axios
@@ -49,6 +138,10 @@ export default function Home() {
       })
       .catch(() => {});
   }, []);
+
+  if (currentTheme === "search") {
+    return <ScholarHome paa={paa} />;
+  }
 
   return (
     <div data-testid="home-page">

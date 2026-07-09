@@ -5,6 +5,8 @@ import { projects } from "@/data/portfolio";
 import { RevealOnScroll, containerVariants, itemVariants, HoverLift } from "@/components/MotionFramework";
 import { Sparkle, Squiggle, Tape, Paperclip, Marker, HandArrow, CherryBlossom, Sprig, PetalRain } from "@/components/Decorations";
 import { ArrowUpRight, Bookmark, Sparkles } from "lucide-react";
+import { useTheme } from "@/context/ThemeContext";
+import { ScholarResultRow, ScholarFilterBar, ScholarMetaLine } from "@/components/ScholarPrimitives";
 
 const heightClass = {
   short: "min-h-[240px]",
@@ -50,10 +52,74 @@ function IndexingMeta() {
   );
 }
 
+function ScholarWork() {
+  const [filter, setFilter] = useState("All");
+  const tags = useMemo(() => ["All", ...Array.from(new Set(projects.flatMap((p) => p.tags)))], []);
+  const filtered = filter === "All" ? projects : projects.filter((p) => p.tags.includes(filter));
+
+  return (
+    <div className="max-w-4xl mx-auto px-4 sm:px-6 pt-10 pb-20" data-testid="work-page">
+      <ScholarMetaLine>Anita George · Engineering work · indexed</ScholarMetaLine>
+      <h1 className="mt-1 font-serif text-3xl sm:text-4xl text-[var(--ink)]">Work</h1>
+      <p className="mt-2 text-[15px] text-[var(--ink-soft)] max-w-2xl">
+        A curated, relevant slice of what she's built — filtered by technical area.
+      </p>
+
+      <div className="mt-6">
+        <ScholarFilterBar options={tags} active={filter} onSelect={setFilter} testid="work-filters" />
+      </div>
+
+      <div className="mt-2" data-testid="work-results">
+        {filtered.map((p) => (
+          <ScholarResultRow
+            key={p.slug}
+            testid={`work-result-${p.slug}`}
+            eyebrow={`Anita George · Project · ${p.year} · ${p.status || "active"}`}
+            title={p.name}
+            href={`/projects/${p.slug}`}
+            meta={p.tagline}
+            description={p.summary}
+            tags={p.tags}
+            actions={[
+              { label: "View project", to: `/projects/${p.slug}` },
+              { label: "Explore with AI", to: `/ai-mode?q=${encodeURIComponent(p.name)}` },
+            ]}
+          />
+        ))}
+      </div>
+
+      {filtered.length === 0 && (
+        <div className="mt-8">
+          <p className="text-[15px] text-[var(--ink-soft)]">
+            No indexed records in this filter —{" "}
+            <button className="text-[var(--link)] hover:underline" onClick={() => setFilter("All")}>
+              view all
+            </button>.
+          </p>
+        </div>
+      )}
+
+      <div className="mt-8 pt-6 border-t border-[var(--border-soft)] flex flex-wrap gap-x-5 text-sm">
+        <Link to="/projects" className="text-[var(--link)] hover:underline underline-offset-4">
+          Full project index →
+        </Link>
+        <Link to="/ai-mode" className="text-[var(--link)] hover:underline underline-offset-4">
+          Ask AI synthesis about her work →
+        </Link>
+      </div>
+    </div>
+  );
+}
+
 export default function Work() {
   const [filter, setFilter] = useState("all");
   const tags = useMemo(() => Array.from(new Set(projects.flatMap((p) => p.tags))), []);
   const filtered = filter === "all" ? projects : projects.filter((p) => p.tags.includes(filter));
+  const { currentTheme } = useTheme();
+
+  if (currentTheme === "search") {
+    return <ScholarWork />;
+  }
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-10 pb-20" data-testid="work-page">

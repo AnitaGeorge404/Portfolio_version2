@@ -6,15 +6,110 @@ import ResultCard from "@/components/ResultCard";
 import PeopleAlsoAskInline from "@/components/PeopleAlsoAskInline";
 import { Sparkle, Squiggle, Tape, Marker, Sprig, CherryBlossom } from "@/components/Decorations";
 import { Sparkles, ArrowUpRight, Github, Globe } from "lucide-react";
+import { useTheme } from "@/context/ThemeContext";
+import { ScholarMetaLine } from "@/components/ScholarPrimitives";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || "";
 const API = BACKEND_URL ? `${BACKEND_URL}/api` : "/api";
+
+function ScholarProjectDetail({ project, others, paa }) {
+  const sections = [
+    ["Overview", project.summary],
+    ["Problem / motivation", project.motivation],
+    ["System / architecture", project.architecture],
+    ["Outcomes / current status", project.outcomes],
+  ];
+
+  return (
+    <div className="max-w-3xl mx-auto px-4 sm:px-6 py-12" data-testid={`project-detail-${project.slug}`}>
+      <ScholarMetaLine>Record type: Project</ScholarMetaLine>
+      <h1 className="mt-1 font-serif text-3xl sm:text-4xl text-[var(--ink)]">{project.name}</h1>
+      <p className="mt-1.5 text-[15px] text-[var(--ink-soft)]">{project.tagline}</p>
+
+      <dl className="mt-5 grid grid-cols-2 sm:grid-cols-4 gap-4 text-sm py-4 border-y border-[var(--border-soft)]">
+        <div><dt className="font-mono text-[11px] text-[var(--ink-soft)]">Creator</dt><dd className="text-[var(--ink)]">Anita George</dd></div>
+        <div><dt className="font-mono text-[11px] text-[var(--ink-soft)]">Year</dt><dd className="text-[var(--ink)]">{project.year}</dd></div>
+        <div><dt className="font-mono text-[11px] text-[var(--ink-soft)]">Status</dt><dd className="text-[var(--ink)]">{project.status || "active"}</dd></div>
+        <div><dt className="font-mono text-[11px] text-[var(--ink-soft)]">Technical areas</dt><dd className="text-[var(--ink)]">{project.tags.slice(0, 2).join(", ")}</dd></div>
+      </dl>
+
+      <div className="mt-4 flex flex-wrap gap-x-5 text-sm">
+        <a href="https://github.com/AnitaGeorge404/" target="_blank" rel="noreferrer" className="text-[var(--link)] hover:underline underline-offset-4">
+          Repository
+        </a>
+        <Link to={`/ai-mode?q=${encodeURIComponent(project.name)}`} className="text-[var(--link)] hover:underline underline-offset-4">
+          Explore this project with AI
+        </Link>
+      </div>
+
+      {sections.map(([title, body]) =>
+        body ? (
+          <div key={title} className="mt-8 pt-6 border-t border-[var(--border-soft)]">
+            <h2 className="font-serif text-xl text-[var(--ink)]">{title}</h2>
+            <p className="mt-2 text-[15px] leading-relaxed text-[var(--ink)] max-w-2xl">{body}</p>
+          </div>
+        ) : null
+      )}
+
+      {project.features?.length > 0 && (
+        <div className="mt-8 pt-6 border-t border-[var(--border-soft)]">
+          <h2 className="font-serif text-xl text-[var(--ink)]">Key features</h2>
+          <ul className="mt-2 space-y-1 text-[15px] text-[var(--ink)] list-disc list-inside">
+            {project.features.map((f) => (
+              <li key={f}>{f}</li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      <div className="mt-8 pt-6 border-t border-[var(--border-soft)]">
+        <h2 className="font-serif text-xl text-[var(--ink)]">Technologies</h2>
+        <div className="mt-2 flex flex-wrap gap-x-3 gap-y-1">
+          {project.stack.map((s) => (
+            <span key={s} className="font-mono text-[12px] text-[var(--ink-soft)] border border-[var(--border-soft)] px-1.5 py-0.5">
+              {s}
+            </span>
+          ))}
+        </div>
+      </div>
+
+      {paa.length > 0 && (
+        <div className="mt-8 pt-6 border-t border-[var(--border-soft)]" data-testid="paa-on-detail">
+          <PeopleAlsoAskInline items={paa} query={project.name} variant="compact" />
+        </div>
+      )}
+
+      <div className="mt-10 pt-6 border-t border-[var(--border-soft)]">
+        <h2 className="font-serif text-xl text-[var(--ink)]">Related indexed work</h2>
+        <div className="mt-2">
+          {others.map((o) => (
+            <Link
+              key={o.slug}
+              to={`/projects/${o.slug}`}
+              data-testid={`other-project-${o.slug}`}
+              className="block py-3 border-b border-[var(--border-soft)]"
+            >
+              <span className="text-lg font-serif text-[var(--link)] hover:underline underline-offset-4">{o.name}</span>
+              <span className="ml-2 text-sm text-[var(--ink-soft)]">{o.tagline}</span>
+            </Link>
+          ))}
+        </div>
+        <div className="mt-4">
+          <Link to="/projects" className="text-sm text-[var(--link)] hover:underline underline-offset-4">
+            ← Full project index
+          </Link>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 export default function ProjectDetail() {
   const { slug } = useParams();
   const project = projects.find((p) => p.slug === slug);
   const others = projects.filter((p) => p.slug !== slug).slice(0, 3);
   const [paa, setPaa] = useState([]);
+  const { currentTheme } = useTheme();
 
   useEffect(() => {
     if (!project) return;
@@ -25,6 +120,17 @@ export default function ProjectDetail() {
   }, [project]);
 
   if (!project) {
+    if (currentTheme === "search") {
+      return (
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 py-20" data-testid="project-not-found">
+          <ScholarMetaLine>No matching record</ScholarMetaLine>
+          <h1 className="mt-1 font-serif text-3xl text-[var(--ink)]">This project isn&apos;t indexed</h1>
+          <p className="mt-3 text-[15px] text-[var(--ink-soft)]">
+            Try the <Link className="text-[var(--link)] hover:underline" to="/projects">full project index</Link>.
+          </p>
+        </div>
+      );
+    }
     return (
       <div className="max-w-3xl mx-auto px-4 sm:px-6 py-20" data-testid="project-not-found">
         <div className="text-[11px] uppercase tracking-[0.3em] text-[var(--plum)]">404 · no result</div>
@@ -34,6 +140,10 @@ export default function ProjectDetail() {
         </p>
       </div>
     );
+  }
+
+  if (currentTheme === "search") {
+    return <ScholarProjectDetail project={project} others={others} paa={paa} />;
   }
 
   return (
