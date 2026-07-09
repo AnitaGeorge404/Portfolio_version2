@@ -1,8 +1,35 @@
 import React from "react";
 import { archive } from "@/data/portfolio";
 import { Squiggle, Sparkle, Tape, Sprig } from "@/components/Decorations";
+import { useTheme } from "@/context/ThemeContext";
+import { ScholarMetaLine } from "@/components/ScholarPrimitives";
+
+function ScholarArchive() {
+  return (
+    <div className="max-w-3xl mx-auto px-4 sm:px-6 py-12" data-testid="archive-page">
+      <ScholarMetaLine>Anita George · Chronological index</ScholarMetaLine>
+      <h1 className="mt-1 font-serif text-3xl sm:text-4xl text-[var(--ink)]">Indexed history</h1>
+      <p className="mt-2 text-[15px] text-[var(--ink-soft)] max-w-2xl">
+        A chronological record of earlier versions of her work online.
+      </p>
+
+      <div className="mt-8">
+        {archive.map((a, i) => (
+          <article key={`${a.date}-${i}`} className="py-4 border-t border-[var(--border-soft)]" data-testid={`archive-item-${i}`}>
+            <ScholarMetaLine>{a.date}</ScholarMetaLine>
+            <p className="mt-1 text-[15px] text-[var(--ink)] leading-relaxed">{a.note}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  );
+}
 
 export default function Archive() {
+  const { currentTheme } = useTheme();
+  if (currentTheme === "search") {
+    return <ScholarArchive />;
+  }
   return (
     <div className="max-w-3xl mx-auto px-4 sm:px-6 py-12" data-testid="archive-page">
       <div className="text-[11px] uppercase tracking-[0.3em] text-plum">/ archive · hidden tab</div>

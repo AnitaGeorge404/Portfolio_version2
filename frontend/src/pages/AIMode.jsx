@@ -24,6 +24,8 @@ import { Marker, Rose, Sparkle, Sprig, Squiggle, Tape } from "@/components/Decor
 import { BotanicalSketch, HandwrittenNote, ScrapbookStamp } from "@/components/BotanicalElements";
 import PeopleAlsoAskInline from "@/components/PeopleAlsoAskInline";
 import { buildLocalArchiveResponse, normalizeArchiveResponse } from "@/utils/archiveSearch";
+import { useTheme } from "@/context/ThemeContext";
+import { ScholarMetaLine } from "@/components/ScholarPrimitives";
 
 const BACKEND_URL = (process.env.REACT_APP_BACKEND_URL || "").replace(/\/$/, "");
 const API = BACKEND_URL ? `${BACKEND_URL}/api` : "/api";
@@ -108,7 +110,7 @@ function StageRail({ loading, activeStage, result }) {
         return (
           <div key={`${stage}-${index}`} className="border border-[var(--border-soft)] bg-white/65 px-3 py-2 min-h-[68px]">
             <div className="flex items-center gap-2 text-[10px] uppercase tracking-[0.18em] text-[var(--plum)]">
-              <span className={`h-1.5 w-1.5 rounded-full ${isActive ? "bg-[var(--sage)] animate-pulse" : "bg-[var(--brown)]"}`} />
+              <span className={`h-1.5 w-1.5 rounded-full ${isActive ? "bg-[var(--decoration-primary)] animate-pulse" : "bg-[var(--brown)]"}`} />
               {String(index + 1).padStart(2, "0")}
             </div>
             <div className="mt-2 text-xs leading-snug text-ink-soft">{stage}</div>
@@ -119,14 +121,29 @@ function StageRail({ loading, activeStage, result }) {
   );
 }
 
-function UserMessage({ message }) {
+function UserMessage({ message, index }) {
+  const { currentTheme } = useTheme();
+
+  if (currentTheme === "search") {
+    return (
+      <article className="pt-2" data-testid="ai-user-message">
+        <ScholarMetaLine>Query {index != null ? index + 1 : ""}</ScholarMetaLine>
+        <p className="mt-0.5 font-serif text-xl text-[var(--ink)]">{message.content}</p>
+      </article>
+    );
+  }
+
   return (
     <article className="flex justify-end" data-testid="ai-user-message">
-      <div className="max-w-[86%] sm:max-w-[72%] bg-ink text-paper px-4 py-3 rounded-sm shadow-[0_16px_34px_-28px_rgba(45,42,38,0.55)]">
-        <div className="mb-1 flex items-center justify-end gap-1.5 text-[10px] uppercase tracking-[0.2em] text-paper/70">
-          you <UserRound size={11} />
+      <div
+        className="relative max-w-[86%] sm:max-w-[72%] bg-[var(--bg-tag)] border border-[var(--border-soft)] px-4 py-3 shadow-[0_10px_24px_-18px_rgba(45,42,38,0.4)]"
+        style={{ transform: "rotate(0.6deg)" }}
+      >
+        <Tape className="-top-3 right-6" rotate={6} w={44} h={16} variant="mint" />
+        <div className="mb-1 flex items-center justify-end gap-1.5 text-[10px] uppercase tracking-[0.2em] text-[var(--plum)]">
+          <UserRound size={11} /> asked
         </div>
-        <p className="text-[15px] leading-relaxed">{message.content}</p>
+        <p className="font-hand text-xl leading-snug text-ink">{message.content}</p>
       </div>
     </article>
   );
@@ -211,10 +228,111 @@ function CitationList({ citations = [] }) {
   );
 }
 
+function ScholarAssistantMessage({ message, isLatest, displayedAnswer, onAsk }) {
+  const result = message.result || {};
+  const answer = isLatest ? displayedAnswer || "" : message.content;
+  const engineLabel = result.llm_available ? "AI synthesis · Gemini 2.5 Flash" : result.client_fallback ? "Local indexed archive response" : "AI synthesis · indexed archive";
+
+  return (
+    <article className="py-5 border-t border-[var(--border-soft)]" data-testid="ai-assistant-message">
+      <div className="flex flex-wrap items-center gap-2 text-[11px] uppercase tracking-[0.06em] text-[var(--ink-soft)] font-mono">
+        {engineLabel}
+        {result.grounded !== false && (
+          <span className="inline-flex items-center gap-1 text-[var(--link)]"><ShieldCheck size={11} /> grounded</span>
+        )}
+      </div>
+
+      <p className="mt-3 font-serif text-xl sm:text-2xl leading-relaxed text-[var(--ink)] whitespace-pre-line max-w-2xl min-h-[56px]">
+        {answer}
+        {isLatest && displayedAnswer && displayedAnswer.length < message.content.length && <span className="caret" />}
+      </p>
+
+      {result.fallbackReason && !result.client_fallback && (
+        <div className="mt-2 text-xs text-[var(--ink-soft)]">{result.fallbackReason}</div>
+      )}
+
+      {!!result.relatedProjects?.length && (
+        <div className="mt-5">
+          <ScholarMetaLine>Indexed evidence</ScholarMetaLine>
+          <div className="mt-2 space-y-3" data-testid="related-project-cards">
+            {result.relatedProjects.slice(0, 4).map((project) => (
+              <div key={project.slug}>
+                <ArchiveLink page={{ title: project.name, url: project.url }} className="font-serif text-lg text-[var(--link)]" />
+                <span className="ml-2 text-xs uppercase tracking-[0.06em] text-[var(--ink-soft)]">{project.status}</span>
+                <p className="text-sm text-[var(--ink)] leading-relaxed">{project.reason}</p>
+                <button type="button" onClick={() => onAsk(`Go deeper on ${project.name}.`)} className="text-sm text-[var(--link)] hover:underline underline-offset-4">
+                  Go deeper →
+                </button>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {!!result.semanticConnections?.length && (
+        <div className="mt-5" data-testid="semantic-graph">
+          <ScholarMetaLine>Related concepts</ScholarMetaLine>
+          <div className="mt-2 space-y-2">
+            {result.semanticConnections.slice(0, 4).map((c, i) => (
+              <div key={`${c.source}-${c.target}-${i}`} className="text-sm">
+                <span className="text-[var(--ink)]">{c.source}</span>
+                <span className="mx-2 text-[var(--link)]">→</span>
+                <span className="text-[var(--ink)]">{c.target}</span>
+                <span className="ml-2 text-[var(--ink-soft)]">— {c.reason}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {!!(result.citations || result.sources)?.length && (
+        <details className="mt-5" data-testid="ai-citations">
+          <summary className="cursor-pointer list-none font-mono text-[11px] uppercase tracking-[0.06em] text-[var(--ink-soft)]">
+            Indexed references
+          </summary>
+          <ol className="mt-2 space-y-2">
+            {(result.citations || result.sources).slice(0, 6).map((source, index) => (
+              <li key={`${source.id}-${index}`} className="text-sm">
+                <span className="font-mono text-[var(--ink-soft)] mr-1.5">[{index + 1}]</span>
+                <ArchiveLink page={{ title: source.title, url: source.url }} className="text-[var(--link)]" />
+                <span className="ml-2 text-xs text-[var(--ink-soft)]">{source.source} · {Math.round((source.score || 0) * 100)}%</span>
+                <p className="mt-0.5 text-[var(--ink-soft)]">{source.snippet}</p>
+              </li>
+            ))}
+          </ol>
+        </details>
+      )}
+
+      {!!result.relatedSearches?.length && (
+        <div className="mt-5">
+          <ScholarMetaLine>Related queries</ScholarMetaLine>
+          <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1.5">
+            {result.relatedSearches.slice(0, 7).map((search) => (
+              <button
+                key={search}
+                type="button"
+                onClick={() => onAsk(search)}
+                className="text-sm text-[var(--link)] hover:underline underline-offset-4"
+              >
+                {search}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+    </article>
+  );
+}
+
 function AssistantMessage({ message, isLatest, displayedAnswer, onAsk }) {
+  const { currentTheme } = useTheme();
   const result = message.result || {};
   const answer = isLatest ? displayedAnswer || "" : message.content;
   const engineLabel = result.llm_available ? "Gemini 2.5 Flash RAG" : result.client_fallback ? "local archive fallback" : "archive RAG";
+
+  if (currentTheme === "search") {
+    return <ScholarAssistantMessage message={message} isLatest={isLatest} displayedAnswer={displayedAnswer} onAsk={onAsk} />;
+  }
 
   return (
     <motion.article 
@@ -315,6 +433,21 @@ function AssistantMessage({ message, isLatest, displayedAnswer, onAsk }) {
 }
 
 function PendingMessage({ activeStage }) {
+  const { currentTheme } = useTheme();
+
+  if (currentTheme === "search") {
+    return (
+      <article className="py-5 border-t border-[var(--border-soft)]" data-testid="ai-pending-message">
+        <div className="font-mono text-[11px] uppercase tracking-[0.06em] text-[var(--link)]">
+          {activeStage || "retrieving indexed evidence"}
+        </div>
+        <div className="mt-2 inline-flex items-center gap-2 text-[15px] text-[var(--ink-soft)]">
+          Synthesizing <TypingDots />
+        </div>
+      </article>
+    );
+  }
+
   return (
     <article className="bg-white/80 border border-[var(--border-medium)] p-5 sm:p-6" data-testid="ai-pending-message">
       <div className="flex items-center gap-2 text-[10px] uppercase tracking-[0.24em] text-[var(--plum)]">
@@ -328,15 +461,17 @@ function PendingMessage({ activeStage }) {
 }
 
 function MemoryPanel({ messages, latestResult, stats, onAsk }) {
+  const { currentTheme } = useTheme();
+  const isScholar = currentTheme === "search";
   const breadcrumbs = latestResult?.memoryBreadcrumbs || [];
   const projects = latestResult?.relatedProjects || [];
   const repos = latestResult?.relatedRepositories || [];
 
   return (
     <aside className="space-y-4 lg:sticky lg:top-24 self-start">
-      <section className="border border-[var(--border-soft)] bg-[var(--bg-paper)]/75 p-5 grid-paper">
+      <section className={`border border-[var(--border-soft)] bg-[var(--bg-paper)]/75 p-5 ${isScholar ? "" : "grid-paper"}`}>
         <div className="text-[10px] uppercase tracking-[0.28em] text-[var(--plum)] inline-flex items-center gap-2">
-          <FileSearch size={12} /> archive index
+          <FileSearch size={12} /> {isScholar ? "indexed corpus" : "archive index"}
         </div>
         <div className="mt-4 grid grid-cols-2 gap-2">
           {[
@@ -423,6 +558,7 @@ export default function AIMode() {
   const [error, setError] = useState("");
   const bottomRef = useRef(null);
   const paramHandledRef = useRef(false);
+  const { currentTheme } = useTheme();
 
   const assistantMessages = useMemo(() => messages.filter((message) => message.role === "assistant"), [messages]);
   const latestAssistant = assistantMessages[assistantMessages.length - 1] || null;
@@ -538,25 +674,35 @@ export default function AIMode() {
     runSearch(query);
   };
 
+  const isScholar = currentTheme === "search";
+  let queryIndex = -1;
+
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-7 pb-24" data-testid="ai-mode-page">
       <section className="relative border-b border-[var(--border-soft)] pb-6">
-        <Rose className="absolute -top-10 -left-8 opacity-60 hidden md:block" size={100} />
-        <Sparkle className="absolute top-2 right-4 opacity-70 animate-float-slow" size={18} />
+        {!isScholar && (
+          <>
+            <Rose className="absolute -top-10 -left-8 opacity-60 hidden md:block" size={100} />
+            <Sparkle className="absolute top-2 right-4 opacity-70 animate-float-slow" size={18} />
+          </>
+        )}
         <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
           <div className="min-w-0">
-            <div className="text-[11px] uppercase tracking-[0.3em] text-[var(--plum)] inline-flex items-center gap-2">
-              <BrainCircuit size={13} className="text-[var(--sage)]" /> Anita George archive intelligence
+            <div className={`text-[11px] uppercase tracking-[0.3em] text-[var(--plum)] inline-flex items-center gap-2 ${isScholar ? "font-mono" : ""}`}>
+              <BrainCircuit size={13} className="text-[var(--sage)]" />
+              {isScholar ? "AI synthesis over indexed engineering work" : "Anita George archive intelligence"}
             </div>
-            <h1 className="mt-2 font-serif text-5xl sm:text-7xl lg:text-[84px] leading-[0.9] text-ink">
+            <h1 className={`mt-2 font-serif text-ink leading-[0.9] ${isScholar ? "text-4xl sm:text-5xl" : "text-5xl sm:text-7xl lg:text-[84px]"}`}>
               AI Mode
             </h1>
-            <Squiggle width={230} className="mt-2" />
+            {!isScholar && <Squiggle width={230} className="mt-2" />}
           </div>
           <div className="lg:max-w-xl">
             <SignalStrip stats={stats} />
             <p className="mt-3 text-base sm:text-lg leading-relaxed text-ink-soft">
-              A conversational research layer over Anita's verified projects, repositories, technical themes, and design direction.
+              {isScholar
+                ? "A synthesis layer over Anita's indexed engineering corpus — projects, repositories, technical themes, and design direction."
+                : "A conversational research layer over Anita's verified projects, repositories, technical themes, and design direction."}
             </p>
           </div>
         </div>
@@ -570,35 +716,61 @@ export default function AIMode() {
         <main className="min-w-0">
           <section className="min-h-[460px] border border-[var(--border-soft)] bg-[var(--bg-paper)]/60 p-3 sm:p-5" data-testid="ai-conversation-thread">
             {messages.length === 0 && !loading ? (
-              <div className="relative overflow-hidden bg-white/72 border border-[var(--border-medium)] p-5 sm:p-8 min-h-[360px]">
-                <Tape className="-top-3 right-12" rotate={7} w={72} variant="pink" />
-                <Sprig className="absolute -bottom-10 -right-4 opacity-55" size={110} />
-                <div className="text-[10px] uppercase tracking-[0.28em] text-[var(--plum)] inline-flex items-center gap-2">
-                  <MessageSquareText size={12} /> live archive thread
+              isScholar ? (
+                <div className="p-5 sm:p-8 min-h-[360px]">
+                  <ScholarMetaLine>Search entrance</ScholarMetaLine>
+                  <p className="mt-4 max-w-2xl font-serif text-2xl sm:text-3xl leading-snug text-[var(--ink)]">
+                    Ask about the shape of Anita's engineering work, then keep going.
+                  </p>
+                  <div className="mt-6" data-testid="starter-questions">
+                    <ScholarMetaLine>Suggested queries</ScholarMetaLine>
+                    <div className="mt-2 flex flex-col divide-y divide-[var(--border-soft)]">
+                      {STARTER_QUESTIONS.map((starter) => (
+                        <button
+                          key={starter}
+                          type="button"
+                          onClick={() => runSearch(starter)}
+                          className="py-2.5 text-left text-[15px] text-[var(--link)] hover:underline underline-offset-4"
+                        >
+                          {starter}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
                 </div>
-                <p className="mt-5 max-w-3xl font-serif text-3xl sm:text-[42px] leading-tight text-ink">
-                  Ask about the shape of Anita's engineering work, then keep going.
-                </p>
-                <div className="mt-7 grid grid-cols-1 sm:grid-cols-2 gap-2" data-testid="starter-questions">
-                  {STARTER_QUESTIONS.map((starter) => (
-                    <button
-                      key={starter}
-                      type="button"
-                      onClick={() => runSearch(starter)}
-                      className="group flex items-center justify-between gap-3 border border-[var(--border-soft)] bg-[var(--bg-tag)] px-4 py-3 text-left text-sm text-ink hover:bg-[var(--bg-warm)] transition"
-                    >
-                      <span className="leading-snug">{starter}</span>
-                      <ArrowUpRight size={14} className="shrink-0 text-[var(--plum)] transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                    </button>
-                  ))}
+              ) : (
+                <div className="relative overflow-hidden bg-white/72 border border-[var(--border-medium)] p-5 sm:p-8 min-h-[360px]">
+                  <Tape className="-top-3 right-12" rotate={7} w={72} variant="pink" />
+                  <Sprig className="absolute -bottom-10 -right-4 opacity-55" size={110} />
+                  <div className="text-[10px] uppercase tracking-[0.28em] text-[var(--plum)] inline-flex items-center gap-2">
+                    <MessageSquareText size={12} /> live archive thread
+                  </div>
+                  <p className="mt-5 max-w-3xl font-serif text-3xl sm:text-[42px] leading-tight text-ink">
+                    Ask about the shape of Anita's engineering work, then keep going.
+                  </p>
+                  <div className="mt-7 grid grid-cols-1 sm:grid-cols-2 gap-2" data-testid="starter-questions">
+                    {STARTER_QUESTIONS.map((starter) => (
+                      <button
+                        key={starter}
+                        type="button"
+                        onClick={() => runSearch(starter)}
+                        className="group flex items-center justify-between gap-3 border border-[var(--border-soft)] bg-[var(--bg-tag)] px-4 py-3 text-left text-sm text-ink hover:bg-[var(--bg-warm)] transition"
+                      >
+                        <span className="leading-snug">{starter}</span>
+                        <ArrowUpRight size={14} className="shrink-0 text-[var(--plum)] transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                      </button>
+                    ))}
+                  </div>
                 </div>
-              </div>
+              )
             ) : (
               <div className="space-y-5">
-                {messages.map((message) =>
-                  message.role === "user" ? (
-                    <UserMessage key={message.id} message={message} />
-                  ) : (
+                {messages.map((message) => {
+                  if (message.role === "user") {
+                    queryIndex += 1;
+                    return <UserMessage key={message.id} message={message} index={queryIndex} />;
+                  }
+                  return (
                     <AssistantMessage
                       key={message.id}
                       message={message}
@@ -606,8 +778,8 @@ export default function AIMode() {
                       displayedAnswer={displayedAnswer}
                       onAsk={runSearch}
                     />
-                  )
-                )}
+                  );
+                })}
                 {loading && <PendingMessage activeStage={activeStage} />}
                 <div ref={bottomRef} />
               </div>

@@ -13,11 +13,11 @@ export function Rose({ className = "", style = {} }) {
       whileHover={{ scale: 1.1 }}
       transition={{ duration: 0.6, ease: "easeOut" }}
     >
-      <g fill="#C96B84" opacity="0.8">
+      <g fill="var(--decoration-primary)" opacity="0.8">
         <path d="M50 10 Q65 25 65 40 Q65 60 50 70 Q35 60 35 40 Q35 25 50 10 M50 15 Q60 28 60 40 Q60 55 50 65 Q40 55 40 40 Q40 28 50 15" />
-        <ellipse cx="50" cy="50" rx="8" ry="10" fill="#E8B8C2" />
+        <ellipse cx="50" cy="50" rx="8" ry="10" fill="var(--decoration-secondary)" />
       </g>
-      <path d="M50 75 L50 95 M45 85 L55 85" stroke="#A0A882" strokeWidth="1.5" fill="none" strokeLinecap="round" />
+      <path d="M50 75 L50 95 M45 85 L55 85" stroke="var(--sage)" strokeWidth="1.5" fill="none" strokeLinecap="round" />
     </motion.svg>
   );
 }
@@ -32,15 +32,15 @@ export function Peony({ className = "", style = {} }) {
       animate={{ scale: 1, rotate: 0 }}
       transition={{ duration: 0.7, ease: "easeOut" }}
     >
-      <g fill="#F2C4CE" opacity="0.75">
+      <g fill="var(--pink)" opacity="0.75">
         <circle cx="50" cy="35" r="18" />
         <circle cx="35" cy="50" r="16" />
         <circle cx="65" cy="50" r="16" />
         <circle cx="45" cy="65" r="14" />
         <circle cx="55" cy="65" r="14" />
-        <circle cx="50" cy="50" r="12" fill="#EDAABB" />
+        <circle cx="50" cy="50" r="12" fill="var(--blossom)" />
       </g>
-      <path d="M50 80 L50 95 M48 90 L52 90" stroke="#A0A882" strokeWidth="1.2" fill="none" strokeLinecap="round" />
+      <path d="M50 80 L50 95 M48 90 L52 90" stroke="var(--sage)" strokeWidth="1.2" fill="none" strokeLinecap="round" />
     </motion.svg>
   );
 }
@@ -56,14 +56,14 @@ export function PressedFlower({ className = "", style = {}, delay = 0 }) {
       viewport={{ once: true }}
       transition={{ delay, duration: 0.5 }}
     >
-      <g fill="#C96B84" opacity="0.4">
+      <g fill="var(--decoration-primary)" opacity="0.4">
         <ellipse cx="30" cy="25" rx="12" ry="14" />
         <ellipse cx="18" cy="35" rx="8" ry="10" />
         <ellipse cx="42" cy="35" rx="8" ry="10" />
         <ellipse cx="24" cy="50" rx="6" ry="8" />
         <ellipse cx="36" cy="50" rx="6" ry="8" />
       </g>
-      <line x1="30" y1="55" x2="30" y2="75" stroke="#A0A882" strokeWidth="1" opacity="0.3" />
+      <line x1="30" y1="55" x2="30" y2="75" stroke="var(--sage)" strokeWidth="1" opacity="0.3" />
     </motion.svg>
   );
 }
@@ -81,13 +81,13 @@ export function BotanicalSketch({ className = "", style = {} }) {
     >
       <path
         d="M40 10 Q30 30 35 50 Q20 60 10 70 M40 10 Q50 30 45 50 Q60 60 70 70 M40 50 Q35 70 40 90 Q45 70 50 50"
-        stroke="#8B3A52"
+        stroke="var(--plum)"
         strokeWidth="1.5"
         fill="none"
         opacity="0.6"
         strokeLinecap="round"
       />
-      <circle cx="40" cy="50" r="3" fill="#C96B84" opacity="0.5" />
+      <circle cx="40" cy="50" r="3" fill="var(--decoration-primary)" opacity="0.5" />
     </motion.svg>
   );
 }
@@ -135,10 +135,10 @@ export function Butterfly({ delay = 0, duration = 12 }) {
       }}
       style={{ zIndex: 0 }}
     >
-      <svg viewBox="0 0 40 30" className="w-5 h-4" fill="#C96B84" opacity="0.5">
+      <svg viewBox="0 0 40 30" className="w-5 h-4" fill="var(--decoration-primary)" opacity="0.5">
         <ellipse cx="15" cy="15" rx="6" ry="8" />
         <ellipse cx="25" cy="15" rx="6" ry="8" />
-        <circle cx="20" cy="15" r="2" fill="#2C1A1D" />
+        <circle cx="20" cy="15" r="2" fill="var(--ink)" />
       </svg>
     </motion.div>
   );

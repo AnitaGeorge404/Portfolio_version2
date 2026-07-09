@@ -2,13 +2,75 @@ import React, { useState } from "react";
 import { galleryImages } from "@/data/portfolio";
 import { Tape, Sparkle, Squiggle, Rose, Paperclip } from "@/components/Decorations";
 import { X } from "lucide-react";
+import { useTheme } from "@/context/ThemeContext";
+import { ScholarFilterBar, ScholarMetaLine } from "@/components/ScholarPrimitives";
 
 const tags = ["all", ...Array.from(new Set(galleryImages.map((i) => i.tag)))];
+
+function ScholarImages() {
+  const [active, setActive] = useState("All");
+  const [open, setOpen] = useState(null);
+  const options = ["All", ...Array.from(new Set(galleryImages.map((i) => i.tag)))];
+  const filtered = active === "All" ? galleryImages : galleryImages.filter((i) => i.tag === active);
+
+  return (
+    <div className="max-w-5xl mx-auto px-4 sm:px-6 py-12" data-testid="images-page">
+      <ScholarMetaLine>Anita George · Visual artifact index</ScholarMetaLine>
+      <h1 className="mt-1 font-serif text-3xl sm:text-4xl text-[var(--ink)]">Images</h1>
+      <p className="mt-2 text-[15px] text-[var(--ink-soft)] max-w-2xl">
+        A moodboard she works from — not project screenshots.
+      </p>
+
+      <div className="mt-6">
+        <ScholarFilterBar options={options} active={active} onSelect={setActive} testid="image-filters" />
+      </div>
+
+      <div className="mt-6 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-px bg-[var(--border-soft)]" data-testid="images-grid">
+        {filtered.map((img, idx) => (
+          <button
+            key={img.src}
+            onClick={() => setOpen(img)}
+            className="relative block w-full aspect-square bg-[var(--bg-paper)] group overflow-hidden"
+            data-testid={`gallery-img-${idx}`}
+          >
+            <img src={img.src} alt={img.caption} loading="lazy" className="w-full h-full object-cover" />
+            <div className="absolute inset-x-0 bottom-0 bg-[var(--bg-paper)]/92 px-2 py-1.5 text-left opacity-0 group-hover:opacity-100 transition-opacity">
+              <div className="text-[12px] text-[var(--ink)] truncate">{img.caption}</div>
+              <div className="font-mono text-[10px] text-[var(--ink-soft)]">{img.tag}</div>
+            </div>
+          </button>
+        ))}
+      </div>
+
+      {open && (
+        <div
+          className="fixed inset-0 bg-[var(--ink)]/60 z-50 flex items-center justify-center p-6"
+          onClick={() => setOpen(null)}
+          data-testid="image-modal"
+        >
+          <div className="relative max-w-3xl bg-[var(--bg-paper)] border border-[var(--border-soft)] p-4" onClick={(e) => e.stopPropagation()}>
+            <button onClick={() => setOpen(null)} className="absolute -top-3 -right-3 bg-[var(--bg-paper)] border border-[var(--border-soft)] rounded-full w-8 h-8 flex items-center justify-center" aria-label="close">
+              <X size={16} />
+            </button>
+            <img src={open.src} alt={open.caption} className="w-full max-h-[70vh] object-contain" />
+            <ScholarMetaLine className="mt-3">{open.tag}</ScholarMetaLine>
+            <div className="text-[15px] text-[var(--ink)]">{open.caption}</div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
 
 export default function Images() {
   const [active, setActive] = useState("all");
   const [open, setOpen] = useState(null);
   const filtered = active === "all" ? galleryImages : galleryImages.filter((i) => i.tag === active);
+  const { currentTheme } = useTheme();
+
+  if (currentTheme === "search") {
+    return <ScholarImages />;
+  }
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12" data-testid="images-page">

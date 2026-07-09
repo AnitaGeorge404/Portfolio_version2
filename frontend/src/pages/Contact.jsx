@@ -2,8 +2,56 @@ import React from "react";
 import { profile } from "@/data/portfolio";
 import { Squiggle, Sparkle, CherryBlossom, Tape, HandArrow } from "@/components/Decorations";
 import { Github, Linkedin, Globe, Mail, MapPin, Sparkles } from "lucide-react";
+import { useTheme } from "@/context/ThemeContext";
+import { ScholarMetaLine } from "@/components/ScholarPrimitives";
+
+function ScholarContact() {
+  const links = [
+    { icon: <Mail size={16} />, label: "Email", value: profile.email, href: `mailto:${profile.email}`, external: false, testid: "contact-email" },
+    { icon: <Github size={16} />, label: "GitHub", value: "github.com/AnitaGeorge404", href: profile.github, external: true, testid: "contact-github" },
+    { icon: <Linkedin size={16} />, label: "LinkedIn", value: "in/anita-george", href: profile.linkedin, external: true, testid: "contact-linkedin" },
+    { icon: <Globe size={16} />, label: "Portfolio", value: "anitageorge.vercel.app", href: profile.portfolio, external: true, testid: "contact-portfolio" },
+  ];
+
+  return (
+    <div className="max-w-2xl mx-auto px-4 sm:px-6 py-12" data-testid="contact-page">
+      <ScholarMetaLine>Anita George · Contact</ScholarMetaLine>
+      <h1 className="mt-1 font-serif text-3xl sm:text-4xl text-[var(--ink)]">Anita George</h1>
+      <p className="mt-1 text-[15px] text-[var(--ink-soft)]">
+        {profile.degree} &middot; {profile.universityShort}
+      </p>
+      <p className="mt-1 text-[15px] text-[var(--ink-soft)]">Kerala, India</p>
+
+      <div className="mt-8 pt-6 border-t border-[var(--border-soft)]">
+        <ScholarMetaLine>Contact</ScholarMetaLine>
+        <div className="mt-2">
+          {links.map((l) => (
+            <a
+              key={l.testid}
+              href={l.href}
+              target={l.external ? "_blank" : undefined}
+              rel={l.external ? "noreferrer" : undefined}
+              data-testid={l.testid}
+              className="flex items-center gap-3 py-3 border-b border-[var(--border-soft)] text-[var(--ink)] hover:text-[var(--link)] transition-colors"
+            >
+              <span className="text-[var(--ink-soft)]">{l.icon}</span>
+              <span className="font-mono text-[11px] text-[var(--ink-soft)] w-20 shrink-0">{l.label}</span>
+              <span className="text-[15px]">{l.value}</span>
+            </a>
+          ))}
+        </div>
+      </div>
+
+      <p className="mt-6 text-sm text-[var(--ink-soft)]">Currently open to collaborations.</p>
+    </div>
+  );
+}
 
 export default function Contact() {
+  const { currentTheme } = useTheme();
+  if (currentTheme === "search") {
+    return <ScholarContact />;
+  }
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 py-12" data-testid="contact-page">
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">

@@ -1,5 +1,26 @@
 import React from "react";
 import { motion } from "framer-motion";
+import { useTheme } from "@/context/ThemeContext";
+
+/**
+ * Per-theme motion presets — distinct feel per environment rather than one
+ * universal easing curve applied everywhere.
+ *   paper         Archive — soft, organic, slightly bouncy (paper settling)
+ *   precise       Scholar — fast, snappy, minimal travel (indexed/instant)
+ *   inertial      Midnight — slow, weighted, deliberate (luxury drag)
+ *   environmental Herbarium — slow, breathing, natural growth
+ */
+export const motionPresets = {
+  paper: { duration: 0.7, ease: [0.22, 1, 0.36, 1], y: 24 },
+  precise: { duration: 0.22, ease: [0.4, 0, 0.2, 1], y: 8 },
+  inertial: { duration: 1.0, ease: [0.83, 0, 0.17, 1], y: 30 },
+  environmental: { duration: 1.1, ease: [0.37, 0, 0.63, 1], y: 20 },
+};
+
+function useMotionPreset() {
+  const { theme } = useTheme();
+  return motionPresets[theme?.motionPreset] || motionPresets.paper;
+}
 
 /**
  * Ambient Particles - floating dust and sparkle particles for atmospheric depth
@@ -25,7 +46,8 @@ export function AmbientParticles({ count = 40, className = "" }) {
             top: 0,
             width: p.size,
             height: p.size,
-            background: `rgba(201, 107, 132, ${p.opacity})`,
+            background: "var(--decoration-primary)",
+            opacity: p.opacity,
           }}
           animate={{
             y: window.innerHeight,
@@ -47,15 +69,16 @@ export function AmbientParticles({ count = 40, className = "" }) {
  * Page transition wrapper with staggered reveal
  */
 export function PageTransition({ children, delay = 0 }) {
+  const preset = useMotionPreset();
   return (
     <motion.div
-      initial={{ opacity: 0, y: 12 }}
+      initial={{ opacity: 0, y: preset.y / 2 }}
       animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -12 }}
+      exit={{ opacity: 0, y: -preset.y / 2 }}
       transition={{
-        duration: 0.5,
+        duration: preset.duration,
         delay,
-        ease: [0.16, 1, 0.3, 1],
+        ease: preset.ease,
       }}
     >
       {children}
@@ -95,6 +118,7 @@ export const itemVariants = {
 export function RevealOnScroll({ children, className = "" }) {
   const ref = React.useRef(null);
   const [isVisible, setIsVisible] = React.useState(false);
+  const preset = useMotionPreset();
 
   React.useEffect(() => {
     const observer = new IntersectionObserver(
@@ -114,11 +138,11 @@ export function RevealOnScroll({ children, className = "" }) {
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, y: 24 }}
+      initial={{ opacity: 0, y: preset.y }}
       animate={isVisible ? { opacity: 1, y: 0 } : {}}
       transition={{
-        duration: 0.7,
-        ease: [0.16, 1, 0.3, 1],
+        duration: preset.duration,
+        ease: preset.ease,
       }}
       className={className}
     >
@@ -214,7 +238,7 @@ export function ParallaxElement({ children, offset = 50, className = "" }) {
 /**
  * Semantic ripple effect for AI thinking state
  */
-export function SemanticRipple({ isActive, color = "#C96B84" }) {
+export function SemanticRipple({ isActive, color = "var(--decoration-primary)" }) {
   return (
     <div className="relative w-4 h-4 inline-block" aria-hidden>
       <motion.div
