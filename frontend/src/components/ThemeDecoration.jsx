@@ -93,50 +93,61 @@ export function ThemeDecoration() {
     );
   }
 
-  // Midnight theme — gold/silver constellation lines + starfield
+  // Midnight theme — layered darkness with 1-2 controlled light sources and a
+  // quiet semantic-node field (concept relationships, not literal astronomy).
+  // Labels are real, verified technical areas from Anita's actual project tags.
   if (currentTheme === "midnight") {
+    const nodes = [
+      { x: "12%", y: "16%", label: "Full-Stack", primary: true },
+      { x: "26%", y: "32%", label: "AI", primary: false },
+      { x: "40%", y: "18%", label: "Accessibility", primary: false },
+      { x: "18%", y: "46%", label: null, primary: false },
+    ];
     return (
       <div className="fixed inset-0 pointer-events-none overflow-hidden" data-testid="theme-decoration-midnight">
-        {/* Constellation — thin connecting lines with gold/silver nodes */}
-        <svg width="100%" height="280" className="absolute top-0 left-0" style={{ opacity: decorationIntensity * 0.5 }}>
-          <line x1="10%" y1="20%" x2="22%" y2="40%" stroke="var(--border-soft)" strokeWidth="1" className="animate-constellation" />
-          <line x1="22%" y1="40%" x2="36%" y2="24%" stroke="var(--border-soft)" strokeWidth="1" className="animate-constellation" />
-          <line x1="36%" y1="24%" x2="48%" y2="50%" stroke="var(--border-soft)" strokeWidth="1" className="animate-constellation" />
-          <circle cx="10%" cy="20%" r="3" fill="var(--decoration-primary)" />
-          <circle cx="22%" cy="40%" r="3" fill="var(--decoration-secondary)" />
-          <circle cx="36%" cy="24%" r="3" fill="var(--decoration-secondary)" />
-          <circle cx="48%" cy="50%" r="3" fill="var(--decoration-primary)" />
+        {/* Controlled environmental light — one overhead wash, one low warm glow. Nothing else. */}
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "radial-gradient(1100px 520px at 50% -8%, rgba(185,192,198,0.05) 0%, transparent 60%), radial-gradient(900px 500px at 85% 92%, rgba(212,175,55,0.035) 0%, transparent 65%)",
+          }}
+        />
+
+        {/* Semantic intelligence nodes — quiet relationship field, top-left quadrant only */}
+        <svg width="55%" height="340" className="absolute top-0 left-0" style={{ opacity: decorationIntensity * 0.7 }}>
+          <line x1="12%" y1="16%" x2="26%" y2="32%" stroke="var(--border-medium)" strokeWidth="1" className="animate-constellation" />
+          <line x1="26%" y1="32%" x2="40%" y2="18%" stroke="var(--border-medium)" strokeWidth="1" className="animate-constellation" />
+          <line x1="26%" y1="32%" x2="18%" y2="46%" stroke="var(--border-medium)" strokeWidth="1" className="animate-constellation" />
+          {nodes.map((n, i) => (
+            <circle
+              key={i}
+              cx={n.x}
+              cy={n.y}
+              r={n.primary ? 3 : 2}
+              fill={n.primary ? "var(--decoration-primary)" : "var(--decoration-secondary)"}
+              className="animate-star"
+              style={{ animationDelay: `${i * 0.6}s` }}
+            />
+          ))}
         </svg>
-
-        {/* Background starfield */}
-        {[...Array(20)].map((_, i) => (
-          <div
-            key={`star-${i}`}
-            className="absolute w-1 h-1 rounded-full animate-star"
-            style={{
-              backgroundColor: i % 3 === 0 ? "var(--decoration-primary)" : "var(--decoration-secondary)",
-              left: `${(i * 5.3) % 100}%`,
-              top: `${(i * 8.7) % 100}%`,
-              animationDelay: `${i * 0.1}s`,
-              opacity: decorationIntensity * 0.8,
-            }}
-          />
-        ))}
-
-        {/* Floating particles */}
-        {[...Array(5)].map((_, i) => (
-          <div
-            key={`particle-${i}`}
-            className="absolute w-1 h-1 rounded-full animate-particle"
-            style={{
-              backgroundColor: "var(--decoration-primary)",
-              left: `${(i * 17) % 100}%`,
-              top: "100%",
-              animationDelay: `${i * 2}s`,
-              opacity: decorationIntensity * 0.6,
-            }}
-          />
-        ))}
+        {nodes
+          .filter((n) => n.label)
+          .map((n, i) => (
+            <div
+              key={n.label}
+              className="absolute font-mono text-[9px] uppercase tracking-[0.1em]"
+              style={{
+                left: n.x,
+                top: n.y,
+                transform: "translate(10px, -4px)",
+                color: n.primary ? "var(--decoration-primary)" : "var(--decoration-secondary)",
+                opacity: decorationIntensity * 0.75,
+              }}
+            >
+              {n.label}
+            </div>
+          ))}
       </div>
     );
   }

@@ -16,6 +16,8 @@ export default function Layout({ children }) {
   const [scrolled, setScrolled] = useState(false);
   const { currentTheme } = useTheme();
   const isScholar = currentTheme === "search";
+  const isMidnight = currentTheme === "midnight";
+  const isArchive = currentTheme === "archive";
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 200);
@@ -35,11 +37,13 @@ export default function Layout({ children }) {
       {/* Theme-Specific Decorations */}
       <ThemeDecoration />
 
-      {/* Ambient particle atmosphere — Scholar is deliberately bare, no floating decoration */}
-      {!isScholar && <AmbientParticles count={30} className="opacity-40" />}
-      {!isScholar && Math.random() > 0.7 && <FloatingPetal delay={0} duration={10} />}
-      {!isScholar && Math.random() > 0.7 && <FloatingPetal delay={1.5} duration={12} />}
-      {!isScholar && Math.random() > 0.6 && <Butterfly delay={2} duration={14} />}
+      {/* Ambient particle atmosphere — only Archive's botanical decoration; Scholar is
+          deliberately bare, Midnight uses its own restrained semantic-node ambience
+          (ThemeDecoration) instead of generic pink petals/particles */}
+      {isArchive && <AmbientParticles count={30} className="opacity-40" />}
+      {isArchive && Math.random() > 0.7 && <FloatingPetal delay={0} duration={10} />}
+      {isArchive && Math.random() > 0.7 && <FloatingPetal delay={1.5} duration={12} />}
+      {isArchive && Math.random() > 0.6 && <Butterfly delay={2} duration={14} />}
 
       {/* Theme-branching page header — identity strip + sticky search/logo/tabs */}
       <ThemePageHeader showSticky={!isHome || scrolled} />
@@ -63,13 +67,15 @@ export default function Layout({ children }) {
       >
         <div className="max-w-6xl mx-auto px-4 sm:px-6 py-14 grid grid-cols-1 md:grid-cols-3 gap-10">
           <div className="relative">
-            {!isScholar && <CherryBlossom className="absolute -top-6 -right-4 opacity-60" size={64} />}
-            <div className="font-serif text-3xl text-ink leading-none">
-              <span className={isScholar ? "" : "italic"} style={isScholar ? undefined : { color: "#C96B84" }}>Anita</span>{" "}
+            {isArchive && <CherryBlossom className="absolute -top-6 -right-4 opacity-60" size={64} />}
+            <div className={`font-serif text-3xl leading-none ${isMidnight ? "" : "text-ink"}`} style={isMidnight ? { color: "var(--ink)" } : undefined}>
+              <span className={isScholar || isMidnight ? "" : "italic"} style={isScholar || isMidnight ? undefined : { color: "#C96B84" }}>Anita</span>{" "}
               <span className="text-[var(--plum)]">George</span>
             </div>
             {isScholar ? (
               <div className="font-mono text-[11px] uppercase tracking-[0.06em] text-[var(--ink-soft)] mt-2">Indexed engineering profile</div>
+            ) : isMidnight ? (
+              <div className="font-mono text-[11px] uppercase tracking-[0.1em] text-[var(--decoration-primary)] mt-2">Private archive · after midnight</div>
             ) : (
               <div className="font-hand text-[var(--rose)] text-xl mt-2">— a slow corner of the internet</div>
             )}
@@ -103,6 +109,10 @@ export default function Layout({ children }) {
               <p className="font-sans text-sm text-ink-soft leading-relaxed">
                 Set in Source Serif 4, IBM Plex Sans, and IBM Plex Mono. No analytics. No popups.
               </p>
+            ) : isMidnight ? (
+              <p className="font-sans text-sm text-ink-soft leading-relaxed">
+                Set in Instrument Serif and Manrope. No analytics. No popups.
+              </p>
             ) : (
               <p className="font-sans text-sm text-ink-soft leading-relaxed">
                 Set in{" "}
@@ -111,13 +121,13 @@ export default function Layout({ children }) {
                 <span className="font-hand text-base">Caveat</span>. Hand-assembled. No analytics. No popups.
               </p>
             )}
-            {!isScholar && <p className="font-hand text-[var(--rose)] mt-4 text-xl">made with quiet attention.</p>}
+            {isArchive && <p className="font-hand text-[var(--rose)] mt-4 text-xl">made with quiet attention.</p>}
           </div>
         </div>
         <div className="border-t border-[var(--border-soft)]">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between text-[11px] tracking-[0.2em] uppercase text-[var(--plum)]">
             <span>© {new Date().getFullYear()} a.george</span>
-            {!isScholar && <span className="font-hand text-base normal-case tracking-normal text-[var(--rose)]">— end of page —</span>}
+            {isArchive && <span className="font-hand text-base normal-case tracking-normal text-[var(--rose)]">— end of page —</span>}
           </div>
         </div>
       </motion.footer>

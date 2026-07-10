@@ -7,6 +7,7 @@ import { Sparkle, Squiggle, Tape, Paperclip, Marker, HandArrow, CherryBlossom, S
 import { ArrowUpRight, Bookmark, Sparkles } from "lucide-react";
 import { useTheme } from "@/context/ThemeContext";
 import { ScholarResultRow, ScholarFilterBar, ScholarMetaLine } from "@/components/ScholarPrimitives";
+import { MidnightMetaLine, MidnightSystemRecord } from "@/components/MidnightPrimitives";
 
 const heightClass = {
   short: "min-h-[240px]",
@@ -111,6 +112,68 @@ function ScholarWork() {
   );
 }
 
+function MidnightWork() {
+  const [filter, setFilter] = useState("All");
+  const tags = useMemo(() => ["All", ...Array.from(new Set(projects.flatMap((p) => p.tags)))], []);
+  const filtered = filter === "All" ? projects : projects.filter((p) => p.tags.includes(filter));
+
+  return (
+    <div className="max-w-6xl mx-auto px-4 sm:px-6 pt-12 pb-24" data-testid="work-page">
+      <MidnightMetaLine signal>System index · engineering work</MidnightMetaLine>
+      <h1 className="mt-2 font-serif italic text-4xl sm:text-5xl text-[var(--ink)]">Work</h1>
+      <p className="mt-2 text-[15px] text-[var(--ink-soft)] max-w-xl">
+        A curated set of Anita's indexed engineering systems.
+      </p>
+
+      <div className="mt-6 flex flex-wrap gap-2" data-testid="work-filters">
+        {tags.map((t) => (
+          <button
+            key={t}
+            onClick={() => setFilter(t)}
+            data-testid={`work-filter-${t}`}
+            className={`px-2.5 py-1 font-mono text-[11px] uppercase tracking-[0.06em] border transition-colors ${
+              filter === t
+                ? "border-[var(--decoration-primary)] text-[var(--decoration-primary)]"
+                : "border-[var(--border-soft)] text-[var(--ink-soft)] hover:border-[var(--border-medium)]"
+            }`}
+          >
+            {t}
+          </button>
+        ))}
+      </div>
+
+      <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-4" data-testid="work-results">
+        {filtered.map((p, i) => (
+          <MidnightSystemRecord
+            key={p.slug}
+            testid={`work-result-${p.slug}`}
+            wide={i % 3 === 0}
+            eyebrow={`System · ${p.year} · ${p.status || "active"}`}
+            title={p.name}
+            href={`/projects/${p.slug}`}
+            meta={p.tagline}
+            description={p.summary}
+            tags={p.tags}
+            actions={[
+              { label: "View system", to: `/projects/${p.slug}` },
+              { label: "Explore with AI", to: `/ai-mode?q=${encodeURIComponent(p.name)}` },
+            ]}
+          />
+        ))}
+      </div>
+
+      {filtered.length === 0 && (
+        <p className="mt-8 text-[15px] text-[var(--ink-soft)]">
+          No systems in this filter —{" "}
+          <button className="text-[var(--decoration-primary)] hover:underline" onClick={() => setFilter("All")}>
+            view all
+          </button>.
+        </p>
+      )}
+    </div>
+  );
+}
+
 export default function Work() {
   const [filter, setFilter] = useState("all");
   const tags = useMemo(() => Array.from(new Set(projects.flatMap((p) => p.tags))), []);
@@ -119,6 +182,10 @@ export default function Work() {
 
   if (currentTheme === "search") {
     return <ScholarWork />;
+  }
+
+  if (currentTheme === "midnight") {
+    return <MidnightWork />;
   }
 
   return (

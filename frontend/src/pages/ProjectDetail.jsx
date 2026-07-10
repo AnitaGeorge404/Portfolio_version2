@@ -8,6 +8,7 @@ import { Sparkle, Squiggle, Tape, Marker, Sprig, CherryBlossom } from "@/compone
 import { Sparkles, ArrowUpRight, Github, Globe } from "lucide-react";
 import { useTheme } from "@/context/ThemeContext";
 import { ScholarMetaLine } from "@/components/ScholarPrimitives";
+import { MidnightMetaLine, MidnightGlassSurface } from "@/components/MidnightPrimitives";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || "";
 const API = BACKEND_URL ? `${BACKEND_URL}/api` : "/api";
@@ -104,6 +105,69 @@ function ScholarProjectDetail({ project, others, paa }) {
   );
 }
 
+function MidnightProjectDetail({ project, others }) {
+  const sections = [
+    ["Overview", project.summary],
+    ["System model", project.architecture],
+    ["Human context", project.motivation],
+    ["Outcomes", project.outcomes],
+  ];
+
+  return (
+    <div className="max-w-3xl mx-auto px-4 sm:px-6 py-14" data-testid={`project-detail-${project.slug}`}>
+      <MidnightMetaLine signal>System identity</MidnightMetaLine>
+      <h1 className="mt-2 font-serif italic text-4xl sm:text-5xl text-[var(--ink)]">{project.name}</h1>
+      <p className="mt-2 text-[15px] text-[var(--ink-soft)]">{project.tagline}</p>
+
+      <div className="mt-6 grid grid-cols-2 sm:grid-cols-4 gap-4 py-4 border-y border-[var(--border-soft)] text-sm">
+        <div><MidnightMetaLine>Year</MidnightMetaLine><div className="mt-1 text-[var(--ink)]">{project.year}</div></div>
+        <div><MidnightMetaLine>Status</MidnightMetaLine><div className="mt-1 text-[var(--ink)]">{project.status || "active"}</div></div>
+        <div><MidnightMetaLine>Domains</MidnightMetaLine><div className="mt-1 text-[var(--ink)]">{project.tags.slice(0, 2).join(", ")}</div></div>
+        <div><MidnightMetaLine>Creator</MidnightMetaLine><div className="mt-1 text-[var(--ink)]">Anita George</div></div>
+      </div>
+
+      <div className="mt-5">
+        <Link to={`/ai-mode?q=${encodeURIComponent(project.name)}`} className="text-sm text-[var(--decoration-primary)] hover:underline underline-offset-4">
+          Query this system with AI →
+        </Link>
+      </div>
+
+      {sections.map(([title, body]) =>
+        body ? (
+          <MidnightGlassSurface key={title} level={2} className="mt-6 p-6">
+            <MidnightMetaLine>{title}</MidnightMetaLine>
+            <p className="mt-2 text-[15px] leading-relaxed text-[var(--ink)] max-w-2xl">{body}</p>
+          </MidnightGlassSurface>
+        ) : null
+      )}
+
+      <MidnightGlassSurface level={2} className="mt-6 p-6">
+        <MidnightMetaLine>Technical layer</MidnightMetaLine>
+        <div className="mt-2 flex flex-wrap gap-x-3 gap-y-1">
+          {project.stack.map((s) => (
+            <span key={s} className="font-mono text-[11px] text-[var(--sage)] border border-[var(--border-soft)] px-1.5 py-0.5">
+              {s}
+            </span>
+          ))}
+        </div>
+      </MidnightGlassSurface>
+
+      <div className="mt-10">
+        <MidnightMetaLine className="mb-3">Related intelligence</MidnightMetaLine>
+        {others.map((o) => (
+          <Link key={o.slug} to={`/projects/${o.slug}`} data-testid={`other-project-${o.slug}`} className="block py-3 border-b border-[var(--border-soft)] group">
+            <span className="font-serif italic text-lg text-[var(--ink)] group-hover:text-[var(--decoration-primary)] transition-colors">{o.name}</span>
+            <span className="ml-2 text-sm text-[var(--ink-soft)]">{o.tagline}</span>
+          </Link>
+        ))}
+        <div className="mt-4">
+          <Link to="/projects" className="text-sm text-[var(--decoration-primary)] hover:underline underline-offset-4">← Full system catalog</Link>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function ProjectDetail() {
   const { slug } = useParams();
   const project = projects.find((p) => p.slug === slug);
@@ -131,6 +195,17 @@ export default function ProjectDetail() {
         </div>
       );
     }
+    if (currentTheme === "midnight") {
+      return (
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 py-20" data-testid="project-not-found">
+          <MidnightMetaLine signal>No matching signal</MidnightMetaLine>
+          <h1 className="mt-2 font-serif italic text-3xl text-[var(--ink)]">This system isn&apos;t indexed.</h1>
+          <p className="mt-3 text-[15px] text-[var(--ink-soft)]">
+            Try the <Link className="text-[var(--decoration-primary)] hover:underline" to="/projects">full system catalog</Link>.
+          </p>
+        </div>
+      );
+    }
     return (
       <div className="max-w-3xl mx-auto px-4 sm:px-6 py-20" data-testid="project-not-found">
         <div className="text-[11px] uppercase tracking-[0.3em] text-[var(--plum)]">404 · no result</div>
@@ -144,6 +219,10 @@ export default function ProjectDetail() {
 
   if (currentTheme === "search") {
     return <ScholarProjectDetail project={project} others={others} paa={paa} />;
+  }
+
+  if (currentTheme === "midnight") {
+    return <MidnightProjectDetail project={project} others={others} />;
   }
 
   return (

@@ -26,6 +26,7 @@ import PeopleAlsoAskInline from "@/components/PeopleAlsoAskInline";
 import { buildLocalArchiveResponse, normalizeArchiveResponse } from "@/utils/archiveSearch";
 import { useTheme } from "@/context/ThemeContext";
 import { ScholarMetaLine } from "@/components/ScholarPrimitives";
+import { MidnightMetaLine, MidnightGlassSurface, MidnightQuerySurface } from "@/components/MidnightPrimitives";
 
 const BACKEND_URL = (process.env.REACT_APP_BACKEND_URL || "").replace(/\/$/, "");
 const API = BACKEND_URL ? `${BACKEND_URL}/api` : "/api";
@@ -129,6 +130,15 @@ function UserMessage({ message, index }) {
       <article className="pt-2" data-testid="ai-user-message">
         <ScholarMetaLine>Query {index != null ? index + 1 : ""}</ScholarMetaLine>
         <p className="mt-0.5 font-serif text-xl text-[var(--ink)]">{message.content}</p>
+      </article>
+    );
+  }
+
+  if (currentTheme === "midnight") {
+    return (
+      <article className="pt-4" data-testid="ai-user-message">
+        <MidnightMetaLine signal>Query {String((index ?? 0) + 1).padStart(2, "0")}</MidnightMetaLine>
+        <p className="mt-1 font-serif italic text-xl sm:text-2xl text-[var(--ink)]">{message.content}</p>
       </article>
     );
   }
@@ -324,6 +334,98 @@ function ScholarAssistantMessage({ message, isLatest, displayedAnswer, onAsk }) 
   );
 }
 
+function MidnightAssistantMessage({ message, isLatest, displayedAnswer, onAsk }) {
+  const result = message.result || {};
+  const answer = isLatest ? displayedAnswer || "" : message.content;
+  const engineLabel = result.llm_available ? "Gemini 2.5 Flash synthesis" : result.client_fallback ? "local archive mode" : "archive synthesis";
+  const citations = result.citations || result.sources || [];
+
+  return (
+    <MidnightGlassSurface level={4} className="p-6 sm:p-8" as="article">
+      <div data-testid="ai-assistant-message">
+        <MidnightMetaLine signal>
+          {engineLabel}
+          {result.grounded !== false && <span className="ml-2 text-[var(--sage)]">· grounded</span>}
+        </MidnightMetaLine>
+
+        <p className="mt-4 font-serif italic text-2xl sm:text-[28px] leading-snug text-[var(--ink)] whitespace-pre-line min-h-[64px]">
+          {answer}
+          {isLatest && displayedAnswer && displayedAnswer.length < message.content.length && <span className="caret" />}
+        </p>
+
+        {result.fallbackReason && !result.client_fallback && (
+          <div className="mt-3 text-xs text-[var(--ink-soft)]">{result.fallbackReason}</div>
+        )}
+
+        {!!result.relatedProjects?.length && (
+          <div className="mt-6" data-testid="related-project-cards">
+            <MidnightMetaLine>Indexed evidence</MidnightMetaLine>
+            <div className="mt-2 space-y-3">
+              {result.relatedProjects.slice(0, 4).map((project) => (
+                <div key={project.slug} className="border-t border-[var(--border-soft)] pt-3">
+                  <ArchiveLink page={{ title: project.name, url: project.url }} className="font-serif italic text-lg text-[var(--ink)]" />
+                  <span className="ml-2 font-mono text-[10px] uppercase tracking-[0.08em] text-[var(--sage)]">{project.status}</span>
+                  <p className="mt-1 text-sm text-[var(--ink-soft)] leading-relaxed">{project.reason}</p>
+                  <button type="button" onClick={() => onAsk(`Go deeper on ${project.name}.`)} className="mt-1 text-sm text-[var(--decoration-primary)] hover:underline underline-offset-4">
+                    Go deeper →
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {!!result.semanticConnections?.length && (
+          <div className="mt-6" data-testid="semantic-graph">
+            <MidnightMetaLine>Concept relationships</MidnightMetaLine>
+            <div className="mt-2 space-y-2">
+              {result.semanticConnections.slice(0, 4).map((c, i) => (
+                <div key={`${c.source}-${c.target}-${i}`} className="text-sm">
+                  <span className="text-[var(--ink)]">{c.source}</span>
+                  <span className="mx-2 text-[var(--decoration-primary)]">—</span>
+                  <span className="text-[var(--ink)]">{c.target}</span>
+                  <div className="text-[var(--ink-soft)] text-xs mt-0.5">{c.reason}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {!!citations.length && (
+          <details className="mt-6" data-testid="ai-citations">
+            <summary className="cursor-pointer list-none">
+              <MidnightMetaLine>Evidence records</MidnightMetaLine>
+            </summary>
+            <ol className="mt-2 space-y-2">
+              {citations.slice(0, 6).map((source, index) => (
+                <li key={`${source.id}-${index}`} className="text-sm border-t border-[var(--border-soft)] pt-2">
+                  <span className="font-mono text-[var(--decoration-primary)] mr-1.5">{String(index + 1).padStart(2, "0")} /</span>
+                  <ArchiveLink page={{ title: source.title, url: source.url }} className="text-[var(--ink)]" />
+                  <span className="ml-2 text-xs text-[var(--sage)]">{Math.round((source.score || 0) * 100)}%</span>
+                  <p className="mt-0.5 text-[var(--ink-soft)]">{source.snippet}</p>
+                </li>
+              ))}
+            </ol>
+          </details>
+        )}
+
+        {!!result.relatedSearches?.length && (
+          <div className="mt-6 pt-4 border-t border-[var(--border-soft)]">
+            <MidnightMetaLine>Continue investigation</MidnightMetaLine>
+            <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1.5">
+              {result.relatedSearches.slice(0, 7).map((search) => (
+                <button key={search} type="button" onClick={() => onAsk(search)} className="text-sm text-[var(--decoration-primary)] hover:underline underline-offset-4">
+                  {search}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+    </MidnightGlassSurface>
+  );
+}
+
 function AssistantMessage({ message, isLatest, displayedAnswer, onAsk }) {
   const { currentTheme } = useTheme();
   const result = message.result || {};
@@ -332,6 +434,10 @@ function AssistantMessage({ message, isLatest, displayedAnswer, onAsk }) {
 
   if (currentTheme === "search") {
     return <ScholarAssistantMessage message={message} isLatest={isLatest} displayedAnswer={displayedAnswer} onAsk={onAsk} />;
+  }
+
+  if (currentTheme === "midnight") {
+    return <MidnightAssistantMessage message={message} isLatest={isLatest} displayedAnswer={displayedAnswer} onAsk={onAsk} />;
   }
 
   return (
@@ -448,6 +554,21 @@ function PendingMessage({ activeStage }) {
     );
   }
 
+  if (currentTheme === "midnight") {
+    return (
+      <MidnightGlassSurface level={3} className="p-6 sm:p-8" as="article">
+        <div data-testid="ai-pending-message">
+          <div className="font-mono text-[11px] uppercase tracking-[0.14em] text-[var(--decoration-primary)]">
+            {activeStage || "connecting indexed evidence"}
+          </div>
+          <div className="mt-3 inline-flex items-center gap-2 font-serif italic text-xl text-[var(--ink-soft)]">
+            Synthesizing <TypingDots />
+          </div>
+        </div>
+      </MidnightGlassSurface>
+    );
+  }
+
   return (
     <article className="bg-white/80 border border-[var(--border-medium)] p-5 sm:p-6" data-testid="ai-pending-message">
       <div className="flex items-center gap-2 text-[10px] uppercase tracking-[0.24em] text-[var(--plum)]">
@@ -463,15 +584,16 @@ function PendingMessage({ activeStage }) {
 function MemoryPanel({ messages, latestResult, stats, onAsk }) {
   const { currentTheme } = useTheme();
   const isScholar = currentTheme === "search";
+  const isMidnight = currentTheme === "midnight";
   const breadcrumbs = latestResult?.memoryBreadcrumbs || [];
   const projects = latestResult?.relatedProjects || [];
   const repos = latestResult?.relatedRepositories || [];
 
   return (
     <aside className="space-y-4 lg:sticky lg:top-24 self-start">
-      <section className={`border border-[var(--border-soft)] bg-[var(--bg-paper)]/75 p-5 ${isScholar ? "" : "grid-paper"}`}>
+      <section className={`border border-[var(--border-soft)] bg-[var(--bg-paper)]/75 p-5 ${isScholar || isMidnight ? "" : "grid-paper"}`}>
         <div className="text-[10px] uppercase tracking-[0.28em] text-[var(--plum)] inline-flex items-center gap-2">
-          <FileSearch size={12} /> {isScholar ? "indexed corpus" : "archive index"}
+          <FileSearch size={12} /> {isScholar ? "indexed corpus" : isMidnight ? "system index" : "archive index"}
         </div>
         <div className="mt-4 grid grid-cols-2 gap-2">
           {[
@@ -480,7 +602,7 @@ function MemoryPanel({ messages, latestResult, stats, onAsk }) {
             ["repos", stats?.repositories ?? 7],
             ["themes", stats?.themes ?? 6],
           ].map(([label, value]) => (
-            <div key={label} className="bg-white/70 border border-[var(--border-soft)] px-3 py-2">
+            <div key={label} className="bg-[var(--bg-tag)]/70 border border-[var(--border-soft)] px-3 py-2">
               <div className="font-serif text-2xl text-ink">{value}</div>
               <div className="text-[10px] uppercase tracking-[0.18em] text-[var(--plum)]">{label}</div>
             </div>
@@ -488,9 +610,9 @@ function MemoryPanel({ messages, latestResult, stats, onAsk }) {
         </div>
       </section>
 
-      <section className="border border-[var(--border-soft)] bg-white/76 p-5">
+      <section className="border border-[var(--border-soft)] bg-[var(--bg-tag)]/60 p-5">
         <div className="text-[10px] uppercase tracking-[0.28em] text-[var(--plum)] inline-flex items-center gap-2">
-          <History size={12} /> memory
+          <History size={12} /> {isMidnight ? "context memory" : "memory"}
         </div>
         <div className="mt-3 space-y-2">
           {breadcrumbs.length ? (
@@ -535,7 +657,7 @@ function MemoryPanel({ messages, latestResult, stats, onAsk }) {
           <div className="text-[10px] uppercase tracking-[0.28em] text-[var(--plum)]">project trail</div>
           <div className="mt-3 flex flex-wrap gap-2">
             {projects.slice(0, 5).map((project) => (
-              <button key={project.slug} type="button" onClick={() => onAsk(`How does ${project.name} connect to Anita's broader engineering direction?`)} className="bg-white/75 border border-[var(--border-soft)] px-2.5 py-1 text-xs text-ink hover:bg-[var(--bg-warm)] transition">
+              <button key={project.slug} type="button" onClick={() => onAsk(`How does ${project.name} connect to Anita's broader engineering direction?`)} className="bg-[var(--bg-tag)]/75 border border-[var(--border-soft)] px-2.5 py-1 text-xs text-ink hover:bg-[var(--bg-warm)] transition">
                 {project.name}
               </button>
             ))}
@@ -675,12 +797,13 @@ export default function AIMode() {
   };
 
   const isScholar = currentTheme === "search";
+  const isMidnight = currentTheme === "midnight";
   let queryIndex = -1;
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-7 pb-24" data-testid="ai-mode-page">
       <section className="relative border-b border-[var(--border-soft)] pb-6">
-        {!isScholar && (
+        {!isScholar && !isMidnight && (
           <>
             <Rose className="absolute -top-10 -left-8 opacity-60 hidden md:block" size={100} />
             <Sparkle className="absolute top-2 right-4 opacity-70 animate-float-slow" size={18} />
@@ -688,20 +811,22 @@ export default function AIMode() {
         )}
         <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
           <div className="min-w-0">
-            <div className={`text-[11px] uppercase tracking-[0.3em] text-[var(--plum)] inline-flex items-center gap-2 ${isScholar ? "font-mono" : ""}`}>
+            <div className={`text-[11px] uppercase tracking-[0.3em] text-[var(--plum)] inline-flex items-center gap-2 ${isScholar || isMidnight ? "font-mono" : ""}`}>
               <BrainCircuit size={13} className="text-[var(--sage)]" />
-              {isScholar ? "AI synthesis over indexed engineering work" : "Anita George archive intelligence"}
+              {isScholar ? "AI synthesis over indexed engineering work" : isMidnight ? "Private intelligence interface" : "Anita George archive intelligence"}
             </div>
-            <h1 className={`mt-2 font-serif text-ink leading-[0.9] ${isScholar ? "text-4xl sm:text-5xl" : "text-5xl sm:text-7xl lg:text-[84px]"}`}>
+            <h1 className={`mt-2 font-serif text-ink leading-[0.9] ${isScholar ? "text-4xl sm:text-5xl" : isMidnight ? "italic text-4xl sm:text-6xl" : "text-5xl sm:text-7xl lg:text-[84px]"}`}>
               AI Mode
             </h1>
-            {!isScholar && <Squiggle width={230} className="mt-2" />}
+            {!isScholar && !isMidnight && <Squiggle width={230} className="mt-2" />}
           </div>
           <div className="lg:max-w-xl">
             <SignalStrip stats={stats} />
             <p className="mt-3 text-base sm:text-lg leading-relaxed text-ink-soft">
               {isScholar
                 ? "A synthesis layer over Anita's indexed engineering corpus — projects, repositories, technical themes, and design direction."
+                : isMidnight
+                ? "A private synthesis layer over Anita's indexed engineering archive — projects, repositories, technical themes, and design direction."
                 : "A conversational research layer over Anita's verified projects, repositories, technical themes, and design direction."}
             </p>
           </div>
@@ -731,6 +856,28 @@ export default function AIMode() {
                           type="button"
                           onClick={() => runSearch(starter)}
                           className="py-2.5 text-left text-[15px] text-[var(--link)] hover:underline underline-offset-4"
+                        >
+                          {starter}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              ) : isMidnight ? (
+                <div className="p-5 sm:p-8 min-h-[360px]">
+                  <MidnightMetaLine signal>Midnight intelligence</MidnightMetaLine>
+                  <p className="mt-4 max-w-2xl font-serif italic text-2xl sm:text-3xl leading-snug text-[var(--ink)]">
+                    Ask about Anita's work.
+                  </p>
+                  <div className="mt-8" data-testid="starter-questions">
+                    <MidnightMetaLine>Suggested queries</MidnightMetaLine>
+                    <div className="mt-2 flex flex-col divide-y divide-[var(--border-soft)]">
+                      {STARTER_QUESTIONS.map((starter) => (
+                        <button
+                          key={starter}
+                          type="button"
+                          onClick={() => runSearch(starter)}
+                          className="py-2.5 text-left text-[15px] text-[var(--ink-soft)] hover:text-[var(--decoration-primary)] transition-colors"
                         >
                           {starter}
                         </button>

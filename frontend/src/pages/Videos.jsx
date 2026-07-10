@@ -4,6 +4,35 @@ import { Squiggle, Sparkle, Tape } from "@/components/Decorations";
 import { Play } from "lucide-react";
 import { useTheme } from "@/context/ThemeContext";
 import { ScholarMetaLine } from "@/components/ScholarPrimitives";
+import { MidnightMetaLine, MidnightGlassSurface } from "@/components/MidnightPrimitives";
+
+function MidnightVideos() {
+  return (
+    <div className="max-w-4xl mx-auto px-4 sm:px-6 py-12" data-testid="videos-page">
+      <MidnightMetaLine signal>Motion intelligence index</MidnightMetaLine>
+      <h1 className="mt-2 font-serif italic text-4xl sm:text-5xl text-[var(--ink)]">Videos</h1>
+      <p className="mt-2 text-[15px] text-[var(--ink-soft)] max-w-xl">
+        Screen recordings of things she's built — real videos coming when she has time to record them.
+      </p>
+
+      <div className="mt-8 space-y-3" data-testid="videos-grid">
+        {videos.map((v) => (
+          <MidnightGlassSurface key={v.title} level={2} className="p-4 flex items-center gap-4">
+            <div className="relative w-28 h-16 shrink-0 overflow-hidden border border-[var(--border-soft)]">
+              <img src={v.thumb} alt={v.title} className="w-full h-full object-cover opacity-70" />
+              <Play size={16} className="absolute inset-0 m-auto text-[var(--ink)]" />
+            </div>
+            <div className="min-w-0">
+              <div className="font-serif italic text-lg text-[var(--ink)] truncate">{v.title}</div>
+              <div className="text-[13px] text-[var(--ink-soft)]">{v.channel} · {v.duration}</div>
+              <div className="font-mono text-[10px] uppercase tracking-[0.06em] text-[var(--decoration-primary)] mt-0.5">Status: placeholder — not yet recorded</div>
+            </div>
+          </MidnightGlassSurface>
+        ))}
+      </div>
+    </div>
+  );
+}
 
 function ScholarVideos() {
   return (
@@ -37,6 +66,9 @@ export default function Videos() {
   const { currentTheme } = useTheme();
   if (currentTheme === "search") {
     return <ScholarVideos />;
+  }
+  if (currentTheme === "midnight") {
+    return <MidnightVideos />;
   }
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 py-12" data-testid="videos-page">
