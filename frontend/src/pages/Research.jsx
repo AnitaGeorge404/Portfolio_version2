@@ -6,6 +6,76 @@ import { Squiggle, Sparkle, Marker, Tape, Sprig } from "@/components/Decorations
 import { ArrowUpRight, BookOpen } from "lucide-react";
 import { useTheme } from "@/context/ThemeContext";
 import { ScholarMetaLine, ScholarStatLine } from "@/components/ScholarPrimitives";
+import { MidnightMetaLine, MidnightGlassSurface, MidnightStatLine } from "@/components/MidnightPrimitives";
+
+function MidnightResearch() {
+  return (
+    <div className="max-w-3xl mx-auto px-4 sm:px-6 py-14" data-testid="research-page">
+      <MidnightMetaLine signal>Analysis workspace</MidnightMetaLine>
+      <h1 className="mt-2 font-serif italic text-4xl sm:text-5xl text-[var(--ink)]">Technical Exploration</h1>
+      <p className="mt-2 text-[15px] text-[var(--ink-soft)] max-w-xl">
+        Not a publication record — the technical patterns that recur across her systems.
+      </p>
+
+      <MidnightGlassSurface level={2} className="mt-6 p-6">
+        <MidnightStatLine
+          items={[
+            ["problems solved", dsa.total],
+            ["LeetCode", dsa.leetcode],
+            ["Codeforces", dsa.codeforces],
+          ]}
+        />
+        <div className="mt-2 flex flex-wrap gap-x-3 gap-y-1 font-mono text-[10px] uppercase tracking-[0.06em] text-[var(--sage)]">
+          {dsa.focus.map((f) => (
+            <span key={f}>{f}</span>
+          ))}
+        </div>
+      </MidnightGlassSurface>
+
+      <div className="mt-8">
+        <MidnightMetaLine className="mb-3">Analysis areas</MidnightMetaLine>
+        {themes.map((t) => (
+          <div key={t.title} className="py-5 border-t border-[var(--border-soft)]">
+            <MidnightMetaLine>{t.venue}</MidnightMetaLine>
+            <h2 className="mt-1 font-serif italic text-xl text-[var(--ink)]">{t.title}</h2>
+            <p className="mt-2 text-[15px] leading-relaxed text-[var(--ink-soft)] max-w-2xl">{t.desc}</p>
+          </div>
+        ))}
+      </div>
+
+      <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <MidnightGlassSurface level={2} className="p-5">
+          <MidnightMetaLine>Hackathon placements</MidnightMetaLine>
+          <ul className="mt-2 space-y-2">
+            {achievements.map((a) => (
+              <li key={a.title}>
+                <div className="text-[15px] text-[var(--ink)]">{a.result}</div>
+                <div className="text-[13px] text-[var(--ink-soft)]">{a.title} · {a.year}</div>
+              </li>
+            ))}
+          </ul>
+        </MidnightGlassSurface>
+        <MidnightGlassSurface level={2} className="p-5">
+          <MidnightMetaLine>Certifications</MidnightMetaLine>
+          <ul className="mt-2 space-y-2">
+            {certifications.map((c) => (
+              <li key={c.title}>
+                <div className="text-[15px] text-[var(--ink)]">{c.title}</div>
+                <div className="text-[13px] text-[var(--ink-soft)]">{c.issuer}</div>
+              </li>
+            ))}
+          </ul>
+        </MidnightGlassSurface>
+      </div>
+
+      <div className="mt-8 pt-6 border-t border-[var(--border-soft)]">
+        <Link to="/work" className="text-sm text-[var(--decoration-primary)] hover:underline underline-offset-4">
+          See the systems these patterns show up in →
+        </Link>
+      </div>
+    </div>
+  );
+}
 
 function ScholarResearch() {
   return (
@@ -79,6 +149,9 @@ export default function Research() {
   const { currentTheme } = useTheme();
   if (currentTheme === "search") {
     return <ScholarResearch />;
+  }
+  if (currentTheme === "midnight") {
+    return <MidnightResearch />;
   }
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 py-12" data-testid="research-page">

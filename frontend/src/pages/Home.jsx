@@ -16,6 +16,7 @@ import { Sparkles, ArrowUpRight, Bookmark, Quote } from "lucide-react";
 import { profile, aiOverview, projects, peopleAlsoAsk, experience, skills, internetTraces, obsessions, themes, dsa, achievements, repos } from "@/data/portfolio";
 import { useTheme } from "@/context/ThemeContext";
 import { ScholarSearchBar, ScholarResultRow, ScholarStatLine, ScholarSectionTitle, ScholarProfileIndex, ScholarMetaLine } from "@/components/ScholarPrimitives";
+import { MidnightMetaLine, MidnightGlassSurface, MidnightSystemRecord, MidnightQuerySurface, MidnightStatLine } from "@/components/MidnightPrimitives";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || "";
 const API = BACKEND_URL ? `${BACKEND_URL}/api` : "/api";
@@ -125,6 +126,91 @@ function ScholarHome({ paa }) {
   );
 }
 
+// Midnight — the intelligence system entrance
+function MidnightHome() {
+  const featured = projects.slice(0, 3);
+  const categories = ["Full-Stack", "AI Systems", "Accessibility", "Adaptive UX"];
+
+  return (
+    <div className="max-w-6xl mx-auto px-4 sm:px-6 pt-16 pb-24" data-testid="home-page">
+      <MidnightMetaLine signal>Private engineering intelligence</MidnightMetaLine>
+      <h1 className="mt-4 font-serif italic text-4xl sm:text-6xl leading-[1.08] text-[var(--ink)] max-w-3xl">
+        {profile.tagline}
+      </h1>
+      <p className="mt-4 text-[15px] sm:text-base text-[var(--ink-soft)] max-w-xl leading-relaxed">
+        {profile.role} &middot; {profile.universityShort}
+      </p>
+
+      <div className="mt-4 flex flex-wrap gap-x-4 gap-y-1.5">
+        {categories.map((c) => (
+          <span key={c} className="font-mono text-[10px] uppercase tracking-[0.1em] text-[var(--sage)] border border-[var(--border-soft)] px-2 py-1">
+            {c}
+          </span>
+        ))}
+      </div>
+
+      <div className="mt-8 max-w-xl">
+        <MidnightQuerySurface autoFocus={false} />
+      </div>
+
+      <div className="mt-6 pt-6 border-t border-[var(--border-soft)]">
+        <MidnightStatLine
+          items={[
+            ["systems indexed", projects.length],
+            ["repositories", repos.length],
+            ["problems solved", dsa.total],
+          ]}
+        />
+      </div>
+
+      <div className="mt-12">
+        <MidnightMetaLine className="mb-4">Selected systems</MidnightMetaLine>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {featured.map((p, i) => (
+            <MidnightSystemRecord
+              key={p.slug}
+              testid={`midnight-home-result-${p.slug}`}
+              wide={i === 0}
+              eyebrow={`System · ${p.year}`}
+              title={p.name}
+              href={`/projects/${p.slug}`}
+              meta={p.tagline}
+              description={p.summary}
+              tags={p.tags.slice(0, 3)}
+              actions={[
+                { label: "View system", to: `/projects/${p.slug}` },
+                { label: "Explore with AI", to: `/ai-mode?q=${encodeURIComponent(p.name)}` },
+              ]}
+            />
+          ))}
+        </div>
+        <div className="mt-6">
+          <Link to="/work" className="text-sm text-[var(--decoration-primary)] hover:underline underline-offset-4">
+            View the full system index →
+          </Link>
+        </div>
+      </div>
+
+      <MidnightGlassSurface level={4} className="mt-12 p-6 sm:p-8">
+        <MidnightMetaLine signal>AI Mode</MidnightMetaLine>
+        <p className="mt-2 font-serif italic text-xl sm:text-2xl text-[var(--ink)] max-w-2xl">
+          A synthesis layer over Anita's indexed engineering archive.
+        </p>
+        <Link to="/ai-mode" className="mt-4 inline-flex items-center gap-1 text-sm text-[var(--decoration-primary)] hover:underline underline-offset-4">
+          Query the system →
+        </Link>
+      </MidnightGlassSurface>
+
+      <MidnightGlassSurface level={2} className="mt-8 p-6 sm:p-8">
+        <MidnightMetaLine>Profile</MidnightMetaLine>
+        <h2 className="mt-2 font-serif text-2xl text-[var(--ink)]">{profile.name}</h2>
+        <p className="mt-1 text-sm text-[var(--ink-soft)]">{profile.degree} &middot; {profile.universityShort}</p>
+        <p className="mt-3 text-[15px] leading-relaxed text-[var(--ink-soft)] max-w-2xl">{profile.blurb}</p>
+      </MidnightGlassSurface>
+    </div>
+  );
+}
+
 export default function Home() {
   const [paa, setPaa] = useState(fallbackPAA);
   const [searched, setSearched] = useState(false);
@@ -141,6 +227,10 @@ export default function Home() {
 
   if (currentTheme === "search") {
     return <ScholarHome paa={paa} />;
+  }
+
+  if (currentTheme === "midnight") {
+    return <MidnightHome />;
   }
 
   return (

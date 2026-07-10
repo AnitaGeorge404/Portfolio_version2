@@ -4,6 +4,43 @@ import { Squiggle, Sparkle, CherryBlossom, Tape, HandArrow } from "@/components/
 import { Github, Linkedin, Globe, Mail, MapPin, Sparkles } from "lucide-react";
 import { useTheme } from "@/context/ThemeContext";
 import { ScholarMetaLine } from "@/components/ScholarPrimitives";
+import { MidnightMetaLine, MidnightGlassSurface } from "@/components/MidnightPrimitives";
+
+function MidnightContact() {
+  const links = [
+    { icon: <Mail size={16} />, label: "Email", value: profile.email, href: `mailto:${profile.email}`, external: false, testid: "contact-email" },
+    { icon: <Github size={16} />, label: "GitHub", value: "github.com/AnitaGeorge404", href: profile.github, external: true, testid: "contact-github" },
+    { icon: <Linkedin size={16} />, label: "LinkedIn", value: "in/anita-george", href: profile.linkedin, external: true, testid: "contact-linkedin" },
+    { icon: <Globe size={16} />, label: "Portfolio", value: "anitageorge.vercel.app", href: profile.portfolio, external: true, testid: "contact-portfolio" },
+  ];
+
+  return (
+    <div className="max-w-2xl mx-auto px-4 sm:px-6 py-14" data-testid="contact-page">
+      <MidnightMetaLine signal>Open a channel</MidnightMetaLine>
+      <h1 className="mt-2 font-serif italic text-4xl sm:text-5xl text-[var(--ink)]">Anita George</h1>
+      <p className="mt-2 text-[15px] text-[var(--ink-soft)]">{profile.degree} &middot; {profile.universityShort}</p>
+
+      <MidnightGlassSurface level={2} className="mt-8 p-2">
+        {links.map((l) => (
+          <a
+            key={l.testid}
+            href={l.href}
+            target={l.external ? "_blank" : undefined}
+            rel={l.external ? "noreferrer" : undefined}
+            data-testid={l.testid}
+            className="flex items-center gap-3 px-4 py-3 border-b border-[var(--border-soft)] last:border-b-0 text-[var(--ink)] hover:text-[var(--decoration-primary)] transition-colors"
+          >
+            <span className="text-[var(--ink-soft)]">{l.icon}</span>
+            <span className="font-mono text-[11px] uppercase tracking-[0.06em] text-[var(--ink-soft)] w-20 shrink-0">{l.label}</span>
+            <span className="text-[15px]">{l.value}</span>
+          </a>
+        ))}
+      </MidnightGlassSurface>
+
+      <p className="mt-6 text-sm text-[var(--ink-soft)]">Currently open to collaborations.</p>
+    </div>
+  );
+}
 
 function ScholarContact() {
   const links = [
@@ -51,6 +88,9 @@ export default function Contact() {
   const { currentTheme } = useTheme();
   if (currentTheme === "search") {
     return <ScholarContact />;
+  }
+  if (currentTheme === "midnight") {
+    return <MidnightContact />;
   }
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 py-12" data-testid="contact-page">

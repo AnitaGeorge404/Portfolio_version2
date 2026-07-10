@@ -5,6 +5,7 @@ import { useTheme } from "@/context/ThemeContext";
 import SearchBar from "@/components/SearchBar";
 import SearchTabs from "@/components/SearchTabs";
 import { ScholarSearchBar } from "@/components/ScholarPrimitives";
+import { MidnightQuerySurface } from "@/components/MidnightPrimitives";
 import { Sparkle } from "@/components/Decorations";
 import { Github, Linkedin, Globe } from "lucide-react";
 import { profile } from "@/data/portfolio";
@@ -63,23 +64,28 @@ export default function ThemePageHeader({ showSticky }) {
       <>
         <div
           className="relative z-20 border-b border-[var(--border-soft)]"
+          style={{ background: "linear-gradient(180deg, var(--bg-warm) 0%, var(--bg-paper) 100%)" }}
           data-testid="theme-page-header-midnight"
         >
-          <div className="max-w-6xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between text-[12px] tracking-[0.15em] text-[var(--ink-soft)]">
-            <Link to="/" data-testid="brand-link" className="link-soft">A · G</Link>
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between text-[11px] font-mono tracking-[0.15em] text-[var(--ink-soft)]">
+            <Link to="/" data-testid="brand-link" className="link-soft">ANITA / MIDNIGHT</Link>
             <div className="hidden sm:flex items-center gap-5">
               <a href={profile.github} target="_blank" rel="noreferrer" data-testid="top-github" className="link-soft">GitHub</a>
               <a href={profile.linkedin} target="_blank" rel="noreferrer" data-testid="top-linkedin" className="link-soft">LinkedIn</a>
               <a href={profile.portfolio} target="_blank" rel="noreferrer" data-testid="top-portfolio" className="link-soft">Portfolio</a>
             </div>
-            <span className="hidden sm:inline text-[var(--decoration-primary)]">Kerala · {new Date().getFullYear()}</span>
+            <span className="hidden sm:inline">Kerala · {new Date().getFullYear()}</span>
           </div>
         </div>
         {showSticky && (
-          <header className="sticky top-0 z-20 bg-[var(--bg-paper)]/92 backdrop-blur-md border-b border-[var(--border-soft)]" data-testid="sticky-search-header">
+          <header
+            className="sticky top-0 z-20 border-b border-[var(--border-soft)] backdrop-blur-md"
+            style={{ background: "rgba(10,11,13,0.85)" }}
+            data-testid="sticky-search-header"
+          >
             <div className="max-w-6xl mx-auto px-4 sm:px-6 py-3 flex items-center gap-4">
-              <Link to="/" className="shrink-0 font-serif italic text-xl text-[var(--decoration-primary)]" data-testid="logo-link" aria-label="Home">Anita</Link>
-              <div className="flex-1"><SearchBar compact defaultValue="anita george" /></div>
+              <Link to="/" className="shrink-0 font-serif italic text-xl text-[var(--ink)]" data-testid="logo-link" aria-label="Home">Anita</Link>
+              <div className="flex-1"><MidnightQuerySurface compact defaultValue="" /></div>
             </div>
             <SearchTabs />
           </header>

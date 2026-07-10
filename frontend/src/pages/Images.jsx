@@ -4,6 +4,7 @@ import { Tape, Sparkle, Squiggle, Rose, Paperclip } from "@/components/Decoratio
 import { X } from "lucide-react";
 import { useTheme } from "@/context/ThemeContext";
 import { ScholarFilterBar, ScholarMetaLine } from "@/components/ScholarPrimitives";
+import { MidnightMetaLine, MidnightGlassSurface } from "@/components/MidnightPrimitives";
 
 const tags = ["all", ...Array.from(new Set(galleryImages.map((i) => i.tag)))];
 
@@ -62,6 +63,75 @@ function ScholarImages() {
   );
 }
 
+function MidnightImages() {
+  const [active, setActive] = useState("All");
+  const [open, setOpen] = useState(null);
+  const options = ["All", ...Array.from(new Set(galleryImages.map((i) => i.tag)))];
+  const filtered = active === "All" ? galleryImages : galleryImages.filter((i) => i.tag === active);
+
+  return (
+    <div className="max-w-5xl mx-auto px-4 sm:px-6 py-12" data-testid="images-page">
+      <MidnightMetaLine signal>Visual intelligence index</MidnightMetaLine>
+      <h1 className="mt-2 font-serif italic text-4xl sm:text-5xl text-[var(--ink)]">Images</h1>
+      <p className="mt-2 text-[15px] text-[var(--ink-soft)] max-w-xl">
+        A moodboard she works from — not project screenshots.
+      </p>
+
+      <div className="mt-6 flex flex-wrap gap-2">
+        {options.map((t) => (
+          <button
+            key={t}
+            onClick={() => setActive(t)}
+            data-testid={`image-tag-${t}`}
+            className={`px-2.5 py-1 font-mono text-[11px] uppercase tracking-[0.06em] border transition-colors ${
+              active === t ? "border-[var(--decoration-primary)] text-[var(--decoration-primary)]" : "border-[var(--border-soft)] text-[var(--ink-soft)] hover:border-[var(--border-medium)]"
+            }`}
+          >
+            {t}
+          </button>
+        ))}
+      </div>
+
+      <div className="mt-6 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3" data-testid="images-grid">
+        {filtered.map((img, idx) => (
+          <button
+            key={img.src}
+            onClick={() => setOpen(img)}
+            className="relative block w-full aspect-square overflow-hidden border border-[var(--border-soft)] group"
+            data-testid={`gallery-img-${idx}`}
+          >
+            <img src={img.src} alt={img.caption} loading="lazy" className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity" />
+            <div className="absolute inset-x-0 bottom-0 p-2 text-left" style={{ background: "linear-gradient(0deg, rgba(10,11,13,0.9), transparent)" }}>
+              <div className="text-[11px] text-[var(--ink)] truncate">{img.caption}</div>
+              <div className="font-mono text-[9px] uppercase text-[var(--sage)]">{img.tag}</div>
+            </div>
+          </button>
+        ))}
+      </div>
+
+      {open && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-6"
+          style={{ background: "rgba(10,11,13,0.85)" }}
+          onClick={() => setOpen(null)}
+          data-testid="image-modal"
+        >
+          <MidnightGlassSurface level={3} className="relative max-w-3xl p-4" as="div">
+            <div onClick={(e) => e.stopPropagation()}>
+              <button onClick={() => setOpen(null)} className="absolute -top-3 -right-3 bg-[var(--bg-tag)] border border-[var(--border-soft)] rounded-full w-8 h-8 flex items-center justify-center" aria-label="close">
+                <X size={16} />
+              </button>
+              <img src={open.src} alt={open.caption} className="w-full max-h-[65vh] object-contain" onClick={(e) => e.stopPropagation()} />
+              <MidnightMetaLine className="mt-3">{open.tag}</MidnightMetaLine>
+              <div className="text-[15px] text-[var(--ink)]">{open.caption}</div>
+            </div>
+          </MidnightGlassSurface>
+        </div>
+      )}
+    </div>
+  );
+}
+
 export default function Images() {
   const [active, setActive] = useState("all");
   const [open, setOpen] = useState(null);
@@ -70,6 +140,10 @@ export default function Images() {
 
   if (currentTheme === "search") {
     return <ScholarImages />;
+  }
+
+  if (currentTheme === "midnight") {
+    return <MidnightImages />;
   }
 
   return (

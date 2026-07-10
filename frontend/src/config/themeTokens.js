@@ -128,7 +128,7 @@ export const themeTokens = {
 
   midnight: {
     name: "Midnight",
-    description: "Luxury dark mode: pure black & bright cream",
+    description: "Private intelligence system, not dark mode: layered charcoal, selective gold, moonlight silver",
     emoji: "🌙",
     // Typography & composition grammar
     fontHeading: '"Instrument Serif", Georgia, serif',
@@ -137,54 +137,54 @@ export const themeTokens = {
     fontHand: null,
     motionPreset: "inertial",
     cardStyle: "glass",
-    // Pure black luxury background
-    bgPaper: "#000000",
-    bgWarm: "#0D0D0D",
-    bgCard: "#0A0A0A",
-    bgTag: "#1A1A1A",
-    bgPetal: "#050505",
-    // BRIGHT off-white/cream text for maximum readability
-    ink: "#FFFAF5",
-    inkSoft: "#F0E6D2",
-    // Luxury accents: gold, silver, cream
-    plum: "#D4AF37",
-    pink: "#FFFAF5",
-    blossom: "#E8DCC8",
+    // Layered darkness — never pure #000, four readable depth levels
+    bgPaper: "#0A0B0D",   // level 0 — void
+    bgWarm: "#121317",    // level 1 — atmosphere
+    bgCard: "#1A1C21",    // level 2 — surface (glass panel fill)
+    bgTag: "#22252B",     // level 3 — active surface (elevated glass)
+    bgPetal: "#1C1812",   // level 4 — intelligence (warm-dark, gold-adjacent surfaces)
+    // Moonlight/platinum text — white used sparingly, not everywhere
+    ink: "#E9E7E2",
+    inkSoft: "#9CA2AA",
+    // Silver is structure (default accent); gold is reserved as a signal
+    plum: "#B9C0C6",
+    pink: "#E9E7E2",
+    blossom: "#C7CBD1",
     rose: "#D4AF37",
     burgundy: "#C9A86B",
-    cream: "#FFFAF5",
-    dusty: "#D4AF37",
-    sage: "#D0C5B8",
-    brown: "#C9B8A5",
-    // Borders - refined dark gray
-    borderSoft: "#3A3A3A",
-    borderMedium: "#2A2A2A",
+    cream: "#E9E7E2",
+    dusty: "#8A9099",
+    sage: "#7C828A",
+    brown: "#4A4E56",
+    // Borders - refined graphite, not gray-on-black
+    borderSoft: "#2A2D33",
+    borderMedium: "#3A3E46",
     link: "#D4AF37",
-    // Decorations - gold + silver
+    // Decorations - gold signal + silver structure
     decorationPrimary: "#D4AF37",
-    decorationSecondary: "#FFFAF5",
+    decorationSecondary: "#B9C0C6",
     // Theme-specific experience tokens
-    animationDuration: "2s",
-    particleDensity: 20,
-    textureOpacity: 0.01,
-    decorationIntensity: 0.3,
+    animationDuration: "3s",
+    particleDensity: 4,
+    textureOpacity: 0.02,
+    decorationIntensity: 0.35,
     cardShadowStyle: "luxury-shadow",
     // Semantic colors (HSL for shadcn compatibility)
-    background: "0 0% 0%",
-    foreground: "30 100% 98%",
-    primary: "43 100% 51%",
-    primaryForeground: "0 0% 0%",
-    secondary: "43 30% 40%",
-    secondaryForeground: "30 100% 98%",
-    muted: "0 0% 20%",
-    mutedForeground: "30 30% 94%",
-    accent: "43 100% 51%",
-    accentForeground: "0 0% 0%",
+    background: "220 15% 4%",
+    foreground: "40 8% 91%",
+    primary: "45 65% 55%",
+    primaryForeground: "220 15% 4%",
+    secondary: "210 8% 65%",
+    secondaryForeground: "40 8% 91%",
+    muted: "220 10% 15%",
+    mutedForeground: "210 8% 62%",
+    accent: "45 65% 55%",
+    accentForeground: "220 15% 4%",
     destructive: "0 60% 50%",
     destructiveForeground: "0 0% 98%",
-    border: "0 0% 20%",
-    input: "0 0% 20%",
-    ring: "43 100% 51%",
+    border: "220 10% 18%",
+    input: "220 10% 18%",
+    ring: "45 65% 55%",
   },
 
   herbarium: {

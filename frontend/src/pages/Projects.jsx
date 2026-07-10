@@ -5,6 +5,7 @@ import { Sparkle, Tape, Paperclip, CherryBlossom, Sprig, Squiggle, HandArrow } f
 import { ArrowUpRight } from "lucide-react";
 import { useTheme } from "@/context/ThemeContext";
 import { ScholarResultRow, ScholarFilterBar, ScholarMetaLine } from "@/components/ScholarPrimitives";
+import { MidnightMetaLine, MidnightSystemRecord } from "@/components/MidnightPrimitives";
 
 const allTags = Array.from(new Set(projects.flatMap((p) => p.tags)));
 
@@ -53,6 +54,55 @@ function ScholarProjects() {
   );
 }
 
+function MidnightProjects() {
+  const [filter, setFilter] = useState("All");
+  const tags = ["All", ...Array.from(new Set(projects.flatMap((p) => p.tags)))];
+  const filtered = filter === "All" ? projects : projects.filter((p) => p.tags.includes(filter));
+
+  return (
+    <div className="max-w-6xl mx-auto px-4 sm:px-6 py-14" data-testid="projects-page">
+      <MidnightMetaLine signal>Complete system catalog</MidnightMetaLine>
+      <h1 className="mt-2 font-serif italic text-4xl sm:text-5xl text-[var(--ink)]">Projects</h1>
+      <p className="mt-2 text-[15px] text-[var(--ink-soft)] max-w-xl">
+        The full indexed catalog of Anita's engineering systems.
+      </p>
+
+      <div className="mt-6 flex flex-wrap gap-2" data-testid="project-filters">
+        {tags.map((t) => (
+          <button
+            key={t}
+            onClick={() => setFilter(t)}
+            data-testid={`filter-${t}`}
+            className={`px-2.5 py-1 font-mono text-[11px] uppercase tracking-[0.06em] border transition-colors ${
+              filter === t
+                ? "border-[var(--decoration-primary)] text-[var(--decoration-primary)]"
+                : "border-[var(--border-soft)] text-[var(--ink-soft)] hover:border-[var(--border-medium)]"
+            }`}
+          >
+            {t}
+          </button>
+        ))}
+      </div>
+
+      <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-4" data-testid="projects-masonry">
+        {filtered.map((p) => (
+          <MidnightSystemRecord
+            key={p.slug}
+            testid={`pin-${p.slug}`}
+            eyebrow={`System · ${p.year}`}
+            title={p.name}
+            href={`/projects/${p.slug}`}
+            meta={p.tagline}
+            description={p.summary}
+            tags={p.tags}
+            actions={[{ label: "View system", to: `/projects/${p.slug}` }]}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export default function Projects() {
   const [filter, setFilter] = useState("all");
   const filtered = filter === "all" ? projects : projects.filter((p) => p.tags.includes(filter));
@@ -60,6 +110,10 @@ export default function Projects() {
 
   if (currentTheme === "search") {
     return <ScholarProjects />;
+  }
+
+  if (currentTheme === "midnight") {
+    return <MidnightProjects />;
   }
 
   return (

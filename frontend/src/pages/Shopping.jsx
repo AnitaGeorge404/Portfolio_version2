@@ -3,6 +3,31 @@ import { shopping } from "@/data/portfolio";
 import { Squiggle, Sparkle, Tape } from "@/components/Decorations";
 import { useTheme } from "@/context/ThemeContext";
 import { ScholarMetaLine } from "@/components/ScholarPrimitives";
+import { MidnightMetaLine } from "@/components/MidnightPrimitives";
+
+function MidnightShopping() {
+  return (
+    <div className="max-w-3xl mx-auto px-4 sm:px-6 py-14" data-testid="shopping-page">
+      <MidnightMetaLine signal>Personal-interest index</MidnightMetaLine>
+      <h1 className="mt-2 font-serif italic text-4xl sm:text-5xl text-[var(--ink)]">Wishlist</h1>
+      <p className="mt-2 text-[15px] text-[var(--ink-soft)] max-w-xl">
+        A tongue-in-cheek personal record — small things that shape a life.
+      </p>
+
+      <div className="mt-8">
+        {shopping.map((s) => (
+          <article key={s.item} className="py-3 border-t border-[var(--border-soft)] flex items-baseline justify-between gap-4">
+            <div>
+              <div className="text-[15px] text-[var(--ink)]">{s.item}</div>
+              <div className="text-[13px] text-[var(--ink-soft)]">{s.note}</div>
+            </div>
+            <span className="font-mono text-[12px] text-[var(--decoration-primary)] shrink-0">{s.price}</span>
+          </article>
+        ))}
+      </div>
+    </div>
+  );
+}
 
 function ScholarShopping() {
   return (
@@ -32,6 +57,9 @@ export default function Shopping() {
   const { currentTheme } = useTheme();
   if (currentTheme === "search") {
     return <ScholarShopping />;
+  }
+  if (currentTheme === "midnight") {
+    return <MidnightShopping />;
   }
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 py-12" data-testid="shopping-page">

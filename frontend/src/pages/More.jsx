@@ -4,7 +4,74 @@ import { Squiggle, Sparkle, Tape, HandArrow } from "@/components/Decorations";
 import { ArrowUpRight } from "lucide-react";
 import { useTheme } from "@/context/ThemeContext";
 import { ScholarMetaLine } from "@/components/ScholarPrimitives";
+import { MidnightMetaLine, MidnightGlassSurface } from "@/components/MidnightPrimitives";
 import { profile, skills, experience, achievements, themes } from "@/data/portfolio";
+
+function MidnightMore() {
+  const links = [
+    { to: "/archive", label: "System history" },
+    { to: "/research", label: "Analysis workspace" },
+    { to: "/ai-mode", label: "AI intelligence interface" },
+    { to: "/images", label: "Visual intelligence index" },
+    { to: "/videos", label: "Motion intelligence index" },
+    { to: "/shopping", label: "Personal-interest index" },
+  ];
+  const sections = [
+    ["Education", <>
+      <div className="text-[15px] text-[var(--ink)]">{profile.degree} &middot; {profile.universityShort}</div>
+      <div className="text-[13px] text-[var(--ink-soft)]">{profile.years} &middot; GPA {profile.gpa}</div>
+    </>],
+    ["Skills", <div className="space-y-1.5">
+      {skills.map((g) => (
+        <div key={g.group} className="text-[14px]">
+          <span className="font-mono text-[10px] uppercase text-[var(--sage)] mr-2">{g.group}</span>
+          <span className="text-[var(--ink)]">{g.items.join(", ")}</span>
+        </div>
+      ))}
+    </div>],
+    ["Experience", <div className="space-y-2">
+      {experience.map((e) => (
+        <div key={`${e.when}-${e.where}`}>
+          <div className="text-[15px] text-[var(--ink)]">{e.role} &middot; {e.where}</div>
+          <div className="text-[13px] text-[var(--ink-soft)]">{e.when}</div>
+        </div>
+      ))}
+    </div>],
+    ["Achievements", <div className="space-y-1">
+      {achievements.map((a) => (
+        <div key={a.title} className="text-[14px] text-[var(--ink)]">{a.result} — {a.title} ({a.year})</div>
+      ))}
+    </div>],
+    ["Technical interests", <div className="flex flex-wrap gap-x-3 gap-y-1 text-[14px] text-[var(--ink)]">
+      {themes.map((t) => <span key={t.title}>{t.title}</span>)}
+    </div>],
+  ];
+
+  return (
+    <div className="max-w-3xl mx-auto px-4 sm:px-6 py-14" data-testid="more-page">
+      <MidnightMetaLine signal>System index</MidnightMetaLine>
+      <h1 className="mt-2 font-serif italic text-4xl sm:text-5xl text-[var(--ink)]">More</h1>
+
+      {sections.map(([title, body]) => (
+        <MidnightGlassSurface key={title} level={2} className="mt-6 p-6">
+          <MidnightMetaLine>{title}</MidnightMetaLine>
+          <div className="mt-2">{body}</div>
+        </MidnightGlassSurface>
+      ))}
+
+      <MidnightGlassSurface level={2} className="mt-6 p-6">
+        <MidnightMetaLine>Links</MidnightMetaLine>
+        <div className="mt-2">
+          {links.map((l) => (
+            <Link key={l.to} to={l.to} className="block py-2 text-[15px] text-[var(--decoration-primary)] hover:underline underline-offset-4">
+              {l.label} →
+            </Link>
+          ))}
+        </div>
+      </MidnightGlassSurface>
+    </div>
+  );
+}
 
 function ScholarMore() {
   const links = [
@@ -96,6 +163,9 @@ export default function More() {
   const { currentTheme } = useTheme();
   if (currentTheme === "search") {
     return <ScholarMore />;
+  }
+  if (currentTheme === "midnight") {
+    return <MidnightMore />;
   }
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 py-12" data-testid="more-page">
