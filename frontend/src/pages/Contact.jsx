@@ -5,6 +5,43 @@ import { Github, Linkedin, Globe, Mail, MapPin, Sparkles } from "lucide-react";
 import { useTheme } from "@/context/ThemeContext";
 import { ScholarMetaLine } from "@/components/ScholarPrimitives";
 import { MidnightMetaLine, MidnightGlassSurface } from "@/components/MidnightPrimitives";
+import { HerbariumFieldLabel, HerbariumSpecimenSheet, SpecimenFieldLabel } from "@/components/HerbariumPrimitives";
+
+function HerbariumContact() {
+  const links = [
+    { icon: <Mail size={16} />, label: "Email", value: profile.email, href: `mailto:${profile.email}`, external: false, testid: "contact-email" },
+    { icon: <Github size={16} />, label: "GitHub", value: "github.com/AnitaGeorge404", href: profile.github, external: true, testid: "contact-github" },
+    { icon: <Linkedin size={16} />, label: "LinkedIn", value: "in/anita-george", href: profile.linkedin, external: true, testid: "contact-linkedin" },
+    { icon: <Globe size={16} />, label: "Portfolio", value: "anitageorge.vercel.app", href: profile.portfolio, external: true, testid: "contact-portfolio" },
+  ];
+
+  return (
+    <div className="max-w-2xl mx-auto px-4 sm:px-6 py-14" data-testid="contact-page">
+      <HerbariumFieldLabel>Field correspondence</HerbariumFieldLabel>
+      <h1 className="mt-2 font-serif italic text-4xl sm:text-5xl text-[var(--ink)]">Anita George</h1>
+      <p className="mt-2 text-[15px] text-[var(--ink-soft)]">{profile.degree} &middot; {profile.universityShort}</p>
+
+      <HerbariumSpecimenSheet id="CORRESPONDENCE" title="Field station" className="mt-8">
+        {links.map((l) => (
+          <a
+            key={l.testid}
+            href={l.href}
+            target={l.external ? "_blank" : undefined}
+            rel={l.external ? "noreferrer" : undefined}
+            data-testid={l.testid}
+            className="flex items-center gap-3 py-3 border-b border-[var(--specimen-border)] last:border-b-0 text-[var(--specimen-ink)] hover:text-[var(--burgundy)] transition-colors"
+          >
+            <span className="text-[var(--specimen-ink-soft)]">{l.icon}</span>
+            <span className="font-mono text-[10px] uppercase tracking-[0.06em] text-[var(--specimen-ink-soft)] w-20 shrink-0">{l.label}</span>
+            <span className="text-[15px]">{l.value}</span>
+          </a>
+        ))}
+      </HerbariumSpecimenSheet>
+
+      <p className="mt-6 text-sm text-[var(--ink-soft)]">Currently open to collaborations.</p>
+    </div>
+  );
+}
 
 function MidnightContact() {
   const links = [
@@ -91,6 +128,9 @@ export default function Contact() {
   }
   if (currentTheme === "midnight") {
     return <MidnightContact />;
+  }
+  if (currentTheme === "herbarium") {
+    return <HerbariumContact />;
   }
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 py-12" data-testid="contact-page">

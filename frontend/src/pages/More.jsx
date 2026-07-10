@@ -5,6 +5,69 @@ import { ArrowUpRight } from "lucide-react";
 import { useTheme } from "@/context/ThemeContext";
 import { ScholarMetaLine } from "@/components/ScholarPrimitives";
 import { MidnightMetaLine, MidnightGlassSurface } from "@/components/MidnightPrimitives";
+import { HerbariumFieldLabel, HerbariumSpecimenSheet, SpecimenFieldLabel } from "@/components/HerbariumPrimitives";
+
+function HerbariumMore() {
+  const links = [
+    { to: "/archive", label: "Field chronology" },
+    { to: "/research", label: "Field notes & technical exploration" },
+    { to: "/ai-mode", label: "The living archive" },
+    { to: "/images", label: "Visual field index" },
+    { to: "/videos", label: "Observation record index" },
+    { to: "/shopping", label: "Personal-interest index" },
+  ];
+  const sections = [
+    ["Education record", <>
+      <div className="text-[15px] text-[var(--specimen-ink)]">{profile.degree} &middot; {profile.universityShort}</div>
+      <div className="text-[13px] text-[var(--specimen-ink-soft)]">{profile.years} &middot; GPA {profile.gpa}</div>
+    </>],
+    ["Technical methods", <div className="space-y-1.5">
+      {skills.map((g) => (
+        <div key={g.group} className="text-[14px]">
+          <span className="font-mono text-[10px] uppercase text-[var(--specimen-ink-soft)] mr-2">{g.group}</span>
+          <span className="text-[var(--specimen-ink)]">{g.items.join(", ")}</span>
+        </div>
+      ))}
+    </div>],
+    ["Field experience", <div className="space-y-2">
+      {experience.map((e) => (
+        <div key={`${e.when}-${e.where}`}>
+          <div className="text-[15px] text-[var(--specimen-ink)]">{e.role} &middot; {e.where}</div>
+          <div className="text-[13px] text-[var(--specimen-ink-soft)]">{e.when}</div>
+        </div>
+      ))}
+    </div>],
+    ["Milestones", <div className="space-y-1">
+      {achievements.map((a) => (
+        <div key={a.title} className="text-[14px] text-[var(--specimen-ink)]">{a.result} — {a.title} ({a.year})</div>
+      ))}
+    </div>],
+    ["Areas of observation", <div className="flex flex-wrap gap-x-3 gap-y-1 text-[14px] text-[var(--specimen-ink)]">
+      {themes.map((t) => <span key={t.title}>{t.title}</span>)}
+    </div>],
+  ];
+
+  return (
+    <div className="max-w-3xl mx-auto px-4 sm:px-6 py-14" data-testid="more-page">
+      <HerbariumFieldLabel>Specimen cabinet</HerbariumFieldLabel>
+      <h1 className="mt-2 font-serif italic text-4xl sm:text-5xl text-[var(--ink)]">More</h1>
+
+      {sections.map(([title, body]) => (
+        <HerbariumSpecimenSheet key={title} title={title} className="mt-5">
+          {body}
+        </HerbariumSpecimenSheet>
+      ))}
+
+      <HerbariumSpecimenSheet title="External index" className="mt-5">
+        {links.map((l) => (
+          <Link key={l.to} to={l.to} className="block py-2 text-[15px] text-[var(--burgundy)] hover:underline underline-offset-4">
+            {l.label} →
+          </Link>
+        ))}
+      </HerbariumSpecimenSheet>
+    </div>
+  );
+}
 import { profile, skills, experience, achievements, themes } from "@/data/portfolio";
 
 function MidnightMore() {
@@ -166,6 +229,9 @@ export default function More() {
   }
   if (currentTheme === "midnight") {
     return <MidnightMore />;
+  }
+  if (currentTheme === "herbarium") {
+    return <HerbariumMore />;
   }
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 py-12" data-testid="more-page">

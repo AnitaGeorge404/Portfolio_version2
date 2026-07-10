@@ -5,6 +5,7 @@ import { X } from "lucide-react";
 import { useTheme } from "@/context/ThemeContext";
 import { ScholarFilterBar, ScholarMetaLine } from "@/components/ScholarPrimitives";
 import { MidnightMetaLine, MidnightGlassSurface } from "@/components/MidnightPrimitives";
+import { HerbariumFieldLabel, HerbariumSpecimenSheet, SpecimenFieldLabel } from "@/components/HerbariumPrimitives";
 
 const tags = ["all", ...Array.from(new Set(galleryImages.map((i) => i.tag)))];
 
@@ -132,6 +133,74 @@ function MidnightImages() {
   );
 }
 
+function HerbariumImages() {
+  const [active, setActive] = useState("All");
+  const [open, setOpen] = useState(null);
+  const options = ["All", ...Array.from(new Set(galleryImages.map((i) => i.tag)))];
+  const filtered = active === "All" ? galleryImages : galleryImages.filter((i) => i.tag === active);
+
+  return (
+    <div className="max-w-5xl mx-auto px-4 sm:px-6 py-14" data-testid="images-page">
+      <HerbariumFieldLabel>Visual field index</HerbariumFieldLabel>
+      <h1 className="mt-2 font-serif italic text-4xl sm:text-5xl text-[var(--ink)]">Images</h1>
+      <p className="mt-2 text-[15px] text-[var(--ink-soft)] max-w-xl">
+        A moodboard she works from — not project screenshots.
+      </p>
+
+      <div className="mt-6 flex flex-wrap gap-2">
+        {options.map((t) => (
+          <button
+            key={t}
+            onClick={() => setActive(t)}
+            data-testid={`image-tag-${t}`}
+            className={`px-2.5 py-1 font-mono text-[11px] uppercase tracking-[0.06em] border transition-colors ${
+              active === t ? "border-[var(--decoration-primary)] text-[var(--decoration-primary)]" : "border-[var(--border-soft)] text-[var(--ink-soft)] hover:border-[var(--border-medium)]"
+            }`}
+          >
+            {t}
+          </button>
+        ))}
+      </div>
+
+      <div className="mt-6 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3" data-testid="images-grid">
+        {filtered.map((img, idx) => (
+          <button
+            key={img.src}
+            onClick={() => setOpen(img)}
+            className="relative block w-full aspect-square overflow-hidden border border-[var(--specimen-border)] bg-[var(--specimen-bg)] p-1.5 group"
+            data-testid={`gallery-img-${idx}`}
+          >
+            <img src={img.src} alt={img.caption} loading="lazy" className="w-full h-full object-cover" style={{ filter: "sepia(0.25) saturate(1.1)" }} />
+            <div className="absolute inset-x-1.5 bottom-1.5 bg-[var(--specimen-bg)]/95 px-1.5 py-1 text-left opacity-0 group-hover:opacity-100 transition-opacity">
+              <div className="text-[11px] text-[var(--specimen-ink)] truncate">{img.caption}</div>
+              <div className="font-mono text-[9px] uppercase text-[var(--specimen-ink-soft)]">{img.tag}</div>
+            </div>
+          </button>
+        ))}
+      </div>
+
+      {open && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-6"
+          style={{ background: "rgba(10,22,16,0.85)" }}
+          onClick={() => setOpen(null)}
+          data-testid="image-modal"
+        >
+          <HerbariumSpecimenSheet id="OBSERVATION RECORD" title={open.tag} className="relative max-w-3xl">
+            <div onClick={(e) => e.stopPropagation()}>
+              <button onClick={() => setOpen(null)} className="absolute -top-3 -right-3 bg-[var(--specimen-bg)] border border-[var(--specimen-border)] rounded-full w-8 h-8 flex items-center justify-center" aria-label="close">
+                <X size={16} color="var(--specimen-ink)" />
+              </button>
+              <img src={open.src} alt={open.caption} className="w-full max-h-[60vh] object-contain" style={{ filter: "sepia(0.25) saturate(1.1)" }} onClick={(e) => e.stopPropagation()} />
+              <div className="mt-3 text-[15px] text-[var(--specimen-ink)]">{open.caption}</div>
+            </div>
+          </HerbariumSpecimenSheet>
+        </div>
+      )}
+    </div>
+  );
+}
+
 export default function Images() {
   const [active, setActive] = useState("all");
   const [open, setOpen] = useState(null);
@@ -144,6 +213,10 @@ export default function Images() {
 
   if (currentTheme === "midnight") {
     return <MidnightImages />;
+  }
+
+  if (currentTheme === "herbarium") {
+    return <HerbariumImages />;
   }
 
   return (

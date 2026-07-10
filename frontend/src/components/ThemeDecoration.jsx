@@ -1,6 +1,7 @@
 import React, { useMemo } from "react";
 import { useTheme } from "@/context/ThemeContext";
 import { Rose, Sprig, Sparkle } from "@/components/Decorations";
+import { FernFrond } from "@/components/HerbariumPrimitives";
 
 /**
  * ThemeDecoration Component
@@ -152,50 +153,37 @@ export function ThemeDecoration() {
     );
   }
 
-  // Herbarium theme - leaves and botanical elements
+  // Herbarium theme — deep forest environment. Controlled canopy light,
+  // one placed fern (not leaf rain), fine grain for environmental depth.
+  // No falling leaves, no particle weather — the environment should feel
+  // alive through composition and light, not motion volume.
   if (currentTheme === "herbarium") {
     return (
       <div className="fixed inset-0 pointer-events-none overflow-hidden" data-testid="theme-decoration-herbarium">
-        {/* Falling leaves */}
-        {[...Array(8)].map((_, i) => (
-          <div
-            key={`leaf-${i}`}
-            className="absolute animate-leaf"
-            style={{
-              left: `${(i * 12.5) % 100}%`,
-              width: `${20 + ((i * 7) % 20)}px`,
-              height: `${20 + ((i * 7) % 20)}px`,
-              animationDelay: `${i * 1.5}s`,
-              opacity: decorationIntensity * 0.6,
-            }}
-          >
-            <svg viewBox="0 0 40 40" fill="none">
-              <path
-                d="M20 5 Q35 15, 30 30 Q20 35, 10 30 Q5 15, 20 5"
-                fill={`hsl(${105 + i * 5}, 35%, ${40 + i * 3}%)`}
-                opacity="0.8"
-              />
-              <path
-                d="M20 10 L20 28"
-                stroke={`hsl(${105 + i * 5}, 25%, ${35 + i * 2}%)`}
-                strokeWidth="1"
-              />
-            </svg>
-          </div>
-        ))}
-
-        {/* Subtle botanical watercolor overlay */}
+        {/* Filtered canopy light — one soft overhead wash, one low forest-floor glow */}
         <div
+          className="absolute inset-0 animate-sway-botanical"
           style={{
-            position: "fixed",
-            bottom: 0,
-            left: 0,
-            width: "100%",
-            height: "30%",
-            background: `linear-gradient(180deg, rgba(109, 181, 99, 0) 0%, rgba(109, 181, 99, ${decorationIntensity * 0.05}) 100%)`,
-            pointerEvents: "none",
+            background:
+              "radial-gradient(1200px 600px at 30% -10%, rgba(126,198,111,0.06) 0%, transparent 60%), radial-gradient(900px 500px at 90% 100%, rgba(232,220,192,0.03) 0%, transparent 65%)",
+            animationDuration: "16s",
           }}
         />
+
+        {/* Fine grain for depth without a stock-photo forest background */}
+        <div
+          style={{
+            position: "absolute",
+            inset: 0,
+            opacity: decorationIntensity * 0.08,
+            backgroundImage:
+              "radial-gradient(rgba(200,217,192,0.5) 0.5px, transparent 0.5px)",
+            backgroundSize: "3px 3px",
+          }}
+        />
+
+        {/* One fern, placed — collected, not scattered */}
+        <FernFrond className="absolute -bottom-4 -left-2 opacity-40 hidden md:block" size={130} />
       </div>
     );
   }

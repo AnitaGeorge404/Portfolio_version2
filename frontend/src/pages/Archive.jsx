@@ -4,6 +4,28 @@ import { Squiggle, Sparkle, Tape, Sprig } from "@/components/Decorations";
 import { useTheme } from "@/context/ThemeContext";
 import { ScholarMetaLine } from "@/components/ScholarPrimitives";
 import { MidnightMetaLine } from "@/components/MidnightPrimitives";
+import { HerbariumFieldLabel } from "@/components/HerbariumPrimitives";
+
+function HerbariumArchive() {
+  return (
+    <div className="max-w-3xl mx-auto px-4 sm:px-6 py-14" data-testid="archive-page">
+      <HerbariumFieldLabel>Field chronology</HerbariumFieldLabel>
+      <h1 className="mt-2 font-serif italic text-4xl sm:text-5xl text-[var(--ink)]">Chronology</h1>
+      <p className="mt-2 text-[15px] text-[var(--ink-soft)] max-w-xl">
+        A sequential record of earlier versions of her work online.
+      </p>
+
+      <div className="mt-8">
+        {archive.map((a, i) => (
+          <article key={`${a.date}-${i}`} className="py-4 border-t border-[var(--border-soft)]" data-testid={`archive-item-${i}`}>
+            <HerbariumFieldLabel>{a.date}</HerbariumFieldLabel>
+            <p className="mt-1 text-[15px] text-[var(--ink)] leading-relaxed">{a.note}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  );
+}
 
 function MidnightArchive() {
   return (
@@ -54,6 +76,9 @@ export default function Archive() {
   }
   if (currentTheme === "midnight") {
     return <MidnightArchive />;
+  }
+  if (currentTheme === "herbarium") {
+    return <HerbariumArchive />;
   }
   return (
     <div className="max-w-3xl mx-auto px-4 sm:px-6 py-12" data-testid="archive-page">

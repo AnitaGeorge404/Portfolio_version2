@@ -6,6 +6,7 @@ import SearchBar from "@/components/SearchBar";
 import SearchTabs from "@/components/SearchTabs";
 import { ScholarSearchBar } from "@/components/ScholarPrimitives";
 import { MidnightQuerySurface } from "@/components/MidnightPrimitives";
+import { HerbariumSearchSurface } from "@/components/HerbariumPrimitives";
 import { Sparkle } from "@/components/Decorations";
 import { Github, Linkedin, Globe } from "lucide-react";
 import { profile } from "@/data/portfolio";
@@ -101,8 +102,8 @@ export default function ThemePageHeader({ showSticky }) {
           className="relative z-20 border-b border-[var(--border-soft)]"
           data-testid="theme-page-header-herbarium"
         >
-          <div className="max-w-6xl mx-auto px-4 sm:px-6 py-2.5 flex items-center justify-between text-[11px] uppercase tracking-[0.15em] text-[var(--decoration-primary)] font-mono">
-            <Link to="/" data-testid="brand-link" className="link-soft">Field Index · Anita&apos;s Archive</Link>
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 py-2.5 flex items-center justify-between text-[11px] uppercase tracking-[0.15em] text-[var(--sage)] font-mono">
+            <Link to="/" data-testid="brand-link" className="link-soft">Anita / Herbarium</Link>
             <div className="hidden sm:flex items-center gap-5 normal-case">
               <a href={profile.github} target="_blank" rel="noreferrer" data-testid="top-github" className="link-soft">GitHub</a>
               <a href={profile.linkedin} target="_blank" rel="noreferrer" data-testid="top-linkedin" className="link-soft">LinkedIn</a>
@@ -112,17 +113,17 @@ export default function ThemePageHeader({ showSticky }) {
           </div>
         </div>
         {showSticky && (
-          <header className="sticky top-0 z-20 bg-[var(--bg-paper)]/92 backdrop-blur-md border-b border-[var(--border-soft)]" data-testid="sticky-search-header">
+          <header className="sticky top-0 z-20 bg-[var(--bg-paper)]/94 backdrop-blur-md border-b border-[var(--border-soft)]" data-testid="sticky-search-header">
             <div className="max-w-6xl mx-auto px-4 sm:px-6 py-3 flex items-center gap-4">
               <Link
                 to="/"
-                className="shrink-0 font-mono text-[11px] uppercase tracking-[0.15em] px-2 py-1 bg-[var(--decoration-primary)] text-[var(--bg-paper)]"
+                className="shrink-0 font-serif italic text-lg text-[var(--ink)]"
                 data-testid="logo-link"
                 aria-label="Home"
               >
-                A.G
+                Anita
               </Link>
-              <div className="flex-1"><SearchBar compact defaultValue="anita george" /></div>
+              <div className="flex-1"><HerbariumSearchSurface compact defaultValue="" /></div>
             </div>
             <SearchTabs />
           </header>

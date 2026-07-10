@@ -18,6 +18,7 @@ export default function Layout({ children }) {
   const isScholar = currentTheme === "search";
   const isMidnight = currentTheme === "midnight";
   const isArchive = currentTheme === "archive";
+  const isHerbarium = currentTheme === "herbarium";
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 200);
@@ -68,14 +69,16 @@ export default function Layout({ children }) {
         <div className="max-w-6xl mx-auto px-4 sm:px-6 py-14 grid grid-cols-1 md:grid-cols-3 gap-10">
           <div className="relative">
             {isArchive && <CherryBlossom className="absolute -top-6 -right-4 opacity-60" size={64} />}
-            <div className={`font-serif text-3xl leading-none ${isMidnight ? "" : "text-ink"}`} style={isMidnight ? { color: "var(--ink)" } : undefined}>
-              <span className={isScholar || isMidnight ? "" : "italic"} style={isScholar || isMidnight ? undefined : { color: "#C96B84" }}>Anita</span>{" "}
+            <div className={`font-serif text-3xl leading-none ${isMidnight || isHerbarium ? "" : "text-ink"}`} style={isMidnight || isHerbarium ? { color: "var(--ink)" } : undefined}>
+              <span className={isScholar || isMidnight || isHerbarium ? "" : "italic"} style={isScholar || isMidnight || isHerbarium ? undefined : { color: "#C96B84" }}>Anita</span>{" "}
               <span className="text-[var(--plum)]">George</span>
             </div>
             {isScholar ? (
               <div className="font-mono text-[11px] uppercase tracking-[0.06em] text-[var(--ink-soft)] mt-2">Indexed engineering profile</div>
             ) : isMidnight ? (
               <div className="font-mono text-[11px] uppercase tracking-[0.1em] text-[var(--decoration-primary)] mt-2">Private archive · after midnight</div>
+            ) : isHerbarium ? (
+              <div className="font-mono text-[11px] uppercase tracking-[0.1em] text-[var(--sage)] mt-2">Field archive · specimen record</div>
             ) : (
               <div className="font-hand text-[var(--rose)] text-xl mt-2">— a slow corner of the internet</div>
             )}
@@ -112,6 +115,10 @@ export default function Layout({ children }) {
             ) : isMidnight ? (
               <p className="font-sans text-sm text-ink-soft leading-relaxed">
                 Set in Instrument Serif and Manrope. No analytics. No popups.
+              </p>
+            ) : isHerbarium ? (
+              <p className="font-sans text-sm text-ink-soft leading-relaxed">
+                Set in Spectral and Space Mono. No analytics. No popups.
               </p>
             ) : (
               <p className="font-sans text-sm text-ink-soft leading-relaxed">

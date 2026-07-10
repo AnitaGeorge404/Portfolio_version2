@@ -9,6 +9,7 @@ import { Sparkles, ArrowUpRight, Github, Globe } from "lucide-react";
 import { useTheme } from "@/context/ThemeContext";
 import { ScholarMetaLine } from "@/components/ScholarPrimitives";
 import { MidnightMetaLine, MidnightGlassSurface } from "@/components/MidnightPrimitives";
+import { HerbariumFieldLabel, HerbariumSpecimenSheet, SpecimenFieldLabel, FernFrond } from "@/components/HerbariumPrimitives";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || "";
 const API = BACKEND_URL ? `${BACKEND_URL}/api` : "/api";
@@ -168,6 +169,78 @@ function MidnightProjectDetail({ project, others }) {
   );
 }
 
+function HerbariumProjectDetail({ project, others }) {
+  const sections = [
+    ["Overview", project.summary],
+    ["Observed problem", project.motivation],
+    ["System response", project.architecture],
+    ["Outcomes", project.outcomes],
+  ];
+
+  return (
+    <div className="max-w-3xl mx-auto px-4 sm:px-6 py-14" data-testid={`project-detail-${project.slug}`}>
+      <HerbariumFieldLabel>Field record</HerbariumFieldLabel>
+      <h1 className="mt-2 font-serif italic text-4xl sm:text-5xl text-[var(--ink)]">{project.name}</h1>
+      <p className="mt-2 text-[15px] text-[var(--ink-soft)]">{project.tagline}</p>
+
+      <HerbariumSpecimenSheet id={`FIELD RECORD · ${project.year}`} title={project.status || "active"} className="mt-6">
+        <div className="relative">
+          <FernFrond className="absolute -top-2 -right-2 opacity-30 hidden sm:block" size={50} color="var(--burgundy)" />
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 text-sm">
+            <div><SpecimenFieldLabel>System class</SpecimenFieldLabel><div className="mt-1 text-[var(--specimen-ink)]">{project.tags[0]}</div></div>
+            <div><SpecimenFieldLabel>Technical themes</SpecimenFieldLabel><div className="mt-1 text-[var(--specimen-ink)]">{project.tags.slice(0, 2).join(", ")}</div></div>
+            <div><SpecimenFieldLabel>Creator</SpecimenFieldLabel><div className="mt-1 text-[var(--specimen-ink)]">Anita George</div></div>
+          </div>
+          <div className="mt-4">
+            <Link to={`/ai-mode?q=${encodeURIComponent(project.name)}`} className="text-sm text-[var(--burgundy)] hover:underline underline-offset-4">
+              Explore this specimen with AI →
+            </Link>
+          </div>
+        </div>
+      </HerbariumSpecimenSheet>
+
+      {sections.map(([title, body]) =>
+        body ? (
+          <HerbariumSpecimenSheet key={title} title={title} className="mt-5">
+            <p className="text-[15px] leading-relaxed text-[var(--specimen-ink)] max-w-2xl">{body}</p>
+          </HerbariumSpecimenSheet>
+        ) : null
+      )}
+
+      {project.features?.length > 0 && (
+        <HerbariumSpecimenSheet title="Key features" className="mt-5">
+          <ul className="space-y-1 text-[15px] text-[var(--specimen-ink)] list-disc list-inside">
+            {project.features.map((f) => <li key={f}>{f}</li>)}
+          </ul>
+        </HerbariumSpecimenSheet>
+      )}
+
+      <HerbariumSpecimenSheet title="Technical structure" className="mt-5">
+        <div className="flex flex-wrap gap-x-3 gap-y-1">
+          {project.stack.map((s) => (
+            <span key={s} className="font-mono text-[11px] text-[var(--specimen-ink-soft)] border border-[var(--specimen-border)] px-1.5 py-0.5">
+              {s}
+            </span>
+          ))}
+        </div>
+      </HerbariumSpecimenSheet>
+
+      <div className="mt-10">
+        <HerbariumFieldLabel className="mb-3">Related specimens</HerbariumFieldLabel>
+        {others.map((o) => (
+          <Link key={o.slug} to={`/projects/${o.slug}`} data-testid={`other-project-${o.slug}`} className="block py-3 border-b border-[var(--border-soft)] group">
+            <span className="font-serif italic text-lg text-[var(--ink)] group-hover:text-[var(--decoration-primary)] transition-colors">{o.name}</span>
+            <span className="ml-2 text-sm text-[var(--ink-soft)]">{o.tagline}</span>
+          </Link>
+        ))}
+        <div className="mt-4">
+          <Link to="/projects" className="text-sm text-[var(--decoration-primary)] hover:underline underline-offset-4">← Full specimen catalog</Link>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function ProjectDetail() {
   const { slug } = useParams();
   const project = projects.find((p) => p.slug === slug);
@@ -206,6 +279,17 @@ export default function ProjectDetail() {
         </div>
       );
     }
+    if (currentTheme === "herbarium") {
+      return (
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 py-20" data-testid="project-not-found">
+          <HerbariumFieldLabel>No field record found</HerbariumFieldLabel>
+          <h1 className="mt-2 font-serif italic text-3xl text-[var(--ink)]">This specimen isn&apos;t catalogued.</h1>
+          <p className="mt-3 text-[15px] text-[var(--ink-soft)]">
+            Try the <Link className="text-[var(--decoration-primary)] hover:underline" to="/projects">full specimen catalog</Link>.
+          </p>
+        </div>
+      );
+    }
     return (
       <div className="max-w-3xl mx-auto px-4 sm:px-6 py-20" data-testid="project-not-found">
         <div className="text-[11px] uppercase tracking-[0.3em] text-[var(--plum)]">404 · no result</div>
@@ -223,6 +307,10 @@ export default function ProjectDetail() {
 
   if (currentTheme === "midnight") {
     return <MidnightProjectDetail project={project} others={others} />;
+  }
+
+  if (currentTheme === "herbarium") {
+    return <HerbariumProjectDetail project={project} others={others} />;
   }
 
   return (
