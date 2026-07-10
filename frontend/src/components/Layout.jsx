@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import ThemeSwitcher from "@/components/ThemeSwitcher";
 import ThemeDecoration from "@/components/ThemeDecoration";
 import ThemePageHeader from "@/components/ThemePageHeader";
+import ThemeTransitionOverlay from "@/components/ThemeTransitionOverlay";
 import { CherryBlossom } from "@/components/Decorations";
 import { AmbientParticles, PageTransition } from "@/components/MotionFramework";
 import { FloatingPetal, Butterfly } from "@/components/BotanicalElements";
@@ -34,6 +35,7 @@ export default function Layout({ children }) {
     <div className="relative" data-testid="layout-root">
       {/* Theme Switcher */}
       <ThemeSwitcher />
+      <ThemeTransitionOverlay />
 
       {/* Theme-Specific Decorations */}
       <ThemeDecoration />

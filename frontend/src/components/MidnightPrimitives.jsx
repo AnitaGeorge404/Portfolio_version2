@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ArrowUpRight, ExternalLink, Search } from "lucide-react";
 
@@ -38,10 +38,32 @@ export function MidnightMetaLine({ children, className = "", signal = false }) {
  */
 export function MidnightGlassSurface({ children, level = 2, className = "", as = "div" }) {
   const Tag = as;
+  const surfaceRef = useRef(null);
+  const rafRef = useRef(null);
   const fill =
     level === 4 ? "var(--bg-petal)" : level === 3 ? "var(--bg-tag)" : "var(--bg-card)";
+
+  // Pointer-responsive specular highlight — CSS-var driven, rAF-throttled, no
+  // React state writes per pointermove (keeps this cheap even with many
+  // records on screen at once).
+  const handlePointerMove = (e) => {
+    if (rafRef.current) return;
+    const clientX = e.clientX;
+    const clientY = e.clientY;
+    rafRef.current = requestAnimationFrame(() => {
+      rafRef.current = null;
+      const el = surfaceRef.current;
+      if (!el) return;
+      const rect = el.getBoundingClientRect();
+      el.style.setProperty("--mx", `${((clientX - rect.left) / rect.width) * 100}%`);
+      el.style.setProperty("--my", `${((clientY - rect.top) / rect.height) * 100}%`);
+    });
+  };
+
   return (
     <Tag
+      ref={surfaceRef}
+      onMouseMove={handlePointerMove}
       className={`midnight-glass relative border border-[var(--border-soft)] ${className}`}
       style={{
         background: `linear-gradient(165deg, ${fill} 0%, var(--bg-warm) 100%)`,
@@ -53,6 +75,7 @@ export function MidnightGlassSurface({ children, level = 2, className = "", as =
         className="pointer-events-none absolute inset-x-0 top-0 h-px"
         style={{ background: "linear-gradient(90deg, transparent, rgba(233,231,226,0.28), transparent)" }}
       />
+      <span aria-hidden className="midnight-specular pointer-events-none absolute inset-0" />
       {children}
     </Tag>
   );
@@ -67,7 +90,7 @@ export function MidnightSystemRecord({ eyebrow, title, href, meta, description, 
   return (
     <MidnightGlassSurface
       level={2}
-      className={`p-5 sm:p-6 transition-[border-color,transform] duration-300 hover:border-[var(--border-medium)] hover:-translate-y-0.5 ${wide ? "sm:col-span-2" : ""}`}
+      className={`card-enter-midnight p-5 sm:p-6 transition-[border-color,transform] duration-300 hover:border-[var(--border-medium)] hover:-translate-y-0.5 ${wide ? "sm:col-span-2" : ""}`}
     >
       <div data-testid={testid}>
         {eyebrow && <MidnightMetaLine>{eyebrow}</MidnightMetaLine>}
@@ -123,7 +146,7 @@ export function MidnightQuerySurface({ defaultValue = "", compact = false, autoF
     <form onSubmit={submit} className={compact ? "w-full" : "w-full max-w-xl mx-auto"} data-testid="midnight-search-form">
       <MidnightGlassSurface
         level={focused ? 3 : 2}
-        className="flex items-center gap-3 px-4 py-3 transition-colors duration-300"
+        className="midnight-search-row flex items-center gap-3 px-4 py-3 transition-colors duration-300"
       >
         <Search size={16} className="shrink-0" style={{ color: focused ? "var(--decoration-primary)" : "var(--ink-soft)" }} />
         <input

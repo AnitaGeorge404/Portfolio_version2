@@ -111,7 +111,7 @@ export function HerbariumSystemRecord({ index, motif = "leaf", eyebrow, title, h
     <HerbariumSpecimenSheet
       id={`SPECIMEN ${String(index ?? 0).padStart(2, "0")}`}
       title={eyebrow}
-      className={`transition-transform duration-500 hover:-translate-y-0.5 ${wide ? "sm:col-span-2" : ""}`}
+      className={`card-enter-herbarium transition-transform duration-500 hover:-translate-y-0.5 ${wide ? "sm:col-span-2" : ""}`}
     >
       <div data-testid={testid} className="relative">
         <Motif className="absolute -top-1 -right-1 opacity-70 hidden sm:block" size={44} />
@@ -166,9 +166,10 @@ export function HerbariumSearchSurface({ defaultValue = "", compact = false, aut
   return (
     <form onSubmit={submit} className={compact ? "w-full" : "w-full max-w-xl"} data-testid="herbarium-search-form">
       <div
-        className="flex items-center gap-3 px-4 py-2.5 bg-[var(--specimen-bg)] border transition-colors duration-300"
+        className="herbarium-search-row relative flex items-center gap-3 px-4 py-2.5 bg-[var(--specimen-bg)] border transition-colors duration-300"
         style={{ borderColor: focused ? "var(--decoration-primary)" : "var(--specimen-border)" }}
       >
+        <span className="herbarium-field-marker" aria-hidden="true">field note</span>
         <Search size={15} style={{ color: focused ? "var(--burgundy)" : "var(--specimen-ink-soft)" }} className="shrink-0" />
         <input
           data-testid="herbarium-search-input"

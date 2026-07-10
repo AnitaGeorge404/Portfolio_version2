@@ -42,7 +42,7 @@ export function ScholarResultRow({
     : {};
 
   return (
-    <article className="py-5 border-b border-[var(--border-soft)]" data-testid={testid}>
+    <article className="card-enter-scholar py-5 border-b border-[var(--border-soft)]" data-testid={testid}>
       {eyebrow && <ScholarMetaLine className="mb-1">{eyebrow}</ScholarMetaLine>}
       <TitleTag
         {...titleProps}
@@ -177,7 +177,7 @@ export function ScholarSearchBar({ defaultValue = "", compact = false, autoFocus
 
   return (
     <form onSubmit={submit} className={compact ? "w-full" : "w-full max-w-xl"} data-testid="scholar-search-form">
-      <div className="flex items-center gap-2.5 border border-[var(--border-medium)] px-3.5 py-2.5 bg-[var(--bg-paper)] transition-colors focus-within:border-[var(--link)]">
+      <div className="scholar-search-row flex items-center gap-2.5 border border-[var(--border-medium)] px-3.5 py-2.5 bg-[var(--bg-paper)] transition-colors focus-within:border-[var(--link)]">
         <Search size={16} className="shrink-0 text-[var(--ink-soft)]" />
         <input
           data-testid="scholar-search-input"

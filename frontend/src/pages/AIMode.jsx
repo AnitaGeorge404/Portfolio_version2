@@ -55,12 +55,59 @@ function makeId(prefix) {
   return `${prefix}-${Date.now()}-${Math.random().toString(16).slice(2)}`;
 }
 
+/**
+ * Theme-specific loading signature — flower-bloom / index-scan / facet-resolve /
+ * fern-unfurl per themeInteractions.js's `loader` field. One component so every
+ * call site (pending message, submit button) gets the right glyph for free.
+ */
 function TypingDots() {
+  const { currentTheme } = useTheme();
+
+  if (currentTheme === "search") {
+    return (
+      <span className="theme-loader theme-loader-scholar" aria-label="loading">
+        <span className="scholar-loader-tick" />
+        <span className="scholar-loader-tick" />
+        <span className="scholar-loader-tick" />
+        <span className="scholar-loader-sweep" />
+      </span>
+    );
+  }
+
+  if (currentTheme === "midnight") {
+    return (
+      <span className="theme-loader theme-loader-midnight" aria-label="loading">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <polygon points="8,1 14,6 11,15 5,15 2,6" stroke="var(--decoration-primary)" strokeWidth="1" fill="var(--decoration-primary)" fillOpacity="0.18" />
+          <polygon points="8,1 14,6 8,8" fill="var(--decoration-primary)" fillOpacity="0.5" className="midnight-loader-facet" />
+        </svg>
+      </span>
+    );
+  }
+
+  if (currentTheme === "herbarium") {
+    return (
+      <span className="theme-loader theme-loader-herbarium" aria-label="loading">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <path
+            d="M2 14 C2 8 4 3 8 2 C7 6 6 9 3 13"
+            stroke="var(--burgundy)"
+            strokeWidth="1.4"
+            strokeLinecap="round"
+            fill="none"
+            className="herbarium-loader-frond"
+            pathLength="1"
+          />
+        </svg>
+      </span>
+    );
+  }
+
   return (
-    <span className="inline-flex items-end gap-1" aria-label="loading">
-      <span className="w-1.5 h-1.5 rounded-full bg-[var(--plum)]/70 animate-pulse" />
-      <span className="w-1.5 h-1.5 rounded-full bg-[var(--plum)]/70 animate-pulse" style={{ animationDelay: "0.16s" }} />
-      <span className="w-1.5 h-1.5 rounded-full bg-[var(--plum)]/70 animate-pulse" style={{ animationDelay: "0.32s" }} />
+    <span className="theme-loader theme-loader-archive" aria-label="loading">
+      <span className="archive-loader-petal" />
+      <span className="archive-loader-petal" style={{ animationDelay: "0.15s" }} />
+      <span className="archive-loader-petal" style={{ animationDelay: "0.3s" }} />
     </span>
   );
 }
