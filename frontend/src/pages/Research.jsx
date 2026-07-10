@@ -7,6 +7,70 @@ import { ArrowUpRight, BookOpen } from "lucide-react";
 import { useTheme } from "@/context/ThemeContext";
 import { ScholarMetaLine, ScholarStatLine } from "@/components/ScholarPrimitives";
 import { MidnightMetaLine, MidnightGlassSurface, MidnightStatLine } from "@/components/MidnightPrimitives";
+import { HerbariumFieldLabel, HerbariumSpecimenSheet, SpecimenFieldLabel, HerbariumStatLine } from "@/components/HerbariumPrimitives";
+
+function HerbariumResearch() {
+  return (
+    <div className="max-w-3xl mx-auto px-4 sm:px-6 py-14" data-testid="research-page">
+      <HerbariumFieldLabel>Field notes</HerbariumFieldLabel>
+      <h1 className="mt-2 font-serif italic text-4xl sm:text-5xl text-[var(--ink)]">Technical Exploration</h1>
+      <p className="mt-2 text-[15px] text-[var(--ink-soft)] max-w-xl">
+        Not a publication record — the technical patterns observed across her systems.
+      </p>
+
+      <HerbariumSpecimenSheet title="Algorithmic foundation" className="mt-6">
+        <HerbariumStatLine
+          items={[
+            ["problems solved", dsa.total],
+            ["LeetCode", dsa.leetcode],
+            ["Codeforces", dsa.codeforces],
+          ]}
+        />
+        <div className="mt-2 flex flex-wrap gap-x-3 gap-y-1 font-mono text-[10px] uppercase tracking-[0.06em] text-[var(--specimen-ink-soft)]">
+          {dsa.focus.map((f) => <span key={f}>{f}</span>)}
+        </div>
+      </HerbariumSpecimenSheet>
+
+      <div className="mt-8 space-y-4">
+        {themes.map((t) => (
+          <HerbariumSpecimenSheet key={t.title} title={t.venue}>
+            <h2 className="font-serif italic text-xl text-[var(--specimen-ink)]">{t.title}</h2>
+            <p className="mt-2 text-[15px] leading-relaxed text-[var(--specimen-ink)] max-w-2xl">{t.desc}</p>
+          </HerbariumSpecimenSheet>
+        ))}
+      </div>
+
+      <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <HerbariumSpecimenSheet title="Milestones">
+          <ul className="space-y-2">
+            {achievements.map((a) => (
+              <li key={a.title}>
+                <div className="text-[15px] text-[var(--specimen-ink)]">{a.result}</div>
+                <div className="text-[13px] text-[var(--specimen-ink-soft)]">{a.title} · {a.year}</div>
+              </li>
+            ))}
+          </ul>
+        </HerbariumSpecimenSheet>
+        <HerbariumSpecimenSheet title="Certifications">
+          <ul className="space-y-2">
+            {certifications.map((c) => (
+              <li key={c.title}>
+                <div className="text-[15px] text-[var(--specimen-ink)]">{c.title}</div>
+                <div className="text-[13px] text-[var(--specimen-ink-soft)]">{c.issuer}</div>
+              </li>
+            ))}
+          </ul>
+        </HerbariumSpecimenSheet>
+      </div>
+
+      <div className="mt-8 pt-6 border-t border-[var(--border-soft)]">
+        <Link to="/work" className="text-sm text-[var(--decoration-primary)] hover:underline underline-offset-4">
+          See the systems these patterns show up in →
+        </Link>
+      </div>
+    </div>
+  );
+}
 
 function MidnightResearch() {
   return (
@@ -152,6 +216,9 @@ export default function Research() {
   }
   if (currentTheme === "midnight") {
     return <MidnightResearch />;
+  }
+  if (currentTheme === "herbarium") {
+    return <HerbariumResearch />;
   }
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 py-12" data-testid="research-page">

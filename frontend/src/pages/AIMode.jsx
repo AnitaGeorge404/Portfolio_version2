@@ -27,6 +27,7 @@ import { buildLocalArchiveResponse, normalizeArchiveResponse } from "@/utils/arc
 import { useTheme } from "@/context/ThemeContext";
 import { ScholarMetaLine } from "@/components/ScholarPrimitives";
 import { MidnightMetaLine, MidnightGlassSurface, MidnightQuerySurface } from "@/components/MidnightPrimitives";
+import { HerbariumFieldLabel, HerbariumSpecimenSheet, SpecimenFieldLabel, HerbariumSearchSurface } from "@/components/HerbariumPrimitives";
 
 const BACKEND_URL = (process.env.REACT_APP_BACKEND_URL || "").replace(/\/$/, "");
 const API = BACKEND_URL ? `${BACKEND_URL}/api` : "/api";
@@ -138,6 +139,15 @@ function UserMessage({ message, index }) {
     return (
       <article className="pt-4" data-testid="ai-user-message">
         <MidnightMetaLine signal>Query {String((index ?? 0) + 1).padStart(2, "0")}</MidnightMetaLine>
+        <p className="mt-1 font-serif italic text-xl sm:text-2xl text-[var(--ink)]">{message.content}</p>
+      </article>
+    );
+  }
+
+  if (currentTheme === "herbarium") {
+    return (
+      <article className="pt-4" data-testid="ai-user-message">
+        <HerbariumFieldLabel>Field inquiry {String((index ?? 0) + 1).padStart(2, "0")}</HerbariumFieldLabel>
         <p className="mt-1 font-serif italic text-xl sm:text-2xl text-[var(--ink)]">{message.content}</p>
       </article>
     );
@@ -426,6 +436,95 @@ function MidnightAssistantMessage({ message, isLatest, displayedAnswer, onAsk })
   );
 }
 
+function HerbariumAssistantMessage({ message, isLatest, displayedAnswer, onAsk }) {
+  const result = message.result || {};
+  const answer = isLatest ? displayedAnswer || "" : message.content;
+  const engineLabel = result.llm_available ? "Gemini 2.5 field synthesis" : result.client_fallback ? "local field archive" : "archive synthesis";
+  const citations = result.citations || result.sources || [];
+
+  return (
+    <HerbariumSpecimenSheet id="FIELD SYNTHESIS" title={engineLabel} as="article">
+      <div data-testid="ai-assistant-message">
+        {result.grounded !== false && <SpecimenFieldLabel className="mb-2">Observed &amp; grounded</SpecimenFieldLabel>}
+
+        <p className="font-serif italic text-2xl sm:text-[28px] leading-snug text-[var(--specimen-ink)] whitespace-pre-line min-h-[64px]">
+          {answer}
+          {isLatest && displayedAnswer && displayedAnswer.length < message.content.length && <span className="caret" />}
+        </p>
+
+        {result.fallbackReason && !result.client_fallback && (
+          <div className="mt-3 text-xs text-[var(--specimen-ink-soft)]">{result.fallbackReason}</div>
+        )}
+
+        {!!result.relatedProjects?.length && (
+          <div className="mt-6" data-testid="related-project-cards">
+            <SpecimenFieldLabel>Related specimens</SpecimenFieldLabel>
+            <div className="mt-2 space-y-3">
+              {result.relatedProjects.slice(0, 4).map((project) => (
+                <div key={project.slug} className="border-t border-[var(--specimen-border)] pt-3">
+                  <ArchiveLink page={{ title: project.name, url: project.url }} className="font-serif italic text-lg text-[var(--specimen-ink)]" />
+                  <span className="ml-2 font-mono text-[10px] uppercase tracking-[0.06em] text-[var(--specimen-ink-soft)]">{project.status}</span>
+                  <p className="mt-1 text-sm text-[var(--specimen-ink-soft)] leading-relaxed">{project.reason}</p>
+                  <button type="button" onClick={() => onAsk(`Go deeper on ${project.name}.`)} className="mt-1 text-sm text-[var(--burgundy)] hover:underline underline-offset-4">
+                    Go deeper →
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {!!result.semanticConnections?.length && (
+          <div className="mt-6" data-testid="semantic-graph">
+            <SpecimenFieldLabel>System ecology</SpecimenFieldLabel>
+            <div className="mt-2 space-y-2">
+              {result.semanticConnections.slice(0, 4).map((c, i) => (
+                <div key={`${c.source}-${c.target}-${i}`} className="text-sm">
+                  <span className="text-[var(--specimen-ink)]">{c.source}</span>
+                  <span className="mx-2 text-[var(--burgundy)]">↝</span>
+                  <span className="text-[var(--specimen-ink)]">{c.target}</span>
+                  <div className="text-[var(--specimen-ink-soft)] text-xs mt-0.5">{c.reason}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {!!citations.length && (
+          <details className="mt-6" data-testid="ai-citations">
+            <summary className="cursor-pointer list-none">
+              <SpecimenFieldLabel>Archive references</SpecimenFieldLabel>
+            </summary>
+            <ol className="mt-2 space-y-2">
+              {citations.slice(0, 6).map((source, index) => (
+                <li key={`${source.id}-${index}`} className="text-sm border-t border-[var(--specimen-border)] pt-2">
+                  <span className="font-mono text-[var(--burgundy)] mr-1.5">[{String(index + 1).padStart(2, "0")}]</span>
+                  <ArchiveLink page={{ title: source.title, url: source.url }} className="text-[var(--specimen-ink)]" />
+                  <span className="ml-2 text-xs text-[var(--specimen-ink-soft)]">{Math.round((source.score || 0) * 100)}%</span>
+                  <p className="mt-0.5 text-[var(--specimen-ink-soft)]">{source.snippet}</p>
+                </li>
+              ))}
+            </ol>
+          </details>
+        )}
+
+        {!!result.relatedSearches?.length && (
+          <div className="mt-6 pt-4 border-t border-[var(--specimen-border)]">
+            <SpecimenFieldLabel>Continue exploring</SpecimenFieldLabel>
+            <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1.5">
+              {result.relatedSearches.slice(0, 7).map((search) => (
+                <button key={search} type="button" onClick={() => onAsk(search)} className="text-sm text-[var(--burgundy)] hover:underline underline-offset-4">
+                  {search}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+    </HerbariumSpecimenSheet>
+  );
+}
+
 function AssistantMessage({ message, isLatest, displayedAnswer, onAsk }) {
   const { currentTheme } = useTheme();
   const result = message.result || {};
@@ -438,6 +537,10 @@ function AssistantMessage({ message, isLatest, displayedAnswer, onAsk }) {
 
   if (currentTheme === "midnight") {
     return <MidnightAssistantMessage message={message} isLatest={isLatest} displayedAnswer={displayedAnswer} onAsk={onAsk} />;
+  }
+
+  if (currentTheme === "herbarium") {
+    return <HerbariumAssistantMessage message={message} isLatest={isLatest} displayedAnswer={displayedAnswer} onAsk={onAsk} />;
   }
 
   return (
@@ -569,6 +672,21 @@ function PendingMessage({ activeStage }) {
     );
   }
 
+  if (currentTheme === "herbarium") {
+    return (
+      <HerbariumSpecimenSheet title="Connecting observations">
+        <div data-testid="ai-pending-message">
+          <div className="font-mono text-[10px] uppercase tracking-[0.12em] text-[var(--burgundy)]">
+            {activeStage || "connecting field records"}
+          </div>
+          <div className="mt-3 inline-flex items-center gap-2 font-serif italic text-xl text-[var(--specimen-ink-soft)]">
+            Synthesizing <TypingDots />
+          </div>
+        </div>
+      </HerbariumSpecimenSheet>
+    );
+  }
+
   return (
     <article className="bg-white/80 border border-[var(--border-medium)] p-5 sm:p-6" data-testid="ai-pending-message">
       <div className="flex items-center gap-2 text-[10px] uppercase tracking-[0.24em] text-[var(--plum)]">
@@ -585,15 +703,16 @@ function MemoryPanel({ messages, latestResult, stats, onAsk }) {
   const { currentTheme } = useTheme();
   const isScholar = currentTheme === "search";
   const isMidnight = currentTheme === "midnight";
+  const isHerbarium = currentTheme === "herbarium";
   const breadcrumbs = latestResult?.memoryBreadcrumbs || [];
   const projects = latestResult?.relatedProjects || [];
   const repos = latestResult?.relatedRepositories || [];
 
   return (
     <aside className="space-y-4 lg:sticky lg:top-24 self-start">
-      <section className={`border border-[var(--border-soft)] bg-[var(--bg-paper)]/75 p-5 ${isScholar || isMidnight ? "" : "grid-paper"}`}>
+      <section className={`border border-[var(--border-soft)] bg-[var(--bg-paper)]/75 p-5 ${isScholar || isMidnight || isHerbarium ? "" : "grid-paper"}`}>
         <div className="text-[10px] uppercase tracking-[0.28em] text-[var(--plum)] inline-flex items-center gap-2">
-          <FileSearch size={12} /> {isScholar ? "indexed corpus" : isMidnight ? "system index" : "archive index"}
+          <FileSearch size={12} /> {isScholar ? "indexed corpus" : isMidnight ? "system index" : isHerbarium ? "field index" : "archive index"}
         </div>
         <div className="mt-4 grid grid-cols-2 gap-2">
           {[
@@ -612,7 +731,7 @@ function MemoryPanel({ messages, latestResult, stats, onAsk }) {
 
       <section className="border border-[var(--border-soft)] bg-[var(--bg-tag)]/60 p-5">
         <div className="text-[10px] uppercase tracking-[0.28em] text-[var(--plum)] inline-flex items-center gap-2">
-          <History size={12} /> {isMidnight ? "context memory" : "memory"}
+          <History size={12} /> {isMidnight ? "context memory" : isHerbarium ? "field context" : "memory"}
         </div>
         <div className="mt-3 space-y-2">
           {breadcrumbs.length ? (
@@ -798,12 +917,13 @@ export default function AIMode() {
 
   const isScholar = currentTheme === "search";
   const isMidnight = currentTheme === "midnight";
+  const isHerbarium = currentTheme === "herbarium";
   let queryIndex = -1;
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-7 pb-24" data-testid="ai-mode-page">
       <section className="relative border-b border-[var(--border-soft)] pb-6">
-        {!isScholar && !isMidnight && (
+        {!isScholar && !isMidnight && !isHerbarium && (
           <>
             <Rose className="absolute -top-10 -left-8 opacity-60 hidden md:block" size={100} />
             <Sparkle className="absolute top-2 right-4 opacity-70 animate-float-slow" size={18} />
@@ -811,14 +931,14 @@ export default function AIMode() {
         )}
         <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
           <div className="min-w-0">
-            <div className={`text-[11px] uppercase tracking-[0.3em] text-[var(--plum)] inline-flex items-center gap-2 ${isScholar || isMidnight ? "font-mono" : ""}`}>
+            <div className={`text-[11px] uppercase tracking-[0.3em] text-[var(--plum)] inline-flex items-center gap-2 ${isScholar || isMidnight || isHerbarium ? "font-mono" : ""}`}>
               <BrainCircuit size={13} className="text-[var(--sage)]" />
-              {isScholar ? "AI synthesis over indexed engineering work" : isMidnight ? "Private intelligence interface" : "Anita George archive intelligence"}
+              {isScholar ? "AI synthesis over indexed engineering work" : isMidnight ? "Private intelligence interface" : isHerbarium ? "The living archive responds" : "Anita George archive intelligence"}
             </div>
-            <h1 className={`mt-2 font-serif text-ink leading-[0.9] ${isScholar ? "text-4xl sm:text-5xl" : isMidnight ? "italic text-4xl sm:text-6xl" : "text-5xl sm:text-7xl lg:text-[84px]"}`}>
+            <h1 className={`mt-2 font-serif text-ink leading-[0.9] ${isScholar ? "text-4xl sm:text-5xl" : isMidnight || isHerbarium ? "italic text-4xl sm:text-6xl" : "text-5xl sm:text-7xl lg:text-[84px]"}`}>
               AI Mode
             </h1>
-            {!isScholar && !isMidnight && <Squiggle width={230} className="mt-2" />}
+            {!isScholar && !isMidnight && !isHerbarium && <Squiggle width={230} className="mt-2" />}
           </div>
           <div className="lg:max-w-xl">
             <SignalStrip stats={stats} />
@@ -827,6 +947,8 @@ export default function AIMode() {
                 ? "A synthesis layer over Anita's indexed engineering corpus — projects, repositories, technical themes, and design direction."
                 : isMidnight
                 ? "A private synthesis layer over Anita's indexed engineering archive — projects, repositories, technical themes, and design direction."
+                : isHerbarium
+                ? "A field archive connecting observations across Anita's engineering systems — projects, repositories, technical themes, and design direction."
                 : "A conversational research layer over Anita's verified projects, repositories, technical themes, and design direction."}
             </p>
           </div>
@@ -885,6 +1007,27 @@ export default function AIMode() {
                     </div>
                   </div>
                 </div>
+              ) : isHerbarium ? (
+                <HerbariumSpecimenSheet id="LIVING ARCHIVE" title="Field entrance" className="min-h-[360px]">
+                  <p className="max-w-2xl font-serif italic text-2xl sm:text-3xl leading-snug text-[var(--specimen-ink)]">
+                    Ask about Anita's systems.
+                  </p>
+                  <div className="mt-8" data-testid="starter-questions">
+                    <SpecimenFieldLabel>Field questions</SpecimenFieldLabel>
+                    <div className="mt-2 flex flex-col divide-y divide-[var(--specimen-border)]">
+                      {STARTER_QUESTIONS.map((starter) => (
+                        <button
+                          key={starter}
+                          type="button"
+                          onClick={() => runSearch(starter)}
+                          className="py-2.5 text-left text-[15px] text-[var(--specimen-ink-soft)] hover:text-[var(--burgundy)] transition-colors"
+                        >
+                          {starter}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                </HerbariumSpecimenSheet>
               ) : (
                 <div className="relative overflow-hidden bg-white/72 border border-[var(--border-medium)] p-5 sm:p-8 min-h-[360px]">
                   <Tape className="-top-3 right-12" rotate={7} w={72} variant="pink" />

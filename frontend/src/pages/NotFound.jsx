@@ -4,6 +4,24 @@ import { Squiggle, Sparkle, HandArrow } from "@/components/Decorations";
 import { useTheme } from "@/context/ThemeContext";
 import { ScholarMetaLine } from "@/components/ScholarPrimitives";
 import { MidnightMetaLine } from "@/components/MidnightPrimitives";
+import { HerbariumFieldLabel } from "@/components/HerbariumPrimitives";
+
+function HerbariumNotFound() {
+  return (
+    <div className="max-w-2xl mx-auto px-4 sm:px-6 py-24" data-testid="not-found-page">
+      <HerbariumFieldLabel>No field record found</HerbariumFieldLabel>
+      <h1 className="mt-2 font-serif italic text-4xl text-[var(--ink)]">Specimen not found.</h1>
+      <p className="mt-3 text-[15px] text-[var(--ink-soft)]">
+        Search the archive, or return to the field index.
+      </p>
+      <div className="mt-6 flex flex-wrap gap-x-5 text-sm">
+        <Link to="/" className="text-[var(--decoration-primary)] hover:underline underline-offset-4" data-testid="nf-home">Return to field index</Link>
+        <Link to="/ai-mode" className="text-[var(--decoration-primary)] hover:underline underline-offset-4" data-testid="nf-ai">Search the archive</Link>
+        <Link to="/work" className="text-[var(--decoration-primary)] hover:underline underline-offset-4" data-testid="nf-work">View indexed systems</Link>
+      </div>
+    </div>
+  );
+}
 
 function MidnightNotFound() {
   return (
@@ -46,6 +64,9 @@ export default function NotFound() {
   }
   if (currentTheme === "midnight") {
     return <MidnightNotFound />;
+  }
+  if (currentTheme === "herbarium") {
+    return <HerbariumNotFound />;
   }
   return (
     <div className="max-w-3xl mx-auto px-4 sm:px-6 py-20" data-testid="not-found-page">

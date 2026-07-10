@@ -189,7 +189,7 @@ export const themeTokens = {
 
   herbarium: {
     name: "Herbarium",
-    description: "Botanical research archive, dark green & cream",
+    description: "Botanical field research archive — deep forest environment, ivory specimen sheets",
     emoji: "🌿",
     // Typography & composition grammar
     fontHeading: '"Spectral", Georgia, serif',
@@ -198,37 +198,46 @@ export const themeTokens = {
     fontHand: null,
     motionPreset: "environmental",
     cardStyle: "specimen",
-    // Dark forest green background
-    bgPaper: "#0F2419",
-    bgWarm: "#163325",
-    bgCard: "#0E2317",
-    bgTag: "#1A3B2F",
-    bgPetal: "#0D2216",
-    // Bright cream text on dark green (AAA contrast)
-    ink: "#F0EDE8",
-    inkSoft: "#D4CCC0",
-    // ONLY GREEN and CREAM - NO PINK/ROSE
+    // Deep forest environment — the viewport itself, layered dark greens
+    bgPaper: "#0D1F17",
+    bgWarm: "#132A1F",
+    bgCard: "#0B1B14",
+    bgTag: "#1C3728",
+    bgPetal: "#0A1810",
+    // Ivory/ink used ON the forest environment itself (nav, labels, body copy)
+    ink: "#EAE4D3",
+    inkSoft: "#A8B79C",
+    // Living green signal + muted sage secondary — NO pink/blue/gold
     plum: "#7EC66F",
-    pink: "#F0EDE8",
+    pink: "#EAE4D3",
     blossom: "#C8D9C0",
     rose: "#7EC66F",
-    burgundy: "#5A9B52",
-    cream: "#F0EDE8",
-    dusty: "#9ABF8F",
-    sage: "#8BAF7F",
-    brown: "#9AB98F",
+    // Darker than the environment green on purpose — this is the color used
+    // for action links ON the ivory specimen sheet, and needs 4.5:1+ contrast
+    // against --specimen-bg (#5A9B52 only cleared 2.86:1, failing AA).
+    burgundy: "#3D6B36",
+    cream: "#EAE4D3",
+    dusty: "#8FAE7A",
+    sage: "#7C9268",
+    brown: "#5C6E4F",
     // Borders - subtle on dark
-    borderSoft: "#2B4838",
-    borderMedium: "#1F3A2E",
-    link: "#7EC66F",
-    // Decorations - bright greens
+    borderSoft: "#26402F",
+    borderMedium: "#345239",
+    link: "#8FCB7A",
+    // Decorations - living fern green + warm parchment ivory
     decorationPrimary: "#7EC66F",
-    decorationSecondary: "#C8D9C0",
+    decorationSecondary: "#E8DCC0",
+    // The specimen sheet — the one surface that breaks from the forest palette
+    specimenBg: "#F3ECDD",
+    specimenBgAlt: "#EAE1CC",
+    specimenInk: "#2A2418",
+    specimenInkSoft: "#5C6E4F",
+    specimenBorder: "#9CAE84",
     // Theme-specific experience tokens
-    animationDuration: "6s",
-    particleDensity: 20,
-    textureOpacity: 0.08,
-    decorationIntensity: 0.85,
+    animationDuration: "10s",
+    particleDensity: 3,
+    textureOpacity: 0.05,
+    decorationIntensity: 0.4,
     cardShadowStyle: "aged-paper-shadow",
     // Semantic colors (HSL for shadcn compatibility)
     background: "145 42% 12%",
@@ -283,6 +292,13 @@ export function getThemeCSSVariables(theme) {
     "--link": tokens.link,
     "--decoration-primary": tokens.decorationPrimary,
     "--decoration-secondary": tokens.decorationSecondary,
+    // Specimen-sheet surface (Herbarium only — falls back to the card surface
+    // for other themes so components referencing it never resolve to "undefined")
+    "--specimen-bg": tokens.specimenBg || tokens.bgCard,
+    "--specimen-bg-alt": tokens.specimenBgAlt || tokens.bgTag,
+    "--specimen-ink": tokens.specimenInk || tokens.ink,
+    "--specimen-ink-soft": tokens.specimenInkSoft || tokens.inkSoft,
+    "--specimen-border": tokens.specimenBorder || tokens.borderMedium,
     // Experience tokens for theme-specific behavior
     "--animation-duration": tokens.animationDuration,
     "--particle-density": tokens.particleDensity,

@@ -5,6 +5,37 @@ import { Play } from "lucide-react";
 import { useTheme } from "@/context/ThemeContext";
 import { ScholarMetaLine } from "@/components/ScholarPrimitives";
 import { MidnightMetaLine, MidnightGlassSurface } from "@/components/MidnightPrimitives";
+import { HerbariumFieldLabel, HerbariumSpecimenSheet, SpecimenFieldLabel } from "@/components/HerbariumPrimitives";
+
+function HerbariumVideos() {
+  return (
+    <div className="max-w-4xl mx-auto px-4 sm:px-6 py-14" data-testid="videos-page">
+      <HerbariumFieldLabel>Observation record index</HerbariumFieldLabel>
+      <h1 className="mt-2 font-serif italic text-4xl sm:text-5xl text-[var(--ink)]">Videos</h1>
+      <p className="mt-2 text-[15px] text-[var(--ink-soft)] max-w-xl">
+        Screen recordings of things she's built — real videos coming when she has time to record them.
+      </p>
+
+      <div className="mt-8 space-y-4" data-testid="videos-grid">
+        {videos.map((v) => (
+          <HerbariumSpecimenSheet key={v.title} title={v.duration}>
+            <div className="flex items-center gap-4">
+              <div className="relative w-28 h-16 shrink-0 overflow-hidden border border-[var(--specimen-border)]">
+                <img src={v.thumb} alt={v.title} className="w-full h-full object-cover" style={{ filter: "sepia(0.25) saturate(1.1)" }} />
+                <Play size={16} className="absolute inset-0 m-auto text-[var(--specimen-ink)]" />
+              </div>
+              <div className="min-w-0">
+                <div className="font-serif italic text-lg text-[var(--specimen-ink)] truncate">{v.title}</div>
+                <div className="text-[13px] text-[var(--specimen-ink-soft)]">{v.channel}</div>
+                <div className="font-mono text-[10px] uppercase tracking-[0.06em] text-[var(--burgundy)] mt-0.5">Status: placeholder — not yet recorded</div>
+              </div>
+            </div>
+          </HerbariumSpecimenSheet>
+        ))}
+      </div>
+    </div>
+  );
+}
 
 function MidnightVideos() {
   return (
@@ -69,6 +100,9 @@ export default function Videos() {
   }
   if (currentTheme === "midnight") {
     return <MidnightVideos />;
+  }
+  if (currentTheme === "herbarium") {
+    return <HerbariumVideos />;
   }
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 py-12" data-testid="videos-page">
