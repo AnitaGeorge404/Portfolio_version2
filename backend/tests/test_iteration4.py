@@ -57,11 +57,12 @@ class TestVerifiedQueries:
     def test_engineer_kind(self, client):
         d = _search(client, "what kind of engineer is anita")
         ans = d["answer"].lower()
-        # Verified content must be present
-        assert "iiit kottayam" in ans, f"Missing IIIT Kottayam: {ans[:300]}"
-        assert ("full-stack" in ans or "full stack" in ans), f"Missing full-stack: {ans[:300]}"
-        assert "400+" in ans or "400" in ans, f"Missing 400+ DSA: {ans[:300]}"
-        assert "9.03" in ans, f"Missing GPA 9.03: {ans[:300]}"
+        # This is now recruiter-style synthesis grounded in real project
+        # evidence rather than a credentials/bio dump (brain-quality pass:
+        # "do not turn this into a skills list - use projects as evidence").
+        assert d["intent"] == "recruiter", f"Expected recruiter intent, got {d['intent']}"
+        known_projects = ["neurobridge", "vantaai", "faimer", "lawgorithm", "studybee", "delai"]
+        assert any(p in ans for p in known_projects), f"Missing project evidence: {ans[:300]}"
         # Forbidden poetic content
         forbidden = ["soft software", "soft, honest", "tender", "20-year-old", "midnight thoughts"]
         for bad in forbidden:

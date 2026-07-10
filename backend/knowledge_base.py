@@ -230,6 +230,7 @@ class KnowledgeBase:
                 f"Stack: {', '.join(project.get('stack', []))}",
                 f"Themes: {', '.join(project.get('themes', []))}",
                 f"Features: {', '.join(project.get('features', []))}",
+                f"Engineering signals: {', '.join(project.get('engineering_signals', []))}",
                 f"Note: {project.get('note', '')}",
             ]
             self._add_chunk(
