@@ -2,8 +2,19 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import { tabs } from "@/data/portfolio";
 import { Sparkles } from "lucide-react";
+import { useTheme } from "@/context/ThemeContext";
+
+const NAV_MARK_CLASS = {
+  archive: "nav-mark-archive",
+  search: "nav-mark-scholar",
+  midnight: "nav-mark-midnight",
+  herbarium: "nav-mark-herbarium",
+};
 
 export default function SearchTabs() {
+  const { currentTheme } = useTheme();
+  const markClass = NAV_MARK_CLASS[currentTheme] || NAV_MARK_CLASS.archive;
+
   return (
     <nav
       className="border-b border-[var(--border-soft)]/80 bg-[var(--bg-paper)]/60"
@@ -28,7 +39,7 @@ export default function SearchTabs() {
                     {t.sparkle && <Sparkles size={12} className="text-rose" />}
                     {t.label}
                     {isActive && (
-                      <span className="absolute left-3 right-3 -bottom-px h-[2px] bg-[var(--rose)] rounded-full" />
+                      <span className={`nav-active-mark ${markClass} absolute left-3 right-3 -bottom-px h-[2px] bg-[var(--rose)] rounded-full`} />
                     )}
                   </>
                 )}

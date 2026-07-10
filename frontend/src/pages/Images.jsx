@@ -46,11 +46,11 @@ function ScholarImages() {
 
       {open && (
         <div
-          className="fixed inset-0 bg-[var(--ink)]/60 z-50 flex items-center justify-center p-6"
+          className="modal-backdrop-in fixed inset-0 bg-[var(--ink)]/60 z-50 flex items-center justify-center p-6"
           onClick={() => setOpen(null)}
           data-testid="image-modal"
         >
-          <div className="relative max-w-3xl bg-[var(--bg-paper)] border border-[var(--border-soft)] p-4" onClick={(e) => e.stopPropagation()}>
+          <div className="modal-panel-scholar relative max-w-3xl bg-[var(--bg-paper)] border border-[var(--border-soft)] p-4" onClick={(e) => e.stopPropagation()}>
             <button onClick={() => setOpen(null)} className="absolute -top-3 -right-3 bg-[var(--bg-paper)] border border-[var(--border-soft)] rounded-full w-8 h-8 flex items-center justify-center" aria-label="close">
               <X size={16} />
             </button>
@@ -112,12 +112,12 @@ function MidnightImages() {
 
       {open && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center p-6"
+          className="modal-backdrop-in fixed inset-0 z-50 flex items-center justify-center p-6"
           style={{ background: "rgba(10,11,13,0.85)" }}
           onClick={() => setOpen(null)}
           data-testid="image-modal"
         >
-          <MidnightGlassSurface level={3} className="relative max-w-3xl p-4" as="div">
+          <MidnightGlassSurface level={3} className="modal-panel-midnight relative max-w-3xl p-4" as="div">
             <div onClick={(e) => e.stopPropagation()}>
               <button onClick={() => setOpen(null)} className="absolute -top-3 -right-3 bg-[var(--bg-tag)] border border-[var(--border-soft)] rounded-full w-8 h-8 flex items-center justify-center" aria-label="close">
                 <X size={16} />
@@ -181,12 +181,12 @@ function HerbariumImages() {
 
       {open && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center p-6"
+          className="modal-backdrop-in fixed inset-0 z-50 flex items-center justify-center p-6"
           style={{ background: "rgba(10,22,16,0.85)" }}
           onClick={() => setOpen(null)}
           data-testid="image-modal"
         >
-          <HerbariumSpecimenSheet id="OBSERVATION RECORD" title={open.tag} className="relative max-w-3xl">
+          <HerbariumSpecimenSheet id="OBSERVATION RECORD" title={open.tag} className="modal-panel-herbarium relative max-w-3xl">
             <div onClick={(e) => e.stopPropagation()}>
               <button onClick={() => setOpen(null)} className="absolute -top-3 -right-3 bg-[var(--specimen-bg)] border border-[var(--specimen-border)] rounded-full w-8 h-8 flex items-center justify-center" aria-label="close">
                 <X size={16} color="var(--specimen-ink)" />
@@ -274,7 +274,7 @@ export default function Images() {
           onClick={() => setOpen(null)}
           data-testid="image-modal"
         >
-          <div className="relative max-w-3xl bg-paper border border-[var(--border-soft)] p-4" onClick={(e) => e.stopPropagation()}>
+          <div className="modal-panel-archive relative max-w-3xl bg-paper border border-[var(--border-soft)] p-4" onClick={(e) => e.stopPropagation()}>
             <Tape className="-top-3 left-12" w={90} rotate={-7} />
             <button onClick={() => setOpen(null)} className="absolute -top-4 -right-4 bg-paper border border-[var(--border-soft)] rounded-full w-9 h-9 flex items-center justify-center" aria-label="close">
               <X size={16} />

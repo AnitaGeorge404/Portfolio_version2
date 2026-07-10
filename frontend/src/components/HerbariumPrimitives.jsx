@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { ArrowUpRight, Search } from "lucide-react";
+import { ThemeIcon } from "@/components/ThemeIcons";
 
 /**
  * Herbarium-only presentation primitives. Not theme-branching — only ever
@@ -133,7 +133,7 @@ export function HerbariumSystemRecord({ index, motif = "leaf", eyebrow, title, h
           <div className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-1 text-sm">
             {actions.map((a, i) => (
               <Link key={i} to={a.to} className="inline-flex items-center gap-1 text-[var(--burgundy)] hover:underline underline-offset-4">
-                {a.label} <ArrowUpRight size={12} />
+                {a.label} <ThemeIcon role="external" size={12} />
               </Link>
             ))}
           </div>
@@ -170,7 +170,7 @@ export function HerbariumSearchSurface({ defaultValue = "", compact = false, aut
         style={{ borderColor: focused ? "var(--decoration-primary)" : "var(--specimen-border)" }}
       >
         <span className="herbarium-field-marker" aria-hidden="true">field note</span>
-        <Search size={15} style={{ color: focused ? "var(--burgundy)" : "var(--specimen-ink-soft)" }} className="shrink-0" />
+        <ThemeIcon role="search" size={15} color={focused ? "var(--burgundy)" : "var(--specimen-ink-soft)"} className="shrink-0" />
         <input
           data-testid="herbarium-search-input"
           type="text"

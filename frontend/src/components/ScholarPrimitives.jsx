@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { ArrowUpRight, ExternalLink, Search } from "lucide-react";
+import { ThemeIcon } from "@/components/ThemeIcons";
 
 /**
  * Scholar-only presentation primitives. These are intentionally NOT theme-
@@ -49,7 +49,7 @@ export function ScholarResultRow({
         className="inline-flex items-center gap-1.5 text-xl sm:text-2xl font-serif text-[var(--link)] hover:underline underline-offset-4 leading-snug"
       >
         {title}
-        {href && (external ? <ExternalLink size={14} className="shrink-0" /> : <ArrowUpRight size={14} className="shrink-0" />)}
+        {href && <ThemeIcon role="external" size={14} className="shrink-0" />}
       </TitleTag>
       {meta && <div className="mt-1 text-[13px] text-[var(--ink-soft)]">{meta}</div>}
       {description && (
@@ -178,7 +178,7 @@ export function ScholarSearchBar({ defaultValue = "", compact = false, autoFocus
   return (
     <form onSubmit={submit} className={compact ? "w-full" : "w-full max-w-xl"} data-testid="scholar-search-form">
       <div className="scholar-search-row flex items-center gap-2.5 border border-[var(--border-medium)] px-3.5 py-2.5 bg-[var(--bg-paper)] transition-colors focus-within:border-[var(--link)]">
-        <Search size={16} className="shrink-0 text-[var(--ink-soft)]" />
+        <ThemeIcon role="search" size={16} className="shrink-0 text-[var(--ink-soft)]" />
         <input
           data-testid="scholar-search-input"
           type="text"

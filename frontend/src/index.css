@@ -1419,6 +1419,93 @@ html[data-theme="herbarium"] .btn-soft:active {
     .midnight-specular { display: none !important; }
 }
 
+/* ── Nav active-route mark — same underline span, four different resolve behaviors ── */
+.nav-active-mark { transform-origin: center; }
+
+.nav-mark-archive {
+    animation: nav-mark-archive-in 420ms cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+@keyframes nav-mark-archive-in {
+    0% { transform: scaleX(0.2) rotate(-1deg); opacity: 0; }
+    60% { transform: scaleX(1.08) rotate(0.4deg); opacity: 1; }
+    100% { transform: scaleX(1) rotate(0deg); opacity: 1; }
+}
+
+.nav-mark-scholar {
+    animation: nav-mark-scholar-in 100ms linear both;
+}
+@keyframes nav-mark-scholar-in {
+    0% { transform: scaleX(0); opacity: 1; }
+    100% { transform: scaleX(1); opacity: 1; }
+}
+
+.nav-mark-midnight {
+    box-shadow: 0 0 6px 0 var(--decoration-primary);
+    animation: nav-mark-midnight-in 480ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+@keyframes nav-mark-midnight-in {
+    0% { transform: scaleX(0.4); opacity: 0; box-shadow: none; }
+    100% { transform: scaleX(1); opacity: 1; box-shadow: 0 0 6px 0 var(--decoration-primary); }
+}
+
+.nav-mark-herbarium {
+    border-radius: 3px;
+    animation: nav-mark-herbarium-in 620ms cubic-bezier(0.37, 0, 0.63, 1) both;
+}
+@keyframes nav-mark-herbarium-in {
+    0% { transform: scaleX(0); opacity: 0.5; }
+    100% { transform: scaleX(1); opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .nav-mark-archive, .nav-mark-scholar, .nav-mark-midnight, .nav-mark-herbarium {
+        animation: none !important;
+        transform: none !important;
+        opacity: 1 !important;
+    }
+}
+
+/* ── Modal/lightbox entrance — destination-appropriate, not one opacity+scale(0.95) for all four ── */
+@keyframes modal-backdrop-in {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}
+.modal-backdrop-in { animation: modal-backdrop-in 220ms ease-out both; }
+
+@keyframes modal-panel-archive-in {
+    0% { opacity: 0; transform: scale(0.92) rotate(-2deg) translateY(10px); }
+    65% { opacity: 1; transform: scale(1.015) rotate(0.6deg) translateY(-2px); }
+    100% { opacity: 1; transform: scale(1) rotate(0deg) translateY(0); }
+}
+.modal-panel-archive { animation: modal-panel-archive-in 480ms cubic-bezier(0.34, 1.56, 0.64, 1) both; }
+
+@keyframes modal-panel-scholar-in {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}
+.modal-panel-scholar { animation: modal-panel-scholar-in 140ms linear both; }
+
+@keyframes modal-panel-midnight-in {
+    0% { opacity: 0; transform: scale(0.96); filter: blur(4px); }
+    100% { opacity: 1; transform: scale(1); filter: blur(0); }
+}
+.modal-panel-midnight { animation: modal-panel-midnight-in 460ms cubic-bezier(0.16, 1, 0.3, 1) both; }
+
+@keyframes modal-panel-herbarium-in {
+    0% { opacity: 0; transform: translateY(16px) scale(0.97); }
+    100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+.modal-panel-herbarium { animation: modal-panel-herbarium-in 620ms cubic-bezier(0.37, 0, 0.63, 1) both; }
+
+@media (prefers-reduced-motion: reduce) {
+    .modal-backdrop-in, .modal-panel-archive, .modal-panel-scholar, .modal-panel-midnight, .modal-panel-herbarium {
+        animation: none !important;
+        opacity: 1 !important;
+        transform: none !important;
+        filter: none !important;
+    }
+}
+
 /* ── Mobile tap feedback — touch devices get no :hover, so each theme's card
    gets its own quick :active response instead, matching that theme's hover
    personality rather than one generic tap flash ── */

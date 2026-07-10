@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { ArrowUpRight, ExternalLink, Search } from "lucide-react";
+import { ThemeIcon } from "@/components/ThemeIcons";
 
 /**
  * Midnight-only presentation primitives. Not theme-branching — only ever
@@ -112,7 +112,7 @@ export function MidnightSystemRecord({ eyebrow, title, href, meta, description, 
           <div className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-1 text-sm">
             {actions.map((a, i) => (
               <Link key={i} to={a.to} className="inline-flex items-center gap-1 text-[var(--decoration-primary)] hover:underline underline-offset-4">
-                {a.label} <ArrowUpRight size={12} />
+                {a.label} <ThemeIcon role="external" size={12} />
               </Link>
             ))}
           </div>
@@ -148,7 +148,7 @@ export function MidnightQuerySurface({ defaultValue = "", compact = false, autoF
         level={focused ? 3 : 2}
         className="midnight-search-row flex items-center gap-3 px-4 py-3 transition-colors duration-300"
       >
-        <Search size={16} className="shrink-0" style={{ color: focused ? "var(--decoration-primary)" : "var(--ink-soft)" }} />
+        <ThemeIcon role="search" size={16} color={focused ? "var(--decoration-primary)" : "var(--ink-soft)"} className="shrink-0" />
         <input
           data-testid="midnight-search-input"
           type="text"

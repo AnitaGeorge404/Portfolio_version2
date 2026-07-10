@@ -8,7 +8,7 @@ export default function ThemeSwitcher() {
   const { currentTheme, setTheme } = useTheme();
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef(null);
-  const ActiveWorldIcon = THEME_ICON_SETS[currentTheme]?.World;
+  const ActiveWorldIcon = THEME_ICON_SETS[currentTheme]?.world;
 
   // Close menu when clicking outside
   useEffect(() => {
@@ -48,7 +48,7 @@ export default function ThemeSwitcher() {
   return (
     <div
       ref={menuRef}
-      className="fixed bottom-4 right-4 z-50 flex flex-col items-end gap-3"
+      className="fixed bottom-24 right-4 z-50 flex flex-col items-end gap-3"
       data-testid="theme-switcher"
     >
       {/* Floating Button — shows the active world's own icon, not a generic emoji */}
@@ -86,7 +86,7 @@ export default function ThemeSwitcher() {
             {THEME_NAMES.map((themeName, index) => {
               const theme = themeTokens[themeName];
               const isActive = currentTheme === themeName;
-              const WorldIcon = THEME_ICON_SETS[themeName]?.World;
+              const WorldIcon = THEME_ICON_SETS[themeName]?.world;
 
               return (
                 <motion.button

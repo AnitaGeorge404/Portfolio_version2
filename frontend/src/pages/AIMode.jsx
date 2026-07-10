@@ -7,7 +7,6 @@ import {
   BookOpen,
   BrainCircuit,
   CornerDownLeft,
-  ExternalLink,
   FileSearch,
   GitBranch,
   History,
@@ -16,7 +15,6 @@ import {
   Network,
   Search,
   SendHorizontal,
-  ShieldCheck,
   Sparkles,
   UserRound,
 } from "lucide-react";
@@ -25,6 +23,7 @@ import { BotanicalSketch, HandwrittenNote, ScrapbookStamp } from "@/components/B
 import PeopleAlsoAskInline from "@/components/PeopleAlsoAskInline";
 import { buildLocalArchiveResponse, normalizeArchiveResponse } from "@/utils/archiveSearch";
 import { useTheme } from "@/context/ThemeContext";
+import { ThemeIcon } from "@/components/ThemeIcons";
 import { ScholarMetaLine } from "@/components/ScholarPrimitives";
 import { MidnightMetaLine, MidnightGlassSurface, MidnightQuerySurface } from "@/components/MidnightPrimitives";
 import { HerbariumFieldLabel, HerbariumSpecimenSheet, SpecimenFieldLabel, HerbariumSearchSurface } from "@/components/HerbariumPrimitives";
@@ -117,7 +116,7 @@ function ArchiveLink({ page, className = "" }) {
   const content = (
     <>
       <span className="truncate">{page.title || page.url}</span>
-      {page.url.startsWith("http") ? <ExternalLink size={12} /> : <ArrowUpRight size={12} />}
+      <ThemeIcon role={page.url.startsWith("http") ? "external" : "reference"} size={12} />
     </>
   );
 
@@ -305,7 +304,7 @@ function ScholarAssistantMessage({ message, isLatest, displayedAnswer, onAsk }) 
       <div className="flex flex-wrap items-center gap-2 text-[11px] uppercase tracking-[0.06em] text-[var(--ink-soft)] font-mono">
         {engineLabel}
         {result.grounded !== false && (
-          <span className="inline-flex items-center gap-1 text-[var(--link)]"><ShieldCheck size={11} /> grounded</span>
+          <span className="inline-flex items-center gap-1 text-[var(--link)]"><ThemeIcon role="success" size={11} /> grounded</span>
         )}
       </div>
 
@@ -622,7 +621,7 @@ function AssistantMessage({ message, isLatest, displayedAnswer, onAsk }) {
         {result.grounded !== false && (
           <>
             <span className="text-[var(--brown)]">.</span>
-            <span className="inline-flex items-center gap-1"><ShieldCheck size={11} /> grounded</span>
+            <span className="inline-flex items-center gap-1"><ThemeIcon role="success" size={11} /> grounded</span>
           </>
         )}
       </motion.div>
