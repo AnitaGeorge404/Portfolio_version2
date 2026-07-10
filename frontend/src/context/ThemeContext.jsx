@@ -1,5 +1,6 @@
 import React, { createContext, useState, useEffect, useCallback } from "react";
 import { themeTokens, getThemeCSSVariables } from "@/config/themeTokens";
+import { applyFaviconAndChrome, themeInteractions } from "@/config/themeInteractions";
 
 export const ThemeContext = createContext();
 
@@ -21,6 +22,9 @@ export function ThemeProvider({ children }) {
 
     // Set data attribute for theme-specific selectors
     document.documentElement.setAttribute("data-theme", themeName);
+
+    // Favicon + browser chrome color follow the active theme's world icon
+    applyFaviconAndChrome(themeName);
   }, []);
 
   // Initialize theme from localStorage on mount

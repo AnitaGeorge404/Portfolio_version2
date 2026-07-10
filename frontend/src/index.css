@@ -484,10 +484,11 @@ html[data-theme="herbarium"] .paper-bg {
     box-shadow: 0 6px 16px rgba(139, 58, 82, 0.12);
 }
 
-/* Polaroid / pin card hover */
+/* Polaroid / pin card hover + Archive's card-enter signature (paper settling onto the board) */
 .pin-card {
     transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.5s;
     transform-origin: center;
+    animation: card-enter-archive 620ms cubic-bezier(0.34, 1.56, 0.64, 1) both;
 }
 .pin-card:hover {
     transform: translateY(-8px) rotate(-0.6deg);
@@ -1108,6 +1109,426 @@ html[data-theme="herbarium"] textarea,
 html[data-theme="herbarium"] summary,
 html[data-theme="herbarium"] [data-testid*="record"] {
     cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><path d="M16 16 C16 7 9 2 4 7 C-1 12 7 16 16 16 Z" fill="%2394D682"/><path d="M16 16 C25 16 32 12 27 7 C22 2 16 7 16 16 Z" fill="%2378B968"/><path d="M16 16 C7 16 2 22 7 27 C12 32 16 25 16 16 Z" fill="%2378B968"/><path d="M16 16 C16 25 22 32 27 27 C32 22 25 16 16 16 Z" fill="%2394D682"/><path d="M16 18 L16 30" stroke="%234A7A3F" stroke-width="1.5" stroke-linecap="round"/><circle cx="16" cy="16" r="2" fill="%23F3ECDD"/></svg>') 16 16, auto;
+}
+
+/* ── Theme-switch transition — a brief, destination-specific wash (350-700ms),
+   not one generic cross-fade reused four times ── */
+.theme-transition-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9998;
+    pointer-events: none;
+    opacity: 0;
+}
+
+.theme-transition-overlay.theme-transition-scholar {
+    background-image: linear-gradient(180deg, transparent 49.2%, rgba(21, 88, 214, 0.55) 49.2%, rgba(21, 88, 214, 0.55) 50.3%, transparent 50.3%);
+    background-repeat: no-repeat;
+    background-size: 100% 600%;
+}
+
+.theme-transition-overlay.is-active.theme-transition-archive {
+    animation: transition-wash-archive 650ms ease-out forwards;
+}
+.theme-transition-overlay.is-active.theme-transition-scholar {
+    animation: transition-wash-scholar 480ms ease-out forwards;
+}
+.theme-transition-overlay.is-active.theme-transition-midnight {
+    animation: transition-wash-midnight 650ms ease-out forwards;
+}
+.theme-transition-overlay.is-active.theme-transition-herbarium {
+    animation: transition-wash-herbarium 700ms ease-out forwards;
+}
+
+@keyframes transition-wash-archive {
+    0% { opacity: 0; background: radial-gradient(circle at 50% 38%, rgba(242, 196, 206, 0.6), rgba(253, 246, 240, 0.88) 68%); }
+    24% { opacity: 1; }
+    100% { opacity: 0; background: radial-gradient(circle at 50% 38%, rgba(242, 196, 206, 0.6), rgba(253, 246, 240, 0.88) 68%); }
+}
+@keyframes transition-wash-scholar {
+    0% { opacity: 0; background-color: #FFFFFF; background-position: 0 -120%; }
+    28% { opacity: 1; background-position: 0 0%; }
+    55% { opacity: 1; background-position: 0 120%; }
+    78% { opacity: 0.35; }
+    100% { opacity: 0; background-position: 0 220%; }
+}
+@keyframes transition-wash-midnight {
+    0% { opacity: 0; background: radial-gradient(circle at 50% 50%, rgba(10, 11, 13, 0.15), rgba(10, 11, 13, 0.94) 72%); }
+    38% { opacity: 1; }
+    62% { opacity: 0.9; background: radial-gradient(circle at 50% 50%, rgba(212, 175, 55, 0.14), rgba(10, 11, 13, 0.9) 58%); }
+    100% { opacity: 0; }
+}
+@keyframes transition-wash-herbarium {
+    0% { opacity: 0; background: radial-gradient(ellipse at 50% 0%, rgba(232, 220, 192, 0.2), rgba(13, 31, 23, 0.9) 68%); }
+    32% { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .theme-transition-overlay.is-active { animation: none !important; opacity: 0 !important; }
+}
+
+/* ── Theme switcher: each world icon reacts differently on hover — this is
+   the visitor's first ten-second impression of each theme's personality ── */
+.switcher-world-icon { transition: transform 200ms ease, filter 200ms ease; }
+.switcher-option-btn:hover .switcher-world-icon-archive {
+    transform: rotate(-8deg) scale(1.08);
+    transition: transform 320ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.switcher-option-btn:hover .switcher-world-icon-search {
+    transform: translateX(1.5px);
+    transition: transform 110ms linear;
+}
+.switcher-option-btn:hover .switcher-world-icon-midnight {
+    transform: scale(1.1);
+    filter: brightness(1.35);
+    transition: transform 340ms cubic-bezier(0.16, 1, 0.3, 1), filter 340ms;
+}
+.switcher-option-btn:hover .switcher-world-icon-herbarium {
+    transform: rotate(10deg) scale(1.06);
+    transition: transform 520ms ease-out;
+}
+@media (prefers-reduced-motion: reduce) {
+    .switcher-world-icon { transition: none !important; transform: none !important; filter: none !important; }
+}
+
+/* ── Global link identity — .link-soft is used everywhere across the app,
+   so scoping it per [data-theme] gives every existing link four genuinely
+   different behaviors without touching each call site ── */
+.link-soft {
+    background-image: linear-gradient(var(--plum), var(--plum));
+    background-size: 0% 1px;
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    transition: background-size 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.link-soft:hover { background-size: 100% 1px; }
+
+/* Archive — irregular hand-drawn underline via a wobbly SVG background, not a straight bar */
+html[data-theme="archive"] .link-soft {
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='6' viewBox='0 0 120 6'><path d='M1 3.2 Q15 0.5 30 3.5 T60 2.5 T90 3.8 T119 2' fill='none' stroke='%23C96B84' stroke-width='1.4' stroke-linecap='round'/></svg>");
+    background-size: 0% 6px;
+    background-position: 0 100%;
+    transition: background-size 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+html[data-theme="archive"] .link-soft:hover { background-size: 100% 6px; }
+
+/* Scholar — perfectly straight, fast, linear (no easing curve, no overshoot) */
+html[data-theme="search"] .link-soft {
+    background-image: linear-gradient(var(--link), var(--link));
+    background-size: 0% 1.5px;
+    transition: background-size 140ms linear;
+}
+html[data-theme="search"] .link-soft:hover { background-size: 100% 1.5px; }
+
+/* Midnight — a gold signal resolves beneath the text rather than a bar growing */
+html[data-theme="midnight"] .link-soft {
+    background-image: linear-gradient(90deg, transparent, var(--decoration-primary) 20%, var(--decoration-primary) 80%, transparent);
+    background-size: 100% 1px;
+    background-position: 0 100%;
+    opacity: 0.92;
+    transition: opacity 300ms cubic-bezier(0.16, 1, 0.3, 1), filter 300ms;
+    filter: brightness(1);
+}
+html[data-theme="midnight"] .link-soft:hover { opacity: 1; filter: brightness(1.4); }
+
+/* Herbarium — a thin botanical line extends, slower and organic */
+html[data-theme="herbarium"] .link-soft {
+    background-image: linear-gradient(var(--decoration-primary), var(--decoration-primary));
+    background-size: 0% 1px;
+    transition: background-size 480ms cubic-bezier(0.37, 0, 0.63, 1);
+}
+html[data-theme="herbarium"] .link-soft:hover { background-size: 100% 1px; }
+
+/* ── Global button identity — .btn-soft click/press response per theme ── */
+html[data-theme="archive"] .btn-soft:active {
+    transform: translateY(1px) scale(0.99);
+    box-shadow: inset 0 1px 3px rgba(107, 30, 53, 0.18);
+}
+html[data-theme="search"] .btn-soft {
+    transition: border-color 120ms linear, background-color 120ms linear;
+}
+html[data-theme="search"] .btn-soft:active {
+    background-color: var(--bg-tag);
+    border-color: var(--link);
+}
+html[data-theme="midnight"] .btn-soft:active {
+    transform: translateY(1px);
+    filter: brightness(0.94);
+    transition: transform 160ms cubic-bezier(0.16, 1, 0.3, 1), filter 160ms;
+}
+html[data-theme="herbarium"] .btn-soft:active {
+    transform: scale(0.985);
+    border-color: var(--specimen-border, var(--border-medium));
+    transition: transform 260ms ease-out;
+}
+
+/* ── Card/record entrance — plays once on mount, distinct per theme ── */
+@keyframes card-enter-archive {
+    0% { opacity: 0; transform: translateY(14px) rotate(-1.4deg); }
+    62% { opacity: 1; transform: translateY(-2px) rotate(0.4deg); }
+    100% { opacity: 1; transform: translateY(0) rotate(0deg); }
+}
+@keyframes card-enter-scholar {
+    0% { opacity: 0; transform: translateY(4px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+@keyframes card-enter-midnight {
+    0% { opacity: 0; transform: translateY(10px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+@keyframes card-enter-herbarium {
+    0% { opacity: 0; transform: translateY(9px) scale(0.995); }
+    100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+.card-enter-archive { animation: card-enter-archive 620ms cubic-bezier(0.34, 1.56, 0.64, 1) both; }
+.card-enter-scholar { animation: card-enter-scholar 180ms ease-out both; }
+.card-enter-midnight { animation: card-enter-midnight 900ms cubic-bezier(0.16, 1, 0.3, 1) both; }
+.card-enter-herbarium { animation: card-enter-herbarium 1000ms cubic-bezier(0.37, 0, 0.63, 1) both; }
+
+@media (prefers-reduced-motion: reduce) {
+    .card-enter-archive, .card-enter-scholar, .card-enter-midnight, .card-enter-herbarium, .pin-card {
+        animation: none !important;
+        opacity: 1 !important;
+        transform: none !important;
+    }
+    .pin-card:hover { transform: none !important; }
+}
+
+/* ── Theme loading signatures — flower-bloom / index-scan / facet-resolve / fern-unfurl ── */
+.theme-loader { display: inline-flex; align-items: center; }
+
+/* Archive: three petals bloom open with a soft overshoot, staggered */
+.theme-loader-archive { gap: 4px; align-items: flex-end; }
+.archive-loader-petal {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--rose);
+    animation: archive-petal-bloom 1.1s cubic-bezier(0.34, 1.56, 0.64, 1) infinite;
+}
+@keyframes archive-petal-bloom {
+    0%, 100% { transform: scale(0.5); opacity: 0.45; }
+    50% { transform: scale(1.15); opacity: 1; }
+}
+
+/* Scholar: three static index ticks with one precise linear sweep beneath — no bounce */
+.theme-loader-scholar { position: relative; gap: 3px; width: 22px; height: 10px; }
+.scholar-loader-tick { width: 2px; height: 8px; background: var(--link); opacity: 0.35; }
+.scholar-loader-sweep {
+    position: absolute; left: 0; bottom: 0; width: 4px; height: 1.5px;
+    background: var(--link);
+    animation: scholar-sweep 0.9s linear infinite;
+}
+@keyframes scholar-sweep {
+    0% { left: 0; opacity: 1; }
+    100% { left: 18px; opacity: 1; }
+}
+
+/* Midnight: a facet catches and loses light, weighted not bouncy */
+.midnight-loader-facet { transform-origin: 8px 6px; animation: midnight-facet-resolve 1.4s cubic-bezier(0.45, 0, 0.55, 1) infinite; }
+@keyframes midnight-facet-resolve {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 1; }
+}
+
+/* Herbarium: a frond slowly unfurls (stroke draws in) then withdraws, organic pacing */
+.herbarium-loader-frond {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    animation: herbarium-frond-unfurl 1.8s cubic-bezier(0.37, 0, 0.63, 1) infinite;
+}
+@keyframes herbarium-frond-unfurl {
+    0% { stroke-dashoffset: 1; opacity: 0.5; }
+    55% { stroke-dashoffset: 0; opacity: 1; }
+    100% { stroke-dashoffset: -1; opacity: 0.5; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .archive-loader-petal, .scholar-loader-sweep, .midnight-loader-facet, .herbarium-loader-frond {
+        animation: none !important;
+        opacity: 0.85 !important;
+    }
+}
+
+/* ── Search focus signature touches — the moment a visitor commits to typing ── */
+
+/* Scholar: a precise index line resolves under the field the instant it's focused, no easing curve */
+.scholar-search-row { position: relative; }
+.scholar-search-row::after {
+    content: "";
+    position: absolute; left: 0; bottom: -1px;
+    height: 2px; width: 0%;
+    background: var(--link);
+    transition: width 220ms linear;
+}
+.scholar-search-row:focus-within::after { width: 100%; }
+
+/* Midnight: a single gold specular sweep crosses the glass once on focus — a facet catching light */
+.midnight-search-row { position: relative; overflow: hidden; }
+.midnight-search-row::before {
+    content: "";
+    position: absolute; top: 0; left: -35%;
+    width: 22%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.16), transparent);
+    transform: skewX(-18deg);
+    opacity: 0;
+    pointer-events: none;
+}
+.midnight-search-row:focus-within::before {
+    animation: midnight-focus-sweep 700ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+@keyframes midnight-focus-sweep {
+    0% { left: -35%; opacity: 0; }
+    18% { opacity: 1; }
+    100% { left: 115%; opacity: 0; }
+}
+
+/* Herbarium: a small field-tag label grows in above the border, like pinning a specimen note */
+.herbarium-field-marker {
+    position: absolute; top: -7px; left: 14px;
+    font-family: var(--font-label, monospace);
+    font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--burgundy);
+    background: var(--specimen-bg, var(--bg-paper));
+    padding: 0 4px;
+    opacity: 0;
+    transform: translateY(4px) scale(0.92);
+    transition: opacity 380ms cubic-bezier(0.37, 0, 0.63, 1), transform 380ms cubic-bezier(0.37, 0, 0.63, 1);
+    pointer-events: none;
+}
+.herbarium-search-row:focus-within .herbarium-field-marker {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .scholar-search-row::after { transition: none !important; }
+    .midnight-search-row::before { animation: none !important; opacity: 0 !important; }
+    .herbarium-field-marker { transition: none !important; }
+}
+
+/* ── Midnight: pointer-responsive specular highlight on every glass surface —
+   a soft light that appears to move with the cursor, like glass catching it ── */
+.midnight-specular {
+    background: radial-gradient(240px circle at var(--mx, 50%) var(--my, -20%), rgba(212, 175, 55, 0.055), transparent 70%);
+    opacity: 0;
+    transition: opacity 500ms ease;
+}
+.midnight-glass:hover .midnight-specular { opacity: 1; }
+
+@media (prefers-reduced-motion: reduce) {
+    .midnight-specular { display: none !important; }
+}
+
+/* ── Nav active-route mark — same underline span, four different resolve behaviors ── */
+.nav-active-mark { transform-origin: center; }
+
+.nav-mark-archive {
+    animation: nav-mark-archive-in 420ms cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+@keyframes nav-mark-archive-in {
+    0% { transform: scaleX(0.2) rotate(-1deg); opacity: 0; }
+    60% { transform: scaleX(1.08) rotate(0.4deg); opacity: 1; }
+    100% { transform: scaleX(1) rotate(0deg); opacity: 1; }
+}
+
+.nav-mark-scholar {
+    animation: nav-mark-scholar-in 100ms linear both;
+}
+@keyframes nav-mark-scholar-in {
+    0% { transform: scaleX(0); opacity: 1; }
+    100% { transform: scaleX(1); opacity: 1; }
+}
+
+.nav-mark-midnight {
+    box-shadow: 0 0 6px 0 var(--decoration-primary);
+    animation: nav-mark-midnight-in 480ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+@keyframes nav-mark-midnight-in {
+    0% { transform: scaleX(0.4); opacity: 0; box-shadow: none; }
+    100% { transform: scaleX(1); opacity: 1; box-shadow: 0 0 6px 0 var(--decoration-primary); }
+}
+
+.nav-mark-herbarium {
+    border-radius: 3px;
+    animation: nav-mark-herbarium-in 620ms cubic-bezier(0.37, 0, 0.63, 1) both;
+}
+@keyframes nav-mark-herbarium-in {
+    0% { transform: scaleX(0); opacity: 0.5; }
+    100% { transform: scaleX(1); opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .nav-mark-archive, .nav-mark-scholar, .nav-mark-midnight, .nav-mark-herbarium {
+        animation: none !important;
+        transform: none !important;
+        opacity: 1 !important;
+    }
+}
+
+/* ── Modal/lightbox entrance — destination-appropriate, not one opacity+scale(0.95) for all four ── */
+@keyframes modal-backdrop-in {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}
+.modal-backdrop-in { animation: modal-backdrop-in 220ms ease-out both; }
+
+@keyframes modal-panel-archive-in {
+    0% { opacity: 0; transform: scale(0.92) rotate(-2deg) translateY(10px); }
+    65% { opacity: 1; transform: scale(1.015) rotate(0.6deg) translateY(-2px); }
+    100% { opacity: 1; transform: scale(1) rotate(0deg) translateY(0); }
+}
+.modal-panel-archive { animation: modal-panel-archive-in 480ms cubic-bezier(0.34, 1.56, 0.64, 1) both; }
+
+@keyframes modal-panel-scholar-in {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}
+.modal-panel-scholar { animation: modal-panel-scholar-in 140ms linear both; }
+
+@keyframes modal-panel-midnight-in {
+    0% { opacity: 0; transform: scale(0.96); filter: blur(4px); }
+    100% { opacity: 1; transform: scale(1); filter: blur(0); }
+}
+.modal-panel-midnight { animation: modal-panel-midnight-in 460ms cubic-bezier(0.16, 1, 0.3, 1) both; }
+
+@keyframes modal-panel-herbarium-in {
+    0% { opacity: 0; transform: translateY(16px) scale(0.97); }
+    100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+.modal-panel-herbarium { animation: modal-panel-herbarium-in 620ms cubic-bezier(0.37, 0, 0.63, 1) both; }
+
+@media (prefers-reduced-motion: reduce) {
+    .modal-backdrop-in, .modal-panel-archive, .modal-panel-scholar, .modal-panel-midnight, .modal-panel-herbarium {
+        animation: none !important;
+        opacity: 1 !important;
+        transform: none !important;
+        filter: none !important;
+    }
+}
+
+/* ── Mobile tap feedback — touch devices get no :hover, so each theme's card
+   gets its own quick :active response instead, matching that theme's hover
+   personality rather than one generic tap flash ── */
+@media (hover: none) {
+    .pin-card:active {
+        transform: translateY(-3px) rotate(-0.4deg);
+        box-shadow: 0 10px 24px -10px rgba(44, 26, 29, 0.22);
+        transition: transform 150ms ease-out, box-shadow 150ms ease-out;
+    }
+    .card-enter-scholar:active {
+        background-color: var(--bg-tag);
+        transition: background-color 90ms linear;
+    }
+    .card-enter-midnight:active {
+        transform: scale(0.985);
+        filter: brightness(0.95);
+        transition: transform 180ms cubic-bezier(0.16, 1, 0.3, 1), filter 180ms;
+    }
+    .card-enter-herbarium:active {
+        transform: scale(0.99);
+        border-color: var(--decoration-primary);
+        transition: transform 300ms ease-out, border-color 300ms ease-out;
+    }
 }
 
 /* Respect prefers-reduced-motion globally — freeze the ambient/decorative

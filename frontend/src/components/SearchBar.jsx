@@ -1,10 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Search, Sparkles, Mic } from "lucide-react";
+import { Sparkles, Mic } from "lucide-react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { searchSuggestions } from "@/data/portfolio";
 import { SemanticRipple } from "@/components/MotionFramework";
 import { Rose, Peony, FloatingPetal } from "@/components/BotanicalElements";
+import { ThemeIcon } from "@/components/ThemeIcons";
 
 const quickSearches = [
   { label: "Who is Anita?", icon: "✦" },
@@ -135,7 +136,7 @@ export default function SearchBar({ defaultValue = "", autoFocus = false, compac
             style={{ pointerEvents: "none" }}
           />
           {compact ? (
-            <Search size={15} className="text-rose shrink-0" />
+            <ThemeIcon role="search" size={15} color="#C96B84" className="shrink-0" />
           ) : (
             /* Google-style colored G dots */
             <span className="shrink-0 flex gap-[2px] items-center" aria-hidden>
@@ -169,7 +170,7 @@ export default function SearchBar({ defaultValue = "", autoFocus = false, compac
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.95 }}
           >
-            <Search size={compact ? 14 : 17} className="text-rose" />
+            <ThemeIcon role="search" size={compact ? 14 : 17} color="#C96B84" />
           </motion.button>
         </motion.div>
       </form>
@@ -227,7 +228,7 @@ export default function SearchBar({ defaultValue = "", autoFocus = false, compac
                     whileHover={{ x: 4, backgroundColor: "rgba(252, 238, 242, 0.8)" }}
                     whileTap={{ scale: 0.98 }}
                   >
-                    <Search size={14} className="text-[var(--blossom)] group-hover:text-rose transition-colors shrink-0" />
+                    <ThemeIcon role="search" size={14} className="text-[var(--blossom)] group-hover:text-rose transition-colors shrink-0" />
                     <span className="font-sans text-ink text-[14px] group-hover:text-[var(--plum)] transition-colors">{s.label}</span>
                     <span className="ml-auto font-hand text-[var(--blossom)] text-base group-hover:text-rose transition-colors">↗</span>
                   </motion.button>

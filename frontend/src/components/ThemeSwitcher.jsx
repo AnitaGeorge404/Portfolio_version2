@@ -2,11 +2,13 @@ import React, { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTheme } from "@/context/ThemeContext";
 import { themeTokens, THEME_NAMES } from "@/config/themeTokens";
+import { THEME_ICON_SETS } from "@/components/ThemeIcons";
 
 export default function ThemeSwitcher() {
   const { currentTheme, setTheme } = useTheme();
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef(null);
+  const ActiveWorldIcon = THEME_ICON_SETS[currentTheme]?.world;
 
   // Close menu when clicking outside
   useEffect(() => {
@@ -46,24 +48,23 @@ export default function ThemeSwitcher() {
   return (
     <div
       ref={menuRef}
-      className="fixed bottom-4 right-4 z-50 flex flex-col items-end gap-3"
+      className="fixed bottom-24 right-4 z-50 flex flex-col items-end gap-3"
       data-testid="theme-switcher"
     >
-      {/* Floating Button */}
+      {/* Floating Button — shows the active world's own icon, not a generic emoji */}
       <motion.button
         onClick={() => setIsOpen(!isOpen)}
         className="relative w-14 h-14 rounded-full shadow-lg hover:shadow-xl transition-shadow
           bg-[var(--bg-card)] border-2 border-[var(--border-soft)]
-          flex items-center justify-center font-hand text-2xl font-bold
-          text-[var(--plum)] hover:text-[var(--rose)]
+          flex items-center justify-center
+          text-[var(--decoration-primary)]
           focus:outline-none focus:ring-2 focus:ring-[var(--rose)] focus:ring-offset-2"
-        whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.95 }}
         aria-label="Toggle theme switcher"
         aria-expanded={isOpen}
         data-testid="theme-switcher-button"
       >
-        {themeTokens[currentTheme].emoji}
+        {ActiveWorldIcon && <ActiveWorldIcon size={26} color="currentColor" />}
       </motion.button>
 
       {/* Theme Menu */}
@@ -85,6 +86,7 @@ export default function ThemeSwitcher() {
             {THEME_NAMES.map((themeName, index) => {
               const theme = themeTokens[themeName];
               const isActive = currentTheme === themeName;
+              const WorldIcon = THEME_ICON_SETS[themeName]?.world;
 
               return (
                 <motion.button
@@ -93,7 +95,7 @@ export default function ThemeSwitcher() {
                   initial={{ opacity: 0, x: -10 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: index * 0.05 }}
-                  className={`relative px-4 py-3 rounded-lg transition-all duration-200
+                  className={`switcher-option-btn relative px-4 py-3 rounded-lg transition-all duration-200
                     flex items-center gap-3 text-left
                     ${isActive
                       ? "bg-[var(--bg-petal)] border-2 border-[var(--rose)] shadow-md"
@@ -102,16 +104,19 @@ export default function ThemeSwitcher() {
                   `}
                   data-testid={`theme-option-${themeName}`}
                 >
-                  {/* Color preview dot */}
-                  <div
-                    className="w-4 h-4 rounded-full flex-shrink-0 shadow-sm ring-1 ring-[var(--border-soft)]"
-                    style={{ backgroundColor: theme.decorationPrimary }}
-                  />
+                  {/* World icon — each theme's hover personality lives in index.css
+                      under .switcher-world-icon-{themeName} */}
+                  <span
+                    className={`switcher-world-icon switcher-world-icon-${themeName} shrink-0 flex items-center justify-center w-8 h-8 rounded-full border`}
+                    style={{ color: theme.decorationPrimary, borderColor: "var(--border-soft)" }}
+                  >
+                    {WorldIcon && <WorldIcon size={18} color="currentColor" />}
+                  </span>
 
                   {/* Theme info */}
                   <div className="flex-1 min-w-0">
                     <div className="font-serif font-semibold text-[var(--ink)]">
-                      {theme.emoji} {theme.name}
+                      {theme.name}
                     </div>
                     <div className="text-xs text-[var(--ink-soft)] truncate">
                       {theme.description}

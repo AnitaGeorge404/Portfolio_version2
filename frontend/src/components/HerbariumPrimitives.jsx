@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { ArrowUpRight, Search } from "lucide-react";
+import { ThemeIcon } from "@/components/ThemeIcons";
 
 /**
  * Herbarium-only presentation primitives. Not theme-branching — only ever
@@ -111,7 +111,7 @@ export function HerbariumSystemRecord({ index, motif = "leaf", eyebrow, title, h
     <HerbariumSpecimenSheet
       id={`SPECIMEN ${String(index ?? 0).padStart(2, "0")}`}
       title={eyebrow}
-      className={`transition-transform duration-500 hover:-translate-y-0.5 ${wide ? "sm:col-span-2" : ""}`}
+      className={`card-enter-herbarium transition-transform duration-500 hover:-translate-y-0.5 ${wide ? "sm:col-span-2" : ""}`}
     >
       <div data-testid={testid} className="relative">
         <Motif className="absolute -top-1 -right-1 opacity-70 hidden sm:block" size={44} />
@@ -133,7 +133,7 @@ export function HerbariumSystemRecord({ index, motif = "leaf", eyebrow, title, h
           <div className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-1 text-sm">
             {actions.map((a, i) => (
               <Link key={i} to={a.to} className="inline-flex items-center gap-1 text-[var(--burgundy)] hover:underline underline-offset-4">
-                {a.label} <ArrowUpRight size={12} />
+                {a.label} <ThemeIcon role="external" size={12} />
               </Link>
             ))}
           </div>
@@ -166,10 +166,11 @@ export function HerbariumSearchSurface({ defaultValue = "", compact = false, aut
   return (
     <form onSubmit={submit} className={compact ? "w-full" : "w-full max-w-xl"} data-testid="herbarium-search-form">
       <div
-        className="flex items-center gap-3 px-4 py-2.5 bg-[var(--specimen-bg)] border transition-colors duration-300"
+        className="herbarium-search-row relative flex items-center gap-3 px-4 py-2.5 bg-[var(--specimen-bg)] border transition-colors duration-300"
         style={{ borderColor: focused ? "var(--decoration-primary)" : "var(--specimen-border)" }}
       >
-        <Search size={15} style={{ color: focused ? "var(--burgundy)" : "var(--specimen-ink-soft)" }} className="shrink-0" />
+        <span className="herbarium-field-marker" aria-hidden="true">field note</span>
+        <ThemeIcon role="search" size={15} color={focused ? "var(--burgundy)" : "var(--specimen-ink-soft)"} className="shrink-0" />
         <input
           data-testid="herbarium-search-input"
           type="text"

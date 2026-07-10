@@ -7,7 +7,6 @@ import {
   BookOpen,
   BrainCircuit,
   CornerDownLeft,
-  ExternalLink,
   FileSearch,
   GitBranch,
   History,
@@ -16,7 +15,6 @@ import {
   Network,
   Search,
   SendHorizontal,
-  ShieldCheck,
   Sparkles,
   UserRound,
 } from "lucide-react";
@@ -25,6 +23,7 @@ import { BotanicalSketch, HandwrittenNote, ScrapbookStamp } from "@/components/B
 import PeopleAlsoAskInline from "@/components/PeopleAlsoAskInline";
 import { buildLocalArchiveResponse, normalizeArchiveResponse } from "@/utils/archiveSearch";
 import { useTheme } from "@/context/ThemeContext";
+import { ThemeIcon } from "@/components/ThemeIcons";
 import { ScholarMetaLine } from "@/components/ScholarPrimitives";
 import { MidnightMetaLine, MidnightGlassSurface, MidnightQuerySurface } from "@/components/MidnightPrimitives";
 import { HerbariumFieldLabel, HerbariumSpecimenSheet, SpecimenFieldLabel, HerbariumSearchSurface } from "@/components/HerbariumPrimitives";
@@ -55,12 +54,59 @@ function makeId(prefix) {
   return `${prefix}-${Date.now()}-${Math.random().toString(16).slice(2)}`;
 }
 
+/**
+ * Theme-specific loading signature — flower-bloom / index-scan / facet-resolve /
+ * fern-unfurl per themeInteractions.js's `loader` field. One component so every
+ * call site (pending message, submit button) gets the right glyph for free.
+ */
 function TypingDots() {
+  const { currentTheme } = useTheme();
+
+  if (currentTheme === "search") {
+    return (
+      <span className="theme-loader theme-loader-scholar" aria-label="loading">
+        <span className="scholar-loader-tick" />
+        <span className="scholar-loader-tick" />
+        <span className="scholar-loader-tick" />
+        <span className="scholar-loader-sweep" />
+      </span>
+    );
+  }
+
+  if (currentTheme === "midnight") {
+    return (
+      <span className="theme-loader theme-loader-midnight" aria-label="loading">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <polygon points="8,1 14,6 11,15 5,15 2,6" stroke="var(--decoration-primary)" strokeWidth="1" fill="var(--decoration-primary)" fillOpacity="0.18" />
+          <polygon points="8,1 14,6 8,8" fill="var(--decoration-primary)" fillOpacity="0.5" className="midnight-loader-facet" />
+        </svg>
+      </span>
+    );
+  }
+
+  if (currentTheme === "herbarium") {
+    return (
+      <span className="theme-loader theme-loader-herbarium" aria-label="loading">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <path
+            d="M2 14 C2 8 4 3 8 2 C7 6 6 9 3 13"
+            stroke="var(--burgundy)"
+            strokeWidth="1.4"
+            strokeLinecap="round"
+            fill="none"
+            className="herbarium-loader-frond"
+            pathLength="1"
+          />
+        </svg>
+      </span>
+    );
+  }
+
   return (
-    <span className="inline-flex items-end gap-1" aria-label="loading">
-      <span className="w-1.5 h-1.5 rounded-full bg-[var(--plum)]/70 animate-pulse" />
-      <span className="w-1.5 h-1.5 rounded-full bg-[var(--plum)]/70 animate-pulse" style={{ animationDelay: "0.16s" }} />
-      <span className="w-1.5 h-1.5 rounded-full bg-[var(--plum)]/70 animate-pulse" style={{ animationDelay: "0.32s" }} />
+    <span className="theme-loader theme-loader-archive" aria-label="loading">
+      <span className="archive-loader-petal" />
+      <span className="archive-loader-petal" style={{ animationDelay: "0.15s" }} />
+      <span className="archive-loader-petal" style={{ animationDelay: "0.3s" }} />
     </span>
   );
 }
@@ -70,7 +116,7 @@ function ArchiveLink({ page, className = "" }) {
   const content = (
     <>
       <span className="truncate">{page.title || page.url}</span>
-      {page.url.startsWith("http") ? <ExternalLink size={12} /> : <ArrowUpRight size={12} />}
+      <ThemeIcon role={page.url.startsWith("http") ? "external" : "reference"} size={12} />
     </>
   );
 
@@ -258,7 +304,7 @@ function ScholarAssistantMessage({ message, isLatest, displayedAnswer, onAsk }) 
       <div className="flex flex-wrap items-center gap-2 text-[11px] uppercase tracking-[0.06em] text-[var(--ink-soft)] font-mono">
         {engineLabel}
         {result.grounded !== false && (
-          <span className="inline-flex items-center gap-1 text-[var(--link)]"><ShieldCheck size={11} /> grounded</span>
+          <span className="inline-flex items-center gap-1 text-[var(--link)]"><ThemeIcon role="success" size={11} /> grounded</span>
         )}
       </div>
 
@@ -575,7 +621,7 @@ function AssistantMessage({ message, isLatest, displayedAnswer, onAsk }) {
         {result.grounded !== false && (
           <>
             <span className="text-[var(--brown)]">.</span>
-            <span className="inline-flex items-center gap-1"><ShieldCheck size={11} /> grounded</span>
+            <span className="inline-flex items-center gap-1"><ThemeIcon role="success" size={11} /> grounded</span>
           </>
         )}
       </motion.div>
