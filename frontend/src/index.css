@@ -1168,278 +1168,249 @@ html.has-theme-cursor [contenteditable="true"] {
     }
 }
 
-/* ── WORLD SELECTOR — closed indicator ──
-   Fixed clear of the Emergent badge (bottom:16/right:16, 40px tall) the same
-   way the previous circular switcher button was: parked at bottom-24. */
-.world-indicator {
+/* ── THE DOCK — the signature interaction. Fixed bottom-center, always
+   visible, never a menu. Clicking a world switches the theme instantly; the
+   dock's own glass surface and each world's icon micro-animation change with
+   the active theme. Kept clear of the Emergent badge (bottom:16/right:16)
+   by living at bottom-center instead of a corner. ── */
+.theme-dock {
     position: fixed;
-    bottom: 6rem;
-    right: 1rem;
-    z-index: 60;
+    left: 50%;
+    bottom: max(1.35rem, calc(env(safe-area-inset-bottom, 0px) + 0.85rem));
+    transform: translateX(-50%);
+    z-index: 500;
+    pointer-events: none;
+}
+
+.theme-dock-panel {
+    position: relative;
+    pointer-events: auto;
+    display: flex;
+    align-items: flex-end;
+    gap: 0.5rem;
+    padding: 0.6rem 0.85rem;
+    border-radius: 26px;
+    isolation: isolate;
+    transition: background 320ms ease, border-color 320ms ease, box-shadow 320ms ease;
+}
+/* Glass "thickness" — a soft inner top highlight + inner bottom shade, the
+   pair that reads as a lit physical slab rather than a flat tinted rectangle */
+.theme-dock-panel::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    z-index: 1;
+    background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.32) 0%, rgba(255, 255, 255, 0) 22%),
+        linear-gradient(0deg, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0) 30%);
+}
+/* Pointer-reactive sheen — a soft light patch that drifts toward the cursor,
+   restrained (low opacity, wide falloff) so it reads as glass, not a spotlight */
+.theme-dock-panel::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    z-index: 1;
+    opacity: var(--sheen-opacity, 0);
+    background: radial-gradient(
+        180px 120px at var(--mx, 50%) var(--my, 0%),
+        rgba(255, 255, 255, 0.22),
+        transparent 70%
+    );
+    transition: opacity 280ms ease;
+}
+.theme-dock-panel:hover::after { --sheen-opacity: 1; }
+
+.theme-dock-btn {
+    position: relative;
+    z-index: 2;
     display: inline-flex;
     align-items: center;
-    gap: 0.55rem;
-    padding: 0.5rem 0.9rem 0.5rem 0.65rem;
-    background: var(--bg-card);
-    border: 1px solid var(--border-soft);
-    color: var(--decoration-primary);
-    cursor: pointer;
-    transition: transform 200ms ease, box-shadow 200ms ease, border-color 200ms ease;
-}
-.world-indicator:hover { transform: translateY(-2px); }
-.world-indicator:focus-visible { outline: 2px solid var(--decoration-primary); outline-offset: 3px; }
-.world-indicator-icon { display: inline-flex; align-items: center; justify-content: center; }
-.world-indicator-label { display: flex; flex-direction: column; line-height: 1.05; text-align: left; }
-.world-indicator-kicker { font-size: 8.5px; letter-spacing: 0.16em; text-transform: uppercase; opacity: 0.6; }
-.world-indicator-name { font-size: 12.5px; letter-spacing: 0.04em; font-weight: 600; }
-
-/* Archive: a slightly rotated paper tab with a soft tape-strip accent */
-.world-indicator-archive {
-    border-radius: 3px 10px 3px 10px;
-    transform: rotate(-1.2deg);
-    box-shadow: 0 6px 16px -8px rgba(107, 30, 53, 0.35);
-    font-family: var(--font-heading);
-}
-.world-indicator-archive:hover { transform: rotate(-1.2deg) translateY(-2px); }
-.world-indicator-archive::before {
-    content: "";
-    position: absolute;
-    top: -6px; left: 14px;
-    width: 26px; height: 12px;
-    background: var(--rose, #EDAABB);
-    opacity: 0.55;
-    transform: rotate(-4deg);
-}
-.world-indicator-archive .world-indicator-name { font-family: var(--font-hand, var(--font-heading)); font-size: 15px; }
-
-/* Scholar: a flat indexed tab, sharp corners, precise underline accent */
-.world-indicator-search {
-    border-radius: 0;
-    border-bottom: 2px solid var(--link);
-    box-shadow: 0 4px 10px -6px rgba(21, 88, 214, 0.25);
-    font-family: var(--font-label, monospace);
-}
-.world-indicator-search:hover { transform: none; border-bottom-width: 3px; }
-.world-indicator-search .world-indicator-name { font-family: var(--font-heading); font-weight: 500; }
-
-/* Midnight: a rounded glass command capsule with a gold top hairline */
-.world-indicator-midnight {
-    border-radius: 999px;
-    background: linear-gradient(165deg, var(--bg-tag) 0%, var(--bg-warm) 100%);
-    backdrop-filter: blur(6px);
-    box-shadow: 0 8px 22px -10px rgba(0, 0, 0, 0.55);
-}
-.world-indicator-midnight::before {
-    content: "";
-    position: absolute;
-    top: 0; left: 12%; right: 12%; height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.55), transparent);
-}
-.world-indicator-midnight:hover { box-shadow: 0 10px 26px -8px rgba(212, 175, 55, 0.22); }
-
-/* Herbarium: an ivory specimen tag with a notched corner */
-.world-indicator-herbarium {
-    background: var(--specimen-bg, var(--bg-card));
-    border-color: var(--specimen-border, var(--border-soft));
-    color: var(--burgundy);
-    clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%);
-    font-family: var(--font-label, monospace);
-}
-.world-indicator-herbarium .world-indicator-name { font-family: var(--font-heading); font-style: italic; }
-
-/* ── WORLD SELECTOR — portal overlay ── */
-.world-selector-scrim {
-    position: fixed;
-    inset: 0;
-    z-index: 10001;
-    background: rgba(10, 10, 12, 0.55);
-    backdrop-filter: blur(3px);
-    display: flex;
-    align-items: center;
     justify-content: center;
-    padding: 1.5rem;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    transform-origin: bottom center;
+    will-change: transform;
+}
+.theme-dock-btn:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 2px;
+}
+.theme-dock-icon {
+    display: inline-flex;
+    line-height: 0;
+    position: relative;
+    z-index: 1;
+}
+/* A soft glow seated behind the active icon — "this is home," distinct from
+   the hover magnification, restrained enough to read as ambient not a badge */
+.theme-dock-btn.is-active::before {
+    content: "";
+    position: absolute;
+    inset: 5px;
+    border-radius: 50%;
+    background: radial-gradient(circle, currentColor 0%, transparent 72%);
+    opacity: 0.16;
+}
+
+.theme-dock-tooltip {
+    position: absolute;
+    bottom: calc(100% + 14px);
+    left: 50%;
+    transform: translate(-50%, 3px);
+    white-space: nowrap;
+    font-family: var(--font-label, monospace);
+    font-size: 10.5px;
+    letter-spacing: 0.05em;
+    padding: 0.34rem 0.7rem;
+    border-radius: 8px;
     opacity: 0;
     pointer-events: none;
-    transition: opacity 180ms ease;
+    transition: opacity 200ms cubic-bezier(0.16, 1, 0.3, 1), transform 200ms cubic-bezier(0.16, 1, 0.3, 1);
 }
-.world-selector-scrim.is-open { opacity: 1; pointer-events: auto; }
-
-.world-selector {
-    width: 100%;
-    max-width: 880px;
-    max-height: 88vh;
-    overflow-y: auto;
-    background: var(--bg-paper);
-    border: 1px solid var(--border-soft);
-    box-shadow: 0 40px 90px -30px rgba(0, 0, 0, 0.55);
-    opacity: 0;
-    transform: scale(0.96) translateY(14px);
-    transition: opacity 220ms cubic-bezier(0.16, 1, 0.3, 1), transform 220ms cubic-bezier(0.16, 1, 0.3, 1);
-}
-.world-selector.is-open { opacity: 1; transform: scale(1) translateY(0); }
-
-.world-selector-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 1rem 1.25rem;
-    border-bottom: 1px solid var(--border-soft);
-}
-.world-selector-eyebrow {
-    font-family: var(--font-label, monospace);
-    font-size: 11px;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--ink-soft);
-}
-.world-selector-close {
-    font-family: var(--font-label, monospace);
-    font-size: 11px;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--ink-soft);
-    border: 1px solid var(--border-soft);
-    padding: 0.25rem 0.6rem;
-    background: transparent;
-    cursor: pointer;
-    transition: border-color 150ms ease, color 150ms ease;
-}
-.world-selector-close:hover,
-.world-selector-close:focus-visible { border-color: var(--decoration-primary); color: var(--decoration-primary); outline: none; }
-
-.world-selector-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-}
-
-.world-card {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.5rem;
-    padding: 1.5rem 1.1rem;
-    text-align: left;
-    border-right: 1px solid var(--border-soft);
-    border-bottom: none;
-    background: transparent;
-    cursor: pointer;
-    min-height: 220px;
-    transition: background-color 200ms ease;
-}
-.world-card:last-child { border-right: none; }
-.world-card:focus-visible { outline: 2px solid var(--decoration-primary); outline-offset: -2px; }
-.world-card-index { font-family: var(--font-label, monospace); font-size: 11px; letter-spacing: 0.15em; opacity: 0.55; }
-.world-card-icon { display: inline-flex; margin: 0.25rem 0; }
-.world-card-name { font-family: var(--font-heading); font-size: 17px; letter-spacing: 0.02em; }
-.world-card-tagline { font-size: 12.5px; line-height: 1.4; opacity: 0.7; }
-.world-card-current {
-    margin-top: auto;
-    padding-top: 0.6rem;
-    font-family: var(--font-label, monospace);
-    font-size: 9.5px;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--decoration-primary);
-}
-
-/* Archive card personality: blush paper, torn-edge feel, rose settles + tilts on hover */
-.world-card-archive { background: #FBF1EC; color: #6B1E35; }
-.world-card-archive .world-card-name { font-style: italic; }
-.world-card-archive .world-card-icon { transition: transform 280ms cubic-bezier(0.34, 1.56, 0.64, 1); }
-.world-card-archive:hover .world-card-icon,
-.world-card-archive:focus-visible .world-card-icon { transform: rotate(-6deg) scale(1.08); }
-.world-card-archive.is-active { box-shadow: inset 0 0 0 2px #C96B84; }
-
-/* Scholar card personality: white, thin divider, index line resolves instantly */
-.world-card-search { background: #FFFFFF; color: #14181F; }
-.world-card-search .world-card-icon { position: relative; }
-.world-card-search::after {
-    content: "";
-    position: absolute; left: 1.1rem; right: 1.1rem; bottom: 3.4rem; height: 1px;
-    background: #1558D6;
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 120ms linear;
-}
-.world-card-search:hover::after,
-.world-card-search:focus-visible::after { transform: scaleX(1); }
-.world-card-search.is-active { box-shadow: inset 0 0 0 2px #1558D6; }
-
-/* Midnight card personality: charcoal glass, specular sweep on hover */
-.world-card-midnight { background: linear-gradient(165deg, #1A1C21 0%, #121317 100%); color: #E9E7E2; overflow: hidden; }
-.world-card-midnight::before {
-    content: "";
-    position: absolute; top: 0; bottom: 0; left: -40%; width: 30%;
-    background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.18), transparent);
-    transform: skewX(-16deg);
-    opacity: 0;
-}
-.world-card-midnight:hover::before,
-.world-card-midnight:focus-visible::before {
+.theme-dock-btn:hover .theme-dock-tooltip,
+.theme-dock-btn:focus-visible .theme-dock-tooltip {
     opacity: 1;
-    animation: world-card-midnight-sweep 900ms cubic-bezier(0.16, 1, 0.3, 1);
+    transform: translate(-50%, 0);
 }
-@keyframes world-card-midnight-sweep {
-    0% { left: -40%; }
-    100% { left: 110%; }
-}
-.world-card-midnight.is-active { box-shadow: inset 0 0 0 2px #D4AF37; }
+/* Clamp the two edge tooltips to the panel bounds instead of overhanging the
+   viewport on narrow screens */
+.theme-dock-btn-archive .theme-dock-tooltip { left: 0; transform: translate(0, 3px); }
+.theme-dock-btn-archive:hover .theme-dock-tooltip,
+.theme-dock-btn-archive:focus-visible .theme-dock-tooltip { transform: translate(0, 0); }
+.theme-dock-btn-herbarium .theme-dock-tooltip { left: auto; right: 0; transform: translate(0, 3px); }
+.theme-dock-btn-herbarium:hover .theme-dock-tooltip,
+.theme-dock-btn-herbarium:focus-visible .theme-dock-tooltip { transform: translate(0, 0); }
 
-/* Herbarium card personality: deep moss, ivory label, botanical line unfolds */
-.world-card-herbarium { background: linear-gradient(165deg, #16301F 0%, #0D1F17 100%); color: #F3ECDD; }
-.world-card-herbarium .world-card-tagline { font-style: italic; }
-.world-card-herbarium::after {
-    content: "";
-    position: absolute; left: 1.1rem; bottom: 3.2rem; height: 1px; width: 0;
-    background: #7EC66F;
-    transition: width 420ms cubic-bezier(0.37, 0, 0.63, 1);
+/* Panel glass per world */
+.theme-dock-archive .theme-dock-panel {
+    background: linear-gradient(155deg, rgba(253, 246, 240, 0.78), rgba(242, 196, 206, 0.52));
+    border: 1px solid rgba(201, 107, 132, 0.3);
+    box-shadow:
+        0 24px 48px -18px rgba(107, 30, 53, 0.4),
+        0 6px 16px -8px rgba(107, 30, 53, 0.16),
+        0 1px 0 rgba(255, 255, 255, 0.4) inset;
+    backdrop-filter: blur(20px) saturate(1.35);
+    -webkit-backdrop-filter: blur(20px) saturate(1.35);
 }
-.world-card-herbarium:hover::after,
-.world-card-herbarium:focus-visible::after { width: 2.5rem; }
-.world-card-herbarium.is-active { box-shadow: inset 0 0 0 2px #7EC66F; }
+.theme-dock-search .theme-dock-panel {
+    background: rgba(255, 255, 255, 0.72);
+    border: 1px solid rgba(218, 220, 224, 0.8);
+    box-shadow:
+        0 22px 44px -18px rgba(20, 24, 31, 0.32),
+        0 6px 14px -8px rgba(20, 24, 31, 0.1),
+        0 1px 0 rgba(255, 255, 255, 0.6) inset;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+}
+.theme-dock-midnight .theme-dock-panel {
+    background: linear-gradient(160deg, rgba(26, 28, 33, 0.84), rgba(10, 11, 13, 0.9));
+    border: 1px solid rgba(212, 175, 55, 0.22);
+    box-shadow:
+        0 26px 54px -18px rgba(0, 0, 0, 0.7),
+        0 6px 16px -8px rgba(0, 0, 0, 0.45),
+        0 0 0 1px rgba(212, 175, 55, 0.07) inset;
+    backdrop-filter: blur(22px) saturate(1.25);
+    -webkit-backdrop-filter: blur(22px) saturate(1.25);
+}
+.theme-dock-herbarium .theme-dock-panel {
+    background: linear-gradient(160deg, rgba(28, 55, 40, 0.8), rgba(13, 31, 23, 0.87));
+    border: 1px solid rgba(126, 198, 111, 0.28);
+    box-shadow:
+        0 24px 48px -18px rgba(13, 31, 23, 0.6),
+        0 6px 16px -8px rgba(13, 31, 23, 0.3),
+        0 1px 0 rgba(232, 220, 192, 0.12) inset;
+    backdrop-filter: blur(20px) saturate(1.2);
+    -webkit-backdrop-filter: blur(20px) saturate(1.2);
+}
+
+/* Icon identity colors — each world keeps its own color regardless of which
+   world is currently active, the way macOS dock icons don't recolor to match
+   the desktop wallpaper. */
+.theme-dock-btn-archive { color: #C96B84; }
+.theme-dock-btn-search { color: #1558D6; }
+.theme-dock-btn-midnight { color: #B9C0C6; }
+.theme-dock-btn-herbarium { color: #7EC66F; }
+
+.theme-dock-btn-archive.is-active { color: #6B1E35; }
+.theme-dock-btn-search.is-active { color: #1558D6; }
+.theme-dock-btn-midnight.is-active { color: #D4AF37; }
+.theme-dock-btn-herbarium.is-active { color: #3D6B36; }
+
+/* Tooltip skins */
+.theme-dock-archive .theme-dock-tooltip { background: rgba(107, 30, 53, 0.94); color: #FDF6F0; }
+.theme-dock-search .theme-dock-tooltip { background: rgba(32, 33, 36, 0.94); color: #FFFFFF; }
+.theme-dock-midnight .theme-dock-tooltip { background: rgba(8, 9, 10, 0.95); color: #E9E7E2; border: 1px solid rgba(212, 175, 55, 0.25); }
+.theme-dock-herbarium .theme-dock-tooltip { background: rgba(10, 24, 16, 0.95); color: #EAE4D3; }
+
+/* Active-world micro-animations — each world's own signature idle motion,
+   kept close to imperceptible: a suggestion of life, not a loop you notice */
+.theme-dock-btn-archive.is-active .theme-dock-icon { animation: dock-breathe 4.2s ease-in-out infinite; }
+@keyframes dock-breathe {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.035); }
+}
+
+.theme-dock-btn-search.is-active .theme-dock-icon { position: relative; }
+.theme-dock-btn-search.is-active .theme-dock-icon::after {
+    content: "";
+    position: absolute;
+    left: 3px; right: 3px; bottom: -4px; height: 1.5px;
+    background: currentColor;
+    border-radius: 1px;
+    opacity: 0.85;
+    animation: dock-underline 520ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+@keyframes dock-underline {
+    0% { transform: scaleX(0); opacity: 0; }
+    100% { transform: scaleX(1); opacity: 0.85; }
+}
+
+.theme-dock-btn-midnight.is-active .theme-dock-icon { animation: dock-shimmer 3.6s ease-in-out infinite; }
+@keyframes dock-shimmer {
+    0%, 100% { filter: drop-shadow(0 0 0 rgba(212, 175, 55, 0)); }
+    50% { filter: drop-shadow(0 0 3px rgba(212, 175, 55, 0.55)); }
+}
+
+.theme-dock-btn-herbarium.is-active .theme-dock-icon { animation: dock-sway 4.6s ease-in-out infinite; }
+@keyframes dock-sway {
+    0%, 100% { transform: rotate(-1.5deg); }
+    50% { transform: rotate(1.5deg); }
+}
 
 @media (max-width: 640px) {
-    .world-indicator { bottom: 5.5rem; right: 0.75rem; padding: 0.45rem 0.75rem 0.45rem 0.55rem; }
-    .world-selector-scrim { align-items: flex-end; padding: 0; }
-    .world-selector {
-        max-width: 100%;
-        max-height: 82vh;
-        border-left: none;
-        border-right: none;
-        border-bottom: none;
-        padding-bottom: env(safe-area-inset-bottom, 0);
-    }
-    .world-selector-grid { grid-template-columns: 1fr; }
-    .world-card {
-        flex-direction: row;
-        align-items: center;
-        border-right: none;
-        border-bottom: 1px solid var(--border-soft);
-        min-height: 76px;
-        padding: 1rem 1.25rem;
-    }
-    .world-card:last-child { border-bottom: none; }
-    .world-card-icon { margin: 0; }
-    .world-card-current { margin-top: 0; margin-left: auto; padding-top: 0; }
-    .world-card-tagline { display: none; }
+    .theme-dock { bottom: max(1.1rem, calc(env(safe-area-inset-bottom, 0px) + 1.1rem)); }
+    .theme-dock-panel { gap: 0.35rem; padding: 0.5rem 0.65rem; border-radius: 24px; }
+    .theme-dock-btn { width: 42px; height: 42px; }
+    .theme-dock-tooltip { display: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .world-card-icon,
-    .world-card-search::after,
-    .world-card-herbarium::after,
-    .world-card-midnight::before,
-    .world-selector-scrim,
-    .world-selector {
+    .theme-dock-btn,
+    .theme-dock-icon,
+    .theme-dock-tooltip,
+    .theme-dock-panel::after {
         transition: none !important;
+    }
+    .theme-dock-btn-archive.is-active .theme-dock-icon,
+    .theme-dock-btn-midnight.is-active .theme-dock-icon,
+    .theme-dock-btn-herbarium.is-active .theme-dock-icon {
         animation: none !important;
     }
-    .world-selector { transform: none !important; }
 }
 
-/* ── Theme-switch transition — a brief, destination-specific wash (350-700ms),
-   not one generic cross-fade reused four times ── */
+/* ── Theme-switch transition — a brief (~450ms), destination-specific wash.
+   The page's own content (fonts, colors, the search surface) does the actual
+   transforming; this is restrained atmosphere, not a decorative centerpiece,
+   and it never touches the dock ── */
 .theme-transition-overlay {
     position: fixed;
     inset: 0;
@@ -1455,39 +1426,39 @@ html.has-theme-cursor [contenteditable="true"] {
 }
 
 .theme-transition-overlay.is-active.theme-transition-archive {
-    animation: transition-wash-archive 650ms ease-out forwards;
+    animation: transition-wash-archive 460ms ease-out forwards;
 }
 .theme-transition-overlay.is-active.theme-transition-scholar {
-    animation: transition-wash-scholar 480ms ease-out forwards;
+    animation: transition-wash-scholar 440ms ease-out forwards;
 }
 .theme-transition-overlay.is-active.theme-transition-midnight {
-    animation: transition-wash-midnight 650ms ease-out forwards;
+    animation: transition-wash-midnight 460ms ease-out forwards;
 }
 .theme-transition-overlay.is-active.theme-transition-herbarium {
-    animation: transition-wash-herbarium 700ms ease-out forwards;
+    animation: transition-wash-herbarium 460ms ease-out forwards;
 }
 
 @keyframes transition-wash-archive {
     0% { opacity: 0; background: radial-gradient(circle at 50% 38%, rgba(242, 196, 206, 0.6), rgba(253, 246, 240, 0.88) 68%); }
-    24% { opacity: 1; }
+    30% { opacity: 1; }
     100% { opacity: 0; background: radial-gradient(circle at 50% 38%, rgba(242, 196, 206, 0.6), rgba(253, 246, 240, 0.88) 68%); }
 }
 @keyframes transition-wash-scholar {
     0% { opacity: 0; background-color: #FFFFFF; background-position: 0 -120%; }
-    28% { opacity: 1; background-position: 0 0%; }
-    55% { opacity: 1; background-position: 0 120%; }
-    78% { opacity: 0.35; }
+    32% { opacity: 1; background-position: 0 0%; }
+    58% { opacity: 1; background-position: 0 120%; }
+    80% { opacity: 0.35; }
     100% { opacity: 0; background-position: 0 220%; }
 }
 @keyframes transition-wash-midnight {
     0% { opacity: 0; background: radial-gradient(circle at 50% 50%, rgba(10, 11, 13, 0.15), rgba(10, 11, 13, 0.94) 72%); }
-    38% { opacity: 1; }
-    62% { opacity: 0.9; background: radial-gradient(circle at 50% 50%, rgba(212, 175, 55, 0.14), rgba(10, 11, 13, 0.9) 58%); }
+    42% { opacity: 1; }
+    66% { opacity: 0.9; background: radial-gradient(circle at 50% 50%, rgba(212, 175, 55, 0.14), rgba(10, 11, 13, 0.9) 58%); }
     100% { opacity: 0; }
 }
 @keyframes transition-wash-herbarium {
     0% { opacity: 0; background: radial-gradient(ellipse at 50% 0%, rgba(232, 220, 192, 0.2), rgba(13, 31, 23, 0.9) 68%); }
-    32% { opacity: 1; }
+    36% { opacity: 1; }
     100% { opacity: 0; }
 }
 
