@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { searchSuggestions } from "@/data/portfolio";
 import { SemanticRipple } from "@/components/MotionFramework";
 import { Rose, Peony, FloatingPetal } from "@/components/BotanicalElements";
-import { ThemeIcon } from "@/components/ThemeIcons";
+import { ThemeIcon, ArchiveWorldIcon } from "@/components/ThemeIcons";
 
 const quickSearches = [
   { label: "Who is Anita?", icon: "✦" },
@@ -138,12 +138,10 @@ export default function SearchBar({ defaultValue = "", autoFocus = false, compac
           {compact ? (
             <ThemeIcon role="search" size={15} color="#C96B84" className="shrink-0" />
           ) : (
-            /* Google-style colored G dots */
-            <span className="shrink-0 flex gap-[2px] items-center" aria-hidden>
-              <span className="w-2 h-2 rounded-full" style={{ background: "#C96B84" }} />
-              <span className="w-2 h-2 rounded-full" style={{ background: "#EDAABB" }} />
-              <span className="w-2 h-2 rounded-full" style={{ background: "#8B3A52" }} />
-              <span className="w-2 h-2 rounded-full" style={{ background: "#F2C4CE" }} />
+            /* A small pressed-rose stamp, like a wax seal on a scrapbook page,
+               in place of a generic search icon */
+            <span className="shrink-0 inline-flex" aria-hidden>
+              <ArchiveWorldIcon size={20} color="#C96B84" />
             </span>
           )}
           <input

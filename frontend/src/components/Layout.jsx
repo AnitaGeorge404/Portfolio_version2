@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
-import ThemeSwitcher from "@/components/ThemeSwitcher";
+import ThemeDock from "@/components/ThemeDock";
 import ThemeCursor from "@/components/ThemeCursor";
 import ThemeDecoration from "@/components/ThemeDecoration";
 import ThemePageHeader from "@/components/ThemePageHeader";
@@ -34,8 +34,8 @@ export default function Layout({ children }) {
 
   return (
     <div className="relative" data-testid="layout-root">
-      {/* Theme Switcher */}
-      <ThemeSwitcher />
+      {/* The Dock — signature theme switcher */}
+      <ThemeDock />
       <ThemeCursor />
       <ThemeTransitionOverlay />
 
