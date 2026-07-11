@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 import ThemeSwitcher from "@/components/ThemeSwitcher";
+import ThemeCursor from "@/components/ThemeCursor";
 import ThemeDecoration from "@/components/ThemeDecoration";
 import ThemePageHeader from "@/components/ThemePageHeader";
 import ThemeTransitionOverlay from "@/components/ThemeTransitionOverlay";
@@ -35,6 +36,7 @@ export default function Layout({ children }) {
     <div className="relative" data-testid="layout-root">
       {/* Theme Switcher */}
       <ThemeSwitcher />
+      <ThemeCursor />
       <ThemeTransitionOverlay />
 
       {/* Theme-Specific Decorations */}
