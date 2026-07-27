@@ -3,6 +3,7 @@ import { motion, useReducedMotion } from "framer-motion";
 import { useTheme } from "@/context/ThemeContext";
 import { THEME_NAMES } from "@/config/themeTokens";
 import { THEME_ICON_SETS } from "@/components/ThemeIcons";
+import { playThemeTransition } from "@/lib/themeTransition";
 
 /**
  * The Dock — the signature interaction of the site. Four worlds, always
@@ -106,7 +107,13 @@ export default function ThemeDock() {
                 setActiveIndex(index);
               }}
               onBlur={clearActive}
-              onClick={() => setTheme(themeName)}
+              onClick={(event) => {
+                if (themeName === currentTheme) return;
+                const rect = event.currentTarget.getBoundingClientRect();
+                playThemeTransition(themeName, rect.left + rect.width / 2, rect.top + rect.height / 2, () =>
+                  setTheme(themeName)
+                );
+              }}
               tabIndex={focusIndex === index ? 0 : -1}
               aria-label={WORLD_LABELS[themeName]}
               aria-pressed={isActive}

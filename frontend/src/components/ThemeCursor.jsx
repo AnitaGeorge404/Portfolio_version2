@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useTheme } from "@/context/ThemeContext";
+import { Flower2, Search, Gem, Leaf } from "lucide-react";
 
 /**
  * Signature custom-cursor system — one persistent DOM overlay, four distinct
@@ -23,106 +24,41 @@ const TEXT_SELECTOR = 'input, textarea, [contenteditable="true"]';
 const REFERENCE_SELECTOR = '[data-testid*="citation"], [data-testid*="reference"], [data-testid*="source"]';
 const DISABLED_SELECTOR = '[disabled], [aria-disabled="true"]';
 
-const ROSE_PETAL_ANGLES = [0, 72, 144, 216, 288];
-
-// Flat color, one clean outline, at most one highlight shape per mark — no
-// gradients, no vein clutter. At a 30px render size, faked photorealism
-// (multi-stop gradients, 8-line vein maps, stacked translucency) turns to
-// mud; a confident flat silhouette reads instantly instead.
+// Battle-tested Lucide line icons instead of hand-drawn shapes — the same
+// icon set already used everywhere else in the app (every ui/* component),
+// so the cursor stops being a one-off custom asset and starts being visually
+// consistent with the rest of the interface. Bumped stroke width over the
+// library default since a 2px stroke reads thin at cursor scale.
 
 function ArchiveMark() {
   return (
-    <svg viewBox="0 0 40 46" width="34" height="39" aria-hidden focusable="false">
-      <path d="M20 26 C18.5 31.5 18.1 37 19 44" stroke="var(--burgundy, #6B1E35)" strokeWidth="1.4" fill="none" strokeLinecap="round" />
-
-      <path
-        className="cursor-rose-leaf-shape"
-        d="M18.8 34 C13.2 32.6 9.2 35.8 9.6 40.5 C14.9 41.3 18.8 37.9 18.8 34 Z"
-        fill="var(--sage, #6E8259)"
-        stroke="var(--burgundy, #6B1E35)"
-        strokeWidth="0.6"
-      />
-
-      {/* Five identical petals in a flat pinwheel — the shape a rose emblem
-          reduces to when you stop trying to shade it and just draw it. */}
-      <g className="cursor-rose-petals">
-        {ROSE_PETAL_ANGLES.map((a) => (
-          <path
-            key={a}
-            transform={`translate(20 22) rotate(${a})`}
-            d="M0,0 C-7.5,-3.5 -9,-12.5 0,-19 C9,-12.5 7.5,-3.5 0,0 Z"
-            fill="var(--decoration-primary, #C96B84)"
-            stroke="var(--burgundy, #6B1E35)"
-            strokeWidth="0.9"
-            strokeLinejoin="round"
-          />
-        ))}
-      </g>
-      {/* Single highlight petal for depth — one shape, not ten. */}
-      <path
-        transform="translate(20 22) rotate(0)"
-        d="M0,0 C-4,-3 -5,-9 0,-14 C1.6,-9.5 1.6,-3.5 0,0 Z"
-        fill="var(--rose, #EDAABB)"
-        opacity="0.85"
-      />
-      <circle cx="20" cy="22" r="2" fill="var(--burgundy, #6B1E35)" />
-    </svg>
+    <span className="cursor-object" style={{ color: "var(--decoration-primary, #C96B84)" }}>
+      <Flower2 size={32} strokeWidth={2.25} />
+    </span>
   );
 }
 
 function ScholarMark() {
   return (
-    <svg viewBox="0 0 32 32" width="30" height="30" aria-hidden focusable="false">
-      <g className="cursor-scholar-frame">
-        <path d="M4 10 V4 H10" fill="none" stroke="var(--link, #1558D6)" strokeWidth="1.8" strokeLinecap="square" />
-        <path d="M22 4 H28 V10" fill="none" stroke="var(--link, #1558D6)" strokeWidth="1.8" strokeLinecap="square" />
-        <path d="M28 22 V28 H22" fill="none" stroke="var(--link, #1558D6)" strokeWidth="1.8" strokeLinecap="square" />
-        <path d="M10 28 H4 V22" fill="none" stroke="var(--link, #1558D6)" strokeWidth="1.8" strokeLinecap="square" />
-      </g>
-      <circle cx="16" cy="16" r="1.4" fill="var(--link, #1558D6)" />
-      <text className="cursor-scholar-index" x="18" y="31" fontSize="7.5" fontFamily="ui-monospace, 'SF Mono', monospace" fontWeight="600" fill="var(--link, #1558D6)">[n]</text>
-    </svg>
+    <span className="cursor-object" style={{ color: "var(--link, #1558D6)" }}>
+      <Search size={28} strokeWidth={2.5} />
+    </span>
   );
 }
 
 function MidnightMark() {
   return (
-    <svg viewBox="0 0 32 32" width="30" height="30" aria-hidden focusable="false">
-      <polygon
-        points="16,3 26,12 21,28 11,28 6,12"
-        fill="#1C1E24"
-        stroke="var(--decoration-primary, #D4AF37)"
-        strokeWidth="1"
-      />
-      <polygon className="cursor-crystal-facet-a" points="16,3 26,12 16,14" fill="#EDEFF3" opacity="0.85" />
-      <polygon points="6,12 16,3 16,14" fill="#9AA0AA" opacity="0.55" />
-      <polygon points="26,12 21,28 16,14" fill="#0B0C10" opacity="0.5" />
-      <polygon points="6,12 16,14 11,28" fill="#3A3D46" opacity="0.4" />
-      <circle className="cursor-crystal-glint" cx="16" cy="9" r="1.3" fill="#fff" />
-    </svg>
+    <span className="cursor-object" style={{ color: "var(--decoration-primary, #D4AF37)" }}>
+      <Gem size={30} strokeWidth={2.25} />
+    </span>
   );
 }
 
 function HerbariumMark() {
   return (
-    <svg viewBox="0 0 32 40" width="30" height="37" aria-hidden focusable="false">
-      <g className="cursor-leaf-blade">
-        <path
-          d="M16 7 C16 7 28 13.5 25.5 23.5 C23.2 32.5 16 36 16 36 L16 7 Z"
-          fill="var(--decoration-primary, #4F7A3D)"
-          stroke="var(--specimen-ink, #2A3420)"
-          strokeWidth="0.9"
-        />
-        <path
-          d="M16 7 C16 7 4 13.5 6.5 23.5 C8.8 32.5 16 36 16 36 L16 7 Z"
-          fill="var(--sage, #7EA363)"
-          stroke="var(--specimen-ink, #2A3420)"
-          strokeWidth="0.9"
-        />
-        <path d="M16 9 L16 35" stroke="var(--specimen-ink, #2A3420)" strokeWidth="0.7" opacity="0.7" />
-      </g>
-      <path d="M16 36 C16 36 15.7 38.3 16.4 40" stroke="var(--specimen-border, #6B7F5A)" strokeWidth="1.2" fill="none" strokeLinecap="round" />
-    </svg>
+    <span className="cursor-object" style={{ color: "var(--decoration-primary, #4F7A3D)" }}>
+      <Leaf size={30} strokeWidth={2.25} />
+    </span>
   );
 }
 

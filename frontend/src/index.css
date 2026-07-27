@@ -308,8 +308,12 @@ html[data-theme="search"] .torn-top::before {
     display: none !important;
 }
 
-/* Hide all SVG decorations in Search theme */
-html[data-theme="search"] svg {
+/* Hide decorative SVGs in Search theme — but never functional UI icons that
+   happen to be <svg> too. This blanket selector previously also nuked the
+   cursor object AND the theme dock's world icons (both real <svg> elements),
+   making them invisible in this theme with zero visual trace of why. Any
+   future SVG-based control in this theme needs an exclusion added here. */
+html[data-theme="search"] svg:not(.theme-cursor svg):not(.theme-cursor *):not(.theme-dock svg):not(.theme-dock *) {
     display: none !important;
 }
 
@@ -1098,78 +1102,75 @@ html.has-theme-cursor [contenteditable="true"] {
     transition: transform 90ms ease-out;
 }
 
+.cursor-object {
+    display: inline-flex;
+    line-height: 0;
+    filter: drop-shadow(0 1px 1.5px rgba(0, 0, 0, 0.35));
+}
+
 /* Disabled — any theme, any object: the thing goes inert and dims. */
-.theme-cursor[data-cursor-context="disabled"] svg { opacity: 0.4; filter: grayscale(0.6); }
+.theme-cursor[data-cursor-context="disabled"] .cursor-object { opacity: 0.4; filter: grayscale(0.7); }
 
 /* ── Archive: a held rose. Idle = almost still, a small pendulum sway while
    moving (never a full compass spin). Bloom on targets. Paper-soft compress
    on press. No trail, no particles. ── */
 .theme-cursor-archive .theme-cursor-inner { transition: none; }
-.theme-cursor-archive .cursor-rose-petals {
-    transform-origin: 20px 22px;
+.theme-cursor-archive .cursor-object {
+    transform-origin: 50% 55%;
     transition: transform 220ms cubic-bezier(0.34, 1.4, 0.64, 1);
 }
-.theme-cursor-archive[data-cursor-context="interactive"] .cursor-rose-petals,
-.theme-cursor-archive[data-cursor-context="card"] .cursor-rose-petals {
-    transform: scale(1.16);
+.theme-cursor-archive[data-cursor-context="interactive"] .cursor-object,
+.theme-cursor-archive[data-cursor-context="card"] .cursor-object {
+    transform: scale(1.18) rotate(4deg);
 }
-.theme-cursor-archive[data-cursor-press="true"] svg { transform: scale(0.8) scaleY(0.9); transition: transform 110ms ease-out; }
+.theme-cursor-archive[data-cursor-press="true"] .cursor-object { transform: scale(0.78) scaleY(0.88); transition: transform 110ms ease-out; }
 .theme-cursor-archive[data-cursor-context="text"] { opacity: 0; }
 
-/* ── Scholar: a rangefinder. Corner brackets snap tight on lock, widen over
+/* ── Scholar: a rangefinder. The lens snaps tight on lock, widens over
    content. Instant, no spring — this is an instrument, not a creature. ── */
 .theme-cursor-search .theme-cursor-inner { transition: none; }
-.theme-cursor-search .cursor-scholar-frame {
-    transform-origin: 16px 16px;
+.theme-cursor-search .cursor-object {
+    transform-origin: 50% 45%;
     transition: transform 110ms cubic-bezier(0.2, 0.8, 0.2, 1);
 }
-.theme-cursor-search[data-cursor-context="interactive"] .cursor-scholar-frame { transform: scale(0.78); }
-.theme-cursor-search[data-cursor-context="card"] .cursor-scholar-frame { transform: scale(1.18); }
-.theme-cursor-search .cursor-scholar-index { opacity: 0; transition: opacity 90ms linear; }
-.theme-cursor-search[data-cursor-context="reference"] .cursor-scholar-index { opacity: 1; }
-.theme-cursor-search[data-cursor-press="true"] svg { transform: scale(0.88); transition: transform 55ms linear; }
+.theme-cursor-search[data-cursor-context="interactive"] .cursor-object { transform: scale(0.85); }
+.theme-cursor-search[data-cursor-context="card"] .cursor-object { transform: scale(1.2); }
+.theme-cursor-search[data-cursor-context="reference"] .cursor-object { transform: scale(1.1); filter: drop-shadow(0 0 3px var(--link, #1558D6)); }
+.theme-cursor-search[data-cursor-press="true"] .cursor-object { transform: scale(0.88); transition: transform 55ms linear; }
 .theme-cursor-search[data-cursor-context="text"] { opacity: 0; }
 
-/* ── Midnight: a floating cut crystal. The object barely moves — the light
-   sliding across its facets does. No neon, no glow, just glass and gold. ── */
+/* ── Midnight: a floating cut gem. The object barely moves — a faint
+   highlight sweeps across it, following --facet-x/y (set from pointer
+   velocity), standing in for light sliding over its facets. No neon glow. ── */
 .theme-cursor-midnight .theme-cursor-inner { transition: none; }
-.theme-cursor-midnight .cursor-crystal-facet-a {
-    transform: translate(var(--facet-x, 0), var(--facet-y, 0));
-    transition: opacity 220ms ease;
+.theme-cursor-midnight .cursor-object {
+    transform-origin: 50% 50%;
+    transition: transform 200ms cubic-bezier(0.16, 1, 0.3, 1), filter 200ms ease;
+    filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.3)) drop-shadow(var(--facet-x, 0px) var(--facet-y, 0px) 2px rgba(255, 255, 255, 0.55));
 }
-.theme-cursor-midnight .cursor-crystal-glint {
-    transform: translate(calc(var(--facet-x, 0) * 1.6), calc(var(--facet-y, 0) * 1.6));
-    transition: r 200ms ease;
+.theme-cursor-midnight[data-cursor-context="card"] .cursor-object,
+.theme-cursor-midnight[data-cursor-context="interactive"] .cursor-object {
+    transform: scale(1.15);
+    filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.3)) drop-shadow(var(--facet-x, 0px) var(--facet-y, 0px) 3px rgba(255, 255, 255, 0.85)) brightness(1.15);
 }
-.theme-cursor-midnight[data-cursor-context="card"] svg,
-.theme-cursor-midnight[data-cursor-context="interactive"] svg {
-    filter: brightness(1.22);
-}
-.theme-cursor-midnight[data-cursor-context="card"] .cursor-crystal-glint,
-.theme-cursor-midnight[data-cursor-context="interactive"] .cursor-crystal-glint {
-    r: 1.8;
-}
-.theme-cursor-midnight[data-cursor-press="true"] svg { transform: scale(0.82); transition: transform 130ms cubic-bezier(0.16, 1, 0.3, 1); }
+.theme-cursor-midnight[data-cursor-press="true"] .cursor-object { transform: scale(0.8); transition: transform 130ms cubic-bezier(0.16, 1, 0.3, 1); }
 .theme-cursor-midnight[data-cursor-context="text"] { opacity: 0; }
 
 /* ── Herbarium: a pressed specimen. Idle = flat and still, gentle orientation
    drift while moving, unfolds toward the light over targets, flexes on press. ── */
-.theme-cursor-herbarium .cursor-leaf-blade {
-    transform-origin: 17px 22px;
+.theme-cursor-herbarium .cursor-object {
+    transform-origin: 50% 55%;
     transition: transform 280ms cubic-bezier(0.37, 0, 0.63, 1);
 }
-.theme-cursor-herbarium[data-cursor-context="interactive"] .cursor-leaf-blade,
-.theme-cursor-herbarium[data-cursor-context="card"] .cursor-leaf-blade {
-    transform: scale(1.1) rotate(-3deg);
+.theme-cursor-herbarium[data-cursor-context="interactive"] .cursor-object,
+.theme-cursor-herbarium[data-cursor-context="card"] .cursor-object {
+    transform: scale(1.16) rotate(-4deg);
 }
-.theme-cursor-herbarium[data-cursor-press="true"] .cursor-leaf-blade { transform: scale(0.82) skewX(6deg); transition: transform 110ms ease-out; }
+.theme-cursor-herbarium[data-cursor-press="true"] .cursor-object { transform: scale(0.8) skewX(6deg); transition: transform 110ms ease-out; }
 .theme-cursor-herbarium[data-cursor-context="text"] { opacity: 0; }
 
 @media (prefers-reduced-motion: reduce) {
-    .theme-cursor .cursor-rose-petals,
-    .theme-cursor .cursor-scholar-frame,
-    .theme-cursor .cursor-crystal-facet-a,
-    .theme-cursor .cursor-leaf-blade {
+    .theme-cursor .cursor-object {
         transition: none !important;
     }
 }
