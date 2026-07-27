@@ -1105,18 +1105,13 @@ html.has-theme-cursor [contenteditable="true"] {
    moving (never a full compass spin). Bloom on targets. Paper-soft compress
    on press. No trail, no particles. ── */
 .theme-cursor-archive .theme-cursor-inner { transition: none; }
-.theme-cursor-archive .cursor-rose-outer,
-.theme-cursor-archive .cursor-rose-inner {
+.theme-cursor-archive .cursor-rose-petals {
     transform-origin: 20px 22px;
-    transition: transform 260ms cubic-bezier(0.34, 1.4, 0.64, 1);
+    transition: transform 220ms cubic-bezier(0.34, 1.4, 0.64, 1);
 }
-.theme-cursor-archive[data-cursor-context="interactive"] .cursor-rose-inner,
-.theme-cursor-archive[data-cursor-context="card"] .cursor-rose-inner {
-    transform: scale(1.14) rotate(6deg);
-}
-.theme-cursor-archive[data-cursor-context="interactive"] .cursor-rose-outer,
-.theme-cursor-archive[data-cursor-context="card"] .cursor-rose-outer {
-    transform: scale(1.05);
+.theme-cursor-archive[data-cursor-context="interactive"] .cursor-rose-petals,
+.theme-cursor-archive[data-cursor-context="card"] .cursor-rose-petals {
+    transform: scale(1.16);
 }
 .theme-cursor-archive[data-cursor-press="true"] svg { transform: scale(0.8) scaleY(0.9); transition: transform 110ms ease-out; }
 .theme-cursor-archive[data-cursor-context="text"] { opacity: 0; }
@@ -1138,22 +1133,21 @@ html.has-theme-cursor [contenteditable="true"] {
 /* ── Midnight: a floating cut crystal. The object barely moves — the light
    sliding across its facets does. No neon, no glow, just glass and gold. ── */
 .theme-cursor-midnight .theme-cursor-inner { transition: none; }
-.theme-cursor-midnight .cursor-crystal-facet-a,
-.theme-cursor-midnight .cursor-crystal-facet-b {
+.theme-cursor-midnight .cursor-crystal-facet-a {
     transform: translate(var(--facet-x, 0), var(--facet-y, 0));
     transition: opacity 220ms ease;
 }
 .theme-cursor-midnight .cursor-crystal-glint {
     transform: translate(calc(var(--facet-x, 0) * 1.6), calc(var(--facet-y, 0) * 1.6));
+    transition: r 200ms ease;
 }
 .theme-cursor-midnight[data-cursor-context="card"] svg,
 .theme-cursor-midnight[data-cursor-context="interactive"] svg {
-    filter: brightness(1.18) saturate(1.05);
+    filter: brightness(1.22);
 }
 .theme-cursor-midnight[data-cursor-context="card"] .cursor-crystal-glint,
 .theme-cursor-midnight[data-cursor-context="interactive"] .cursor-crystal-glint {
-    opacity: 1;
-    r: 1.6;
+    r: 1.8;
 }
 .theme-cursor-midnight[data-cursor-press="true"] svg { transform: scale(0.82); transition: transform 130ms cubic-bezier(0.16, 1, 0.3, 1); }
 .theme-cursor-midnight[data-cursor-context="text"] { opacity: 0; }
@@ -1172,11 +1166,9 @@ html.has-theme-cursor [contenteditable="true"] {
 .theme-cursor-herbarium[data-cursor-context="text"] { opacity: 0; }
 
 @media (prefers-reduced-motion: reduce) {
-    .theme-cursor .cursor-rose-outer,
-    .theme-cursor .cursor-rose-inner,
+    .theme-cursor .cursor-rose-petals,
     .theme-cursor .cursor-scholar-frame,
     .theme-cursor .cursor-crystal-facet-a,
-    .theme-cursor .cursor-crystal-facet-b,
     .theme-cursor .cursor-leaf-blade {
         transition: none !important;
     }
