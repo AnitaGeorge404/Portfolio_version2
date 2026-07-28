@@ -1111,49 +1111,123 @@ html.has-theme-cursor [contenteditable="true"] {
 /* Disabled — any theme, any object: the thing goes inert and dims. */
 .theme-cursor[data-cursor-context="disabled"] .cursor-object { opacity: 0.4; filter: grayscale(0.7); }
 
-/* ── Archive: a held rose. Idle = almost still, a small pendulum sway while
-   moving (never a full compass spin). Bloom on targets. Paper-soft compress
-   on press. No trail, no particles. ── */
+/* ── Archive: a wax seal. Idle = almost still, a small pendulum sway while
+   moving (never a full compass spin). The engraving deepens on targets.
+   Paper-soft compress on press. No trail, no particles. ── */
 .theme-cursor-archive .theme-cursor-inner { transition: none; }
 .theme-cursor-archive .cursor-object {
-    transform-origin: 50% 55%;
+    transform-origin: 50% 42%;
     transition: transform 220ms cubic-bezier(0.34, 1.4, 0.64, 1);
 }
+.theme-cursor-archive .cursor-seal-engraving { transition: opacity 220ms ease; }
 .theme-cursor-archive[data-cursor-context="interactive"] .cursor-object,
 .theme-cursor-archive[data-cursor-context="card"] .cursor-object {
-    transform: scale(1.18) rotate(4deg);
+    transform: scale(1.16) rotate(3deg);
 }
-.theme-cursor-archive[data-cursor-press="true"] .cursor-object { transform: scale(0.78) scaleY(0.88); transition: transform 110ms ease-out; }
+.theme-cursor-archive[data-cursor-context="interactive"] .cursor-seal-engraving,
+.theme-cursor-archive[data-cursor-context="card"] .cursor-seal-engraving {
+    opacity: 1;
+}
+.theme-cursor-archive[data-cursor-press="true"] .cursor-object { transform: scale(0.8) scaleY(0.88); transition: transform 110ms ease-out; }
 .theme-cursor-archive[data-cursor-context="text"] { opacity: 0; }
 
-/* ── Scholar: a rangefinder. The lens snaps tight on lock, widens over
-   content. Instant, no spring — this is an instrument, not a creature. ── */
+/* ── Scholar: an optical reticle, not an object — hairline ring, center
+   point, zero spring. Citation brackets are separate hairlines either side,
+   only shown when they mean something. ── */
 .theme-cursor-search .theme-cursor-inner { transition: none; }
+.cursor-reticle {
+    position: relative;
+    width: 24px;
+    height: 24px;
+    align-items: center;
+    justify-content: center;
+}
+.cursor-reticle-ring {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    border: 2px solid var(--link, #1558D6);
+}
+.cursor-reticle-dot {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 3px;
+    height: 3px;
+    margin: -1.5px 0 0 -1.5px;
+    border-radius: 50%;
+    background: var(--link, #1558D6);
+}
+.cursor-reticle-bracket {
+    position: absolute;
+    top: 50%;
+    width: 5px;
+    height: 13px;
+    margin-top: -6.5px;
+    border-top: 1.2px solid var(--link, #1558D6);
+    border-bottom: 1.2px solid var(--link, #1558D6);
+    opacity: 0;
+    transition: opacity 120ms ease, transform 120ms ease;
+}
+.cursor-reticle-bracket-l { left: -11px; border-left: 1.2px solid var(--link, #1558D6); transform: translateX(4px); }
+.cursor-reticle-bracket-r { right: -11px; border-right: 1.2px solid var(--link, #1558D6); transform: translateX(-4px); }
 .theme-cursor-search .cursor-object {
-    transform-origin: 50% 45%;
+    transform-origin: 50% 50%;
     transition: transform 110ms cubic-bezier(0.2, 0.8, 0.2, 1);
 }
-.theme-cursor-search[data-cursor-context="interactive"] .cursor-object { transform: scale(0.85); }
-.theme-cursor-search[data-cursor-context="card"] .cursor-object { transform: scale(1.2); }
-.theme-cursor-search[data-cursor-context="reference"] .cursor-object { transform: scale(1.1); filter: drop-shadow(0 0 3px var(--link, #1558D6)); }
-.theme-cursor-search[data-cursor-press="true"] .cursor-object { transform: scale(0.88); transition: transform 55ms linear; }
+.theme-cursor-search[data-cursor-context="interactive"] .cursor-object { transform: scale(0.8); }
+.theme-cursor-search[data-cursor-context="card"] .cursor-object { transform: scale(1.25); }
+.theme-cursor-search[data-cursor-context="reference"] .cursor-reticle-bracket { opacity: 1; transform: translateX(0); }
+.theme-cursor-search[data-cursor-press="true"] .cursor-object { transform: scale(0.85); transition: transform 55ms linear; }
 .theme-cursor-search[data-cursor-context="text"] { opacity: 0; }
 
-/* ── Midnight: a floating cut gem. The object barely moves — a faint
-   highlight sweeps across it, following --facet-x/y (set from pointer
-   velocity), standing in for light sliding over its facets. No neon glow. ── */
+/* ── Midnight: ground glass, not an icon of a gem. A blurred, translucent
+   body with a real specular highlight that drifts across it via --facet-x/y
+   (set from pointer velocity in JS) — the object stays put, the light moves. ── */
 .theme-cursor-midnight .theme-cursor-inner { transition: none; }
+.cursor-glass {
+    position: relative;
+    width: 28px;
+    height: 28px;
+}
+.cursor-glass-body {
+    position: absolute;
+    inset: 0;
+    border-radius: 42% 58% 55% 45% / 45% 42% 58% 55%;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.06) 55%, rgba(0, 0, 0, 0.15) 100%);
+    backdrop-filter: blur(3px) saturate(160%);
+    -webkit-backdrop-filter: blur(3px) saturate(160%);
+    border: 1px solid rgba(212, 175, 55, 0.55);
+    box-shadow:
+        inset 0 1px 2px rgba(255, 255, 255, 0.85),
+        inset 0 -3px 5px rgba(0, 0, 0, 0.35),
+        0 2px 6px rgba(0, 0, 0, 0.4);
+    transition: filter 200ms ease;
+}
+.cursor-glass-specular {
+    position: absolute;
+    width: 42%;
+    height: 26%;
+    top: 14%;
+    left: 16%;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 50%;
+    filter: blur(1.5px);
+    transform: translate(var(--facet-x, 0px), var(--facet-y, 0px));
+}
 .theme-cursor-midnight .cursor-object {
     transform-origin: 50% 50%;
-    transition: transform 200ms cubic-bezier(0.16, 1, 0.3, 1), filter 200ms ease;
-    filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.3)) drop-shadow(var(--facet-x, 0px) var(--facet-y, 0px) 2px rgba(255, 255, 255, 0.55));
+    transition: transform 200ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 .theme-cursor-midnight[data-cursor-context="card"] .cursor-object,
 .theme-cursor-midnight[data-cursor-context="interactive"] .cursor-object {
-    transform: scale(1.15);
-    filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.3)) drop-shadow(var(--facet-x, 0px) var(--facet-y, 0px) 3px rgba(255, 255, 255, 0.85)) brightness(1.15);
+    transform: scale(1.2);
 }
-.theme-cursor-midnight[data-cursor-press="true"] .cursor-object { transform: scale(0.8); transition: transform 130ms cubic-bezier(0.16, 1, 0.3, 1); }
+.theme-cursor-midnight[data-cursor-context="card"] .cursor-glass-body,
+.theme-cursor-midnight[data-cursor-context="interactive"] .cursor-glass-body {
+    filter: brightness(1.2);
+}
+.theme-cursor-midnight[data-cursor-press="true"] .cursor-object { transform: scale(0.78); transition: transform 130ms cubic-bezier(0.16, 1, 0.3, 1); }
 .theme-cursor-midnight[data-cursor-context="text"] { opacity: 0; }
 
 /* ── Herbarium: a pressed specimen. Idle = flat and still, gentle orientation
