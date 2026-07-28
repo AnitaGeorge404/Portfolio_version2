@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useTheme } from "@/context/ThemeContext";
-import { Flower2, Search, Gem, Leaf } from "lucide-react";
 
 /**
  * Signature custom-cursor system — one persistent DOM overlay, four distinct
@@ -24,40 +23,90 @@ const TEXT_SELECTOR = 'input, textarea, [contenteditable="true"]';
 const REFERENCE_SELECTOR = '[data-testid*="citation"], [data-testid*="reference"], [data-testid*="source"]';
 const DISABLED_SELECTOR = '[disabled], [aria-disabled="true"]';
 
-// Battle-tested Lucide line icons instead of hand-drawn shapes — the same
-// icon set already used everywhere else in the app (every ui/* component),
-// so the cursor stops being a one-off custom asset and starts being visually
-// consistent with the rest of the interface. Bumped stroke width over the
-// library default since a 2px stroke reads thin at cursor scale.
+// An icon (however well-drawn) is a symbol *for* an object. These are
+// attempts at the material itself: wax and engraving, ground glass and
+// specular light, a pressed leaf's asymmetry — rendered with the technique
+// each material actually needs (gradients/blur for glass, hairline strokes
+// for engraving) rather than a single flat glyph standing in for all of it.
 
+// Archive — a wax letter-seal stamped with a rose: a solid disc (the wax)
+// with fine engraved hairlines on top (the die-stamp), a ribbon-like stem
+// and leaf hanging below. "Vintage stationery" is a much more honest target
+// for hand-coded vector art than "botanical illustration plate" — a seal is
+// *supposed* to read as small, dense, and pressed.
 function ArchiveMark() {
   return (
-    <span className="cursor-object" style={{ color: "var(--decoration-primary, #C96B84)" }}>
-      <Flower2 size={32} strokeWidth={2.25} />
+    <span className="cursor-object">
+      <svg viewBox="0 0 32 40" width="32" height="40" aria-hidden focusable="false">
+        <path d="M16 24 C15 29 14.7 33.5 15.5 38.5" stroke="var(--burgundy, #6B1E35)" strokeWidth="1.1" fill="none" strokeLinecap="round" opacity="0.7" />
+        <path
+          d="M15.4 30.5 C11.5 29.4 8.4 31.8 8.6 35.3 C12.6 36 15.4 33.4 15.4 30.5 Z"
+          fill="var(--sage, #6E8259)"
+          opacity="0.85"
+        />
+        <circle className="cursor-seal-wax" cx="16" cy="15" r="12.5" fill="var(--decoration-primary, #C96B84)" stroke="var(--burgundy, #6B1E35)" strokeWidth="0.6" />
+        <g className="cursor-seal-engraving" stroke="var(--burgundy, #6B1E35)" strokeWidth="0.55" fill="none" opacity="0.75" strokeLinecap="round">
+          <path d="M16 9 C13 9.6 11.4 12 12 14.6 C12.6 17 15 18.5 17.5 17.9" />
+          <path d="M16 9 C19 9.6 20.6 12 20 14.6 C19.4 17 17 18.5 14.5 17.9" />
+          <path d="M16 9.6 C16 9.6 14.8 12 16 15 C17.2 12 16 9.6 16 9.6 Z" fill="var(--burgundy, #6B1E35)" opacity="0.9" />
+          <circle cx="16" cy="15.4" r="1.15" fill="var(--burgundy, #6B1E35)" stroke="none" opacity="0.9" />
+        </g>
+      </svg>
     </span>
   );
 }
 
+// Scholar — no object at all, just an optical reticle: a hairline ring and a
+// center point, the way a rangefinder or a microscope's focus indicator
+// looks. Citation brackets are separate hairlines that appear either side.
 function ScholarMark() {
   return (
-    <span className="cursor-object" style={{ color: "var(--link, #1558D6)" }}>
-      <Search size={28} strokeWidth={2.5} />
+    <span className="cursor-object cursor-reticle">
+      <span className="cursor-reticle-bracket cursor-reticle-bracket-l" />
+      <span className="cursor-reticle-ring" />
+      <span className="cursor-reticle-dot" />
+      <span className="cursor-reticle-bracket cursor-reticle-bracket-r" />
     </span>
   );
 }
 
+// Midnight — real ground glass: a translucent, blurred disc with a bright
+// specular highlight and a dark rim shadow, built entirely from gradients
+// and backdrop-blur. The object barely moves; the highlight drifts across
+// it with pointer velocity, standing in for light sliding over a cut facet.
 function MidnightMark() {
   return (
-    <span className="cursor-object" style={{ color: "var(--decoration-primary, #D4AF37)" }}>
-      <Gem size={30} strokeWidth={2.25} />
+    <span className="cursor-object cursor-glass">
+      <span className="cursor-glass-body" />
+      <span className="cursor-glass-specular" />
     </span>
   );
 }
 
+// Herbarium — a single pressed leaf: deliberately asymmetric (one lobe
+// broader than the other, the way a real leaf never mirrors itself), two
+// tones for the pressed-flat/backlit halves, four hairline veins.
 function HerbariumMark() {
   return (
-    <span className="cursor-object" style={{ color: "var(--decoration-primary, #4F7A3D)" }}>
-      <Leaf size={30} strokeWidth={2.25} />
+    <span className="cursor-object">
+      <svg viewBox="0 0 34 42" width="34" height="42" aria-hidden focusable="false">
+        <g className="cursor-leaf-blade">
+          <path
+            d="M17 6 C24 10 27 17 24 25 C22 31 19 35.5 17.5 37.5 L17.5 6.3 Z"
+            fill="var(--decoration-primary, #4F7A3D)"
+            stroke="var(--specimen-ink, #2A3420)"
+            strokeWidth="0.7"
+          />
+          <path
+            d="M17 6 C11 9.5 7.5 16 9.5 24 C11 30 14.5 34.8 16.5 37.2 L16.5 6.3 Z"
+            fill="var(--sage, #6B9153)"
+            stroke="var(--specimen-ink, #2A3420)"
+            strokeWidth="0.7"
+          />
+          <path d="M17 8 L17 36.5" stroke="var(--specimen-ink, #2A3420)" strokeWidth="0.6" opacity="0.65" />
+          <path d="M17 13 L22 16.5 M17 19 L23 22 M17 25 L21.5 28 M17 12.5 L12.5 15.5 M17 18.5 L11.5 21 M17 24.5 L12.5 27" stroke="var(--specimen-ink, #2A3420)" strokeWidth="0.45" opacity="0.5" />
+        </g>
+      </svg>
     </span>
   );
 }
@@ -119,7 +168,7 @@ export default function ThemeCursor() {
     // Position smoothing per theme — how "held" vs "instrument-precise" the
     // object feels. Scholar/midnight track near-instantly (precision tools);
     // archive/herbarium carry a touch of organic follow (a held object).
-    const POSITION_LERP = { archive: 0.42, search: 1, midnight: 0.78, herbarium: 0.6 };
+    const POSITION_LERP = { archive: 0.42, search: 1, midnight: 0.88, herbarium: 0.6 };
 
     const tick = () => {
       const theme = themeRef.current;
