@@ -1,44 +1,106 @@
 [
   {
-    "name": "anita-s-internet-brain",
-    "kind": "active experiment",
-    "url": "https://github.com/AnitaGeorge404/",
-    "description": "An evolving experiment in editorial portfolio + search-engine UX — design-first, architecture-evolving."
+    "name": "VantaAI",
+    "kind": "hackathon project",
+    "url": "https://github.com/AnitaGeorge404/VantaAI",
+    "description": "Girlathon 2025 (2nd place) — image-based abuse & deepfake detection platform.",
+    "themes": ["safety-focused AI"],
+    "relatedProjects": ["vantaai"]
   },
   {
-    "name": "anita-s-digital-archive",
-    "kind": "active experiment",
-    "url": "https://github.com/AnitaGeorge404/",
-    "description": "A digital archive concept — an interface study around personal knowledge surfaces."
-  },
-  {
-    "name": "Portfolio_version2 / Pv2",
-    "kind": "interface study",
-    "url": "https://github.com/AnitaGeorge404/",
-    "description": "Iterative portfolio rebuilds exploring different visual systems and content structures."
-  },
-  {
-    "name": "Wrapped",
-    "kind": "design exploration",
-    "url": "https://github.com/AnitaGeorge404/",
-    "description": "A small year-in-review-style design exploration."
-  },
-  {
-    "name": "Neurobridge / Neurobridge_V2",
+    "name": "Neurobridge",
     "kind": "ongoing system",
-    "url": "https://github.com/AnitaGeorge404/",
-    "description": "Architectural iterations on the NeuroBridge adaptive accessibility platform."
+    "url": "https://github.com/AnitaGeorge404/Neurobridge",
+    "description": "NeuroBridge, first iteration — adaptive accessibility platform for neurodivergent users.",
+    "themes": ["accessibility and adaptive interfaces"],
+    "relatedProjects": ["neurobridge"]
   },
   {
-    "name": "Lume",
-    "kind": "design-focused build",
-    "url": "https://github.com/AnitaGeorge404/",
-    "description": "A design-focused build — interface and visual-system exploration."
+    "name": "Neurobridge_V2",
+    "kind": "ongoing system",
+    "url": "https://github.com/AnitaGeorge404/Neurobridge_V2",
+    "description": "NeuroBridge, architectural rebuild.",
+    "themes": ["accessibility and adaptive interfaces"],
+    "relatedProjects": ["neurobridge"]
   },
   {
-    "name": "IndigoInForm / Indigo_admin",
-    "kind": "evolving project",
-    "url": "https://github.com/AnitaGeorge404/",
-    "description": "Form-system and admin-surface iterations — frontend and component-architecture explorations."
+    "name": "Betalabs_cupids_ledger",
+    "kind": "shipped project",
+    "url": "https://github.com/AnitaGeorge404/Betalabs_cupids_ledger",
+    "description": "Cupid's Ledger — gamified Valentine's matchmaking platform, BetaLabs.",
+    "themes": ["shipping to real users"],
+    "relatedProjects": ["cupidsledger"]
+  },
+  {
+    "name": "CIVIC-AID-STARTUP-",
+    "kind": "pitch project",
+    "url": "https://github.com/AnitaGeorge404/CIVIC-AID-STARTUP-",
+    "description": "CivicAid — Innowave Pitchathon submission with the REsolvers team.",
+    "themes": ["shipping to real users"],
+    "relatedProjects": ["civicaid"]
+  },
+  {
+    "name": "sage_pi",
+    "kind": "research",
+    "url": "https://github.com/AnitaGeorge404/sage_pi",
+    "description": "SAGE-PI — indirect prompt-injection detection research, RV University.",
+    "themes": ["applied AI/ML research"],
+    "relatedProjects": ["sage-pi"]
+  },
+  {
+    "name": "trustheritage",
+    "kind": "research",
+    "url": "https://github.com/AnitaGeorge404/trustheritage",
+    "description": "TrustHeritage — multi-layer authenticity framework, presented at CHORDS 2026.",
+    "themes": ["applied AI/ML research"],
+    "relatedProjects": ["trustheritage"]
+  },
+  {
+    "name": "movie_research",
+    "kind": "research",
+    "url": "https://github.com/AnitaGeorge404/movie_research",
+    "description": "Code-mixed Malayalam sentiment benchmark, SRM University–AP.",
+    "themes": ["applied AI/ML research"],
+    "relatedProjects": ["malayalam-sentiment"]
+  },
+  {
+    "name": "EaseMotion-css",
+    "kind": "open source",
+    "url": "https://github.com/AnitaGeorge404/EaseMotion-css",
+    "description": "Zero-dependency, animation-first CSS/React framework — GSSoC 2026 contribution.",
+    "themes": ["open source contribution"],
+    "relatedProjects": []
+  },
+  {
+    "name": "LawGorithm",
+    "kind": "experiment",
+    "url": "https://github.com/AnitaGeorge404/LawGorithm",
+    "description": "NLP-based scam detection and risk analysis.",
+    "themes": ["safety-focused AI"],
+    "relatedProjects": ["lawgorithm"]
+  },
+  {
+    "name": "fAImer",
+    "kind": "experiment",
+    "url": "https://github.com/AnitaGeorge404/fAImer",
+    "description": "Smart farming assistant.",
+    "themes": ["accessibility and adaptive interfaces"],
+    "relatedProjects": ["faimer"]
+  },
+  {
+    "name": "StudyBee",
+    "kind": "experiment",
+    "url": "https://github.com/AnitaGeorge404/StudyBee",
+    "description": "AI study assistant.",
+    "themes": [],
+    "relatedProjects": ["studybee"]
+  },
+  {
+    "name": "Portfolio_version2",
+    "kind": "interface study",
+    "url": "https://github.com/AnitaGeorge404/Portfolio_version2",
+    "description": "This portfolio.",
+    "themes": ["portfolio systems"],
+    "relatedProjects": []
   }
 ]

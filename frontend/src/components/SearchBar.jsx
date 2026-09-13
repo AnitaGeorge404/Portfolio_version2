@@ -8,12 +8,14 @@ import { Rose, Peony, FloatingPetal } from "@/components/BotanicalElements";
 import { ThemeIcon, ArchiveWorldIcon } from "@/components/ThemeIcons";
 
 const quickSearches = [
-  { label: "Who is Anita?", icon: "✦" },
-  { label: "Show me her projects", icon: "✦" },
-  { label: "What is VantaAI?", icon: "✦" },
-  { label: "What hackathons has she won?", icon: "✦" },
-  { label: "What technologies does she use?", icon: "✦" },
-  { label: "Anita George Resume", icon: "✦" },
+  { label: "What is Anita currently working on?", icon: "✦" },
+  { label: "What did the TrustHeritage paper investigate?", icon: "✦" },
+  { label: "What is SAGE-PI?", icon: "✦" },
+  { label: "Which project handled real users?", icon: "✦" },
+  { label: "What has Anita contributed to open source?", icon: "✦" },
+  { label: "What did Anita build during her research internships?", icon: "✦" },
+  { label: "What has Anita won?", icon: "✦" },
+  { label: "What technologies has Anita actually used?", icon: "✦" },
 ];
 
 export default function SearchBar({ defaultValue = "", autoFocus = false, compact = false }) {
@@ -32,10 +34,10 @@ export default function SearchBar({ defaultValue = "", autoFocus = false, compac
     let cancelled = false;
     const phrases = [
       "Search Anita's universe...",
-      "What would you like to know about Anita?",
-      "Try: Who is Anita George?",
-      "Try: Show me her projects",
-      "Try: What is VantaAI?",
+      "Try: What is Anita currently working on?",
+      "Try: What is TrustHeritage?",
+      "Try: Which project handled real users?",
+      "Try: What has Anita contributed to open source?",
     ];
     const tick = () => {
       if (cancelled) return;
@@ -81,10 +83,15 @@ export default function SearchBar({ defaultValue = "", autoFocus = false, compac
     if (
       q.includes("work") || q.includes("project") || q.includes("vanta") ||
       q.includes("studybee") || q.includes("faimer") || q.includes("lawgorithm") ||
-      q.includes("delai") || q.includes("neurobridge")
+      q.includes("delai") || q.includes("neurobridge") || q.includes("cupid") ||
+      q.includes("civicaid") || q.includes("real users")
     ) navigate("/work");
     else if (q.includes("contact") || q.includes("email") || q.includes("hello")) navigate("/contact");
-    else if (q.includes("research") || q.includes("paper")) navigate("/research");
+    else if (
+      q.includes("research") || q.includes("paper") || q.includes("trustheritage") ||
+      q.includes("sage-pi") || q.includes("sage pi") || q.includes("sentiment") ||
+      q.includes("malayalam") || q.includes("prompt injection") || q.includes("chords")
+    ) navigate("/research");
     else if (q.includes("image") || q.includes("photo") || q.includes("gallery")) navigate("/images");
     else navigate("/ai-mode");
   };

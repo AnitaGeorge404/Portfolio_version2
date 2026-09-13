@@ -1,30 +1,46 @@
 {
-  "version": 1,
+  "version": 2,
   "strategy": "curated lightweight semantic aliases; no live GitHub scraping and no runtime embedding API required",
   "concepts": [
     {
-      "id": "accessibility",
-      "label": "accessibility and adaptive interfaces",
-      "weight": 1.45,
-      "aliases": ["accessibility", "accessible", "inclusive", "screen reader", "screen readers", "wcag", "keyboard navigation", "adaptive ux", "adaptive interface", "adaptive interfaces", "cognitive accessibility", "neurodivergent", "asd", "adhd", "calm interfaces"],
-      "relatedProjects": ["neurobridge", "faimer"],
-      "relatedThemes": ["humane technology", "interface psychology", "cognitive accessibility"]
+      "id": "current-role",
+      "label": "current work at theMonks.tech",
+      "weight": 1.5,
+      "aliases": ["themonks", "the monks", "current job", "current role", "currently working", "software engineer", "agentic", "agentic platform", "data science platform"],
+      "relatedProjects": [],
+      "relatedThemes": ["applied AI/ML research"]
     },
     {
-      "id": "humane",
-      "label": "humane technology",
+      "id": "ai-research",
+      "label": "applied AI/ML research",
+      "weight": 1.5,
+      "aliases": ["research", "researcher", "paper", "publication", "manuscript", "presented", "conference", "chords", "trustheritage", "sage-pi", "sage pi", "prompt injection", "malayalam", "sentiment analysis", "code-mixed", "code mixed"],
+      "relatedProjects": ["trustheritage", "sage-pi", "malayalam-sentiment"],
+      "relatedThemes": ["applied AI/ML research"]
+    },
+    {
+      "id": "accessibility",
+      "label": "accessibility and adaptive interfaces",
       "weight": 1.35,
-      "aliases": ["humane", "humane technology", "emotional safety", "digital dignity", "harm reduction", "online safety", "protective systems", "ethical ai", "calm", "safer"],
+      "aliases": ["accessibility", "accessible", "inclusive", "screen reader", "screen readers", "wcag", "keyboard navigation", "adaptive ux", "adaptive interface", "adaptive interfaces", "cognitive accessibility", "neurodivergent", "asd", "adhd", "calm interfaces"],
+      "relatedProjects": ["neurobridge", "faimer"],
+      "relatedThemes": ["accessibility and adaptive interfaces"]
+    },
+    {
+      "id": "safety",
+      "label": "safety-focused AI",
+      "weight": 1.3,
+      "aliases": ["humane", "humane technology", "emotional safety", "digital dignity", "harm reduction", "online safety", "protective systems", "ethical ai", "calm", "safer", "abuse", "deepfake", "scam"],
       "relatedProjects": ["neurobridge", "vantaai", "faimer", "lawgorithm"],
-      "relatedThemes": ["accessibility and adaptive interfaces", "AI safety and practical ML"]
+      "relatedThemes": ["safety-focused AI", "accessibility and adaptive interfaces"]
     },
     {
       "id": "backend",
       "label": "backend systems and scalable APIs",
-      "weight": 1.25,
+      "weight": 1.2,
       "aliases": ["backend", "api", "apis", "rest", "rest api", "rest apis", "fastapi", "express", "node", "scalable api", "scalable apis", "service", "services", "modular backend"],
       "relatedProjects": ["vantaai", "lawgorithm", "faimer"],
-      "relatedThemes": ["modular architecture", "optimization systems"]
+      "relatedThemes": ["graph theory and optimization"]
     },
     {
       "id": "graph",
@@ -32,39 +48,60 @@
       "weight": 1.4,
       "aliases": ["graph", "graphs", "graph theory", "optimization", "routing", "route optimization", "shortest path", "weighted graph", "algorithm", "algorithms", "dsa", "codeforces", "leetcode"],
       "relatedProjects": ["delai"],
-      "relatedThemes": ["systems engineering", "backend systems and scalable APIs"]
+      "relatedThemes": ["graph theory and optimization"]
     },
     {
-      "id": "ai",
-      "label": "AI safety and practical ML",
-      "weight": 1.2,
-      "aliases": ["ai", "artificial intelligence", "machine learning", "ml", "computer vision", "nlp", "classification", "deepfake", "risk analysis", "crop disease", "study assistant"],
-      "relatedProjects": ["vantaai", "lawgorithm", "faimer", "studybee"],
-      "relatedThemes": ["humane technology", "backend systems and scalable APIs"]
+      "id": "real-users",
+      "label": "shipping to real users",
+      "weight": 1.3,
+      "aliases": ["real users", "shipped", "production", "load", "1000 users", "1,000 users", "traffic", "live product"],
+      "relatedProjects": ["cupidsledger"],
+      "relatedThemes": ["shipping to real users"]
+    },
+    {
+      "id": "open-source",
+      "label": "open source contribution",
+      "weight": 1.3,
+      "aliases": ["open source", "gssoc", "girlscript summer of code", "contributor", "ambassador", "pull request", "pull requests", "github issue"],
+      "relatedProjects": [],
+      "relatedThemes": ["open source contribution"]
+    },
+    {
+      "id": "pitch",
+      "label": "startup pitch and product strategy",
+      "weight": 1.15,
+      "aliases": ["pitchathon", "innowave", "civicaid", "resolvers", "pitch", "startup", "co-founder", "business strategy"],
+      "relatedProjects": ["civicaid"],
+      "relatedThemes": ["shipping to real users"]
     },
     {
       "id": "interface",
-      "label": "interface psychology",
-      "weight": 1.18,
-      "aliases": ["interface", "interfaces", "ui", "ux", "ui ux", "design", "component architecture", "visual systems", "responsive design", "emotionally aware ux", "interaction design"],
-      "relatedProjects": ["neurobridge", "studybee", "faimer"],
-      "relatedThemes": ["accessibility and adaptive interfaces", "humane technology"]
+      "label": "interface engineering",
+      "weight": 1.1,
+      "aliases": ["interface", "interfaces", "ui", "ux", "ui ux", "design", "component architecture", "visual systems", "responsive design", "interaction design"],
+      "relatedProjects": ["neurobridge", "studybee", "faimer", "cupidsledger"],
+      "relatedThemes": ["accessibility and adaptive interfaces"]
     },
     {
       "id": "repository",
       "label": "repository relationships",
-      "weight": 1.3,
-      "aliases": ["repo", "repos", "repository", "repositories", "github", "active experiment", "interface study", "maturity", "production"],
+      "weight": 1.2,
+      "aliases": ["repo", "repos", "repository", "repositories", "github"],
       "relatedProjects": ["neurobridge"],
-      "relatedThemes": ["semantic archive interface", "project maturity"]
+      "relatedThemes": []
     }
   ],
   "projectAliases": {
     "vantaai": ["vanta", "vanta ai", "deepfake detection", "image based abuse"],
-    "delai": ["del ai", "route optimization", "routing system"],
+    "delai": ["del ai", "route optimization", "routing system", "tinkhack"],
+    "cupidsledger": ["cupid", "cupids ledger", "cupid's ledger", "valentine", "matchmaking"],
+    "civicaid": ["civic aid", "innowave", "resolvers", "pitchathon"],
     "faimer": ["fAImer", "farmer", "smart farming", "crop disease"],
     "lawgorithm": ["law algorithm", "scam detection", "risk analysis"],
     "studybee": ["study bee", "study assistant", "notes quizzes"],
-    "neurobridge": ["neuro bridge", "adaptive support", "neurodivergent platform", "asd adhd"]
+    "neurobridge": ["neuro bridge", "adaptive support", "neurodivergent platform", "asd adhd"],
+    "trustheritage": ["trust heritage", "chords", "cultural heritage", "digital forensics"],
+    "sage-pi": ["sage pi", "sagepi", "prompt injection", "llm security"],
+    "malayalam-sentiment": ["malayalam", "sentiment benchmark", "code mixed", "movie disjoint", "srm"]
   }
 }

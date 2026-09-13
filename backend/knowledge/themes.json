@@ -1,50 +1,50 @@
 [
   {
-    "id": "humane-technology",
-    "label": "humane technology",
-    "description": "A recurring engineering theme where systems are evaluated by whether they reduce harm, preserve dignity, and make interfaces calmer or more supportive.",
-    "relatedProjects": ["vantaai", "neurobridge", "faimer", "lawgorithm"],
-    "relatedRepositories": ["Neurobridge / Neurobridge_V2", "anita-s-digital-archive"],
-    "keywords": ["humane technology", "online safety", "digital dignity", "emotional safety", "harm reduction", "trust"]
+    "id": "ai-research",
+    "label": "applied AI/ML research",
+    "description": "Two concurrent research internships (SRM University–AP, RV University) plus a presented conference paper (CHORDS 2026), spanning digital forensics, LLM security, and NLP evaluation methodology.",
+    "relatedProjects": ["trustheritage", "sage-pi", "malayalam-sentiment"],
+    "relatedRepositories": ["trustheritage", "sage_pi", "movie_research"],
+    "keywords": ["research", "ai research", "ml research", "prompt injection", "nlp", "chords", "sage-pi", "trustheritage"]
+  },
+  {
+    "id": "safety-focused-ai",
+    "label": "safety-focused AI",
+    "description": "Detection-first systems for online harm — image-abuse detection, deepfake detection, and NLP-based scam/risk analysis.",
+    "relatedProjects": ["vantaai", "lawgorithm"],
+    "relatedRepositories": ["VantaAI", "LawGorithm"],
+    "keywords": ["safety", "online safety", "digital dignity", "deepfake", "scam detection", "risk analysis"]
   },
   {
     "id": "accessibility-adaptive-ux",
     "label": "accessibility and adaptive interfaces",
-    "description": "Accessibility appears as concrete product architecture: neurodivergent support surfaces, multilingual/offline-first constraints, cognitive accessibility, and calmer UI patterns.",
+    "description": "Accessibility appears as concrete product architecture: neurodivergent support surfaces, multilingual/offline-first constraints, and calmer UI patterns.",
     "relatedProjects": ["neurobridge", "faimer"],
-    "relatedRepositories": ["Neurobridge / Neurobridge_V2", "IndigoInForm / Indigo_admin"],
-    "keywords": ["accessibility", "adaptive ux", "adaptive interfaces", "cognitive accessibility", "neurodivergent", "screen reader", "wcag", "inclusive design"]
-  },
-  {
-    "id": "backend-api-systems",
-    "label": "backend systems and scalable APIs",
-    "description": "Several projects use REST API surfaces, modular services, optimized inference paths, and backend-oriented data modeling.",
-    "relatedProjects": ["vantaai", "lawgorithm", "faimer", "neurobridge"],
-    "relatedRepositories": ["anita-s-internet-brain", "Portfolio_version2 / Pv2"],
-    "keywords": ["backend", "api", "rest api", "fastapi", "express", "node", "modular architecture", "services", "scalable apis"]
+    "relatedRepositories": ["Neurobridge", "Neurobridge_V2"],
+    "keywords": ["accessibility", "adaptive ux", "adaptive interfaces", "neurodivergent", "screen reader", "wcag", "inclusive design"]
   },
   {
     "id": "graph-optimization",
     "label": "graph theory and optimization",
-    "description": "Graph theory is both a DSA focus and an applied project pattern, most directly visible in DelAI's weighted graph routing system.",
+    "description": "Graph theory is both a DSA focus (400+ problems) and an applied project pattern, most directly visible in DelAI's weighted-graph routing system.",
     "relatedProjects": ["delai"],
-    "relatedRepositories": ["anita-s-internet-brain"],
+    "relatedRepositories": [],
     "keywords": ["graph theory", "graphs", "optimization", "routing", "shortest path", "algorithms", "dsa"]
   },
   {
-    "id": "ai-safety-practical-ml",
-    "label": "AI safety and practical ML",
-    "description": "AI appears as applied classification, safety detection, study tooling, crop-disease detection, and risk analysis rather than as a generic chatbot layer.",
-    "relatedProjects": ["vantaai", "lawgorithm", "faimer", "studybee"],
-    "relatedRepositories": ["anita-s-digital-archive"],
-    "keywords": ["ai", "machine learning", "computer vision", "nlp", "classification", "risk analysis", "ethical ai"]
+    "id": "shipping-fast",
+    "label": "shipping to real users",
+    "description": "Cupid's Ledger handled 1,000+ users in a single day; DelAI and CivicAid won their respective competitions under 24-hour and pitch-only formats.",
+    "relatedProjects": ["cupidsledger", "delai", "civicaid"],
+    "relatedRepositories": ["Betalabs_cupids_ledger", "CIVIC-AID-STARTUP-"],
+    "keywords": ["real users", "shipped", "production", "load", "hackathon winner"]
   },
   {
-    "id": "interface-psychology",
-    "label": "interface psychology",
-    "description": "The archive repeatedly treats UI/UX as a systems concern: component architecture, emotional load, visual consistency, and interaction choices shape how the software behaves.",
-    "relatedProjects": ["neurobridge", "studybee", "faimer"],
-    "relatedRepositories": ["Lume", "Wrapped", "IndigoInForm / Indigo_admin"],
-    "keywords": ["interface psychology", "ui ux", "component architecture", "visual systems", "emotional load", "calm interfaces"]
+    "id": "open-source",
+    "label": "open source contribution",
+    "description": "GSSoC 2026 Ambassador and Contributor in the Open Source & AI Agents track, contributing React components and animation utilities.",
+    "relatedProjects": [],
+    "relatedRepositories": ["EaseMotion-css"],
+    "keywords": ["open source", "gssoc", "girlscript summer of code", "contributor", "pull requests"]
   }
 ]

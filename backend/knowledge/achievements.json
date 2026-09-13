@@ -1,28 +1,42 @@
 {
   "achievements": [
     {
-      "title": "TinkHack 2.0",
-      "result": "1st Prize Winner",
-      "year": "2024"
+      "title": "TinkHack 2.0 (GenAI Hackathon)",
+      "result": "1st Place — DelAI",
+      "year": "2025"
     },
     {
-      "title": "Girlathon",
-      "result": "1st Runner-Up",
-      "year": "2024"
+      "title": "Girlathon 2025",
+      "result": "2nd Place (1st Runner-Up) — VantaAI",
+      "year": "2025"
+    },
+    {
+      "title": "Innowave Pitchathon",
+      "result": "1st Place — CivicAid, with REsolvers",
+      "year": "2025"
+    },
+    {
+      "title": "SIF-2026 Summer Research Internship, SRM University–AP",
+      "result": "Best Intern",
+      "year": "2026"
     }
   ],
   "certifications": [
     {
-      "title": "IBM Full-Stack Backend Professional Certificate",
+      "title": "IBM Full-Stack Software Developer Professional Certificate",
       "issuer": "IBM"
     },
     {
-      "title": "Meta Frontend Professional Certificate",
+      "title": "Meta Frontend Developer Professional Certificate",
       "issuer": "Meta"
     },
     {
       "title": "Google Data Analytics Certification",
       "issuer": "Google"
+    },
+    {
+      "title": "Cloud to Crowd: Build Your Portfolio with Next.js",
+      "issuer": "IEDC / Startup Summit"
     }
   ]
 }

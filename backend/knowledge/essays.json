@@ -1,30 +1,30 @@
 [
   {
-    "title": "Humane technology as a recurring theme",
-    "year": "2024 – present",
-    "venue": "Recurring theme across projects",
+    "title": "Two tracks at once: engineering and research",
+    "year": "2026",
+    "venue": "theMonks.tech + SRM University–AP + RV University",
     "url": "/work",
-    "body": "Across VantaAI, NeuroBridge, fAImer, and LawGorithm, Anita's work consistently chooses calmer, safer, and more accessible defaults. Detection systems aim to reduce harm; adaptive interfaces aim to reduce cognitive load; tools for low-connectivity contexts aim to reduce exclusion."
+    "body": "Across mid-2026, Anita ran a full-time software engineering role at theMonks.tech alongside two concurrent research internships — one on code-mixed Malayalam sentiment analysis at SRM University–AP, one on indirect prompt-injection detection at RV University. The two internships ran the same two months; neither was a side project relative to the other."
   },
   {
-    "title": "Graph theory and optimization across the stack",
-    "year": "2024 – present",
-    "venue": "DSA practice + applied projects",
-    "url": "/projects/delai",
-    "body": "Anita has solved 400+ DSA problems (230+ LeetCode, 170+ Codeforces), with a particular focus on graph theory and optimization. This shows up in applied work — most directly in DelAI's graph-based routing, and as backend modeling intuition across other projects."
+    "title": "From hackathon speed to research rigor",
+    "year": "2025 – 2026",
+    "venue": "DelAI, VantaAI, CivicAid → TrustHeritage, SAGE-PI",
+    "url": "/research",
+    "body": "Anita's 2025 hackathon work (DelAI's 24-hour build, CivicAid's no-code pitch round) rewarded speed. Her 2026 research work (TrustHeritage's 130 controlled verification runs, SAGE-PI's leakage-audited evaluation pipeline) rewards rigor. Both are real skills, and the portfolio treats them as distinct rather than blending them into one undifferentiated 'AI' story."
   },
   {
-    "title": "Accessibility and adaptive interfaces",
+    "title": "Safety and authenticity as a recurring engineering choice",
     "year": "2025 – present",
-    "venue": "NeuroBridge + UX research",
-    "url": "/projects/neurobridge",
-    "body": "NeuroBridge is the most explicit example: a modular adaptive-support platform for neurodivergent users, with ASD and ADHD support surfaces built around emotional safety and accessibility-first UX. The same accessibility instinct appears in the multilingual / offline-first design of fAImer."
+    "venue": "VantaAI · LawGorithm · TrustHeritage",
+    "url": "/work",
+    "body": "VantaAI detects image-based abuse and deepfakes. LawGorithm flags scam content with NLP. TrustHeritage verifies whether digitized cultural-heritage media has been authentically preserved. Different domains, same underlying pattern: using detection and verification systems to make digital content more trustworthy."
   },
   {
-    "title": "Backend systems, REST APIs, and modular architecture",
-    "year": "2024 – present",
-    "venue": "Project architectures",
-    "url": "/work",
-    "body": "Multiple projects (VantaAI, LawGorithm, fAImer, NeuroBridge) rely on REST API surfaces and modular backend services — built primarily with Python (FastAPI), Node.js (Express), and standard relational + Firebase/Supabase storage."
+    "title": "Accessibility as architecture, not decoration",
+    "year": "2026",
+    "venue": "NeuroBridge · fAImer",
+    "url": "/projects/neurobridge",
+    "body": "NeuroBridge's modular feature-activation system exists so a user only sees the support tools relevant to their needs — the design bet was against cognitive overload. fAImer applies the same instinct differently: offline-first sync and multilingual UI for users without reliable connectivity."
   }
 ]

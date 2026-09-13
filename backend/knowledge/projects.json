@@ -2,215 +2,190 @@
   {
     "slug": "vantaai",
     "name": "VantaAI",
-    "year": "2024",
+    "year": "2025",
     "tagline": "image-based abuse & deepfake detection platform",
-    "summary": "VantaAI is an image-based abuse and deepfake detection platform that combines computer vision and NLP pipelines for media ingestion and classification. The system exposes scalable REST APIs and uses optimized inference pipelines that improved end-to-end latency by approximately 30%. Recognized at a hackathon.",
-    "motivation": "Built to explore how protective AI systems can reduce online harm — focused on digital dignity, ethical AI, and proactive detection rather than after-the-fact moderation.",
-    "architecture": "Computer-vision and NLP classification pipelines behind a FastAPI-style REST layer, with optimized inference paths and modular ingestion services.",
-    "outcomes": "Approximately 30% latency reduction across the inference pipeline; hackathon recognition.",
-    "tags": [
-      "AI",
-      "Computer Vision",
-      "NLP",
-      "Safety",
-      "REST APIs"
-    ],
-    "stack": [
-      "Python",
-      "Computer Vision",
-      "NLP",
-      "REST APIs"
-    ],
-    "themes": [
-      "digital dignity",
-      "online safety",
-      "ethical AI",
-      "protective systems"
-    ],
-    "note": "30% inference latency improvement",
+    "summary": "VantaAI is a platform for preventing and detecting image-based abuse, combining digital watermarking, reverse-image scanning, deepfake detection, and guided remediation, including automated assistance for legal reporting and takedowns. Built with a team of three (Anita George, Gowri Arun, T P Shivha Shakthiy) for Girlathon 2025, organized by GDSC MACE, Kalkitech, and Kerala Startup Mission.",
+    "motivation": "A women's-safety platform that treats image-based abuse as a detection-and-response problem rather than just a reporting form.",
+    "architecture": "Computer-vision and NLP classification pipelines behind a REST API surface: image protection, reverse-image scanning, deepfake detection, and a guided remediation workflow.",
+    "outcomes": "2nd place (1st Runner-Up) at Girlathon 2025, an 8-week hackathon.",
+    "tags": ["AI", "Computer Vision", "NLP", "Safety", "REST APIs"],
+    "stack": ["React", "JavaScript", "Python", "Vite"],
+    "themes": ["digital dignity", "online safety", "computer vision"],
+    "note": "Girlathon 2025 · 2nd place",
     "url": "/projects/vantaai",
-    "status": "hackathon-recognized",
-    "engineering_signals": [
-      "AI/ML exploration",
-      "safety-oriented systems",
-      "backend/API architecture",
-      "performance optimization"
-    ]
+    "status": "hackathon-recognized · team project",
+    "engineering_signals": ["AI/ML exploration", "safety-oriented systems", "backend/API architecture", "computer vision"]
   },
   {
     "slug": "delai",
     "name": "DelAI",
-    "year": "2024",
+    "year": "2025",
     "tagline": "graph-based route optimization system",
-    "summary": "DelAI is a route optimization system built on weighted graph modeling and shortest-path algorithms. By tuning the constraint model and routing heuristics, the system achieved roughly 20% improvement in route efficiency over baseline approaches. Hackathon-winning project.",
-    "motivation": "An applied take on graph theory and combinatorial optimization — exploring how classical algorithms can be retuned to make a measurable difference in real logistics scenarios.",
+    "summary": "DelAI is a GenAI-era delivery-optimization system that models delivery locations as a weighted graph and applies shortest-path algorithms to cut routing time. Built with Lestlin Robins and Muhammed Basil, it won 1st place at TinkHack 2.0, a 24-hour hackathon at Govt. Model Engineering College.",
+    "motivation": "A 24-hour team build applying graph theory — Anita's strongest DSA focus area — to a real logistics constraint.",
     "architecture": "Weighted-graph modeling layer, shortest-path engine, and a routing heuristic optimized against a multi-objective cost function.",
-    "outcomes": "~20% route efficiency improvement; hackathon-winning entry.",
-    "tags": [
-      "Graphs",
-      "Optimization",
-      "Algorithms",
-      "Logistics"
-    ],
-    "stack": [
-      "Python",
-      "Graph Algorithms",
-      "Optimization"
-    ],
-    "themes": [
-      "graph theory",
-      "optimization",
-      "systems engineering"
-    ],
-    "note": "graph optimization · 20% efficiency gain",
+    "outcomes": "1st place at TinkHack 2.0 (sponsored by DBiz.ai, Wizr AI, South Indian Bank); approximately 20% improvement in route efficiency over baseline heuristics.",
+    "tags": ["Graphs", "Optimization", "Algorithms", "GenAI"],
+    "stack": ["Python", "Graph Algorithms"],
+    "themes": ["graph theory", "optimization", "logistics"],
+    "note": "TinkHack 2.0 · 1st place · ~20% routing efficiency gain",
     "url": "/projects/delai",
-    "status": "hackathon winner",
-    "engineering_signals": [
-      "algorithmic/graph-theory engineering",
-      "optimization systems",
-      "rapid prototyping"
-    ]
+    "status": "hackathon winner · team project",
+    "engineering_signals": ["algorithmic/graph-theory engineering", "optimization systems", "rapid prototyping"]
+  },
+  {
+    "slug": "cupidsledger",
+    "name": "Cupid's Ledger",
+    "year": "2026",
+    "timeline": "Feb 2026",
+    "tagline": "gamified Valentine's matchmaking platform",
+    "summary": "A BetaLabs project: a gamified Valentine's matchmaking platform spanning authentication, personality quizzes, matchmaking, profiles, and live leaderboards. Handled 1,000+ users in a single day.",
+    "motivation": "A short-timeline build meant to actually ship and be used at real load, not just demoed.",
+    "architecture": "React/Vite frontend with a personality-quiz-driven matchmaking flow, live leaderboards, and Framer Motion interaction states, built for a one-day traffic spike.",
+    "outcomes": "1,000+ users engaged with the platform within its first day live.",
+    "tags": ["Frontend", "React", "Framer Motion", "Real-time UX"],
+    "stack": ["React", "Vite", "Tailwind CSS", "Framer Motion"],
+    "themes": ["frontend engineering", "real user load", "product design"],
+    "note": "1,000+ users in a single day",
+    "url": "/projects/cupidsledger",
+    "status": "shipped",
+    "engineering_signals": ["frontend performance under real load", "interaction design", "rapid shipping"]
+  },
+  {
+    "slug": "civicaid",
+    "name": "CivicAid",
+    "year": "2025",
+    "tagline": "civic-tech venture pitch — Innowave Pitchathon winner",
+    "summary": "A startup pitch built with the REsolvers team (Adithyan M Nair, Amal Sajeev, Muhammed Basil, Lestlin Robins, Anita George) for the Innowave Pitchathon in Kollam — a pure business-strategy round with no demo and no code. Won 1st place.",
+    "motivation": "Innowave stripped the hackathon format down to strategy and market logic — the challenge was articulating why the idea matters as a business.",
+    "architecture": "Business-model and go-to-market plan for a civic-tech concept; Anita's focus was the product experience and framing of the pitch.",
+    "outcomes": "1st place at the Innowave Pitchathon, held at Innerspace Coworking, Kollam.",
+    "tags": ["Product Strategy", "Frontend", "Civic Tech"],
+    "stack": ["Product Strategy", "Pitch Design"],
+    "themes": ["product thinking", "civic technology", "startup strategy"],
+    "note": "Innowave Pitchathon · 1st place · no-code round",
+    "url": "/projects/civicaid",
+    "status": "pitch-stage · 1st place",
+    "engineering_signals": ["product thinking", "pitch/business strategy", "team leadership"]
   },
   {
     "slug": "faimer",
     "name": "fAImer",
     "year": "2025",
     "tagline": "smart farming assistant",
-    "summary": "fAImer is a smart farming assistant that brings ML-based crop disease detection, expense tracking, and market insights to small farmers. It is multilingual and supports offline-first usage, addressing real connectivity constraints in rural settings.",
+    "summary": "fAImer is a smart farming assistant that brings ML-based crop disease detection, expense tracking, and market insights to small farmers, as a Progressive Web App with multilingual support and offline-first usage.",
     "motivation": "Designed around accessible technology and practical AI — making image classification and farm-management tooling usable in low-connectivity contexts and multiple languages.",
-    "architecture": "ML image-classification model for crop disease detection, plus expense-tracking and market-insight modules, packaged with offline-first sync and multilingual UI.",
-    "outcomes": "Working offline-first prototype with multilingual UI and crop-disease classification.",
-    "tags": [
-      "AI",
-      "Computer Vision",
-      "Accessibility",
-      "Multilingual",
-      "Offline-first"
-    ],
-    "stack": [
-      "ML",
-      "Computer Vision",
-      "Mobile",
-      "Offline-first"
-    ],
-    "themes": [
-      "accessible technology",
-      "practical AI systems"
-    ],
+    "architecture": "ML image-classification model for crop disease detection, plus expense-tracking and market-insight modules, packaged as a PWA with offline-first sync and multilingual UI.",
+    "outcomes": "Working prototype with offline-first sync, multilingual UI, and crop-disease classification.",
+    "tags": ["AI", "Computer Vision", "Accessibility", "Multilingual", "Offline-first"],
+    "stack": ["ML", "Computer Vision", "PWA"],
+    "themes": ["accessible technology", "practical AI systems"],
     "note": "offline-first · multilingual",
     "url": "/projects/faimer",
-    "status": "active project",
-    "engineering_signals": [
-      "AI/ML exploration",
-      "accessibility-oriented design",
-      "practical/applied AI",
-      "offline-first systems"
-    ]
+    "status": "experimental",
+    "engineering_signals": ["AI/ML exploration", "accessibility-oriented design", "offline-first systems"]
   },
   {
     "slug": "lawgorithm",
     "name": "LawGorithm",
-    "year": "2024",
+    "year": "2025",
     "tagline": "scam detection & risk analysis platform",
-    "summary": "LawGorithm is a scam-detection and risk-analysis platform that uses NLP-based classification and algorithmic risk scoring to surface safety alerts. The system is exposed via REST APIs, making it embeddable into other safety-focused workflows.",
-    "motivation": "Building toward digital trust and online safety — examining how NLP and risk-analysis algorithms can give people better signals about what they're reading and engaging with.",
-    "architecture": "NLP-based scam classification pipeline, algorithmic risk scoring, alerting layer, and a REST API surface.",
-    "outcomes": "Working NLP detection + risk-analysis pipeline with REST API.",
-    "tags": [
-      "NLP",
-      "Safety",
-      "Risk Analysis",
-      "REST APIs"
-    ],
-    "stack": [
-      "Python",
-      "NLP",
-      "REST APIs"
-    ],
-    "themes": [
-      "digital trust",
-      "online safety"
-    ],
+    "summary": "LawGorithm is a scam-detection and risk-analysis system using NLP-based classification and algorithmic risk scoring, exposed via REST APIs for real-time safety alerts.",
+    "motivation": "Exploring how NLP and rule-based risk scoring can give people a faster signal about what they're reading before they act on it.",
+    "architecture": "NLP-based scam-classification pipeline with algorithmic risk scoring and a REST API layer for real-time alerts.",
+    "outcomes": "Working NLP detection and risk-scoring pipeline exposed as a REST API.",
+    "tags": ["NLP", "Safety", "Risk Analysis", "REST APIs"],
+    "stack": ["Python", "NLP", "REST APIs"],
+    "themes": ["digital trust", "online safety"],
     "note": "NLP risk analysis",
     "url": "/projects/lawgorithm",
-    "status": "active project",
-    "engineering_signals": [
-      "AI/ML exploration",
-      "safety-oriented systems",
-      "backend/API architecture"
-    ]
+    "status": "experimental",
+    "engineering_signals": ["AI/ML exploration", "safety-oriented systems", "backend/API architecture"]
   },
   {
     "slug": "studybee",
     "name": "StudyBee",
     "year": "2025",
     "tagline": "AI study assistant",
-    "summary": "StudyBee is an AI study assistant that generates structured notes, quizzes, and formula sheets from source material. It organizes academic content algorithmically and, in internal use, reduced preparation time by approximately 40%.",
-    "motivation": "Built to reduce overwhelm in academic preparation — turning unstructured course material into structured, navigable artifacts.",
-    "architecture": "Content-ingestion + structuring pipeline that produces notes, quizzes, and formula sheets via algorithmic organization.",
-    "outcomes": "Approximately 40% prep-time reduction in measured internal use.",
-    "tags": [
-      "AI",
-      "Education",
-      "Productivity"
-    ],
-    "stack": [
-      "AI",
-      "NLP",
-      "React"
-    ],
-    "themes": [
-      "educational systems",
-      "reducing overwhelm"
-    ],
-    "note": "structured prep · 40% time reduction",
+    "summary": "StudyBee is an AI study assistant that generates structured notes, quizzes, and formula sheets from source material, reporting roughly 40% reduction in prep time in internal use.",
+    "motivation": "Built to turn unstructured course material into something navigable.",
+    "architecture": "Content-ingestion and structuring pipeline that produces notes, quizzes, and formula sheets via algorithmic organization of source material.",
+    "outcomes": "Reported ~40% prep-time reduction in internal use (self-reported, not independently benchmarked).",
+    "tags": ["AI", "Education", "Productivity"],
+    "stack": ["Python", "NLP"],
+    "themes": ["educational tooling"],
+    "note": "structured prep · ~40% time reduction",
     "url": "/projects/studybee",
-    "status": "active project",
-    "engineering_signals": [
-      "AI/ML exploration",
-      "user-centered product thinking",
-      "frontend implementation",
-      "educational tooling"
-    ]
+    "status": "experimental",
+    "engineering_signals": ["AI/ML exploration", "educational tooling"]
   },
   {
     "slug": "neurobridge",
     "name": "NeuroBridge",
     "year": "2026",
     "timeline": "Feb 2026 – present",
-    "tagline": "adaptive support platform for neurodivergent users",
-    "summary": "NeuroBridge is an evolving adaptive-support platform for neurodivergent individuals, with modular accessibility tools across ASD and ADHD support: a Routine Visualizer, Sensory Regulation, Social Story Builder, Emotional Check-in, Focus Sessions, and Visual Timelines. The platform takes an accessibility-first, emotionally aware approach to UX and is still architecturally evolving — not a fully deployed or medically certified product.",
-    "motivation": "Centered on humane technology and cognitive accessibility — exploring how interfaces and modular tools can offer structured support without becoming gamified or extractive.",
-    "architecture": "Modular feature surface (routine, sensory, social, emotional, focus, timeline) with dynamic feature activation. Designed around emotional safety and accessibility-first interaction patterns.",
-    "outcomes": "Active, evolving platform with significant architectural direction; not deployed at scale or medically certified.",
-    "tags": [
-      "Accessibility",
-      "Adaptive UX",
-      "Humane Tech",
-      "Modular Systems"
-    ],
-    "stack": [
-      "React",
-      "Next.js",
-      "Tailwind",
-      "Modular Architecture"
-    ],
-    "themes": [
-      "humane technology",
-      "adaptive interfaces",
-      "emotionally aware UX",
-      "accessibility-first systems",
-      "cognitive support"
-    ],
-    "note": "evolving · accessibility-first",
+    "tagline": "adaptive support platform for neurodivergent individuals",
+    "summary": "NeuroBridge is an adaptive support platform for people with ASD, ADHD, Dyslexia, and Dyscalculia, with modular tools for routine management, sensory regulation, emotional awareness, social stories, and focused productivity. Built with Sona Jomon, Gowri Arun, and T P Shivha Shakthiy during Kerala Startup Mission's She Builds Tech 2.0, presented at the IEDC Kerala Startup Summit 2026 Demo Day.",
+    "motivation": "A modular surface so each person only sees the support relevant to them — the design bet was against cognitive overload, not for feature count.",
+    "architecture": "Modular feature surface (Routine Visualizer, Sensory Regulation, Social Story Builder, Emotional Check-in, Focus Sessions, Visual Timelines) with dynamic feature activation, adaptive onboarding, and role-based access on React/Vite + Flask/Supabase.",
+    "outcomes": "Presented at Demo Day among 8 student teams at the IEDC Kerala Startup Summit 2026; continuing with Kerala Startup Mission mentorship. Not deployed at scale or medically certified.",
+    "tags": ["Accessibility", "Adaptive UX", "Humane Tech", "Modular Systems"],
+    "stack": ["React", "Vite", "Flask", "Supabase"],
+    "themes": ["accessibility", "adaptive interfaces", "cognitive support"],
+    "note": "She Builds Tech 2.0 · Demo Day, IEDC Kerala Startup Summit 2026",
     "url": "/projects/neurobridge",
-    "status": "active · evolving",
-    "engineering_signals": [
-      "accessibility-oriented design",
-      "adaptive interfaces",
-      "frontend architecture",
-      "user-centered product thinking",
-      "modular system design"
-    ]
+    "status": "active · evolving, ongoing KSUM mentorship",
+    "engineering_signals": ["accessibility-oriented design", "adaptive interfaces", "frontend architecture", "modular system design"]
+  },
+  {
+    "slug": "trustheritage",
+    "name": "TrustHeritage",
+    "year": "2026",
+    "tagline": "multi-layer authenticity framework for digitized cultural heritage — presented at CHORDS 2026",
+    "summary": "TrustHeritage is an explainable, multi-layer authenticity-verification framework for digitized cultural heritage combining DWT watermarking, SHA-256 provenance, image forensics, and OpenCLIP semantic similarity, tested across 130 controlled verification runs. Presented at CHORDS 2026 (ANRF-sponsored, IIIT Kottayam, July 2026).",
+    "motivation": "Digitized cultural-heritage media can be manipulated or degraded with no reliable way to verify authenticity.",
+    "architecture": "Multi-layer evidence pipeline: DWT watermarking, SHA-256 provenance hashing, image forensics, and OpenCLIP semantic-similarity scoring.",
+    "outcomes": "Presented at CHORDS 2026; 130 controlled verification runs across compression, cropping, resizing, rotation, blur, tonal change, and localized manipulation.",
+    "tags": ["Computer Vision", "Digital Forensics", "Cultural Heritage", "Watermarking", "Research Paper"],
+    "stack": ["Python", "OpenCLIP", "Image Forensics"],
+    "themes": ["AI research", "digital forensics", "provenance"],
+    "note": "presented at CHORDS 2026",
+    "url": "/research",
+    "status": "presented, not yet published",
+    "engineering_signals": ["research methodology", "computer vision", "digital forensics"]
+  },
+  {
+    "slug": "sage-pi",
+    "name": "SAGE-PI",
+    "year": "2026",
+    "tagline": "structure-aware generalizable detection of indirect prompt injection — RV University research",
+    "summary": "SAGE-PI is a research project on generalizable indirect prompt-injection detection: a multi-channel approach combining DistilBERT semantic representations, source-structural features, and instruction-conflict modeling, built on a 32,475-sample corpus across seven sources.",
+    "motivation": "LLM security classifiers tend to overfit to their training sources and fail to generalize to unseen sources or novel attack families.",
+    "architecture": "DistilBERT-based semantic representation + source-structural features + instruction-conflict modeling, evaluated with leave-one-source-out and unseen-attack-family protocols.",
+    "outcomes": "A reproducible cross-source, cross-attack-family evaluation pipeline with statistical significance testing.",
+    "tags": ["LLM Security", "Prompt Injection", "NLP", "DistilBERT", "Research Paper"],
+    "stack": ["Python", "DistilBERT", "PyTorch"],
+    "themes": ["AI research", "LLM security", "NLP"],
+    "note": "RV University research project",
+    "url": "/research",
+    "status": "research project, not yet published",
+    "engineering_signals": ["research methodology", "LLM security", "NLP"]
+  },
+  {
+    "slug": "malayalam-sentiment",
+    "name": "Malayalam Sentiment Benchmark",
+    "year": "2026",
+    "tagline": "movie-disjoint benchmark for code-mixed Malayalam sentiment — SRM University–AP research",
+    "summary": "A 57,393-comment benchmark across 36 Malayalam movies with a movie-disjoint evaluation protocol, comparing TF-IDF+LogReg, MuRIL, XLM-RoBERTa, and IndicBERTv2. Found a 13.3-point macro-F1 gap between conventional and movie-disjoint evaluation. Anita was recognized as Best Intern, SIF-2026.",
+    "motivation": "Standard random-split evaluation lets sentiment models memorize movie-specific vocabulary instead of learning to generalize.",
+    "architecture": "Movie-disjoint train/test protocol, judgeability-gated classification, and a cross-view diagnostic for opinion transfer.",
+    "outcomes": "13.3-point macro-F1 gap between conventional and movie-disjoint evaluation, demonstrating that standard protocols overstate generalization on this task.",
+    "tags": ["NLP", "Code-Mixed Language", "Sentiment Analysis", "Evaluation Methodology", "Research Paper"],
+    "stack": ["Python", "MuRIL", "XLM-RoBERTa", "IndicBERTv2"],
+    "themes": ["AI research", "code-mixed NLP", "evaluation methodology"],
+    "note": "manuscript · SRM University–AP · Best Intern, SIF-2026",
+    "url": "/research",
+    "status": "manuscript, not yet published",
+    "engineering_signals": ["research methodology", "NLP", "benchmark construction"]
   }
 ]

@@ -1,14 +1,19 @@
 {
   "name": "Anita George",
   "pronouns": "she/her",
-  "role": "Computer Science Undergraduate · Full-Stack Developer · UI/UX Enthusiast",
+  "role": "Software Engineer · Applied AI/ML Research",
   "degree": "B.Tech in Computer Science Engineering",
   "university": "Indian Institute of Information Technology Kottayam (IIIT Kottayam)",
   "years": "2024 – 2028",
-  "gpa": "9.03 / 10",
+  "gpa": "9.17 / 10",
   "location": "Kollam, Kerala, India",
-  "tagline": "ambitious, systems-oriented, design-aware",
-  "blurb": "Anita George is a Computer Science Engineering undergraduate at IIIT Kottayam (2024–2028, GPA 9.03/10). She works across the full stack — from algorithmic backends and graph-theoretic optimization to accessibility-focused UI/UX. Her projects sit at the intersection of scalable systems, humane technology, and emotionally aware design, with a particular interest in safety, accessibility, and adaptive interfaces.",
+  "tagline": "Software engineer. Also does applied AI/ML research.",
+  "blurb": "Anita George is a Computer Science Engineering undergraduate at IIIT Kottayam (2024–2028, GPA 9.17/10), currently a Software Engineer at theMonks.tech building an agentic data-science platform. Alongside that she has run two research internships — code-mixed Malayalam sentiment analysis at SRM University–AP and indirect prompt-injection detection at RV University — and a related project, TrustHeritage, was presented at CHORDS 2026. She also ships fast outside of work: Cupid's Ledger handled 1,000+ users in a single day, and DelAI won TinkHack 2.0 on graph-based route optimization.",
+  "current_focus": [
+    "agentic data-science tooling at theMonks.tech",
+    "LLM security — indirect prompt-injection detection",
+    "digital-authenticity verification for cultural heritage media"
+  ],
   "links": {
     "github": "https://github.com/AnitaGeorge404/",
     "linkedin": "https://www.linkedin.com/in/anita-george-8b8334326/",
@@ -16,21 +21,20 @@
     "email": "anitageorge1806@gmail.com"
   },
   "interests": [
-    "humane technology",
+    "applied AI/ML research",
+    "LLM security and prompt injection",
+    "code-mixed NLP",
+    "digital forensics and provenance",
     "graph theory and optimization",
-    "scalable backend systems",
     "accessibility-first UX",
-    "adaptive interfaces",
-    "AI safety and digital dignity",
-    "modular system design",
-    "interface psychology",
-    "emotionally aware systems"
+    "agentic systems",
+    "scalable backend systems"
   ],
   "philosophy": [
-    "Anita's work consistently combines scalable systems, accessibility-focused thinking, and strong interface design sensibilities.",
-    "Several of her projects explore how technology can reduce harm, improve accessibility, or create calmer, more honest user experiences.",
+    "Anita's work runs two tracks at once: production software engineering and applied AI/ML research, and the two inform each other.",
+    "Several of her projects explore how technology can reduce harm, improve accessibility, or verify authenticity — VantaAI, LawGorithm, NeuroBridge, and TrustHeritage all sit in this space.",
     "She is interested in both backend systems (algorithms, APIs, optimization) and frontend systems (component architecture, interaction design, accessibility).",
-    "Graph theory and optimization appear repeatedly across her work — both as engineering tools and as design metaphors."
+    "Graph theory and optimization appear repeatedly across her work — both as an engineering tool (DelAI) and as long-running DSA practice."
   ],
   "dsa": {
     "total_problems": "400+",

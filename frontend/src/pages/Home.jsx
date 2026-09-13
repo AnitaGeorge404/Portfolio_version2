@@ -13,7 +13,7 @@ import {
   Tape, Marker, Paperclip, PetalRain
 } from "@/components/Decorations";
 import { Sparkles, ArrowUpRight, Bookmark, Quote } from "lucide-react";
-import { profile, aiOverview, projects, peopleAlsoAsk, experience, skills, internetTraces, obsessions, themes, dsa, achievements, repos } from "@/data/portfolio";
+import { profile, aiOverview, projects, peopleAlsoAsk, experience, skills, obsessions, themes, dsa, achievements, repos } from "@/data/portfolio";
 import { useTheme } from "@/context/ThemeContext";
 import { ScholarSearchBar, ScholarResultRow, ScholarStatLine, ScholarSectionTitle, ScholarProfileIndex, ScholarMetaLine } from "@/components/ScholarPrimitives";
 import { MidnightMetaLine, MidnightGlassSurface, MidnightSystemRecord, MidnightQuerySurface, MidnightStatLine } from "@/components/MidnightPrimitives";
@@ -43,7 +43,7 @@ function AnitaLogo({ large = false }) {
 
 // Scholar — index entrance: identity, search, indexed interests, selected records
 function ScholarHome({ paa }) {
-  const suggestedQueries = ["NeuroBridge accessibility", "graph optimization", "full-stack development", "AI safety"];
+  const suggestedQueries = ["What is TrustHeritage?", "What is SAGE-PI?", "Which project handled real users?", "What is Anita currently working on?"];
   const featured = projects.slice(0, 3);
 
   return (
@@ -435,7 +435,7 @@ export default function Home() {
             animate={{ opacity: 1 }}
             transition={{ duration: 0.7, ease: "easeOut", delay: 0.7 }}
           >
-            full-stack engineer · accessibility-first · girl in STEM
+            software engineer · applied AI/ML research
           </motion.p>
 
           {/* Search bar */}
@@ -704,7 +704,7 @@ export default function Home() {
               data-testid="obsessions-panel"
             >
               <div className="text-[10px] uppercase tracking-[0.3em] text-[var(--plum)]">
-                collected obsessions
+                technical interests
               </div>
               <ul className="mt-3 flex flex-wrap gap-2">
                 {obsessions.map((o, i) => (
@@ -720,23 +720,20 @@ export default function Home() {
               </ul>
             </div>
 
-            {/* Internet traces */}
+            {/* Currently focused on — real, not simulated browsing history */}
             <div
               className="relative bg-white/85 border border-[var(--border-soft)] rounded-3xl p-6"
-              data-testid="internet-traces-panel"
+              data-testid="current-focus-panel"
             >
               <div className="flex items-center justify-between mb-3">
-                <div className="text-[10px] uppercase tracking-[0.3em] text-[var(--plum)]">recent tabs</div>
-                <span className="font-hand text-[var(--rose)] text-base">— learning</span>
+                <div className="text-[10px] uppercase tracking-[0.3em] text-[var(--plum)]">currently focused on</div>
+                <span className="font-hand text-[var(--rose)] text-base">— right now</span>
               </div>
-              <ul className="divide-y divide-[var(--border-soft)] text-sm">
-                {internetTraces.slice(0, 5).map((t) => (
-                  <li key={t.title} className="py-2.5 flex items-baseline gap-3">
-                    <span className="text-[10px] uppercase tracking-[0.2em] text-[var(--plum)] w-20 shrink-0">{t.time}</span>
-                    <div className="flex-1 min-w-0">
-                      <div className="text-ink truncate text-xs">{t.title}</div>
-                      <div className="text-[var(--sage)] text-[11px] font-mono truncate">{t.url}</div>
-                    </div>
+              <ul className="space-y-2.5 text-sm">
+                {profile.currentFocus.map((f) => (
+                  <li key={f} className="flex items-start gap-2">
+                    <span className="text-[var(--rose)] mt-1">·</span>
+                    <span className="text-ink leading-relaxed">{f}</span>
                   </li>
                 ))}
               </ul>
@@ -800,23 +797,24 @@ export default function Home() {
               <div className="text-[10px] uppercase tracking-[0.3em] text-[var(--plum)]">field notes · about me</div>
               <h2 className="font-serif text-5xl sm:text-6xl text-ink leading-[0.95] mt-2">
                 i&apos;m <span className="italic text-[var(--rose)]">anita</span> —<br />
-                i build across the full stack.
+                i build systems, then study how they fail.
               </h2>
               <Squiggle width={220} className="mt-3" color="#EDAABB" />
               <Quote size={22} className="text-[var(--rose)] mt-4" />
               <p className="mt-3 font-serif italic text-lg text-ink-soft leading-relaxed max-w-xl">
-                Computer Science Engineering undergraduate at IIIT Kottayam. I work across backend
-                systems, frontend interfaces, and algorithmic foundations — with a particular
-                interest in humane technology, accessibility-first UX, and graph-based optimization.
+                Computer Science Engineering undergraduate at IIIT Kottayam, currently a Software
+                Engineer at theMonks.tech. Alongside that I've run two research internships — on
+                code-mixed NLP and on LLM prompt-injection detection — and a related project,
+                TrustHeritage, was presented at CHORDS 2026.
               </p>
               <div className="mt-6 grid grid-cols-2 sm:grid-cols-3 gap-4 max-w-xl">
                 {[
-                  { k: "degree", v: "B.Tech CSE" },
+                  { k: "role", v: "SWE @ theMonks.tech" },
                   { k: "at", v: "IIIT Kottayam" },
                   { k: "gpa", v: profile.gpa },
                   { k: "dsa", v: "400+ problems" },
-                  { k: "wins", v: "TinkHack · Girlathon" },
-                  { k: "stack", v: "Python · React · FastAPI" },
+                  { k: "research", v: "CHORDS 2026 · SAGE-PI" },
+                  { k: "wins", v: "TinkHack · Innowave" },
                 ].map((m) => (
                   <div key={m.k}>
                     <div className="text-[10px] uppercase tracking-[0.3em] text-[var(--plum)]">{m.k}</div>

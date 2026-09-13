@@ -1,26 +1,26 @@
 {
   "best project": {
-    "answer": "VantaAI and DelAI are the most technically mature — both hackathon-recognized, with measured outcomes (~30% latency improvement on VantaAI; ~20% routing efficiency on DelAI). NeuroBridge is the most ambitious in scope but is still actively evolving.",
-    "related": ["/projects/vantaai", "/projects/delai", "/projects/neurobridge"]
+    "answer": "By evidence: TrustHeritage is the strongest — a presented conference paper with a real evaluation (130 controlled runs). By shipped impact: Cupid's Ledger, which handled 1,000+ users in a day. By ambition: NeuroBridge, still evolving.",
+    "related": ["/research", "/projects/cupidsledger", "/projects/neurobridge"]
   },
   "favorite project": {
-    "answer": "Different projects matter for different reasons. NeuroBridge is the most ambitious — an evolving adaptive-support platform for neurodivergent users. DelAI is the most algorithmically interesting — graph-based routing with measured optimization wins. VantaAI is the most safety-focused — image-based abuse and deepfake detection.",
-    "related": ["/projects/neurobridge", "/projects/delai", "/projects/vantaai"]
+    "answer": "Different projects matter for different reasons. NeuroBridge is the most ambitious in scope. TrustHeritage is the most rigorous. Cupid's Ledger is the best proof she can ship under real load.",
+    "related": ["/projects/neurobridge", "/research", "/projects/cupidsledger"]
   },
   "future": {
-    "answer": "Anita's direction is toward humane technology and accessibility-first systems — software that reduces harm, supports cognitive accessibility, and treats interface design as a first-class engineering concern.",
-    "related": ["/projects/neurobridge", "/work"]
+    "answer": "Anita's direction is toward applied AI/ML research alongside production engineering — LLM security, digital-authenticity verification, and accessibility-first systems.",
+    "related": ["/research", "/work"]
   },
   "hello": {
-    "answer": "Hello. This is the AI mode for Anita George's portfolio — a grounded semantic search over her real projects, repositories, technical interests, and design direction. Ask about VantaAI, DelAI, NeuroBridge, her stack, or her engineering themes.",
+    "answer": "Hello. This is the AI mode for Anita George's portfolio — a grounded semantic search over her real projects, research, and engineering themes. Ask about theMonks.tech, TrustHeritage, SAGE-PI, or her shipped projects.",
     "related": ["/", "/work"]
   },
   "who built this": {
-    "answer": "This site was built by Anita George — a Computer Science Engineering undergraduate at IIIT Kottayam (2024–2028, GPA 9.03/10). The AI mode you're using is grounded in a curated archive of her actual projects, repositories, and engineering themes.",
+    "answer": "This site was built by Anita George — a Computer Science Engineering undergraduate at IIIT Kottayam (2024–2028, GPA 9.17/10), currently a Software Engineer at theMonks.tech. The AI mode you're using is grounded in a curated archive of her actual projects, research, and repositories.",
     "related": ["/", "/work"]
   },
   "github": {
-    "answer": "Anita's GitHub contains a mix of completed projects (e.g., VantaAI, DelAI), active prototypes (NeuroBridge / Neurobridge_V2), and evolving experiments — anita-s-internet-brain, anita-s-digital-archive, Portfolio_version2 / Pv2, Wrapped, Lume, IndigoInForm, Indigo_admin. Not all repositories are polished production systems.",
+    "answer": "Anita's GitHub includes shipped hackathon projects (VantaAI, DelAI, Cupid's Ledger), research repos (trustheritage, sage_pi, movie_research), an open-source contribution (EaseMotion-css), and evolving prototypes (Neurobridge / Neurobridge_V2). Not every public repository is documented on this site yet.",
     "related": ["/work"]
   },
   "linkedin": {

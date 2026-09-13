@@ -1,37 +1,93 @@
 [
   {
+    "where": "theMonks.tech",
+    "role": "Software Engineer",
+    "year": "Jun 2026 – present",
+    "detail": "Full-stack features for an agentic data-science platform — AI agents, datasets, projects, workspaces, and conversational workflows. Architects backend services and APIs, and builds modular React/Vite interfaces.",
+    "themes": ["agentic systems", "full-stack engineering", "backend architecture"]
+  },
+  {
+    "where": "SRM University–AP",
+    "role": "Research Intern",
+    "year": "Jun – Jul 2026",
+    "detail": "Built a 57,393-comment, 36-movie benchmark for code-mixed Malayalam sentiment analysis with a movie-disjoint evaluation protocol; co-authored the resulting manuscript. Recognized as Best Intern, SIF-2026 Summer Research Internship Program.",
+    "themes": ["NLP research", "code-mixed language", "evaluation methodology"]
+  },
+  {
+    "where": "RV University",
+    "role": "Research Intern",
+    "year": "Jun – Jul 2026",
+    "detail": "Ran concurrently with the SRM internship. Researched SAGE-PI, structure-aware detection of indirect prompt injection, building a 32,475-sample corpus and a leakage-audited, cross-source evaluation pipeline.",
+    "themes": ["LLM security", "prompt injection", "NLP research"]
+  },
+  {
+    "where": "Pixelboho",
+    "role": "Software Developer Intern",
+    "year": "May – Jun 2026",
+    "detail": "Built responsive web features and UI, integrated APIs, and optimized frontend–backend communication in a Git-based cross-functional workflow. Kochi.",
+    "themes": ["frontend engineering", "API integration"]
+  },
+  {
+    "where": "GirlScript Summer of Code (GSSoC)",
+    "role": "Ambassador & Contributor — Open Source & AI Agents",
+    "year": "May – Jul 2026",
+    "detail": "Contributed React components and animation utilities through GitHub issues and pull requests. Also served as a GSSoC 2026 Ambassador.",
+    "themes": ["open source", "frontend engineering", "community"]
+  },
+  {
+    "where": "REsolvers",
+    "role": "Co-Founder",
+    "year": "Feb 2026 – present",
+    "detail": "Co-founded with Adithyan M Nair, Amal Sajeev, Muhammed Basil, and Lestlin Robins. Won 1st place at the Innowave Pitchathon with CivicAid; Anita's focus was frontend and product experience.",
+    "themes": ["product strategy", "startup", "team leadership"]
+  },
+  {
+    "where": "Skillbit Technologies",
+    "role": "Full Stack Developer",
+    "year": "Jun – Jul 2025",
+    "detail": "Short-term full-stack development engagement.",
+    "themes": ["full-stack engineering"]
+  },
+  {
     "where": "GDG IIIT Kottayam",
     "role": "Technical Core Team",
-    "year": "2024-present",
-    "detail": "UI/UX workshops, technical event organization, community engagement, and design-consistency initiatives across chapter activities.",
+    "year": "Nov 2025 – present",
+    "detail": "Led UI/UX and modern web-animation workshops; helped organize Techashy, a 24-hour hackathon. Technical volunteer with the chapter from Jan 2025.",
     "themes": ["community engineering", "ui ux", "technical events"]
   },
   {
     "where": "BetaLabs IIIT Kottayam",
-    "role": "Web Development Core",
-    "year": "2024-present",
-    "detail": "Responsive web projects, frontend systems, and reusable component workflows across student team builds.",
+    "role": "Web Development Lead",
+    "year": "Aug 2026 – present",
+    "detail": "Previously Web Development Core Team (Nov 2025 – Aug 2026): responsive web projects and reusable component workflows, improving frontend development efficiency by ~25% through component reuse and standardized layouts.",
     "themes": ["frontend engineering", "component architecture", "responsive design"]
   },
   {
     "where": "Trendles IIIT Kottayam",
-    "role": "Design Core",
-    "year": "2024-present",
-    "detail": "Branding assets, posters, event creatives, and consistent visual systems for chapter and campus initiatives.",
+    "role": "Design Lead",
+    "year": "Sep 2026 – present",
+    "detail": "Previously Design Core Team (Oct 2025 – Sep 2026): 10+ branding assets — posters, social creatives, and event materials.",
     "themes": ["visual systems", "design consistency"]
+  },
+  {
+    "where": "Code Kalari, IIIT Kottayam",
+    "role": "Core Organizer",
+    "year": "Dec 2025 – Jan 2026",
+    "detail": "Co-organized a 24-hour national-level hackathon with a ₹2,00,000+ prize pool, sponsored by Dodo Payments, navan.ai, Mastra, Interview Cake, Devfolio, and ETHGlobal.",
+    "themes": ["events", "community"]
   },
   {
     "where": "IEEE",
     "role": "Student Volunteer",
-    "year": "2024-present",
-    "detail": "Active student-volunteer engagement with IEEE chapter activities.",
+    "year": "Feb 2025",
+    "detail": "Supported organization of a 100+ participant technical event — registrations, logistics, coordination.",
     "themes": ["community", "technical volunteering"]
   },
   {
     "where": "TEDxIIIT Kottayam",
     "role": "Volunteer",
-    "year": "2024",
-    "detail": "Volunteer involvement in TEDxIIIT Kottayam programming.",
+    "year": "Jan 2025",
+    "detail": "PR and audience outreach for a 200+ attendee event.",
     "themes": ["events", "volunteering"]
   }
 ]
