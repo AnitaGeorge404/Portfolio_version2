@@ -1,5 +1,21 @@
 [
   {
+    "source": "trustheritage",
+    "target": "vantaai",
+    "type": "theme",
+    "theme": "computer vision for trust and safety",
+    "reason": "TrustHeritage verifies media authenticity with forensics and semantic similarity; VantaAI detects manipulated/deepfake images for abuse prevention — both apply computer vision to trust problems.",
+    "strength": 0.8
+  },
+  {
+    "source": "sage-pi",
+    "target": "lawgorithm",
+    "type": "theme",
+    "theme": "detecting adversarial content with NLP",
+    "reason": "SAGE-PI detects indirect prompt injection in LLM inputs; LawGorithm detects scam content — both are NLP-based adversarial-content classifiers.",
+    "strength": 0.7
+  },
+  {
     "source": "neurobridge",
     "target": "faimer",
     "type": "theme",
@@ -13,15 +29,7 @@
     "type": "theme",
     "theme": "humane technology",
     "reason": "NeuroBridge focuses on emotional safety and cognitive accessibility, while VantaAI focuses on digital dignity and reducing online harm.",
-    "strength": 0.88
-  },
-  {
-    "source": "vantaai",
-    "target": "lawgorithm",
-    "type": "theme",
-    "theme": "online safety",
-    "reason": "Both systems use AI or NLP classification to surface safety signals: VantaAI for image-based abuse and deepfakes, LawGorithm for scam/risk analysis.",
-    "strength": 0.86
+    "strength": 0.85
   },
   {
     "source": "delai",
@@ -32,35 +40,27 @@
     "strength": 0.9
   },
   {
-    "source": "vantaai",
+    "source": "civicaid",
     "target": "delai",
     "type": "engineering-pattern",
-    "theme": "optimization systems",
-    "reason": "Both projects report measured system improvements: VantaAI reduced inference latency, DelAI improved route efficiency.",
-    "strength": 0.78
+    "theme": "competition wins under time pressure",
+    "reason": "Both were built and won under extreme time constraints — DelAI in a 24-hour hackathon, CivicAid in a pitch-only round with no build time at all.",
+    "strength": 0.7
   },
   {
-    "source": "studybee",
+    "source": "cupidsledger",
     "target": "neurobridge",
-    "type": "experience-pattern",
-    "theme": "reducing overwhelm",
-    "reason": "StudyBee structures academic material to reduce preparation load; NeuroBridge structures routines, sensory regulation, and focus support.",
-    "strength": 0.76
+    "type": "engineering-pattern",
+    "theme": "frontend engineering",
+    "reason": "Both are React/Vite/Tailwind frontends built with a BetaLabs or KSUM team, but Cupid's Ledger optimizes for a one-day traffic spike while NeuroBridge optimizes for sustained accessibility.",
+    "strength": 0.6
   },
   {
-    "source": "anita-s-internet-brain",
-    "target": "Portfolio_version2 / Pv2",
-    "type": "repository-evolution",
-    "theme": "semantic archive interface",
-    "reason": "Both repositories are described as portfolio/search-engine interface studies rather than polished production products.",
-    "strength": 0.74
-  },
-  {
-    "source": "Neurobridge / Neurobridge_V2",
+    "source": "Neurobridge",
     "target": "neurobridge",
     "type": "repository-project",
     "theme": "adaptive accessibility platform",
-    "reason": "The repository archive identifies Neurobridge iterations as architectural work on the NeuroBridge adaptive accessibility platform.",
-    "strength": 0.93
+    "reason": "The GitHub repository Neurobridge (and its rebuild, Neurobridge_V2) is the codebase for the NeuroBridge project.",
+    "strength": 0.95
   }
 ]

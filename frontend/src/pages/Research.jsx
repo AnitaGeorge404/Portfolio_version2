@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { themes, dsa, achievements, certifications } from "@/data/portfolio";
+import { themes, dsa, achievements, certifications, research } from "@/data/portfolio";
 import ResultCard from "@/components/ResultCard";
 import { Squiggle, Sparkle, Marker, Tape, Sprig } from "@/components/Decorations";
 import { ArrowUpRight, BookOpen } from "lucide-react";
@@ -13,12 +13,33 @@ function HerbariumResearch() {
   return (
     <div className="max-w-3xl mx-auto px-4 sm:px-6 py-14" data-testid="research-page">
       <HerbariumFieldLabel>Field notes</HerbariumFieldLabel>
-      <h1 className="mt-2 font-serif italic text-4xl sm:text-5xl text-[var(--ink)]">Technical Exploration</h1>
+      <h1 className="mt-2 font-serif italic text-4xl sm:text-5xl text-[var(--ink)]">Research</h1>
       <p className="mt-2 text-[15px] text-[var(--ink-soft)] max-w-xl">
-        Not a publication record — the technical patterns observed across her systems.
+        Two research internships and a presented paper, plus the technical patterns that recur across her shipped systems.
       </p>
 
-      <HerbariumSpecimenSheet title="Algorithmic foundation" className="mt-6">
+      <div className="mt-8 space-y-5" data-testid="research-papers">
+        {research.map((r) => (
+          <HerbariumSpecimenSheet key={r.slug} id={r.status} title={r.venue} className="">
+            <h2 className="font-serif italic text-xl text-[var(--specimen-ink)] leading-snug">{r.title}</h2>
+            <div className="mt-1 text-[13px] text-[var(--specimen-ink-soft)]">{r.org}</div>
+            <div className="mt-4 space-y-2.5 text-[14px] leading-relaxed text-[var(--specimen-ink)]">
+              <p><span className="font-mono text-[11px] uppercase tracking-[0.08em] text-[var(--burgundy)]">Problem — </span>{r.problem}</p>
+              <p><span className="font-mono text-[11px] uppercase tracking-[0.08em] text-[var(--burgundy)]">Method — </span>{r.method}</p>
+              <p><span className="font-mono text-[11px] uppercase tracking-[0.08em] text-[var(--burgundy)]">Evaluation — </span>{r.evaluation}</p>
+              <p><span className="font-mono text-[11px] uppercase tracking-[0.08em] text-[var(--burgundy)]">Result — </span>{r.result}</p>
+              <p className="italic text-[var(--specimen-ink-soft)]"><span className="font-mono text-[11px] uppercase tracking-[0.08em] not-italic text-[var(--burgundy)]">Limitation — </span>{r.limitation}</p>
+            </div>
+            <div className="mt-3 flex flex-wrap gap-1.5">
+              {r.tags.map((t) => (
+                <span key={t} className="px-2 py-0.5 text-[10px] uppercase tracking-[0.15em] border border-[var(--specimen-border)] text-[var(--specimen-ink-soft)]">{t}</span>
+              ))}
+            </div>
+          </HerbariumSpecimenSheet>
+        ))}
+      </div>
+
+      <HerbariumSpecimenSheet title="Algorithmic foundation" className="mt-8">
         <HerbariumStatLine
           items={[
             ["problems solved", dsa.total],
@@ -75,13 +96,38 @@ function HerbariumResearch() {
 function MidnightResearch() {
   return (
     <div className="max-w-3xl mx-auto px-4 sm:px-6 py-14" data-testid="research-page">
-      <MidnightMetaLine signal>Analysis workspace</MidnightMetaLine>
-      <h1 className="mt-2 font-serif italic text-4xl sm:text-5xl text-[var(--ink)]">Technical Exploration</h1>
+      <MidnightMetaLine signal>Research index</MidnightMetaLine>
+      <h1 className="mt-2 font-serif italic text-4xl sm:text-5xl text-[var(--ink)]">Research</h1>
       <p className="mt-2 text-[15px] text-[var(--ink-soft)] max-w-xl">
-        Not a publication record — the technical patterns that recur across her systems.
+        Two research internships and a presented paper, plus the technical patterns that recur across her shipped systems.
       </p>
 
-      <MidnightGlassSurface level={2} className="mt-6 p-6">
+      <div className="mt-8 space-y-4" data-testid="research-papers">
+        {research.map((r) => (
+          <MidnightGlassSurface key={r.slug} level={3} className="p-6">
+            <div className="flex items-center justify-between gap-3 flex-wrap">
+              <MidnightMetaLine>{r.venue}</MidnightMetaLine>
+              <span className="font-mono text-[10px] uppercase tracking-[0.1em] px-2 py-0.5 border border-[var(--border-soft)] text-[var(--decoration-primary)]">{r.status}</span>
+            </div>
+            <h2 className="mt-2 font-serif italic text-xl text-[var(--ink)] leading-snug">{r.title}</h2>
+            <div className="mt-1 text-[13px] text-[var(--ink-soft)]">{r.org}</div>
+            <div className="mt-4 space-y-2.5 text-[14px] leading-relaxed text-[var(--ink)]">
+              <p><span className="font-mono text-[11px] uppercase tracking-[0.08em] text-[var(--sage)]">Problem — </span>{r.problem}</p>
+              <p><span className="font-mono text-[11px] uppercase tracking-[0.08em] text-[var(--sage)]">Method — </span>{r.method}</p>
+              <p><span className="font-mono text-[11px] uppercase tracking-[0.08em] text-[var(--sage)]">Evaluation — </span>{r.evaluation}</p>
+              <p><span className="font-mono text-[11px] uppercase tracking-[0.08em] text-[var(--sage)]">Result — </span>{r.result}</p>
+              <p className="text-[var(--ink-soft)]"><span className="font-mono text-[11px] uppercase tracking-[0.08em] text-[var(--sage)]">Limitation — </span>{r.limitation}</p>
+            </div>
+            <div className="mt-3 flex flex-wrap gap-1.5">
+              {r.tags.map((t) => (
+                <span key={t} className="px-2 py-0.5 text-[10px] uppercase tracking-[0.15em] border border-[var(--border-soft)] text-[var(--ink-soft)]">{t}</span>
+              ))}
+            </div>
+          </MidnightGlassSurface>
+        ))}
+      </div>
+
+      <MidnightGlassSurface level={2} className="mt-8 p-6">
         <MidnightStatLine
           items={[
             ["problems solved", dsa.total],
@@ -144,13 +190,38 @@ function MidnightResearch() {
 function ScholarResearch() {
   return (
     <div className="max-w-3xl mx-auto px-4 sm:px-6 py-12" data-testid="research-page">
-      <ScholarMetaLine>Anita George · Technical exploration index</ScholarMetaLine>
-      <h1 className="mt-1 font-serif text-3xl sm:text-4xl text-[var(--ink)]">Research &amp; Technical Exploration</h1>
+      <ScholarMetaLine>Anita George · Research index</ScholarMetaLine>
+      <h1 className="mt-1 font-serif text-3xl sm:text-4xl text-[var(--ink)]">Research</h1>
       <p className="mt-2 text-[15px] text-[var(--ink-soft)] max-w-2xl">
-        Not a publication record — an index of the technical themes and design patterns that recur across her projects.
+        Two research internships and a presented conference paper, plus the technical themes that recur across her shipped projects.
       </p>
 
-      <div className="mt-6 pt-4 border-t border-[var(--border-soft)]">
+      <div className="mt-8 space-y-6" data-testid="research-papers">
+        {research.map((r) => (
+          <article key={r.slug} className="pt-6 border-t border-[var(--border-soft)]">
+            <div className="flex items-center justify-between gap-3 flex-wrap">
+              <ScholarMetaLine>{r.venue}</ScholarMetaLine>
+              <span className="font-mono text-[10px] uppercase tracking-[0.1em] px-2 py-0.5 border border-[var(--border-soft)] text-[var(--link)]">{r.status}</span>
+            </div>
+            <h2 className="mt-2 font-serif text-xl text-[var(--ink)] leading-snug">{r.title}</h2>
+            <div className="mt-1 text-[13px] text-[var(--ink-soft)]">{r.org}</div>
+            <dl className="mt-4 space-y-2.5 text-[15px] leading-relaxed text-[var(--ink)]">
+              <div><dt className="inline font-mono text-[11px] uppercase tracking-[0.08em] text-[var(--ink-soft)]">Problem — </dt><dd className="inline">{r.problem}</dd></div>
+              <div><dt className="inline font-mono text-[11px] uppercase tracking-[0.08em] text-[var(--ink-soft)]">Method — </dt><dd className="inline">{r.method}</dd></div>
+              <div><dt className="inline font-mono text-[11px] uppercase tracking-[0.08em] text-[var(--ink-soft)]">Evaluation — </dt><dd className="inline">{r.evaluation}</dd></div>
+              <div><dt className="inline font-mono text-[11px] uppercase tracking-[0.08em] text-[var(--ink-soft)]">Result — </dt><dd className="inline">{r.result}</dd></div>
+              <div><dt className="inline font-mono text-[11px] uppercase tracking-[0.08em] text-[var(--ink-soft)]">Limitation — </dt><dd className="inline text-[var(--ink-soft)]">{r.limitation}</dd></div>
+            </dl>
+            <div className="mt-3 flex flex-wrap gap-1.5">
+              {r.tags.map((t) => (
+                <span key={t} className="px-2 py-0.5 text-[10px] uppercase tracking-[0.15em] border border-[var(--border-soft)] text-[var(--ink-soft)]">{t}</span>
+              ))}
+            </div>
+          </article>
+        ))}
+      </div>
+
+      <div className="mt-8 pt-4 border-t border-[var(--border-soft)]">
         <ScholarStatLine
           items={[
             ["problems solved", dsa.total],
@@ -224,14 +295,41 @@ export default function Research() {
     <div className="max-w-4xl mx-auto px-4 sm:px-6 py-12" data-testid="research-page">
       <div className="relative">
         <Sprig className="absolute -top-8 -right-2 opacity-60 hidden sm:block" size={70} />
-        <div className="text-[10px] uppercase tracking-[0.3em] text-plum">/ research · recurring themes</div>
+        <div className="text-[10px] uppercase tracking-[0.3em] text-plum">/ research</div>
         <h1 className="font-serif text-6xl sm:text-7xl text-ink leading-[0.95] mt-2">
-          themes <span className="italic">across</span> the work.
+          papers, <span className="italic">and the patterns</span> underneath.
         </h1>
         <Squiggle width={220} className="mt-3" />
         <p className="mt-4 font-serif italic text-xl text-ink-soft max-w-2xl">
-          not a CV — a map of the technical and design themes that recur across her projects.
+          two research internships and a presented conference paper, plus the technical themes that recur across her shipped work.
         </p>
+      </div>
+
+      {/* Research papers */}
+      <div className="mt-10 space-y-8" data-testid="research-papers">
+        {research.map((r, i) => (
+          <div key={r.slug} className="relative bg-white/85 border border-[var(--border-soft)] rounded-2xl p-6" data-testid={`research-paper-${r.slug}`}>
+            <Tape className="-top-3 left-10" rotate={i % 2 ? 6 : -7} w={70} />
+            <div className="flex items-center justify-between gap-3 flex-wrap">
+              <div className="text-[10px] uppercase tracking-[0.3em] text-plum">{r.venue}</div>
+              <span className="font-hand text-[var(--rose)] text-lg">— {r.status}</span>
+            </div>
+            <h2 className="mt-2 font-serif text-2xl sm:text-3xl text-ink leading-snug">{r.title}</h2>
+            <div className="mt-1 text-sm text-ink-soft">{r.org}</div>
+            <div className="mt-4 space-y-2.5 text-[15px] leading-relaxed text-ink">
+              <p><span className="font-mono text-[11px] uppercase tracking-[0.08em] text-plum">Problem — </span>{r.problem}</p>
+              <p><span className="font-mono text-[11px] uppercase tracking-[0.08em] text-plum">Method — </span>{r.method}</p>
+              <p><span className="font-mono text-[11px] uppercase tracking-[0.08em] text-plum">Evaluation — </span>{r.evaluation}</p>
+              <p><span className="font-mono text-[11px] uppercase tracking-[0.08em] text-plum">Result — </span>{r.result}</p>
+              <p className="text-ink-soft italic"><span className="font-mono text-[11px] not-italic uppercase tracking-[0.08em] text-plum">Limitation — </span>{r.limitation}</p>
+            </div>
+            <div className="mt-3 flex flex-wrap gap-1.5">
+              {r.tags.map((t) => (
+                <span key={t} className="px-2.5 py-0.5 text-[10px] uppercase tracking-[0.2em] bg-tag border border-[var(--border-soft)] text-plum rounded-full">{t}</span>
+              ))}
+            </div>
+          </div>
+        ))}
       </div>
 
       {/* DSA panel */}

@@ -820,7 +820,7 @@ def _profile_answer() -> str:
     dsa = profile.get("dsa", {})
     return (
         f"Anita George is a {clean_text(profile.get('role', 'Computer Science undergraduate'))} at {clean_text(profile.get('university', 'IIIT Kottayam'))} "
-        f"({clean_text(profile.get('years', '2024-2028'))}, GPA {clean_text(profile.get('gpa', '9.03 / 10'))}). "
+        f"({clean_text(profile.get('years', '2024-2028'))}, GPA {clean_text(profile.get('gpa', '9.17 / 10'))}). "
         "The archive frames her as full-stack and systems-minded: backend APIs and modular services on one side, React/Next.js/Tailwind interface work on the other, with a strong algorithmic base. "
         f"Her DSA record is listed as {clean_text(dsa.get('total_problems', '400+'))} problems, including {clean_text(dsa.get('leetcode', '230+'))} LeetCode and {clean_text(dsa.get('codeforces', '170+'))} Codeforces, with graph theory and optimization as recurring focus areas."
     )

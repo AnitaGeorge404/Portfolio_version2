@@ -514,8 +514,8 @@ class KnowledgeBase:
 
         if all(score <= 0.05 for score, _ in scored):
             default_questions = [
-                "What kind of engineer is Anita?",
-                "Why does humane technology appear repeatedly in her work?",
+                "What is Anita currently working on?",
+                "What did the TrustHeritage paper investigate?",
                 "Why does graph theory appear repeatedly?",
                 "What makes NeuroBridge different?",
             ]

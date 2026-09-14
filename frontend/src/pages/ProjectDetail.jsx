@@ -420,7 +420,7 @@ export default function ProjectDetail() {
           <div className="border-y border-[var(--border-soft)] py-6">
             <div className="text-[10px] uppercase tracking-[0.3em] text-[var(--plum)]">related searches</div>
             <div className="mt-3 flex flex-wrap gap-2">
-              {["humane technology", "graph theory", "soft software", "feminine internet", project.tagline].map((t) => (
+              {["applied AI/ML research", "graph theory", "accessibility-first UX", "shipping to real users", project.tagline].map((t) => (
                 <Link
                   to={`/ai-mode?q=${encodeURIComponent(t)}`}
                   key={t}
