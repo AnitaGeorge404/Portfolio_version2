@@ -113,6 +113,27 @@ export const itemVariants = {
 };
 
 /**
+ * Midnight-specific entrance choreography — slower and heavier than the
+ * generic containerVariants/itemVariants above, matching the `inertial`
+ * motion preset (weighted, slow-settling, not bouncy). Shared by Home and
+ * Work so the two primary Midnight landing surfaces feel like one system.
+ * Reveal order matters more than speed here: identity -> headline -> the
+ * primary action -> proof -> evidence, one step at a time.
+ */
+export const midnightHeroContainer = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.11, delayChildren: 0.05 } },
+};
+export const midnightHeroItem = {
+  hidden: { opacity: 0, y: 16 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.85, ease: [0.16, 1, 0.3, 1] } },
+};
+export const midnightHeroItemReduced = {
+  hidden: { opacity: 0 },
+  visible: { opacity: 1, transition: { duration: 0.4 } },
+};
+
+/**
  * Scroll-triggered reveal animation
  */
 export function RevealOnScroll({ children, className = "" }) {
