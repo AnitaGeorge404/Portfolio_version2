@@ -90,9 +90,10 @@ function ScholarHome({ paa }) {
 
       <div className="mt-10">
         <ScholarSectionTitle count={projects.length}>Selected indexed records</ScholarSectionTitle>
-        {featured.map((p) => (
+        {featured.map((p, i) => (
           <ScholarResultRow
             key={p.slug}
+            index={i}
             testid={`scholar-home-result-${p.slug}`}
             eyebrow={`Anita George · Project · ${p.year}`}
             title={p.name}

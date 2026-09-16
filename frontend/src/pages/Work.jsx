@@ -74,9 +74,10 @@ function ScholarWork() {
       </div>
 
       <div className="mt-2" data-testid="work-results">
-        {filtered.map((p) => (
+        {filtered.map((p, i) => (
           <ScholarResultRow
             key={p.slug}
+            index={i}
             testid={`work-result-${p.slug}`}
             eyebrow={`Anita George · Project · ${p.year} · ${p.status || "active"}`}
             title={p.name}

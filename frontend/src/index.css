@@ -1741,6 +1741,27 @@ html[data-theme="herbarium"] .btn-soft:active {
 }
 .scholar-search-row:focus-within::after { width: 100%; }
 
+/* Scholar: the same "precise line resolves" motif, applied to result-row
+   title links so the theme's most-hovered element doesn't fall back to a
+   plain native underline while everything else (search focus, nav marks,
+   filter tabs) gets a deliberate resolve. Linear, fast, no curve — matches. */
+.scholar-link-resolve {
+    text-decoration: none;
+    background-image: linear-gradient(var(--link), var(--link));
+    background-repeat: no-repeat;
+    background-position: 0 100%;
+    background-size: 0% 2px;
+    transition: background-size 160ms linear;
+}
+.scholar-link-resolve:hover,
+.scholar-link-resolve:focus-visible {
+    background-size: 100% 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .scholar-link-resolve { transition: none !important; }
+}
+
 /* Midnight: a single gold specular sweep crosses the glass once on focus — a facet catching light */
 .midnight-search-row { position: relative; overflow: hidden; }
 .midnight-search-row::before {
