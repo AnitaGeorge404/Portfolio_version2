@@ -22,6 +22,12 @@ const CARD_SELECTOR =
 const TEXT_SELECTOR = 'input, textarea, [contenteditable="true"]';
 const REFERENCE_SELECTOR = '[data-testid*="citation"], [data-testid*="reference"], [data-testid*="source"]';
 const DISABLED_SELECTOR = '[disabled], [aria-disabled="true"]';
+// The dock's world icons are roughly the same size as the cursor object
+// itself — left classified as "interactive" it sits centered right on top
+// of the icon and hides which world is under the pointer. The dock already
+// gives its own hover feedback (scale/lift), so the decorative cursor
+// object steps aside here instead of covering the thing you're choosing.
+const DOCK_SELECTOR = '.theme-dock-btn, [data-testid^="theme-dock-"]';
 
 // An icon (however well-drawn) is a symbol *for* an object. These are
 // attempts at the material itself: wax and engraving, ground glass and
@@ -144,6 +150,7 @@ export default function ThemeCursor() {
     const classify = (target) => {
       if (!target || !target.closest) return "default";
       if (target.closest(DISABLED_SELECTOR)) return "disabled";
+      if (target.closest(DOCK_SELECTOR)) return "dock";
       if (target.closest(TEXT_SELECTOR)) return "text";
       if (target.closest(REFERENCE_SELECTOR)) return "reference";
       if (target.closest(CARD_SELECTOR)) return "card";

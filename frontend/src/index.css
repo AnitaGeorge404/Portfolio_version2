@@ -1111,6 +1111,11 @@ html.has-theme-cursor [contenteditable="true"] {
 /* Disabled — any theme, any object: the thing goes inert and dims. */
 .theme-cursor[data-cursor-context="disabled"] .cursor-object { opacity: 0.4; filter: grayscale(0.7); }
 
+/* Dock — the object steps aside over the world icons so it never covers the
+   very icon you're choosing between; the dock's own hover scale/lift is the
+   feedback there instead. */
+.theme-cursor[data-cursor-context="dock"] { opacity: 0; transition: opacity 100ms ease; }
+
 /* ── Archive: a wax seal. Idle = almost still, a small pendulum sway while
    moving (never a full compass spin). The engraving deepens on targets.
    Paper-soft compress on press. No trail, no particles. ── */
