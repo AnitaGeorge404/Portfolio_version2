@@ -1,38 +1,6 @@
-/* Delicate, feminine cursor effects and interactions */
-
-/* Hide default cursor on interactive elements */
-button,
-a,
-input,
-textarea,
-select,
-[role="button"],
-[role="link"] {
-    cursor: none;
-}
-
-/* Custom cursor - base */
-body {
-    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='2.5' fill='%23C96B84' opacity='0.6'/%3E%3Ccircle cx='12' cy='12' r='1.5' fill='%23C96B84'/%3E%3C/svg%3E") 12 12, auto;
-}
-
-/* Hover cursor - interactive */
-button:hover,
-a:hover,
-[role="button"]:hover,
-[role="link"]:hover,
-input:hover,
-textarea:hover,
-select:hover {
-    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='3.5' fill='%23EDAABB' opacity='0.5'/%3E%3Ccircle cx='12' cy='12' r='2.5' fill='%23C96B84' opacity='0.7'/%3E%3Ccircle cx='12' cy='12' r='1.2' fill='%23C96B84'/%3E%3C/svg%3E") 12 12, pointer;
-}
-
-/* Text cursor */
-input[type="text"],
-input[type="search"],
-textarea {
-    cursor: text;
-}
+/* Delicate, feminine interaction effects.
+   Cursor appearance itself is owned entirely by ThemeCursor.jsx + the
+   "SIGNATURE CURSOR SYSTEM" block in index.css — no cursor rules here. */
 
 /* Selection highlight */
 ::selection {

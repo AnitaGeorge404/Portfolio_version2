@@ -165,18 +165,15 @@ export default function ThemeCursor() {
     window.addEventListener("pointerdown", onDown, { passive: true });
     window.addEventListener("pointerup", onUp, { passive: true });
 
-    // Position smoothing per theme — how "held" vs "instrument-precise" the
-    // object feels. Scholar/midnight track near-instantly (precision tools);
-    // archive/herbarium carry a touch of organic follow (a held object).
-    const POSITION_LERP = { archive: 0.42, search: 1, midnight: 0.88, herbarium: 0.6 };
-
     const tick = () => {
       const theme = themeRef.current;
       const p = pointerRef.current;
-      const lerp = POSITION_LERP[theme] ?? 1;
 
-      state.x += (p.x - state.x) * lerp;
-      state.y += (p.y - state.y) * lerp;
+      // Position tracks the pointer 1:1 every frame — any smoothing here
+      // reads as lag. Per-theme physicality comes from the tilt/rotation
+      // and facet effects below, not from delaying the base position.
+      state.x = p.x;
+      state.y = p.y;
 
       const vx = p.x - state.lastX;
       const vy = p.y - state.lastY;
