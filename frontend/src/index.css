@@ -1747,6 +1747,27 @@ html[data-theme="herbarium"] .btn-soft:active {
 }
 .scholar-search-row:focus-within::after { width: 100%; }
 
+/* Scholar: the same "precise line resolves" motif, applied to result-row
+   title links so the theme's most-hovered element doesn't fall back to a
+   plain native underline while everything else (search focus, nav marks,
+   filter tabs) gets a deliberate resolve. Linear, fast, no curve — matches. */
+.scholar-link-resolve {
+    text-decoration: none;
+    background-image: linear-gradient(var(--link), var(--link));
+    background-repeat: no-repeat;
+    background-position: 0 100%;
+    background-size: 0% 2px;
+    transition: background-size 160ms linear;
+}
+.scholar-link-resolve:hover,
+.scholar-link-resolve:focus-visible {
+    background-size: 100% 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .scholar-link-resolve { transition: none !important; }
+}
+
 /* Midnight: a single gold specular sweep crosses the glass once on focus — a facet catching light */
 .midnight-search-row { position: relative; overflow: hidden; }
 .midnight-search-row::before {
@@ -1800,8 +1821,24 @@ html[data-theme="herbarium"] .btn-soft:active {
 }
 .midnight-glass:hover .midnight-specular { opacity: 1; }
 
+/* ── Midnight: held-glass tilt — the same pointer sample driving the specular
+   highlight above also drives a sub-2.4deg perspective rotation, so a system
+   record reads as a pane of glass responding to where it's held rather than
+   a flat card sliding up. Bounded and slow (420ms weighted ease) on purpose:
+   this should feel like inertia, not a game-UI snap. ── */
+.midnight-glass-tilt {
+    transform: perspective(900px) rotateX(0deg) rotateY(0deg) translateY(0);
+    transition: transform 420ms cubic-bezier(0.16, 1, 0.3, 1), border-color 300ms;
+    transform-style: preserve-3d;
+    will-change: transform;
+}
+.midnight-glass-tilt:hover {
+    transform: perspective(900px) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg)) translateY(-3px);
+}
+
 @media (prefers-reduced-motion: reduce) {
     .midnight-specular { display: none !important; }
+    .midnight-glass-tilt, .midnight-glass-tilt:hover { transform: none !important; transition: none !important; }
 }
 
 /* ── Nav active-route mark — same underline span, four different resolve behaviors ── */

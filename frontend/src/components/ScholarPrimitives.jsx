@@ -22,6 +22,11 @@ export function ScholarMetaLine({ children, className = "" }) {
 /**
  * One indexed record — the core Scholar list-item primitive used for
  * projects, research topics, media artifacts, timeline entries, etc.
+ * `index` staggers the entrance a fixed 30ms apart, linear, no easing curve
+ * — rows resolving in sequence like a results list populating, not a
+ * cinematic reveal. Matches the theme's own "instant, no curve" grammar
+ * (see .scholar-search-row::after, .nav-mark-scholar) rather than borrowing
+ * Midnight's weighted glide.
  */
 export function ScholarResultRow({
   eyebrow,
@@ -33,6 +38,7 @@ export function ScholarResultRow({
   tags = [],
   actions = [],
   testid,
+  index = 0,
 }) {
   const TitleTag = href ? (external ? "a" : Link) : "div";
   const titleProps = href
@@ -42,11 +48,15 @@ export function ScholarResultRow({
     : {};
 
   return (
-    <article className="card-enter-scholar py-5 border-b border-[var(--border-soft)]" data-testid={testid}>
+    <article
+      className="card-enter-scholar py-5 border-b border-[var(--border-soft)]"
+      style={{ animationDelay: index ? `${index * 30}ms` : undefined }}
+      data-testid={testid}
+    >
       {eyebrow && <ScholarMetaLine className="mb-1">{eyebrow}</ScholarMetaLine>}
       <TitleTag
         {...titleProps}
-        className="inline-flex items-center gap-1.5 text-xl sm:text-2xl font-serif text-[var(--link)] hover:underline underline-offset-4 leading-snug"
+        className="scholar-link-resolve inline-flex items-center gap-1.5 text-xl sm:text-2xl font-serif text-[var(--link)] leading-snug pb-0.5"
       >
         {title}
         {href && <ThemeIcon role="external" size={14} className="shrink-0" />}

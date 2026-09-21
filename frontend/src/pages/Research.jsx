@@ -197,8 +197,12 @@ function ScholarResearch() {
       </p>
 
       <div className="mt-8 space-y-6" data-testid="research-papers">
-        {research.map((r) => (
-          <article key={r.slug} className="pt-6 border-t border-[var(--border-soft)]">
+        {research.map((r, i) => (
+          <article
+            key={r.slug}
+            className="card-enter-scholar pt-6 border-t border-[var(--border-soft)]"
+            style={{ animationDelay: `${i * 30}ms` }}
+          >
             <div className="flex items-center justify-between gap-3 flex-wrap">
               <ScholarMetaLine>{r.venue}</ScholarMetaLine>
               <span className="font-mono text-[10px] uppercase tracking-[0.1em] px-2 py-0.5 border border-[var(--border-soft)] text-[var(--link)]">{r.status}</span>

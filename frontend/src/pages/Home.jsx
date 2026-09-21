@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import axios from "axios";
 import SearchBar from "@/components/SearchBar";
 import SearchTabs from "@/components/SearchTabs";
 import ResultCard from "@/components/ResultCard";
 import PeopleAlsoAskInline from "@/components/PeopleAlsoAskInline";
-import { RevealOnScroll, containerVariants, itemVariants } from "@/components/MotionFramework";
+import { RevealOnScroll, containerVariants, itemVariants, midnightHeroContainer, midnightHeroItem, midnightHeroItemReduced } from "@/components/MotionFramework";
 import { FloatingPetal, Butterfly, PressedFlower, BotanicalSketch } from "@/components/BotanicalElements";
 import {
   Sparkle, Squiggle, HandArrow, Sprig, CherryBlossom,
@@ -90,9 +90,10 @@ function ScholarHome({ paa }) {
 
       <div className="mt-10">
         <ScholarSectionTitle count={projects.length}>Selected indexed records</ScholarSectionTitle>
-        {featured.map((p) => (
+        {featured.map((p, i) => (
           <ScholarResultRow
             key={p.slug}
+            index={i}
             testid={`scholar-home-result-${p.slug}`}
             eyebrow={`Anita George · Project · ${p.year}`}
             title={p.name}
@@ -127,34 +128,49 @@ function ScholarHome({ paa }) {
   );
 }
 
-// Midnight — the intelligence system entrance
+// Midnight — the intelligence system entrance. Reveal order follows how a
+// person actually reads this: identity line -> headline -> the query
+// surface (the primary action) -> proof (stats) -> evidence (systems).
+// Weighted, slow-settling glide (the `inertial` easing already defined in
+// MotionFramework's motionPresets) rather than Archive's bounce or Scholar's
+// snap — deliberate, not decorative.
 function MidnightHome() {
   const featured = projects.slice(0, 3);
   const categories = ["Full-Stack", "AI Systems", "Accessibility", "Adaptive UX"];
+  const reduceMotion = useReducedMotion();
+  const item = reduceMotion ? midnightHeroItemReduced : midnightHeroItem;
 
   return (
-    <div className="max-w-6xl mx-auto px-4 sm:px-6 pt-16 pb-24" data-testid="home-page">
-      <MidnightMetaLine signal>Private engineering intelligence</MidnightMetaLine>
-      <h1 className="mt-4 font-serif italic text-4xl sm:text-6xl leading-[1.08] text-[var(--ink)] max-w-3xl">
+    <motion.div
+      className="max-w-6xl mx-auto px-4 sm:px-6 pt-16 pb-24"
+      data-testid="home-page"
+      variants={midnightHeroContainer}
+      initial="hidden"
+      animate="visible"
+    >
+      <motion.div variants={item}>
+        <MidnightMetaLine signal>Private engineering intelligence</MidnightMetaLine>
+      </motion.div>
+      <motion.h1 variants={item} className="mt-4 font-serif italic text-4xl sm:text-6xl leading-[1.08] text-[var(--ink)] max-w-3xl">
         {profile.tagline}
-      </h1>
-      <p className="mt-4 text-[15px] sm:text-base text-[var(--ink-soft)] max-w-xl leading-relaxed">
+      </motion.h1>
+      <motion.p variants={item} className="mt-4 text-[15px] sm:text-base text-[var(--ink-soft)] max-w-xl leading-relaxed">
         {profile.role} &middot; {profile.universityShort}
-      </p>
+      </motion.p>
 
-      <div className="mt-4 flex flex-wrap gap-x-4 gap-y-1.5">
+      <motion.div variants={item} className="mt-4 flex flex-wrap gap-x-4 gap-y-1.5">
         {categories.map((c) => (
           <span key={c} className="font-mono text-[10px] uppercase tracking-[0.1em] text-[var(--sage)] border border-[var(--border-soft)] px-2 py-1">
             {c}
           </span>
         ))}
-      </div>
+      </motion.div>
 
-      <div className="mt-8 max-w-xl">
+      <motion.div variants={item} className="mt-8 max-w-xl">
         <MidnightQuerySurface autoFocus={false} />
-      </div>
+      </motion.div>
 
-      <div className="mt-6 pt-6 border-t border-[var(--border-soft)]">
+      <motion.div variants={item} className="mt-6 pt-6 border-t border-[var(--border-soft)]">
         <MidnightStatLine
           items={[
             ["systems indexed", projects.length],
@@ -162,14 +178,15 @@ function MidnightHome() {
             ["problems solved", dsa.total],
           ]}
         />
-      </div>
+      </motion.div>
 
-      <div className="mt-12">
+      <motion.div variants={item} className="mt-12">
         <MidnightMetaLine className="mb-4">Selected systems</MidnightMetaLine>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           {featured.map((p, i) => (
             <MidnightSystemRecord
               key={p.slug}
+              index={i}
               testid={`midnight-home-result-${p.slug}`}
               wide={i === 0}
               eyebrow={`System · ${p.year}`}
@@ -190,25 +207,29 @@ function MidnightHome() {
             View the full system index →
           </Link>
         </div>
-      </div>
+      </motion.div>
 
-      <MidnightGlassSurface level={4} className="mt-12 p-6 sm:p-8">
-        <MidnightMetaLine signal>AI Mode</MidnightMetaLine>
-        <p className="mt-2 font-serif italic text-xl sm:text-2xl text-[var(--ink)] max-w-2xl">
-          A synthesis layer over Anita's indexed engineering archive.
-        </p>
-        <Link to="/ai-mode" className="mt-4 inline-flex items-center gap-1 text-sm text-[var(--decoration-primary)] hover:underline underline-offset-4">
-          Query the system →
-        </Link>
-      </MidnightGlassSurface>
+      <motion.div variants={item}>
+        <MidnightGlassSurface level={4} className="mt-12 p-6 sm:p-8">
+          <MidnightMetaLine signal>AI Mode</MidnightMetaLine>
+          <p className="mt-2 font-serif italic text-xl sm:text-2xl text-[var(--ink)] max-w-2xl">
+            A synthesis layer over Anita's indexed engineering archive.
+          </p>
+          <Link to="/ai-mode" className="mt-4 inline-flex items-center gap-1 text-sm text-[var(--decoration-primary)] hover:underline underline-offset-4">
+            Query the system →
+          </Link>
+        </MidnightGlassSurface>
+      </motion.div>
 
-      <MidnightGlassSurface level={2} className="mt-8 p-6 sm:p-8">
-        <MidnightMetaLine>Profile</MidnightMetaLine>
-        <h2 className="mt-2 font-serif text-2xl text-[var(--ink)]">{profile.name}</h2>
-        <p className="mt-1 text-sm text-[var(--ink-soft)]">{profile.degree} &middot; {profile.universityShort}</p>
-        <p className="mt-3 text-[15px] leading-relaxed text-[var(--ink-soft)] max-w-2xl">{profile.blurb}</p>
-      </MidnightGlassSurface>
-    </div>
+      <motion.div variants={item}>
+        <MidnightGlassSurface level={2} className="mt-8 p-6 sm:p-8">
+          <MidnightMetaLine>Profile</MidnightMetaLine>
+          <h2 className="mt-2 font-serif text-2xl text-[var(--ink)]">{profile.name}</h2>
+          <p className="mt-1 text-sm text-[var(--ink-soft)]">{profile.degree} &middot; {profile.universityShort}</p>
+          <p className="mt-3 text-[15px] leading-relaxed text-[var(--ink-soft)] max-w-2xl">{profile.blurb}</p>
+        </MidnightGlassSurface>
+      </motion.div>
+    </motion.div>
   );
 }
 

@@ -1,8 +1,8 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { projects } from "@/data/portfolio";
-import { RevealOnScroll, containerVariants, itemVariants, HoverLift } from "@/components/MotionFramework";
+import { RevealOnScroll, containerVariants, itemVariants, HoverLift, midnightHeroContainer, midnightHeroItem, midnightHeroItemReduced } from "@/components/MotionFramework";
 import { Sparkle, Squiggle, Tape, Paperclip, Marker, HandArrow, CherryBlossom, Sprig, PetalRain } from "@/components/Decorations";
 import { ArrowUpRight, Bookmark, Sparkles } from "lucide-react";
 import { useTheme } from "@/context/ThemeContext";
@@ -74,9 +74,10 @@ function ScholarWork() {
       </div>
 
       <div className="mt-2" data-testid="work-results">
-        {filtered.map((p) => (
+        {filtered.map((p, i) => (
           <ScholarResultRow
             key={p.slug}
+            index={i}
             testid={`work-result-${p.slug}`}
             eyebrow={`Anita George · Project · ${p.year} · ${p.status || "active"}`}
             title={p.name}
@@ -120,15 +121,26 @@ function MidnightWork() {
   const tags = useMemo(() => ["All", ...Array.from(new Set(projects.flatMap((p) => p.tags)))], []);
   const filtered = filter === "All" ? projects : projects.filter((p) => p.tags.includes(filter));
 
-  return (
-    <div className="max-w-6xl mx-auto px-4 sm:px-6 pt-12 pb-24" data-testid="work-page">
-      <MidnightMetaLine signal>System index · engineering work</MidnightMetaLine>
-      <h1 className="mt-2 font-serif italic text-4xl sm:text-5xl text-[var(--ink)]">Work</h1>
-      <p className="mt-2 text-[15px] text-[var(--ink-soft)] max-w-xl">
-        A curated set of Anita's indexed engineering systems.
-      </p>
+  const reduceMotion = useReducedMotion();
+  const item = reduceMotion ? midnightHeroItemReduced : midnightHeroItem;
 
-      <div className="mt-6 flex flex-wrap gap-2" data-testid="work-filters">
+  return (
+    <motion.div
+      className="max-w-6xl mx-auto px-4 sm:px-6 pt-12 pb-24"
+      data-testid="work-page"
+      variants={midnightHeroContainer}
+      initial="hidden"
+      animate="visible"
+    >
+      <motion.div variants={item}>
+        <MidnightMetaLine signal>System index · engineering work</MidnightMetaLine>
+      </motion.div>
+      <motion.h1 variants={item} className="mt-2 font-serif italic text-4xl sm:text-5xl text-[var(--ink)]">Work</motion.h1>
+      <motion.p variants={item} className="mt-2 text-[15px] text-[var(--ink-soft)] max-w-xl">
+        A curated set of Anita's indexed engineering systems.
+      </motion.p>
+
+      <motion.div variants={item} className="mt-6 flex flex-wrap gap-2" data-testid="work-filters">
         {tags.map((t) => (
           <button
             key={t}
@@ -143,12 +155,13 @@ function MidnightWork() {
             {t}
           </button>
         ))}
-      </div>
+      </motion.div>
 
-      <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-4" data-testid="work-results">
+      <motion.div variants={item} className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-4" data-testid="work-results">
         {filtered.map((p, i) => (
           <MidnightSystemRecord
             key={p.slug}
+            index={i}
             testid={`work-result-${p.slug}`}
             wide={i % 3 === 0}
             eyebrow={`System · ${p.year} · ${p.status || "active"}`}
@@ -163,7 +176,7 @@ function MidnightWork() {
             ]}
           />
         ))}
-      </div>
+      </motion.div>
 
       {filtered.length === 0 && (
         <p className="mt-8 text-[15px] text-[var(--ink-soft)]">
@@ -173,7 +186,7 @@ function MidnightWork() {
           </button>.
         </p>
       )}
-    </div>
+    </motion.div>
   );
 }
 

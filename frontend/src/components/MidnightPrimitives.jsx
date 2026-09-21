@@ -35,16 +35,22 @@ export function MidnightMetaLine({ children, className = "", signal = false }) {
  *   level 2 = surface (default panel)
  *   level 3 = active surface (elevated / hovered)
  *   level 4 = intelligence (warm, gold-adjacent — AI Mode's synthesis panel)
+ *
+ * On hover, the same pointer sample that drives the specular highlight also
+ * drives a sub-2-degree perspective tilt (--tilt-x/--tilt-y, applied in CSS)
+ * — a held pane of glass catching light, not a UI card. Bounded deliberately
+ * small so it reads as material response, not a gimmick; disabled entirely
+ * under prefers-reduced-motion via the CSS rule in index.css.
  */
-export function MidnightGlassSurface({ children, level = 2, className = "", as = "div" }) {
+export function MidnightGlassSurface({ children, level = 2, className = "", as = "div", style, delay = 0 }) {
   const Tag = as;
   const surfaceRef = useRef(null);
   const rafRef = useRef(null);
   const fill =
     level === 4 ? "var(--bg-petal)" : level === 3 ? "var(--bg-tag)" : "var(--bg-card)";
 
-  // Pointer-responsive specular highlight — CSS-var driven, rAF-throttled, no
-  // React state writes per pointermove (keeps this cheap even with many
+  // Pointer-responsive specular highlight + tilt — CSS-var driven, rAF-throttled,
+  // no React state writes per pointermove (keeps this cheap even with many
   // records on screen at once).
   const handlePointerMove = (e) => {
     if (rafRef.current) return;
@@ -55,19 +61,33 @@ export function MidnightGlassSurface({ children, level = 2, className = "", as =
       const el = surfaceRef.current;
       if (!el) return;
       const rect = el.getBoundingClientRect();
-      el.style.setProperty("--mx", `${((clientX - rect.left) / rect.width) * 100}%`);
-      el.style.setProperty("--my", `${((clientY - rect.top) / rect.height) * 100}%`);
+      const px = (clientX - rect.left) / rect.width;
+      const py = (clientY - rect.top) / rect.height;
+      el.style.setProperty("--mx", `${px * 100}%`);
+      el.style.setProperty("--my", `${py * 100}%`);
+      el.style.setProperty("--tilt-x", `${(py - 0.5) * -2.4}deg`);
+      el.style.setProperty("--tilt-y", `${(px - 0.5) * 2.4}deg`);
     });
+  };
+
+  const handlePointerLeave = () => {
+    const el = surfaceRef.current;
+    if (!el) return;
+    el.style.setProperty("--tilt-x", "0deg");
+    el.style.setProperty("--tilt-y", "0deg");
   };
 
   return (
     <Tag
       ref={surfaceRef}
       onMouseMove={handlePointerMove}
+      onMouseLeave={handlePointerLeave}
       className={`midnight-glass relative border border-[var(--border-soft)] ${className}`}
       style={{
         background: `linear-gradient(165deg, ${fill} 0%, var(--bg-warm) 100%)`,
         backdropFilter: "blur(6px)",
+        animationDelay: delay ? `${delay}ms` : undefined,
+        ...style,
       }}
     >
       <span
@@ -84,13 +104,15 @@ export function MidnightGlassSurface({ children, level = 2, className = "", as =
 /**
  * A project/record panel. `wide` spans full width (primary system), the
  * default is a compact row — this is the "controlled variation" the brief
- * asks for instead of identical rectangles everywhere.
+ * asks for instead of identical rectangles everywhere. `index` staggers the
+ * entrance so a grid of these cascades in rather than fading as one block.
  */
-export function MidnightSystemRecord({ eyebrow, title, href, meta, description, tags = [], actions = [], wide = false, testid }) {
+export function MidnightSystemRecord({ eyebrow, title, href, meta, description, tags = [], actions = [], wide = false, testid, index = 0 }) {
   return (
     <MidnightGlassSurface
       level={2}
-      className={`card-enter-midnight p-5 sm:p-6 transition-[border-color,transform] duration-300 hover:border-[var(--border-medium)] hover:-translate-y-0.5 ${wide ? "sm:col-span-2" : ""}`}
+      delay={index * 90}
+      className={`card-enter-midnight midnight-glass-tilt p-5 sm:p-6 transition-[border-color] duration-300 hover:border-[var(--border-medium)] ${wide ? "sm:col-span-2" : ""}`}
     >
       <div data-testid={testid}>
         {eyebrow && <MidnightMetaLine>{eyebrow}</MidnightMetaLine>}
