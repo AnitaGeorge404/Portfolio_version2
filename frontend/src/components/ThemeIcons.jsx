@@ -15,17 +15,17 @@ import { useTheme } from "@/context/ThemeContext";
  * favicon scale.
  */
 
-// ── ARCHIVE — a recognizable cabbage-rose bloom: stem, leaf, three layered
-// petal rings resolving to a center bud, not an abstract four-lobed cross ──
+// ── ARCHIVE — an open journal: two facing pages meeting at a spine, with a
+// tucked ribbon bookmark. A literal, recognizable object for "the archive"
+// rather than an abstract bloom. ──
 
 export function ArchiveWorldIcon({ size = 24, color = "currentColor" }) {
   return (
     <svg viewBox="0 0 24 24" width={size} height={size} aria-hidden focusable="false">
-      <path d="M12 13.2 C10.9 16 11.1 18.8 12.3 21.3" fill="none" stroke={color} strokeWidth="1.2" strokeLinecap="round" opacity="0.55" />
-      <path d="M11.6 16.6 C9.5 16.1 8 16.9 7.5 18.6 C9.6 18.9 11.2 18.2 11.6 16.6 Z" fill={color} opacity="0.5" />
-      <path d="M12 3.6 C15.3 4.3 17.3 7.1 16.7 10.1 C16.1 12.9 13.3 14.7 10.3 14.1 C7.5 13.6 5.6 11 6.2 8.1 C6.8 5.3 9.3 3.1 12 3.6 Z" fill={color} opacity="0.92" />
-      <path d="M12 5.9 C13.8 6.3 15 7.9 14.6 9.6 C14.2 11.2 12.6 12.2 10.9 11.9 C9.3 11.5 8.2 9.9 8.6 8.2 C9 6.6 10.5 5.6 12 5.9 Z" fill={color} opacity="0.7" />
-      <path d="M12.1 8.1 C13 8.3 13.5 9.1 13.3 9.9 C13.1 10.6 12.2 11 11.4 10.8 C10.6 10.6 10.1 9.8 10.3 9 C10.5 8.3 11.3 7.9 12.1 8.1 Z" fill={color} />
+      <path d="M12 6.4 C9.7 5 7.3 4.6 4.8 5.4 L4.8 17.6 C7.3 16.8 9.7 17.2 12 18.6 Z" fill={color} opacity="0.85" />
+      <path d="M12 6.4 C14.3 5 16.7 4.6 19.2 5.4 L19.2 17.6 C16.7 16.8 14.3 17.2 12 18.6 Z" fill={color} opacity="0.6" />
+      <line x1="12" y1="6.4" x2="12" y2="18.6" stroke={color} strokeWidth="0.9" opacity="0.5" />
+      <path d="M10.7 3 L13.3 3 L13.3 8.4 L12 7.3 L10.7 8.4 Z" fill="var(--decoration-primary, #C96B84)" />
     </svg>
   );
 }
@@ -102,19 +102,16 @@ export function ArchiveReferenceGlyph({ size = 14, color = "currentColor" }) {
 
 // ── SCHOLAR — geometric, precise, indexed ──
 
-// ── SCHOLAR — a precision reticle-lens: crosshair + center point read as
-// "indexed search," not a generic magnifying glass ──
+// ── SCHOLAR — a graduation cap: mortarboard + hanging tassel, a literal
+// "scholar" object rather than a reticle standing in for one ──
 
 export function ScholarWorldIcon({ size = 24, color = "currentColor" }) {
   return (
     <svg viewBox="0 0 24 24" width={size} height={size} aria-hidden focusable="false">
-      <circle cx="10.5" cy="10.5" r="6.3" fill="none" stroke={color} strokeWidth="1.7" />
-      <line x1="10.5" y1="6.7" x2="10.5" y2="8.3" stroke={color} strokeWidth="1.1" strokeLinecap="round" opacity="0.55" />
-      <line x1="10.5" y1="12.7" x2="10.5" y2="14.3" stroke={color} strokeWidth="1.1" strokeLinecap="round" opacity="0.55" />
-      <line x1="6.7" y1="10.5" x2="8.3" y2="10.5" stroke={color} strokeWidth="1.1" strokeLinecap="round" opacity="0.55" />
-      <line x1="12.7" y1="10.5" x2="14.3" y2="10.5" stroke={color} strokeWidth="1.1" strokeLinecap="round" opacity="0.55" />
-      <circle cx="10.5" cy="10.5" r="1.15" fill={color} />
-      <line x1="15" y1="15" x2="20.3" y2="20.3" stroke={color} strokeWidth="1.9" strokeLinecap="round" />
+      <path d="M6.3 10.4 L6.3 14 C6.3 16.3 8.9 18 12 18 C15.1 18 17.7 16.3 17.7 14 L17.7 10.4" fill="none" stroke={color} strokeWidth="1.5" strokeLinecap="round" opacity="0.75" />
+      <polygon points="12,4 21.5,8.6 12,13.2 2.5,8.6" fill={color} />
+      <line x1="20.3" y1="9.2" x2="20.3" y2="14.4" stroke={color} strokeWidth="1.4" strokeLinecap="round" />
+      <circle cx="20.3" cy="15.6" r="1.25" fill={color} />
     </svg>
   );
 }
@@ -194,19 +191,14 @@ export function ScholarReferenceGlyph({ size = 14, color = "currentColor" }) {
 
 // ── MIDNIGHT — faceted, machined, refractive ──
 
-// ── MIDNIGHT — a premium emerald-cut gem: flat table, crown facets, a
-// pavilion tapering to a point, read as "intelligence core" ──
+// ── MIDNIGHT — a crescent moon with a small sparkle star: a literal
+// "midnight" object rather than a gem standing in for the idea of night ──
 
 export function MidnightWorldIcon({ size = 24, color = "currentColor" }) {
   return (
     <svg viewBox="0 0 24 24" width={size} height={size} aria-hidden focusable="false">
-      <polygon points="8,4 16,4 20,9 4,9" fill={color} opacity="0.9" />
-      <polygon points="4,9 8,4 12,9" fill={color} opacity="0.55" />
-      <polygon points="20,9 16,4 12,9" fill={color} opacity="0.38" />
-      <polygon points="4,9 12,9 12,21" fill={color} opacity="0.68" />
-      <polygon points="20,9 12,9 12,21" fill={color} opacity="0.32" />
-      <line x1="12" y1="9" x2="12" y2="21" stroke="var(--bg-paper, #0A0B0D)" strokeWidth="0.4" opacity="0.35" />
-      <line x1="8" y1="4" x2="16" y2="4" stroke="var(--bg-paper, #0A0B0D)" strokeWidth="0.4" opacity="0.3" />
+      <path d="M15.3 4 C10.3 4 6.3 8.1 6.3 13 C6.3 17.9 10.3 22 15.3 22 C11.7 20.4 9.3 16.9 9.3 13 C9.3 9.1 11.7 5.6 15.3 4 Z" fill={color} opacity="0.92" />
+      <path d="M18.7 2.7 C19 4.6 19.5 5.3 21.2 5.6 C19.5 5.9 19 6.6 18.7 8.5 C18.4 6.6 17.9 5.9 16.2 5.6 C17.9 5.3 18.4 4.6 18.7 2.7 Z" fill={color} opacity="0.75" />
     </svg>
   );
 }
@@ -285,20 +277,21 @@ export function MidnightReferenceGlyph({ size = 14, color = "currentColor" }) {
 
 // ── HERBARIUM — botanical, observational ──
 
-// ── HERBARIUM — a single pressed leaf with a visible midrib and side veins,
-// matching the FieldLeaf specimen illustrations elsewhere in the app, rather
-// than an abstract four-lobed clover ──
+// ── HERBARIUM — a leaf sprig on a visible stem, matching the FieldLeaf
+// specimen illustrations elsewhere in the app, with the stalk separated out
+// so it reads as a picked specimen rather than an abstract lens shape ──
 
 export function HerbariumWorldIcon({ size = 24, color = "currentColor" }) {
   return (
     <svg viewBox="0 0 24 24" width={size} height={size} aria-hidden focusable="false">
-      <path d="M12 3.4 C17.3 7.1 18.4 13.8 12 20.6 C5.6 13.8 6.7 7.1 12 3.4 Z" fill={color} opacity="0.88" />
-      <path d="M12 5.6 L12 18.3" stroke="var(--specimen-ink, #2A2418)" strokeWidth="0.9" opacity="0.32" strokeLinecap="round" />
+      <path d="M12 21.5 L12 13.5" stroke={color} strokeWidth="1.3" opacity="0.7" strokeLinecap="round" />
+      <path d="M12 13.5 C16.6 10.4 17.6 5.6 12 2.5 C6.4 5.6 7.4 10.4 12 13.5 Z" fill={color} opacity="0.9" />
+      <path d="M12 4.6 L12 12.3" stroke="var(--specimen-ink, #2A2418)" strokeWidth="0.8" opacity="0.3" strokeLinecap="round" />
       <path
-        d="M12 8.2 L8.9 11.1 M12 8.2 L15.1 11.1 M12 12.1 L9.2 15.2 M12 12.1 L14.8 15.2"
+        d="M12 6.8 L9.4 9.2 M12 6.8 L14.6 9.2 M12 9.8 L10 11.7 M12 9.8 L14 11.7"
         stroke="var(--specimen-ink, #2A2418)"
-        strokeWidth="0.6"
-        opacity="0.28"
+        strokeWidth="0.55"
+        opacity="0.26"
         strokeLinecap="round"
       />
     </svg>
