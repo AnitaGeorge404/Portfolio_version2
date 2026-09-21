@@ -22,6 +22,12 @@ const CARD_SELECTOR =
 const TEXT_SELECTOR = 'input, textarea, [contenteditable="true"]';
 const REFERENCE_SELECTOR = '[data-testid*="citation"], [data-testid*="reference"], [data-testid*="source"]';
 const DISABLED_SELECTOR = '[disabled], [aria-disabled="true"]';
+// The dock's world icons are roughly the same size as the cursor object
+// itself — left classified as "interactive" it sits centered right on top
+// of the icon and hides which world is under the pointer. The dock already
+// gives its own hover feedback (scale/lift), so the decorative cursor
+// object steps aside here instead of covering the thing you're choosing.
+const DOCK_SELECTOR = '.theme-dock-btn, [data-testid^="theme-dock-"]';
 
 // An icon (however well-drawn) is a symbol *for* an object. These are
 // attempts at the material itself: wax and engraving, ground glass and
@@ -144,6 +150,7 @@ export default function ThemeCursor() {
     const classify = (target) => {
       if (!target || !target.closest) return "default";
       if (target.closest(DISABLED_SELECTOR)) return "disabled";
+      if (target.closest(DOCK_SELECTOR)) return "dock";
       if (target.closest(TEXT_SELECTOR)) return "text";
       if (target.closest(REFERENCE_SELECTOR)) return "reference";
       if (target.closest(CARD_SELECTOR)) return "card";
@@ -165,18 +172,15 @@ export default function ThemeCursor() {
     window.addEventListener("pointerdown", onDown, { passive: true });
     window.addEventListener("pointerup", onUp, { passive: true });
 
-    // Position smoothing per theme — how "held" vs "instrument-precise" the
-    // object feels. Scholar/midnight track near-instantly (precision tools);
-    // archive/herbarium carry a touch of organic follow (a held object).
-    const POSITION_LERP = { archive: 0.42, search: 1, midnight: 0.88, herbarium: 0.6 };
-
     const tick = () => {
       const theme = themeRef.current;
       const p = pointerRef.current;
-      const lerp = POSITION_LERP[theme] ?? 1;
 
-      state.x += (p.x - state.x) * lerp;
-      state.y += (p.y - state.y) * lerp;
+      // Position tracks the pointer 1:1 every frame — any smoothing here
+      // reads as lag. Per-theme physicality comes from the tilt/rotation
+      // and facet effects below, not from delaying the base position.
+      state.x = p.x;
+      state.y = p.y;
 
       const vx = p.x - state.lastX;
       const vy = p.y - state.lastY;
